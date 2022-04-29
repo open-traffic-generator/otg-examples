@@ -32,22 +32,16 @@ topology:
         HOSTNET: "192.0.2.1/24"
       exec:                         
         - touch /tmp/initialized
-    attacker:
-      kind: linux
-      image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.4
-      mgmt_ipv6: 2001:172:100:100::4
+    ixia:
+      kind: keysight_ixia-c-one
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-2770
+      mgmt_ipv4: 172.100.100.10
+      mgmt_ipv6: 2001:172:100:100::10
       exec:
-        - ip addr add 198.51.100.2/24 dev eth1
-        - ip route add 192.0.2.0/24 via 198.51.100.1
-    victim:
-      kind: linux
-      image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.5
-      mgmt_ipv6: 2001:172:100:100::5
-      exec:
-        - ip addr add 192.0.2.129/24 dev eth1
-        - ip route add 198.51.100.0/24 via 192.0.2.1
+        - "./ifcfg add eth1 198.51.100.2 24"
+        - "./ifcfg add eth2 192.0.2.129 24"
+      labels:
+        graph-icon: server
     graphite:
       kind: linux
       image: netreplica/graphite
@@ -65,5 +59,5 @@ topology:
         graph-hide: yes
   links:
     - endpoints: ["pe-router:eth1","ce-router:eth1"]
-    - endpoints: ["pe-router:eth2","attacker:eth1"]
-    - endpoints: ["ce-router:eth2","victim:eth1"]
+    - endpoints: ["pe-router:eth2","ixia:eth1"]
+    - endpoints: ["ce-router:eth2","ixia:eth2"]
