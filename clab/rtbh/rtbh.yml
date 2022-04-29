@@ -1,0 +1,69 @@
+name: rtbh
+mgmt:
+  network: fixedips
+  ipv4_subnet: 172.100.100.0/24
+  ipv6_subnet: 2001:172:100:100::/80
+topology:
+  nodes:
+    pe-router:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.2
+      mgmt_ipv6: 2001:172:100:100::2
+      env:
+        LOCAL_AS: 64496
+        NEIGHBORS: eth1 
+        FLOWSPEC: no
+        RTBH: 203.0.113.255
+        HOSTPORT: eth2
+        HOSTNET: "198.51.100.1/24"
+      exec:
+        - touch /tmp/initialized
+    ce-router:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.3      
+      mgmt_ipv6: 2001:172:100:100::3
+      env:                          
+        LOCAL_AS: 64497
+        NEIGHBORS: eth1
+        FLOWSPEC: no
+        HOSTPORT: eth2
+        HOSTNET: "192.0.2.1/24"
+      exec:                         
+        - touch /tmp/initialized
+    attacker:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.4
+      mgmt_ipv6: 2001:172:100:100::4
+      exec:
+        - ip addr add 198.51.100.2/24 dev eth1
+        - ip route add 192.0.2.0/24 via 198.51.100.1
+    victim:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.5
+      mgmt_ipv6: 2001:172:100:100::5
+      exec:
+        - ip addr add 192.0.2.129/24 dev eth1
+        - ip route add 198.51.100.0/24 via 192.0.2.1
+    graphite:
+      kind: linux
+      image: netreplica/graphite
+      mgmt_ipv4: 172.100.100.100
+      mgmt_ipv6: 2001:172:100:100::100
+      env:
+        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
+      binds:
+        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
+      ports:
+        - 8080:80
+      exec:
+        - sh -c 'graphite_motd.sh 8080'
+      labels:
+        graph-hide: yes
+  links:
+    - endpoints: ["pe-router:eth1","ce-router:eth1"]
+    - endpoints: ["pe-router:eth2","attacker:eth1"]
+    - endpoints: ["ce-router:eth2","victim:eth1"]
