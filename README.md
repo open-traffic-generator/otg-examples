@@ -1,2 +1,1 @@
-# otg-demo
-Open Traffic Generator Demo Scenarios
+# Open Traffic Generator Demo Scenarios
