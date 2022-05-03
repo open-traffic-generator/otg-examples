@@ -21,7 +21,6 @@ go run otg-ipv4-traffic.go -dstMac="${DMAC}"
 docker exec -it clab-rtbh-pe-router vtysh
 docker exec -it clab-rtbh-ce-router vtysh
 
-docker exec -it clab-rtbh-attacker sh
-docker exec -it clab-rtbh-victim sh
+docker exec -it clab-rtbh-ixia sh
 ````
 

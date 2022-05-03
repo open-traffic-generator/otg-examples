@@ -19,6 +19,8 @@ topology:
         HOSTNET: "198.51.100.1/24"
       exec:
         - touch /tmp/initialized
+      labels:
+        graph-level: 1
     ce-router:
       kind: linux
       image: sflow/clab-frr
@@ -32,6 +34,8 @@ topology:
         HOSTNET: "192.0.2.1/24"
       exec:                         
         - touch /tmp/initialized
+      labels:
+        graph-level: 1
     ixia:
       kind: keysight_ixia-c-one
       image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-2770
@@ -41,7 +45,9 @@ topology:
         - "./ifcfg add eth1 198.51.100.2 24"
         - "./ifcfg add eth2 192.0.2.129 24"
       labels:
-        graph-icon: server
+        graph-icon: cloud
+        graph-mode: port
+        graph-level: 2
     graphite:
       kind: linux
       image: netreplica/graphite
