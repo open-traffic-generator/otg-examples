@@ -48,19 +48,13 @@ topology:
         graph-icon: cloud
         graph-mode: port
         graph-level: 2
-    graphite:
+    gosnappi:
       kind: linux
-      image: netreplica/graphite
-      mgmt_ipv4: 172.100.100.100
-      mgmt_ipv6: 2001:172:100:100::100
-      env:
-        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
+      image: gosnappi:local
+      mgmt_ipv4: 172.100.100.101
+      mgmt_ipv6: 2001:172:100:100::101
       binds:
-        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
-      ports:
-        - 8080:80
-      exec:
-        - sh -c 'graphite_motd.sh 8080'
+        - .:/otg
       labels:
         graph-hide: yes
   links:

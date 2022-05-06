@@ -18,7 +18,7 @@ import (
 
 // hostname and interfaces of ixia-c-one node from containerlab topology
 const (
-	otgHost  = "https://clab-rtbh-ixia"
+	otgHost  = "https://172.100.100.10"
 	otgPort1 = "eth1"
 	otgPort2 = "eth2"
 )
@@ -94,7 +94,7 @@ func newConfig() (gosnappi.GosnappiApi, gosnappi.Config) {
 	f1.Metrics().SetEnable(true)
 	// set size, count and transmit rate for all packets in the flow
 	f1.Size().SetFixed(512)
-	f1.Rate().SetPps(10)
+	f1.Rate().SetPps(100)
 	f1.Duration().FixedPackets().SetPackets(int32(pktCount))
 
 	// configure headers for all packets in the flow
@@ -111,7 +111,7 @@ func newConfig() (gosnappi.GosnappiApi, gosnappi.Config) {
 	tcp.SrcPort().SetValue(3250)
 	tcp.DstPort().SetValue(8070)
 
-	log.Printf("OTG configuration:\n%s\n", config)
+	//log.Printf("OTG configuration:\n%s\n", config)
 	return api, config
 }
 

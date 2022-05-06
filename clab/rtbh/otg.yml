@@ -1,0 +1,52 @@
+flows:
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: p1.v4.p2
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: aa:c1:ab:97:27:6b
+      src:
+        choice: value
+        value: 00:00:00:00:00:aa
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 192.0.2.129
+      src:
+        choice: value
+        value: 198.51.100.2
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 8070
+      src_port:
+        choice: value
+        value: 3250
+  rate:
+    choice: pps
+    pps: "100"
+  size:
+    choice: fixed
+    fixed: 512
+  tx_rx:
+    choice: port
+    port:
+      rx_name: p2
+      tx_name: p1
+ports:
+- location: eth1
+  name: p1
+- location: eth2
+  name: p2

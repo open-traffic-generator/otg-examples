@@ -1,5 +1,11 @@
 # Remote Triggered Blackhole Scenario
 
+## Prepare (once)
+
+```Shell
+docker build -t gosnappi:local .
+````
+
 ## Launch with ContainerLab
 
 ```Shell
@@ -11,7 +17,7 @@ sudo -E containerlab deploy -t rtbh.yml
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 echo $DMAC
-go run otg-ipv4-traffic.go -dstMac="${DMAC}"
+docker exec -it clab-rtbh-gosnappi bash -c "go run otg-ipv4-traffic.go -dstMac=${DMAC}"
 ````
 
 ## Misc
