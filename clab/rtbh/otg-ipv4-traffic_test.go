@@ -3,7 +3,7 @@ Test IPv4 Forwarding
 - Endpoints: OTG 198.51.100.2 -----> 198.51.100.1 SUT 192.0.2.1 ------> OTG 192.0.2.129
 - TCP flow from OTG: 198.51.100.2 -> 192.0.2.129
 
-To run: go run otg-ipv4-traffic.go -dstMac=<MAC of 198.51.100.1>
+To run: go test -run=TestOTGIPv4Traffic -dstMac=<MAC of 198.51.100.1>
 */
 
 package tests
