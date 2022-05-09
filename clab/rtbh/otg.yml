@@ -14,7 +14,7 @@ flows:
     ethernet:
       dst:
         choice: value
-        value: aa:c1:ab:97:27:6b
+        value: 00:00:00:00:00:00
       src:
         choice: value
         value: 00:00:00:00:00:aa

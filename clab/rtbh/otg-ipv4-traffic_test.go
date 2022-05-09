@@ -10,6 +10,7 @@ package tests
 
 import (
 	"flag"
+	"io/ioutil"
 	"log"
 	"testing"
 	"time"
@@ -28,22 +29,50 @@ var (
 	dstMac   = "ff:ff:ff:ff:ff:ff"
 	srcMac   = "00:00:00:00:00:aa"
 	pktCount = 100
+	otg      = ""
 )
 
 func init() {
 	log.Printf("Initializing...")
 	// replace value of dstMac with actual MAC of DUT interface connected to otgPort1
 	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for all packets")
+
+	// Read OTG config
+	otgbytes, err := ioutil.ReadFile("otg.yml")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	otg = string(otgbytes)
+	log.Printf("Loaded OTG config...")
 }
 
 func TestOTGIPv4Traffic(t *testing.T) {
-	api, config := newConfig()
+	// Create a new API handle to make API calls against a traffic generator
+	api := gosnappi.NewApi()
+
+	// Set the transport protocol to either HTTP or GRPC
+	api.NewHttpTransport().SetLocation(otgHost).SetVerify(false)
+
+	// Create a new traffic configuration that will be set on traffic generator
+	config := api.NewConfig()
+	config.FromYaml(otg)
+
+	for _, f := range config.Flows().Items() {
+		for _, h := range f.Packet().Items() {
+			if h.Choice() == "ethernet" {
+				h.Ethernet().Dst().SetValue(dstMac)
+			}
+		}
+	}
 
 	// push traffic configuration to otgHost
+	log.Printf("Applying OTG config...")
 	res, err := api.SetConfig(config)
 	checkResponse(res, err, t)
 
 	// start transmitting configured flows
+	log.Printf("Starting traffic...")
 	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
@@ -78,45 +107,6 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 	default:
 		t.Fatal("Unknown response type:", v)
 	}
-}
-
-func newConfig() (gosnappi.GosnappiApi, gosnappi.Config) {
-	// create a new API handle to make API calls against otgHost
-	api := gosnappi.NewApi()
-	api.NewHttpTransport().SetLocation(otgHost).SetVerify(false)
-
-	// create an empty traffic configuration
-	config := api.NewConfig()
-	// create traffic endpoints
-	p1 := config.Ports().Add().SetName("p1").SetLocation(otgPort1)
-	p2 := config.Ports().Add().SetName("p2").SetLocation(otgPort2)
-	// create a flow and set the endpoints
-	f1 := config.Flows().Add().SetName("p1.v4.p2")
-	f1.TxRx().Port().SetTxName(p1.Name()).SetRxName(p2.Name())
-
-	// enable per flow metrics tracking
-	f1.Metrics().SetEnable(true)
-	// set size, count and transmit rate for all packets in the flow
-	f1.Size().SetFixed(512)
-	f1.Rate().SetPps(100)
-	f1.Duration().FixedPackets().SetPackets(int32(pktCount))
-
-	// configure headers for all packets in the flow
-	eth := f1.Packet().Add().Ethernet()
-	ip := f1.Packet().Add().Ipv4()
-	tcp := f1.Packet().Add().Tcp()
-
-	eth.Src().SetValue(srcMac)
-	eth.Dst().SetValue(dstMac)
-
-	ip.Src().SetValue("198.51.100.2")
-	ip.Dst().SetValue("192.0.2.129")
-
-	tcp.SrcPort().SetValue(3250)
-	tcp.DstPort().SetValue(8070)
-
-	//log.Printf("OTG configuration:\n%s\n", config)
-	return api, config
 }
 
 func waitFor(fn func() bool, timeout time.Duration, t *testing.T) {
