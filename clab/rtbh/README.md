@@ -17,7 +17,13 @@ sudo -E containerlab deploy -t rtbh.yml
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 echo $DMAC
-docker exec -it clab-rtbh-gosnappi bash -c "go run otg-ipv4-traffic.go -dstMac=${DMAC}"
+docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
+````
+
+## Destroy the lab
+
+```Shell
+sudo -E containerlab destroy -t rtbh.yml
 ````
 
 ## Misc

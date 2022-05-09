@@ -6,11 +6,12 @@ Test IPv4 Forwarding
 To run: go run otg-ipv4-traffic.go -dstMac=<MAC of 198.51.100.1>
 */
 
-package main
+package tests
 
 import (
 	"flag"
 	"log"
+	"testing"
 	"time"
 
 	"github.com/open-traffic-generator/snappi/gosnappi"
@@ -29,21 +30,23 @@ var (
 	pktCount = 100
 )
 
-func main() {
+func init() {
+	log.Printf("Initializing...")
 	// replace value of dstMac with actual MAC of DUT interface connected to otgPort1
 	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for all packets")
-	flag.Parse()
+}
 
+func TestOTGIPv4Traffic(t *testing.T) {
 	api, config := newConfig()
 
 	// push traffic configuration to otgHost
 	res, err := api.SetConfig(config)
-	checkResponse(res, err)
+	checkResponse(res, err, t)
 
 	// start transmitting configured flows
 	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
 	res, err = api.SetTransmitState(ts)
-	checkResponse(res, err)
+	checkResponse(res, err, t)
 
 	// fetch flow metrics and wait for received frame count to be correct
 	mr := api.NewMetricsRequest()
@@ -51,18 +54,19 @@ func main() {
 	waitFor(
 		func() bool {
 			res, err := api.GetMetrics(mr)
-			checkResponse(res, err)
+			checkResponse(res, err, t)
 
 			fm := res.FlowMetrics().Items()[0]
 			return fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED && fm.FramesRx() == int64(pktCount)
 		},
 		10*time.Second,
+		t,
 	)
 }
 
-func checkResponse(res interface{}, err error) {
+func checkResponse(res interface{}, err error, t *testing.T) {
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	switch v := res.(type) {
 	case gosnappi.MetricsResponse:
@@ -72,7 +76,7 @@ func checkResponse(res interface{}, err error) {
 			log.Println("WARNING:", w)
 		}
 	default:
-		log.Fatal("Unknown response type:", v)
+		t.Fatal("Unknown response type:", v)
 	}
 }
 
@@ -115,14 +119,14 @@ func newConfig() (gosnappi.GosnappiApi, gosnappi.Config) {
 	return api, config
 }
 
-func waitFor(fn func() bool, timeout time.Duration) {
+func waitFor(fn func() bool, timeout time.Duration, t *testing.T) {
 	start := time.Now()
 	for {
 		if fn() {
 			return
 		}
 		if time.Since(start) > timeout {
-			log.Fatal("Timeout occurred !")
+			t.Fatal("Timeout occurred !")
 		}
 
 		time.Sleep(500 * time.Millisecond)
