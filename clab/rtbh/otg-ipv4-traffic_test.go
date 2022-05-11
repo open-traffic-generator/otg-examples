@@ -17,11 +17,11 @@ import (
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
-func TestOTGIPv4Traffic(t *testing.T) {
+func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	// Read OTG config
-	otgbytes, err := ioutil.ReadFile("OTGIPv4Traffic.yml")
+	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	otg := string(otgbytes)
