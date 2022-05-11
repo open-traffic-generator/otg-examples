@@ -9,7 +9,6 @@ To run: go test -run=TestOTGIPv4Traffic -dstMac=<MAC of 198.51.100.1>
 package tests
 
 import (
-	"flag"
 	"io/ioutil"
 	"log"
 	"testing"
@@ -18,36 +17,16 @@ import (
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
-// hostname and interfaces of ixia-c-one node from containerlab topology
-const (
-	otgHost  = "https://172.100.100.10"
-	otgPort1 = "eth1"
-	otgPort2 = "eth2"
-)
-
-var (
-	dstMac   = "ff:ff:ff:ff:ff:ff"
-	srcMac   = "00:00:00:00:00:aa"
-	pktCount = 100
-	otg      = ""
-)
-
-func init() {
-	log.Printf("Initializing...")
-	// replace value of dstMac with actual MAC of DUT interface connected to otgPort1
-	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for all packets")
-
+func TestOTGIPv4Traffic(t *testing.T) {
 	// Read OTG config
-	otgbytes, err := ioutil.ReadFile("otg.yml")
+	otgbytes, err := ioutil.ReadFile("OTGIPv4Traffic.yml")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	otg = string(otgbytes)
+	otg := string(otgbytes)
 	log.Printf("Loaded OTG config...")
-}
 
-func TestOTGIPv4Traffic(t *testing.T) {
 	// Create a new API handle to make API calls against a traffic generator
 	api := gosnappi.NewApi()
 
