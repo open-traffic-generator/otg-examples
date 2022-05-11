@@ -11,8 +11,7 @@ const (
 )
 
 var (
-	dstMac   = "00:00:00:00:00:00"
-	pktCount = 100
+	dstMac = "00:00:00:00:00:00"
 )
 
 func init() {

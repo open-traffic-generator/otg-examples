@@ -17,6 +17,11 @@ import (
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
+var (
+	pktCount = 100
+	timeout  = 10 * time.Second // Seconds to wait before failing test with timeout
+)
+
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	// Read OTG config
 	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
@@ -67,7 +72,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 			fm := res.FlowMetrics().Items()[0]
 			return fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED && fm.FramesRx() == int64(pktCount)
 		},
-		10*time.Second,
+		timeout,
 		t,
 	)
 }

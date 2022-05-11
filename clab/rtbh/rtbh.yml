@@ -32,6 +32,8 @@ topology:
         FLOWSPEC: no
         HOSTPORT: eth2
         HOSTNET: "192.0.2.1/24"
+        CTLASN: 64497
+        COLLECTOR: 172.100.100.6
       exec:                         
         - touch /tmp/initialized
       labels:
@@ -57,6 +59,42 @@ topology:
         - .:/otg
       labels:
         graph-hide: yes
+    controller:
+      kind: linux
+      image: sflow/ddos-protect
+      mgmt_ipv4: 172.100.100.6
+      mgmt_ipv6: 2001:172:100:100::6
+      env:
+        RTPROP: >
+          -Dddos_protect.as=64497
+          -Dddos_protect.nexthop=203.0.113.2
+          -Dddos_protect.enable.flowspec=yes
+          -Dddos_protect.router=172.100.100.3
+          -Dddos_protect.group.local=192.0.2.0/24
+          -Dddos_protect.mode=automatic
+          -Dddos_protect.icmp_flood.action=filter
+          -Dddos_protect.icmp_flood.threshold=10000
+          -Dddos_protect.icmp_flood.timeout=2
+          -Dddos_protect.ip_flood.action=filter
+          -Dddos_protect.ip_flood.threshold=10000
+          -Dddos_protect.ip_flood.timeout=2
+          -Dddos_protect.ip_fragmentation.action=filter
+          -Dddos_protect.ip_fragmentation.threshold=10000
+          -Dddos_protect.ip_fragmentation.timeout=2
+          -Dddos_protect.tcp_amplification.action=filter
+          -Dddos_protect.tcp_amplification.threshold=10000
+          -Dddos_protect.tcp_amplification.timeout=2
+          -Dddos_protect.tcp_flood.action=filter
+          -Dddos_protect.tcp_flood.threshold=10000
+          -Dddos_protect.tcp_flood.timeout=2
+          -Dddos_protect.udp_amplification.action=filter
+          -Dddos_protect.udp_amplification.threshold=10000
+          -Dddos_protect.udp_amplification.timeout=2
+          -Dddos_protect.udp_flood.action=filter
+          -Dddos_protect.udp_flood.threshold=10000
+          -Dddos_protect.udp_flood.timeout=2
+      ports:
+        - 8008:8008
   links:
     - endpoints: ["pe-router:eth1","ce-router:eth1"]
     - endpoints: ["pe-router:eth2","ixia:eth1"]
