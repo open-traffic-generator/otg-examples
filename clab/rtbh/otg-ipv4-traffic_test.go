@@ -18,8 +18,9 @@ import (
 )
 
 var (
-	pktCount = 100
-	timeout  = 10 * time.Second // Seconds to wait before failing test with timeout
+	pktCount = 1000             // Number of packets to transmit
+	pktPPS   = 100              // Rate in packets per second to transmit at
+	timeout  = 15 * time.Second // How long to wait for traffic to complete
 )
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
@@ -43,6 +44,8 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config.FromYaml(otg)
 
 	for _, f := range config.Flows().Items() {
+		f.Duration().FixedPackets().SetPackets(int32(pktCount))
+		f.Rate().SetPps(int64(pktPPS))
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
 				h.Ethernet().Dst().SetValue(dstMac)

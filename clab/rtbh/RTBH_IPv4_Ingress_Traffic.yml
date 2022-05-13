@@ -36,7 +36,7 @@ flows:
         value: 3250
   rate:
     choice: pps
-    pps: "100"
+    pps: 100
   size:
     choice: fixed
     fixed: 512

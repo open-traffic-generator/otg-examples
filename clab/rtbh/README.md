@@ -2,6 +2,8 @@
 
 ## Prepare (once)
 
+[//]: # (TODO Create a Linux VM)
+
 ```Shell
 docker build -t gosnappi:local .
 ````
@@ -11,6 +13,12 @@ docker build -t gosnappi:local .
 ```Shell
 sudo -E containerlab deploy -t rtbh.yml
 ````
+
+## Open DDoS Protect Dashboard
+
+[//]: # (TODO add show url capabilities to sflow)
+
+Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/](http://localhost:8008/app/ddos-protect/html/)
 
 ## Run OTG Test
 
