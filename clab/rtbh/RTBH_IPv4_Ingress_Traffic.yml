@@ -1,14 +1,9 @@
 flows:
-- duration:
-    choice: fixed_packets
-    fixed_packets:
-      gap: 12
-      packets: 100
+- name: p1.v4.p2
   metrics:
     enable: true
     loss: false
     timestamps: false
-  name: p1.v4.p2
   packet:
   - choice: ethernet
     ethernet:

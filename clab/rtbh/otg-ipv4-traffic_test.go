@@ -19,8 +19,9 @@ import (
 
 var (
 	pktCount = 1000             // Number of packets to transmit
-	pktPPS   = 100              // Rate in packets per second to transmit at
-	timeout  = 15 * time.Second // How long to wait for traffic to complete
+	pktPPS   = 10000            // Rate in packets per second to transmit at
+	flowSecs = 10               // How long to transmit traffic
+	timeout  = 60 * time.Second // How long to wait for traffic to complete
 )
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
@@ -44,7 +45,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config.FromYaml(otg)
 
 	for _, f := range config.Flows().Items() {
-		f.Duration().FixedPackets().SetPackets(int32(pktCount))
+		f.Duration().FixedSeconds().SetSeconds(float32(flowSecs))
 		f.Rate().SetPps(int64(pktPPS))
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
@@ -54,7 +55,8 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	}
 
 	// push traffic configuration to otgHost
-	log.Printf("Applying OTG config...")
+	log.Printf("Applying OTG config:")
+	log.Printf("\n%s", config)
 	res, err := api.SetConfig(config)
 	checkResponse(res, err, t)
 
@@ -73,11 +75,19 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 			checkResponse(res, err, t)
 
 			fm := res.FlowMetrics().Items()[0]
-			return fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED && fm.FramesRx() == int64(pktCount)
+			return fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED // && fm.FramesRx() == int64(pktCount)
 		},
 		timeout,
 		t,
 	)
+	mt, err := api.GetMetrics(mr)
+	if err != nil {
+		t.Error(err)
+	}
+	fm := mt.FlowMetrics().Items()[0]
+	if fm.FramesTx()-fm.FramesRx() > 100 {
+		t.Fatal("Excessive packet loss was detected!")
+	}
 }
 
 func checkResponse(res interface{}, err error, t *testing.T) {
