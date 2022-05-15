@@ -1,0 +1,54 @@
+name: rtbh
+mgmt:
+  network: fixedips
+  ipv4_subnet: 172.100.100.0/24
+  ipv6_subnet: 2001:172:100:100::/80
+topology:
+  nodes:
+    pe-router:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      mgmt_ipv4: 172.100.100.2
+      mgmt_ipv6: 2001:172:100:100::2
+      binds:
+      - ./pe-router/daemons:/etc/frr/daemons
+      - ./pe-router/frr.conf:/etc/frr/frr.conf
+      - ./pe-router/vtysh.conf:/etc/frr/vtysh.conf
+      labels:
+        graph-level: 1
+    ce-router:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      mgmt_ipv4: 172.100.100.3      
+      mgmt_ipv6: 2001:172:100:100::3
+      binds:
+      - ./ce-router/daemons:/etc/frr/daemons
+      - ./ce-router/frr.conf:/etc/frr/frr.conf
+      - ./ce-router/vtysh.conf:/etc/frr/vtysh.conf
+      labels:
+        graph-level: 1
+    ixia:
+      kind: keysight_ixia-c-one
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-2770
+      mgmt_ipv4: 172.100.100.10
+      mgmt_ipv6: 2001:172:100:100::10
+      exec:
+        - "./ifcfg add eth1 198.51.100.2 24"
+        - "./ifcfg add eth2 192.0.2.129 24"
+      labels:
+        graph-icon: cloud
+        graph-mode: port
+        graph-level: 2
+    gosnappi:
+      kind: linux
+      image: gosnappi:local
+      mgmt_ipv4: 172.100.100.101
+      mgmt_ipv6: 2001:172:100:100::101
+      binds:
+        - .:/otg
+      labels:
+        graph-hide: yes
+  links:
+    - endpoints: ["pe-router:eth1","ce-router:eth1"]
+    - endpoints: ["pe-router:eth2","ixia:eth1"]
+    - endpoints: ["ce-router:eth2","ixia:eth2"]
