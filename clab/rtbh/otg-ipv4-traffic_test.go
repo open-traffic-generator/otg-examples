@@ -17,14 +17,11 @@ import (
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
-var (
-	pktCount = 1000                                                  // Number of packets to transmit
-	pktPPS   = 100                                                   // Rate in packets per second to transmit at
-	flowETA  = time.Duration(float64(pktCount/pktPPS)) * time.Second // The best case it will take to transmit traffic
-	timeout  = 60 * time.Second                                      // Max time to wait for traffic to complete
-)
-
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
+	// Calculate ETA it will take to transmit traffic
+	flowETA := time.Duration(float64(pktCount/pktPPS)) * time.Second
+	log.Printf("ETA is: %s", flowETA)
+
 	// Read OTG config
 	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
 	if err != nil {
