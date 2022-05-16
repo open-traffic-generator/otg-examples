@@ -18,10 +18,10 @@ import (
 )
 
 var (
-	pktCount = 1000             // Number of packets to transmit
-	pktPPS   = 10000            // Rate in packets per second to transmit at
-	flowSecs = 10               // How long to transmit traffic
-	timeout  = 60 * time.Second // How long to wait for traffic to complete
+	pktCount = 1000                                                  // Number of packets to transmit
+	pktPPS   = 100                                                   // Rate in packets per second to transmit at
+	flowETA  = time.Duration(float64(pktCount/pktPPS)) * time.Second // The best case it will take to transmit traffic
+	timeout  = 60 * time.Second                                      // Max time to wait for traffic to complete
 )
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
@@ -45,7 +45,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config.FromYaml(otg)
 
 	for _, f := range config.Flows().Items() {
-		f.Duration().FixedSeconds().SetSeconds(float32(flowSecs))
+		f.Duration().FixedPackets().SetPackets(int32(pktCount))
 		f.Rate().SetPps(int64(pktPPS))
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
@@ -70,23 +70,35 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	mr := api.NewMetricsRequest()
 	mr.Flow()
 	waitFor(
-		func() bool {
+		func(start time.Time) bool {
 			res, err := api.GetMetrics(mr)
 			checkResponse(res, err, t)
 
 			fm := res.FlowMetrics().Items()[0]
-			return fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED // && fm.FramesRx() == int64(pktCount)
+			log.Printf("Time passed: %s out of %s", time.Since(start), flowETA)
+			if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
+				return true
+			} else if flowETA+time.Second < time.Since(start) {
+				return true
+			} else {
+				return false
+			}
 		},
 		timeout,
 		t,
 	)
+
+	log.Printf("Stopping traffic...")
+	ts = api.NewTransmitState().SetState(gosnappi.TransmitStateState.STOP)
+	res, err = api.SetTransmitState(ts)
+	checkResponse(res, err, t)
+
 	mt, err := api.GetMetrics(mr)
-	if err != nil {
-		t.Error(err)
-	}
+	checkResponse(mt, err, t)
 	fm := mt.FlowMetrics().Items()[0]
-	if fm.FramesTx()-fm.FramesRx() > 100 {
-		t.Fatal("Excessive packet loss was detected!")
+	loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
+	if loss > 0.01 {
+		t.Fatalf("Packet loss was detected: %f per cent", loss*100)
 	}
 }
 
@@ -106,10 +118,10 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 	}
 }
 
-func waitFor(fn func() bool, timeout time.Duration, t *testing.T) {
+func waitFor(fn func(time.Time) bool, timeout time.Duration, t *testing.T) {
 	start := time.Now()
 	for {
-		if fn() {
+		if fn(start) {
 			return
 		}
 		if time.Since(start) > timeout {
