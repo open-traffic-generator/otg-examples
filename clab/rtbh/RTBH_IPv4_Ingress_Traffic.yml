@@ -1,5 +1,5 @@
 flows:
-- name: users
+- name: USERS
   metrics:
     enable: true
     loss: false
@@ -43,7 +43,7 @@ flows:
     port:
       rx_name: p2
       tx_name: p1
-- name: attackers
+- name: ATTACKERS
   metrics:
     enable: true
     loss: false

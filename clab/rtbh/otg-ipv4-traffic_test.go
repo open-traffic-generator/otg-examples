@@ -105,7 +105,9 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 	}
 	switch v := res.(type) {
 	case gosnappi.MetricsResponse:
-		log.Printf("Metrics Response:\n%s\n", v)
+		for _, fm := range v.FlowMetrics().Items() {
+			log.Printf("Traffic stats for %s:\n%s\n", fm.Name(), fm)
+		}
 	case gosnappi.ResponseWarning:
 		for _, w := range v.Warnings() {
 			log.Println("WARNING:", w)
