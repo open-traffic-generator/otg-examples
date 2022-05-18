@@ -13,8 +13,8 @@ const (
 
 var (
 	dstMac   = "00:00:00:00:00:00" // Destination MAC for flows
-	pktCount = 1000                // Number of packets to transmit
-	pktPPS   = 100                 // Rate to transmit at in packets per second
+	pktCount = 0                   // Number of packets to transmit
+	pktPPS   = 0                   // Rate to transmit at in packets per second
 )
 
 func init() {

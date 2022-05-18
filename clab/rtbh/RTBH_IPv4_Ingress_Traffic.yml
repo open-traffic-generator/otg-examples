@@ -1,5 +1,16 @@
 flows:
-- name: USERS
+- name: Users-2-Victim
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 1000
+  rate:
+    choice: pps
+    pps: 100
+  size:
+    choice: fixed
+    fixed: 512
   metrics:
     enable: true
     loss: false
@@ -32,18 +43,72 @@ flows:
       src_port:
         choice: value
         value: 3250
+  tx_rx:
+    choice: port
+    port:
+      rx_name: p2
+      tx_name: p1
+- name: Attackers-2-Victim
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 10000
+  rate:
+    choice: pps
+    pps: 1000
+  size:
+    choice: fixed
+    fixed: 512
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: 00:00:00:00:00:00
+      src:
+        choice: value
+        value: 00:00:00:00:00:aa
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 192.0.2.201
+      src:
+        choice: increment
+        increment:
+          start: 198.51.100.150
+          step: 0.0.0.1
+          count: 50
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 8070
+      src_port:
+        choice: value
+        value: 3250
+  tx_rx:
+    choice: port
+    port:
+      rx_name: p2
+      tx_name: p1
+- name: Users-2-Bystander
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 1000
   rate:
     choice: pps
     pps: 100
   size:
     choice: fixed
     fixed: 512
-  tx_rx:
-    choice: port
-    port:
-      rx_name: p2
-      tx_name: p1
-- name: ATTACKERS
   metrics:
     enable: true
     loss: false
@@ -65,7 +130,7 @@ flows:
       src:
         choice: increment
         increment:
-          start: 198.51.100.150
+          start: 198.51.100.50
           step: 0.0.0.1
           count: 50
   - choice: tcp
@@ -76,12 +141,6 @@ flows:
       src_port:
         choice: value
         value: 3250
-  rate:
-    choice: pps
-    pps: 100
-  size:
-    choice: fixed
-    fixed: 512
   tx_rx:
     choice: port
     port:

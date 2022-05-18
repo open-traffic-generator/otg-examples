@@ -18,10 +18,6 @@ import (
 )
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
-	// Calculate ETA it will take to transmit traffic
-	flowETA := time.Duration(float64(pktCount/pktPPS)) * time.Second
-	log.Printf("ETA is: %s", flowETA)
-
 	// Read OTG config
 	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
 	if err != nil {
@@ -41,15 +37,34 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config := api.NewConfig()
 	config.FromYaml(otg)
 
+	flowETA := time.Duration(0)
+	trafficETA := time.Duration(0)
 	for _, f := range config.Flows().Items() {
-		f.Duration().FixedPackets().SetPackets(int32(pktCount))
-		f.Rate().SetPps(int64(pktPPS))
+		pktCountFlow := f.Duration().FixedPackets().Packets()
+		pktPPSFlow := f.Rate().Pps()
+		if pktCount > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Duration().FixedPackets().SetPackets(int32(pktCount))
+			pktCountFlow = int32(pktCount)
+		}
+		if pktPPS > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Rate().SetPps(int64(pktPPS))
+			pktPPSFlow = int64(pktPPS)
+		}
+		// Calculate ETA it will take to transmit traffic
+		if pktPPSFlow > 0 {
+			flowETA = time.Duration(float64(int64(pktCountFlow)/pktPPSFlow)) * time.Second
+		}
+		if flowETA > trafficETA {
+			trafficETA = flowETA
+		}
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
 				h.Ethernet().Dst().SetValue(dstMac)
 			}
 		}
 	}
+
+	log.Printf("ETA is: %s", trafficETA)
 
 	// push traffic configuration to otgHost
 	log.Printf("Applying OTG config:")
@@ -72,10 +87,10 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 			checkResponse(res, err, t)
 
 			fm := res.FlowMetrics().Items()[0]
-			log.Printf("Time passed: %s out of %s", time.Since(start), flowETA)
+			log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
 			if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 				return true
-			} else if flowETA+time.Second < time.Since(start) {
+			} else if trafficETA+time.Second < time.Since(start) {
 				return true
 			} else {
 				return false
