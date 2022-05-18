@@ -37,6 +37,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config := api.NewConfig()
 	config.FromYaml(otg)
 
+	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
 	flowETA := time.Duration(0)
 	trafficETA := time.Duration(0)
 	for _, f := range config.Flows().Items() {
@@ -50,13 +51,14 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 			f.Rate().SetPps(int64(pktPPS))
 			pktPPSFlow = int64(pktPPS)
 		}
-		// Calculate ETA it will take to transmit traffic
+		// Calculate ETA it will take to transmit the flow
 		if pktPPSFlow > 0 {
 			flowETA = time.Duration(float64(int64(pktCountFlow)/pktPPSFlow)) * time.Second
 		}
 		if flowETA > trafficETA {
-			trafficETA = flowETA
+			trafficETA = flowETA // The longest flow to finish
 		}
+		// Set destination MAC
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
 				h.Ethernet().Dst().SetValue(dstMac)
@@ -100,11 +102,13 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 		t,
 	)
 
+	// stop transmitting traffic
 	log.Printf("Stopping traffic...")
 	ts = api.NewTransmitState().SetState(gosnappi.TransmitStateState.STOP)
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
 
+	// pull the final metrics and check for packet loss
 	mt, err := api.GetMetrics(mr)
 	checkResponse(mt, err, t)
 	fm := mt.FlowMetrics().Items()[0]
@@ -114,6 +118,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	}
 }
 
+// print otg api response content
 func checkResponse(res interface{}, err error, t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
@@ -132,6 +137,7 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 	}
 }
 
+// wait until inline function return true or a timeout is reached
 func waitFor(fn func(time.Time) bool, timeout time.Duration, t *testing.T) {
 	start := time.Now()
 	for {
