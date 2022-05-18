@@ -24,7 +24,7 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
-docker exec -it clab-rtbh-gosnappi bash -c "go test -v -dstMac=${DMAC}"
+docker exec -it clab-rtbh-gosnappi bash -c "go test -v -dstMac=${DMAC} -pktCount=500 -pktPPS=100"
 ````
 
 ## Destroy the lab

@@ -132,3 +132,4 @@ dmypy.json
 clab/*/.*.yaml
 clab/*/.*.yml
 clab/*/clab-*
+.DS_Store
