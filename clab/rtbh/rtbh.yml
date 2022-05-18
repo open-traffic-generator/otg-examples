@@ -95,6 +95,21 @@ topology:
           -Dddos_protect.udp_flood.timeout=2
       ports:
         - 8008:8008
+      labels:
+        graph-hide: yes
+    graphite:
+      kind: linux
+      image: netreplica/graphite:local
+      env:
+        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
+      binds:
+        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
+      ports:
+        - 8080:80
+      exec:
+        - sh -c 'graphite_motd.sh 8080'
+      labels:
+        graph-hide: yes
   links:
     - endpoints: ["pe-router:eth1","ce-router:eth1"]
     - endpoints: ["pe-router:eth2","ixia:eth1"]
