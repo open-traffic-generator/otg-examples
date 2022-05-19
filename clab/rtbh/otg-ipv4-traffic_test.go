@@ -112,15 +112,16 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 			res, err := api.GetMetrics(mr)
 			checkResponse(res, err, t)
 
-			fm := res.FlowMetrics().Items()[0]
 			log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
-			if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
-				return true
-			} else if trafficETA+time.Second < time.Since(start) {
-				return true
-			} else {
-				return false
+			isStopped := true // assume all flows could've stopped and see if that is not the case
+			for _, fm := range res.FlowMetrics().Items() {
+				if fm.Transmit() != gosnappi.FlowMetricTransmit.STOPPED {
+					isStopped = false
+				} else if trafficETA+time.Second < time.Since(start) {
+					isStopped = false // running beyond ETA, force stop
+				}
 			}
+			return isStopped
 		},
 		timeout,
 		t,
