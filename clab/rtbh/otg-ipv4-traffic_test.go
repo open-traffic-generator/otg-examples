@@ -18,8 +18,9 @@ import (
 )
 
 type flowProfile struct {
-	pktCount int32 // f.Duration().FixedPackets().Packets()
-	pktPps   int64 // f.Rate().Pps()
+	pktCount     int32 // f.Duration().FixedPackets().Packets()
+	ratePPS      int64 // f.Rate().Pps()
+	positiveTest bool  // is successful flow completion a positive criteria (true = pass), or negattive (true = fail)
 }
 
 type flowProfiles map[string]*flowProfile
@@ -45,9 +46,9 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config.FromYaml(otg)
 
 	fps := map[string]*flowProfile{
-		"Users-2-Victim":     &flowProfile{0, 0},
-		"Attackers-2-Victim": &flowProfile{0, 0},
-		"Users-2-Bystander":  &flowProfile{0, 0},
+		"Users-2-Victim":     &flowProfile{0, 0, true},
+		"Attackers-2-Victim": &flowProfile{0, 0, true},
+		"Users-2-Bystander":  &flowProfile{0, 0, true},
 	}
 
 	if pktCount > 0 {
@@ -56,56 +57,33 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 		}
 	}
 
-	if pktPPS > 0 {
+	if ratePPS > 0 {
 		for n, _ := range fps {
-			fps[n].pktPps = int64(pktPPS)
+			fps[n].ratePPS = int64(ratePPS)
 		}
 	}
 
-	config = updateConfigFlows(config, fps)
+	runTraffic(api, config, fps, t)
 
-	runTraffic(api, config, t)
+	fps["Attackers-2-Victim"] = &flowProfile{10000, 5000, false}
 
-	fps["Attackers-2-Victim"] = &flowProfile{10000, 5000}
-
-	config = updateConfigFlows(config, fps)
-
-	runTraffic(api, config, t)
+	runTraffic(api, config, fps, t)
 
 }
 
-func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.Config {
-	for _, f := range config.Flows().Items() {
-		count := profiles[f.Name()].pktCount
-		pps := profiles[f.Name()].pktPps
-		if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Duration().FixedPackets().SetPackets(count)
-		}
-		if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Rate().SetPps(pps)
-		}
-		// Set destination MAC
-		for _, h := range f.Packet().Items() {
-			if h.Choice() == "ethernet" {
-				h.Ethernet().Dst().SetValue(dstMac)
-			}
-		}
-	}
+func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowProfiles, t *testing.T) {
 
-	return config
-}
-
-func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) {
+	config = updateConfigFlows(config, profiles)
 
 	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
 	flowETA := time.Duration(0)
 	trafficETA := time.Duration(0)
 	for _, f := range config.Flows().Items() {
 		pktCountFlow := f.Duration().FixedPackets().Packets()
-		pktPPSFlow := f.Rate().Pps()
+		ratePPSFlow := f.Rate().Pps()
 		// Calculate ETA it will take to transmit the flow
-		if pktPPSFlow > 0 {
-			flowETA = time.Duration(float64(int64(pktCountFlow)/pktPPSFlow)) * time.Second
+		if ratePPSFlow > 0 {
+			flowETA = time.Duration(float64(int64(pktCountFlow)/ratePPSFlow)) * time.Second
 		}
 		if flowETA > trafficETA {
 			trafficETA = flowETA // The longest flow to finish
@@ -157,11 +135,41 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	// pull the final metrics and check for packet loss
 	mt, err := api.GetMetrics(mr)
 	checkResponse(mt, err, t)
-	fm := mt.FlowMetrics().Items()[0]
-	loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
-	if loss > 0.01 {
-		t.Fatalf("Packet loss was detected: %f per cent", loss*100)
+	for _, fm := range mt.FlowMetrics().Items() {
+		if fm.FramesTx() > 0 {
+			loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
+			if profiles[fm.Name()].positiveTest { // we expect the flow to succeed
+				if loss > 0.01 {
+					t.Fatalf("Packet loss was detected for %s! Measured %f per cent", fm.Name(), loss*100)
+				}
+			} else { // we expect the flow to fail
+				if loss < 0.01 {
+					t.Fatalf("Packet loss was expected for %s! Measured %f per cent", fm.Name(), loss*100)
+				}
+			}
+		}
 	}
+}
+
+func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.Config {
+	for _, f := range config.Flows().Items() {
+		count := profiles[f.Name()].pktCount
+		pps := profiles[f.Name()].ratePPS
+		if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Duration().FixedPackets().SetPackets(count)
+		}
+		if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Rate().SetPps(pps)
+		}
+		// Set destination MAC
+		for _, h := range f.Packet().Items() {
+			if h.Choice() == "ethernet" {
+				h.Ethernet().Dst().SetValue(dstMac)
+			}
+		}
+	}
+
+	return config
 }
 
 // print otg api response content

@@ -14,7 +14,7 @@ const (
 var (
 	dstMac   = "00:00:00:00:00:00" // Destination MAC for flows
 	pktCount = 0                   // Number of packets to transmit
-	pktPPS   = 0                   // Rate to transmit at in packets per second
+	ratePPS  = 0                   // Rate to transmit at in packets per second
 )
 
 func init() {
@@ -23,5 +23,5 @@ func init() {
 	// Initialize packet count to transmit
 	flag.IntVar(&pktCount, "pktCount", pktCount, "Number of packets to transmit")
 	// Initialize packet rate to transmit
-	flag.IntVar(&pktPPS, "pktPPS", pktPPS, "Rate to transmit at in packets per second")
+	flag.IntVar(&ratePPS, "ratePPS", ratePPS, "Rate to transmit at in packets per second")
 }
