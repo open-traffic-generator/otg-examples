@@ -17,6 +17,13 @@ import (
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
+type flowProfile struct {
+	pktCount int32 // f.Duration().FixedPackets().Packets()
+	pktPps   int64 // f.Rate().Pps()
+}
+
+type flowProfiles map[string]*flowProfile
+
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	// Read OTG config
 	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
@@ -37,19 +44,45 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config := api.NewConfig()
 	config.FromYaml(otg)
 
-	config = updateConfigFlows(config)
+	fps := map[string]*flowProfile{
+		"Users-2-Victim":     &flowProfile{0, 0},
+		"Attackers-2-Victim": &flowProfile{0, 0},
+		"Users-2-Bystander":  &flowProfile{0, 0},
+	}
+
+	if pktCount > 0 {
+		for n, _ := range fps {
+			fps[n].pktCount = int32(pktCount)
+		}
+	}
+
+	if pktPPS > 0 {
+		for n, _ := range fps {
+			fps[n].pktPps = int64(pktPPS)
+		}
+	}
+
+	config = updateConfigFlows(config, fps)
+
+	runTraffic(api, config, t)
+
+	fps["Attackers-2-Victim"] = &flowProfile{10000, 5000}
+
+	config = updateConfigFlows(config, fps)
 
 	runTraffic(api, config, t)
 
 }
 
-func updateConfigFlows(config gosnappi.Config) gosnappi.Config {
+func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.Config {
 	for _, f := range config.Flows().Items() {
-		if pktCount > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Duration().FixedPackets().SetPackets(int32(pktCount))
+		count := profiles[f.Name()].pktCount
+		pps := profiles[f.Name()].pktPps
+		if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Duration().FixedPackets().SetPackets(count)
 		}
-		if pktPPS > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Rate().SetPps(int64(pktPPS))
+		if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			f.Rate().SetPps(pps)
 		}
 		// Set destination MAC
 		for _, h := range f.Packet().Items() {
