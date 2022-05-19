@@ -37,32 +37,45 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config := api.NewConfig()
 	config.FromYaml(otg)
 
-	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
-	flowETA := time.Duration(0)
-	trafficETA := time.Duration(0)
+	config = updateConfigFlows(config)
+
+	runTraffic(api, config, t)
+
+}
+
+func updateConfigFlows(config gosnappi.Config) gosnappi.Config {
 	for _, f := range config.Flows().Items() {
-		pktCountFlow := f.Duration().FixedPackets().Packets()
-		pktPPSFlow := f.Rate().Pps()
 		if pktCount > 0 { // if provided as a flag, otherwise use value from the imported OTG config
 			f.Duration().FixedPackets().SetPackets(int32(pktCount))
-			pktCountFlow = int32(pktCount)
 		}
 		if pktPPS > 0 { // if provided as a flag, otherwise use value from the imported OTG config
 			f.Rate().SetPps(int64(pktPPS))
-			pktPPSFlow = int64(pktPPS)
-		}
-		// Calculate ETA it will take to transmit the flow
-		if pktPPSFlow > 0 {
-			flowETA = time.Duration(float64(int64(pktCountFlow)/pktPPSFlow)) * time.Second
-		}
-		if flowETA > trafficETA {
-			trafficETA = flowETA // The longest flow to finish
 		}
 		// Set destination MAC
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
 				h.Ethernet().Dst().SetValue(dstMac)
 			}
+		}
+	}
+
+	return config
+}
+
+func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) {
+
+	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
+	flowETA := time.Duration(0)
+	trafficETA := time.Duration(0)
+	for _, f := range config.Flows().Items() {
+		pktCountFlow := f.Duration().FixedPackets().Packets()
+		pktPPSFlow := f.Rate().Pps()
+		// Calculate ETA it will take to transmit the flow
+		if pktPPSFlow > 0 {
+			flowETA = time.Duration(float64(int64(pktCountFlow)/pktPPSFlow)) * time.Second
+		}
+		if flowETA > trafficETA {
+			trafficETA = flowETA // The longest flow to finish
 		}
 	}
 
