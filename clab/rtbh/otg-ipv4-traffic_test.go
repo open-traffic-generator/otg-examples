@@ -106,39 +106,61 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
 
+	// initialize flow metrics
+	mr := api.NewMetricsRequest()
+	mr.Flow()
+	flowMetrics, err := api.GetMetrics(mr)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// launch a routine to periodically pull flow metrics
+	var flowMetricsMutex sync.Mutex
+	keepPulling := true
+	go func() {
+		for keepPulling {
+			flowMetricsMutex.Lock()
+			flowMetrics, err = api.GetMetrics(mr)
+			flowMetricsMutex.Unlock()
+			if err != nil {
+				t.Fatal(err)
+			}
+			time.Sleep(500 * time.Millisecond)
+		}
+	}()
+
 	// use a waitGroup to track progress of each individual flow
 	var wg sync.WaitGroup
 	wg.Add(len(config.Flows().Items()))
 
-	// fetch flow metrics and wait for received frame count to be correct
+	// wait for traffic to stop on each flow
 	start := time.Now()
 	for _, f := range config.Flows().Items() {
 		go func(f gosnappi.Flow) {
 			defer wg.Done()
-			mr := api.NewMetricsRequest()
-			mr.Flow()
 			for {
-				res, err := api.GetMetrics(mr)
-				if err != nil {
-					t.Fatal(err)
-				}
-				for _, fm := range res.FlowMetrics().Items() {
+				flowMetricsMutex.Lock()
+				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
 						checkResponse(fm, err, t)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
+							flowMetricsMutex.Unlock()
 							return
 						} else if trafficETA+time.Second < time.Since(start) {
 							log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
-							return //
+							flowMetricsMutex.Unlock()
+							return
 						}
 					}
 				}
+				flowMetricsMutex.Unlock()
 				time.Sleep(500 * time.Millisecond)
 				log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
 			}
 		}(f)
 	}
 	wg.Wait()
+	keepPulling = false // stop metrics pulling routine
 
 	// stop transmitting traffic
 	log.Printf("Stopping traffic...")
@@ -146,12 +168,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
 
-	// pull the final metrics and check for packet loss
-	mr := api.NewMetricsRequest()
-	mr.Flow()
-	mt, err := api.GetMetrics(mr)
-	checkResponse(mt, err, t)
-	for _, fm := range mt.FlowMetrics().Items() {
+	// check for packet loss
+	for _, fm := range flowMetrics.FlowMetrics().Items() {
 		if fm.FramesTx() > 0 {
 			loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
 			if profiles[fm.Name()].positiveTest { // we expect the flow to succeed
