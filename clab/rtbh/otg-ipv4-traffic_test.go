@@ -9,6 +9,7 @@ To run: go test -run=TestOTGIPv4Traffic -dstMac=<MAC of 198.51.100.1>
 package tests
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"sync"
@@ -16,6 +17,8 @@ import (
 	"time"
 
 	"github.com/open-traffic-generator/snappi/gosnappi"
+	"github.com/vbauerster/mpb/v7"
+	"github.com/vbauerster/mpb/v7/decor"
 )
 
 type flowProfile struct {
@@ -131,18 +134,33 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 
 	// use a waitGroup to track progress of each individual flow
 	var wg sync.WaitGroup
+	// progress bar indicator
+	p := mpb.New(mpb.WithWaitGroup(&wg))
 	wg.Add(len(config.Flows().Items()))
 
-	// wait for traffic to stop on each flow
+	// wait for traffic to stop on each flow or run beyond ETA
 	start := time.Now()
 	for _, f := range config.Flows().Items() {
+		// decorate progress bars
+		barname := fmt.Sprintf("Traffic %s:", f.Name())
+		bar := p.AddBar(int64(f.Duration().FixedPackets().Packets()),
+			mpb.PrependDecorators(
+				// simple name decorator
+				decor.Name(barname),
+			),
+			mpb.AppendDecorators(
+				// decor.DSyncWidth bit enables column width synchronization
+				decor.Percentage(decor.WCSyncSpace),
+			),
+		)
+
 		go func(f gosnappi.Flow) {
 			defer wg.Done()
 			for {
 				flowMetricsMutex.Lock()
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
-						checkResponse(fm, err, t)
+						bar.IncrBy(int(fm.FramesRx()))
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 							flowMetricsMutex.Unlock()
 							return
@@ -155,7 +173,6 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 				}
 				flowMetricsMutex.Unlock()
 				time.Sleep(500 * time.Millisecond)
-				log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
 			}
 		}(f)
 	}
