@@ -53,14 +53,18 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	}
 
 	if pktCount > 0 {
-		for n, _ := range fps {
-			fps[n].pktCount = int32(pktCount)
+		for n, fp := range fps {
+			if fp.pktCount == 0 {
+				fps[n].pktCount = int32(pktCount)
+			}
 		}
 	}
 
 	if ratePPS > 0 {
-		for n, _ := range fps {
-			fps[n].ratePPS = int64(ratePPS)
+		for n, fp := range fps {
+			if fp.ratePPS == 0 {
+				fps[n].ratePPS = int64(ratePPS)
+			}
 		}
 	}
 
