@@ -11,6 +11,7 @@ package tests
 import (
 	"io/ioutil"
 	"log"
+	"sync"
 	"testing"
 	"time"
 
@@ -46,9 +47,9 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config.FromYaml(otg)
 
 	fps := map[string]*flowProfile{
-		"Users-2-Victim":     &flowProfile{0, 0, true},
-		"Attackers-2-Victim": &flowProfile{0, 0, true},
-		"Users-2-Bystander":  &flowProfile{0, 0, true},
+		"Users-2-Victim":     &flowProfile{500, 100, true},
+		"Attackers-2-Victim": &flowProfile{100, 20, true},
+		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
 	if pktCount > 0 {
@@ -62,10 +63,6 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 			fps[n].ratePPS = int64(ratePPS)
 		}
 	}
-
-	runTraffic(api, config, fps, t)
-
-	fps["Attackers-2-Victim"] = &flowProfile{10000, 5000, false}
 
 	runTraffic(api, config, fps, t)
 
@@ -104,28 +101,39 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
 
-	// fetch flow metrics and wait for received frame count to be correct
-	mr := api.NewMetricsRequest()
-	mr.Flow()
-	waitFor(
-		func(start time.Time) bool {
-			res, err := api.GetMetrics(mr)
-			checkResponse(res, err, t)
+	// use a waitGroup to track progress of each individual flow
+	var wg sync.WaitGroup
+	wg.Add(len(config.Flows().Items()))
 
-			log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
-			isStopped := true // assume all flows could've stopped and see if that is not the case
-			for _, fm := range res.FlowMetrics().Items() {
-				if fm.Transmit() != gosnappi.FlowMetricTransmit.STOPPED {
-					isStopped = false
-				} else if trafficETA+time.Second < time.Since(start) {
-					isStopped = false // running beyond ETA, force stop
+	// fetch flow metrics and wait for received frame count to be correct
+	start := time.Now()
+	for _, f := range config.Flows().Items() {
+		go func(f gosnappi.Flow) {
+			defer wg.Done()
+			mr := api.NewMetricsRequest()
+			mr.Flow()
+			for {
+				res, err := api.GetMetrics(mr)
+				if err != nil {
+					t.Fatal(err)
 				}
+				for _, fm := range res.FlowMetrics().Items() {
+					if fm.Name() == f.Name() {
+						checkResponse(fm, err, t)
+						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
+							return
+						} else if trafficETA+time.Second < time.Since(start) {
+							log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
+							return //
+						}
+					}
+				}
+				time.Sleep(500 * time.Millisecond)
+				log.Printf("Time passed: %s out of %s", time.Since(start), trafficETA)
 			}
-			return isStopped
-		},
-		timeout,
-		t,
-	)
+		}(f)
+	}
+	wg.Wait()
 
 	// stop transmitting traffic
 	log.Printf("Stopping traffic...")
@@ -134,6 +142,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	checkResponse(res, err, t)
 
 	// pull the final metrics and check for packet loss
+	mr := api.NewMetricsRequest()
+	mr.Flow()
 	mt, err := api.GetMetrics(mr)
 	checkResponse(mt, err, t)
 	for _, fm := range mt.FlowMetrics().Items() {
@@ -183,26 +193,13 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 		for _, fm := range v.FlowMetrics().Items() {
 			log.Printf("Traffic stats for %s:\n%s\n", fm.Name(), fm)
 		}
+	case gosnappi.FlowMetric:
+		log.Printf("Traffic stats for %s:\n%s\n", v.Name(), v)
 	case gosnappi.ResponseWarning:
 		for _, w := range v.Warnings() {
 			log.Println("WARNING:", w)
 		}
 	default:
 		t.Fatal("Unknown response type:", v)
-	}
-}
-
-// wait until inline function return true or a timeout is reached
-func waitFor(fn func(time.Time) bool, timeout time.Duration, t *testing.T) {
-	start := time.Now()
-	for {
-		if fn(start) {
-			return
-		}
-		if time.Since(start) > timeout {
-			t.Fatal("Timeout occurred !")
-		}
-
-		time.Sleep(500 * time.Millisecond)
 	}
 }
