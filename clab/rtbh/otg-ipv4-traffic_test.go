@@ -52,6 +52,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
+	// override if needed
 	if pktCount > 0 {
 		for n, fp := range fps {
 			if fp.pktCount == 0 {
