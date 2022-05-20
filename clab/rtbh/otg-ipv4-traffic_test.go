@@ -98,8 +98,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	log.Printf("ETA is: %s", trafficETA)
 
 	// push traffic configuration to otgHost
-	log.Printf("Applying OTG config:")
-	log.Printf("\n%s", config)
+	log.Printf("Applying OTG config...")
+	//log.Printf("\n%s", config)
 	res, err := api.SetConfig(config)
 	checkResponse(res, err, t)
 
