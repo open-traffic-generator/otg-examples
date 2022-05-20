@@ -74,6 +74,11 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 
 	runTraffic(api, config, fps, t)
 
+	fps = map[string]*flowProfile{
+		"Attackers-2-Victim": &flowProfile{1000000, 100000, false},
+	}
+
+	runTraffic(api, config, fps, t)
 }
 
 func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowProfiles, t *testing.T) {
@@ -189,7 +194,12 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	for _, fm := range flowMetrics.FlowMetrics().Items() {
 		if fm.FramesTx() > 0 {
 			loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
-			if profiles[fm.Name()].positiveTest { // we expect the flow to succeed
+			positiveTest := true // default assumption is that we are testing for a flow to succeed
+			p, isProfileExist := profiles[fm.Name()]
+			if isProfileExist {
+				positiveTest = p.positiveTest
+			}
+			if positiveTest { // we expect the flow to succeed
 				if loss > 0.01 {
 					t.Fatalf("Packet loss was detected for %s! Measured %f per cent", fm.Name(), loss*100)
 				}
@@ -204,13 +214,16 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 
 func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.Config {
 	for _, f := range config.Flows().Items() {
-		count := profiles[f.Name()].pktCount
-		pps := profiles[f.Name()].ratePPS
-		if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Duration().FixedPackets().SetPackets(count)
-		}
-		if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
-			f.Rate().SetPps(pps)
+		p, isProfileExist := profiles[f.Name()]
+		if isProfileExist {
+			count := p.pktCount
+			pps := p.ratePPS
+			if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+				f.Duration().FixedPackets().SetPackets(count)
+			}
+			if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+				f.Rate().SetPps(pps)
+			}
 		}
 		// Set destination MAC
 		for _, h := range f.Packet().Items() {
