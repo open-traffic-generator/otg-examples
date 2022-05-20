@@ -76,7 +76,7 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 
 	fps_ddos := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{500, 100, false},
-		"Attackers-2-Victim": &flowProfile{1000000, 100000, false},
+		"Attackers-2-Victim": &flowProfile{50000, 10000, false},
 		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
@@ -106,7 +106,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 
 	// push traffic configuration to otgHost
 	log.Printf("Applying OTG config...")
-	//log.Printf("\n%s", config)
+	//log.Printf("\n%s\n", config)
 	res, err := api.SetConfig(config)
 	checkResponse(res, err, t)
 
@@ -167,13 +167,15 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 				flowMetricsMutex.Lock()
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
-						bar.IncrBy(int(fm.FramesRx()))
+						bar.IncrInt64(fm.FramesRx() - bar.Current())
+						//checkResponse(fm, err, t)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 							flowMetricsMutex.Unlock()
 							return
 						} else if trafficETA+time.Second < time.Since(start) {
-							log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
+							//log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
 							flowMetricsMutex.Unlock()
+							bar.Abort(false)
 							return
 						}
 					}
@@ -183,7 +185,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 			}
 		}(f)
 	}
-	wg.Wait()
+	p.Wait()
 	keepPulling = false // stop metrics pulling routine
 
 	// stop transmitting traffic
@@ -220,10 +222,10 @@ func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.C
 		if isProfileExist {
 			count := p.pktCount
 			pps := p.ratePPS
-			if count > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			if count > 0 { // if provided via profile, otherwise use value from the imported OTG config
 				f.Duration().FixedPackets().SetPackets(count)
 			}
-			if pps > 0 { // if provided as a flag, otherwise use value from the imported OTG config
+			if pps > 0 { // if provided via profile, otherwise use value from the imported OTG config
 				f.Rate().SetPps(pps)
 			}
 		}
