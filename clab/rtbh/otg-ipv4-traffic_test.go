@@ -74,11 +74,13 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 
 	runTraffic(api, config, fps, t)
 
-	fps = map[string]*flowProfile{
+	fps_ddos := map[string]*flowProfile{
+		"Users-2-Victim":     &flowProfile{500, 100, false},
 		"Attackers-2-Victim": &flowProfile{1000000, 100000, false},
+		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
-	runTraffic(api, config, fps, t)
+	runTraffic(api, config, fps_ddos, t)
 }
 
 func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowProfiles, t *testing.T) {
