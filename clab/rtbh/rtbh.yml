@@ -45,7 +45,9 @@ topology:
       mgmt_ipv6: 2001:172:100:100::10
       exec:
         - "./ifcfg add eth1 198.51.100.2 24"
-        - "./ifcfg add eth2 192.0.2.129 24"
+        - "./ifcfg add eth2 192.0.2.2 24"
+        - "./ifcfg add eth2 192.0.2.201 24"
+        - "./ifcfg add eth2 192.0.2.202 24"
       labels:
         graph-icon: cloud
         graph-mode: port
