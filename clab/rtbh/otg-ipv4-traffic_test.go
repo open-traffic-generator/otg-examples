@@ -73,7 +73,9 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 		}
 	}
 
-	runTraffic(api, config, fps, t)
+	config = updateConfigFlows(config, fps)
+	flowMetrics := runTraffic(api, config, t)
+	checkPacketLoss(flowMetrics, fps, t)
 
 	fps_ddos := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{500, 100, false},
@@ -81,13 +83,12 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
-	runTraffic(api, config, fps_ddos, t)
+	config = updateConfigFlows(config, fps_ddos)
+	flowMetrics = runTraffic(api, config, t)
+	checkPacketLoss(flowMetrics, fps_ddos, t)
 }
 
-func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowProfiles, t *testing.T) {
-
-	config = updateConfigFlows(config, profiles)
-
+func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) gosnappi.MetricsResponse {
 	// push traffic configuration to otgHost
 	fmt.Printf("Applying OTG config...")
 	//log.Printf("\n%s\n", config)
@@ -184,26 +185,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	checkResponse(res, err, t)
 	fmt.Println("stopped.")
 
-	// check for packet loss
-	for _, fm := range flowMetrics.FlowMetrics().Items() {
-		if fm.FramesTx() > 0 {
-			loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
-			positiveTest := true // default assumption is that we are testing for a flow to succeed
-			p, isProfileExist := profiles[fm.Name()]
-			if isProfileExist {
-				positiveTest = p.positiveTest
-			}
-			if positiveTest { // we expect the flow to succeed
-				if loss > 0.01 {
-					t.Fatalf("Packet loss was detected for %s! Measured %f per cent", fm.Name(), loss*100)
-				}
-			} else { // we expect the flow to fail
-				if loss < 0.01 {
-					t.Fatalf("Packet loss was expected for %s! Measured %f per cent", fm.Name(), loss*100)
-				}
-			}
-		}
-	}
+	return flowMetrics
 }
 
 func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.Config {
@@ -266,5 +248,28 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 		}
 	default:
 		t.Fatal("Unknown response type:", v)
+	}
+}
+
+// check for packet loss
+func checkPacketLoss(flowMetrics gosnappi.MetricsResponse, profiles flowProfiles, t *testing.T) {
+	for _, fm := range flowMetrics.FlowMetrics().Items() {
+		if fm.FramesTx() > 0 {
+			loss := float32(fm.FramesTx()-fm.FramesRx()) / float32(fm.FramesTx())
+			positiveTest := true // default assumption is that we are testing for a flow to succeed
+			p, isProfileExist := profiles[fm.Name()]
+			if isProfileExist {
+				positiveTest = p.positiveTest
+			}
+			if positiveTest { // we expect the flow to succeed
+				if loss > 0.01 {
+					t.Fatalf("Packet loss was detected for %s! Measured %f per cent", fm.Name(), loss*100)
+				}
+			} else { // we expect the flow to fail
+				if loss < 0.01 {
+					t.Fatalf("Packet loss was expected for %s! Measured %f per cent", fm.Name(), loss*100)
+				}
+			}
+		}
 	}
 }
