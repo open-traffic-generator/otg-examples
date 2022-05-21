@@ -29,7 +29,7 @@ type flowProfile struct {
 
 type flowProfiles map[string]*flowProfile
 
-func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
+func Test_RTBH_IPv4_Normal_Traffic(t *testing.T) {
 	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
 
 	fps := map[string]*flowProfile{
@@ -58,16 +58,20 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config = updateConfigFlows(config, fps)
 	flowMetrics := runTraffic(api, config, t)
 	checkPacketLoss(flowMetrics, fps, t)
+}
 
-	fps_ddos := map[string]*flowProfile{
+func Test_RTBH_IPv4_DDoS_Traffic(t *testing.T) {
+	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
+
+	fps := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{500, 100, false},
 		"Attackers-2-Victim": &flowProfile{50000, 10000, false},
 		"Users-2-Bystander":  &flowProfile{200, 40, true},
 	}
 
-	config = updateConfigFlows(config, fps_ddos)
-	flowMetrics = runTraffic(api, config, t)
-	checkPacketLoss(flowMetrics, fps_ddos, t)
+	config = updateConfigFlows(config, fps)
+	flowMetrics := runTraffic(api, config, t)
+	checkPacketLoss(flowMetrics, fps, t)
 }
 
 func initOTG(otgfile string, t *testing.T) (gosnappi.GosnappiApi, gosnappi.Config) {
