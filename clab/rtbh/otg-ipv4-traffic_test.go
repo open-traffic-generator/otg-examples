@@ -31,13 +31,14 @@ type flowProfiles map[string]*flowProfile
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	// Read OTG config
+	fmt.Printf("Loading OTG config...")
 	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	otg := string(otgbytes)
-	log.Printf("Loaded OTG config...")
+	fmt.Println("loaded.")
 
 	// Create a new API handle to make API calls against a traffic generator
 	api := gosnappi.NewApi()
@@ -87,6 +88,20 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 
 	config = updateConfigFlows(config, profiles)
 
+	// push traffic configuration to otgHost
+	fmt.Printf("Applying OTG config...")
+	//log.Printf("\n%s\n", config)
+	res, err := api.SetConfig(config)
+	checkResponse(res, err, t)
+	fmt.Println("ready.")
+
+	// start transmitting configured flows
+	fmt.Printf("Starting traffic...")
+	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
+	res, err = api.SetTransmitState(ts)
+	checkResponse(res, err, t)
+	fmt.Printf("started...")
+
 	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
 	flowETA := time.Duration(0)
 	trafficETA := time.Duration(0)
@@ -102,19 +117,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 		}
 	}
 
-	log.Printf("ETA is: %s", trafficETA)
-
-	// push traffic configuration to otgHost
-	log.Printf("Applying OTG config...")
-	//log.Printf("\n%s\n", config)
-	res, err := api.SetConfig(config)
-	checkResponse(res, err, t)
-
-	// start transmitting configured flows
-	log.Printf("Starting traffic...")
-	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
-	res, err = api.SetTransmitState(ts)
-	checkResponse(res, err, t)
+	fmt.Printf("ETA is: %s\n", trafficETA)
 
 	// initialize flow metrics
 	mr := api.NewMetricsRequest()
@@ -189,10 +192,11 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	keepPulling = false // stop metrics pulling routine
 
 	// stop transmitting traffic
-	log.Printf("Stopping traffic...")
+	fmt.Printf("Stopping traffic...")
 	ts = api.NewTransmitState().SetState(gosnappi.TransmitStateState.STOP)
 	res, err = api.SetTransmitState(ts)
 	checkResponse(res, err, t)
+	fmt.Println("stopped.")
 
 	// check for packet loss
 	for _, fm := range flowMetrics.FlowMetrics().Items() {
