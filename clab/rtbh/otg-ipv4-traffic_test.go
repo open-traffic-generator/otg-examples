@@ -30,25 +30,7 @@ type flowProfile struct {
 type flowProfiles map[string]*flowProfile
 
 func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
-	// Read OTG config
-	fmt.Printf("Loading OTG config...")
-	otgbytes, err := ioutil.ReadFile("RTBH_IPv4_Ingress_Traffic.yml")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	otg := string(otgbytes)
-	fmt.Println("loaded.")
-
-	// Create a new API handle to make API calls against a traffic generator
-	api := gosnappi.NewApi()
-
-	// Set the transport protocol to either HTTP or GRPC
-	api.NewHttpTransport().SetLocation(otgHost).SetVerify(false)
-
-	// Create a new traffic configuration that will be set on traffic generator
-	config := api.NewConfig()
-	config.FromYaml(otg)
+	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
 
 	fps := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{500, 100, true},
@@ -86,6 +68,30 @@ func Test_RTBH_IPv4_Ingress_Traffic(t *testing.T) {
 	config = updateConfigFlows(config, fps_ddos)
 	flowMetrics = runTraffic(api, config, t)
 	checkPacketLoss(flowMetrics, fps_ddos, t)
+}
+
+func initOTG(otgfile string, t *testing.T) (gosnappi.GosnappiApi, gosnappi.Config) {
+	// Read OTG config
+	fmt.Printf("Loading OTG config...")
+	otgbytes, err := ioutil.ReadFile(otgfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	otg := string(otgbytes)
+	fmt.Println("loaded.")
+
+	// Create a new API handle to make API calls against a traffic generator
+	api := gosnappi.NewApi()
+
+	// Set the transport protocol to either HTTP or GRPC
+	api.NewHttpTransport().SetLocation(otgHost).SetVerify(false)
+
+	// Create a new traffic configuration that will be set on traffic generator
+	config := api.NewConfig()
+	config.FromYaml(otg)
+
+	return api, config
 }
 
 func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) gosnappi.MetricsResponse {
