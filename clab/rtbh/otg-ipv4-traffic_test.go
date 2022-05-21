@@ -149,15 +149,15 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	start := time.Now()
 	for _, f := range config.Flows().Items() {
 		// decorate progress bars
-		barname := fmt.Sprintf("Traffic %s:", f.Name())
+		barname := fmt.Sprintf("%s:", f.Name())
 		bar := p.AddBar(int64(f.Duration().FixedPackets().Packets()),
 			mpb.PrependDecorators(
 				// simple name decorator
-				decor.Name(barname),
+				decor.Name(barname, decor.WCSyncSpace),
+				decor.Percentage(decor.WCSyncSpace),
 			),
 			mpb.AppendDecorators(
-				// decor.DSyncWidth bit enables column width synchronization
-				decor.Percentage(decor.WCSyncSpace),
+				decor.Counters(0, "packets Rx: %d / %d", decor.WCSyncSpaceR),
 			),
 		)
 
