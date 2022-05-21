@@ -162,6 +162,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 		)
 
 		go func(f gosnappi.Flow) {
+			defer flowMetricsMutex.Unlock()
 			defer wg.Done()
 			for {
 				flowMetricsMutex.Lock()
@@ -170,12 +171,12 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 						bar.IncrInt64(fm.FramesRx() - bar.Current())
 						//checkResponse(fm, err, t)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
-							flowMetricsMutex.Unlock()
-							return
-						} else if trafficETA+time.Second < time.Since(start) {
-							//log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
-							flowMetricsMutex.Unlock()
 							bar.Abort(false)
+							return
+						}
+						if trafficETA+time.Second < time.Since(start) {
+							bar.Abort(false)
+							//log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
 							return
 						}
 					}
