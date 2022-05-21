@@ -102,21 +102,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, profiles flowP
 	checkResponse(res, err, t)
 	fmt.Printf("started...")
 
-	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
-	flowETA := time.Duration(0)
-	trafficETA := time.Duration(0)
-	for _, f := range config.Flows().Items() {
-		pktCountFlow := f.Duration().FixedPackets().Packets()
-		ratePPSFlow := f.Rate().Pps()
-		// Calculate ETA it will take to transmit the flow
-		if ratePPSFlow > 0 {
-			flowETA = time.Duration(float64(int64(pktCountFlow)/ratePPSFlow)) * time.Second
-		}
-		if flowETA > trafficETA {
-			trafficETA = flowETA // The longest flow to finish
-		}
-	}
-
+	trafficETA := calculateTrafficETA(config)
 	fmt.Printf("ETA is: %s\n", trafficETA)
 
 	// initialize flow metrics
@@ -242,6 +228,24 @@ func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.C
 	}
 
 	return config
+}
+
+func calculateTrafficETA(config gosnappi.Config) time.Duration {
+	// Initialize packet counts and rates per flow if they were provided as parameters. Calculate ETA
+	flowETA := time.Duration(0)
+	trafficETA := time.Duration(0)
+	for _, f := range config.Flows().Items() {
+		pktCountFlow := f.Duration().FixedPackets().Packets()
+		ratePPSFlow := f.Rate().Pps()
+		// Calculate ETA it will take to transmit the flow
+		if ratePPSFlow > 0 {
+			flowETA = time.Duration(float64(int64(pktCountFlow)/ratePPSFlow)) * time.Second
+		}
+		if flowETA > trafficETA {
+			trafficETA = flowETA // The longest flow to finish
+		}
+	}
+	return trafficETA
 }
 
 // print otg api response content
