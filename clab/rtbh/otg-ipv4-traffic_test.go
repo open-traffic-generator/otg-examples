@@ -11,7 +11,6 @@ package tests
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"sync"
 	"testing"
 	"time"
@@ -101,7 +100,7 @@ func initOTG(otgfile string, t *testing.T) (gosnappi.GosnappiApi, gosnappi.Confi
 func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) gosnappi.MetricsResponse {
 	// push traffic configuration to otgHost
 	fmt.Printf("Applying OTG config...")
-	//log.Printf("\n%s\n", config)
+	log.Infof("\n%s\n", config)
 	res, err := api.SetConfig(config)
 	checkResponse(res, err, t)
 	fmt.Println("ready.")
@@ -169,14 +168,14 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
 						bar.IncrInt64(fm.FramesRx() - bar.Current())
-						//checkResponse(fm, err, t)
+						checkResponse(fm, err, t)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 							bar.Abort(false)
 							return
 						}
 						if trafficETA+time.Second < time.Since(start) {
 							bar.Abort(false)
-							//log.Printf("Traffic %s has been running past ETA, forcing to stop", fm.Name())
+							log.Infof("Traffic %s has been running past ETA, forcing to stop", fm.Name())
 							return
 						}
 					}
@@ -249,10 +248,10 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 	switch v := res.(type) {
 	case gosnappi.MetricsResponse:
 		for _, fm := range v.FlowMetrics().Items() {
-			log.Printf("Traffic stats for %s:\n%s\n", fm.Name(), fm)
+			log.Infof("Traffic stats for %s:\n%s\n", fm.Name(), fm)
 		}
 	case gosnappi.FlowMetric:
-		log.Printf("Traffic stats for %s:\n%s\n", v.Name(), v)
+		log.Infof("Traffic stats for %s:\n%s\n", v.Name(), v)
 	case gosnappi.ResponseWarning:
 		for _, w := range v.Warnings() {
 			log.Println("WARNING:", w)

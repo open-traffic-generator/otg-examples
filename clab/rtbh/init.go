@@ -2,6 +2,8 @@ package tests
 
 import (
 	"flag"
+	"github.com/sirupsen/logrus"
+	"os"
 	"time"
 )
 
@@ -17,7 +19,18 @@ var (
 	ratePPS  = 0                   // Rate to transmit at in packets per second
 )
 
+// Create a new instance of the logger
+var log = logrus.New()
+
 func init() {
+	// Log to file
+	file, err := os.OpenFile("gosnappi.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err == nil {
+		log.Out = file
+	} else {
+		log.Info("Failed to log to file, using default stderr")
+	}
+
 	// replace value of dstMac with actual MAC of DUT interface connected to otgPort1
 	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for all packets")
 	// Initialize packet count to transmit

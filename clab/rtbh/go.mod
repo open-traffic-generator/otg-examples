@@ -12,6 +12,7 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/vbauerster/mpb/v7 v7.4.1 // indirect
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
 	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
