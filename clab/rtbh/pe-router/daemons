@@ -60,8 +60,8 @@ pathd_options="  -A 127.0.0.1"
 
 # configuration profile
 #
-#frr_profile="traditional"
-frr_profile="datacenter"
+frr_profile="traditional"
+#frr_profile="datacenter"
 
 #
 # This is the maximum number of FD's that will be available.

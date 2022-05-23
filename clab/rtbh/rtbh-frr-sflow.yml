@@ -7,33 +7,27 @@ topology:
   nodes:
     pe-router:
       kind: linux
-      image: sflow/clab-frr
+      image: frrouting/frr:v8.2.2
       mgmt_ipv4: 172.100.100.2
       mgmt_ipv6: 2001:172:100:100::2
-      env:
-        LOCAL_AS: 64496
-        NEIGHBORS: eth1 
-        FLOWSPEC: no
-        RTBH: 203.0.113.255
-        HOSTPORT: eth2
-        HOSTNET: "198.51.100.1/24"
-      exec:
-        - touch /tmp/initialized
+      binds:
+      - ./pe-router/daemons:/etc/frr/daemons
+      - ./pe-router/frr.conf:/etc/frr/frr.conf
+      - ./pe-router/vtysh.conf:/etc/frr/vtysh.conf
       labels:
         graph-level: 1
     ce-router:
       kind: linux
-      image: sflow/clab-frr
+      image: netreplica/frr-sflow:v8.2.2
       mgmt_ipv4: 172.100.100.3      
       mgmt_ipv6: 2001:172:100:100::3
+      binds:
+      - ./ce-router/daemons:/etc/frr/daemons
+      - ./ce-router/frr.conf:/etc/frr/frr.conf
+      - ./ce-router/vtysh.conf:/etc/frr/vtysh.conf
+      - ./ce-router/hsflowd.conf:/etc/hsflowd.conf
       env:                          
-        LOCAL_AS: 64497
-        NEIGHBORS: eth1
-        FLOWSPEC: no
-        HOSTPORT: eth2
-        HOSTNET: "192.0.2.1/24"
-        CTLASN: 64497
-        COLLECTOR: 172.100.100.6
+        COLLECTOR: yes
       exec:                         
         - touch /tmp/initialized
       labels:

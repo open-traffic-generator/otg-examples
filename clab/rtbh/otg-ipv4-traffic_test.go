@@ -33,9 +33,9 @@ func Test_RTBH_IPv4_Normal_Traffic(t *testing.T) {
 	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
 
 	fps := map[string]*flowProfile{
-		"Users-2-Victim":     &flowProfile{500, 100, true},
-		"Attackers-2-Victim": &flowProfile{100, 20, true},
-		"Users-2-Bystander":  &flowProfile{200, 40, true},
+		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, true}, // rate * sec * min
+		"Attackers-2-Victim": &flowProfile{1000 * 10 * 1, 1000, true}, // rate * sec * min
+		"Users-2-Bystander":  &flowProfile{2000 * 10 * 1, 2000, true}, // rate * sec * min
 	}
 
 	// override if needed
@@ -64,9 +64,9 @@ func Test_RTBH_IPv4_DDoS_Traffic(t *testing.T) {
 	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
 
 	fps := map[string]*flowProfile{
-		"Users-2-Victim":     &flowProfile{500, 100, false},
-		"Attackers-2-Victim": &flowProfile{50000, 10000, false},
-		"Users-2-Bystander":  &flowProfile{200, 40, true},
+		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, false},   // rate * sec * min
+		"Attackers-2-Victim": &flowProfile{20000 * 10 * 1, 20000, false}, // rate * sec * min
+		"Users-2-Bystander":  &flowProfile{2000 * 10 * 1, 2000, true},    // rate * sec * min
 	}
 
 	config = updateConfigFlows(config, fps)
