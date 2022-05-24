@@ -1,5 +1,9 @@
 # Remote Triggered Blackhole Scenario
 
+## Overview
+
+Remote Triggered Blackhole (RTBH) is a common DDoS mitigation technique. It uses BGP anouncements to request an ISP to drop all traffic to an IP address under a DDoS attack.
+
 [//]: # (TODO Create a Linux VM)
 
 ## Preprequisites
