@@ -29,7 +29,7 @@ type flowProfile struct {
 type flowProfiles map[string]*flowProfile
 
 func Test_RTBH_IPv4_Normal_Traffic(t *testing.T) {
-	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
+	api, config := initOTG("otg.yml", t)
 
 	fps := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, true}, // pktCount (rate * sec * min), ratePPS, positiveTest
@@ -60,7 +60,7 @@ func Test_RTBH_IPv4_Normal_Traffic(t *testing.T) {
 }
 
 func Test_RTBH_IPv4_DDoS_Traffic(t *testing.T) {
-	api, config := initOTG("RTBH_IPv4_Ingress_Traffic.yml", t)
+	api, config := initOTG("otg.yml", t)
 
 	fps := map[string]*flowProfile{
 		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, false},   // pktCount (rate * sec * min), ratePPS, positiveTest
