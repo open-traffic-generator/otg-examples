@@ -5,18 +5,33 @@
 ## Preprequisites
 
 * Linux host or VM with sudo permissions and Docker support
+* `git` - how to install depends on your Linux distro
 * [Docker](https://docs.docker.com/engine/install/)
 * [Containerlab](https://containerlab.dev/install/)
+
+## Clone the repository
+
+1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
+
+```Shell
+git clone  --single-branch https://github.com/OpenIxia/otg-demo.git
+````
+
+2. Navigate to the lab folder
+
+```Shell
+cd otg-demo/clab/rtbh
+````
 
 ## Prepare a `gosnappi` container image
 
 Run the following only once, to build a container image where `go test` command would execute. This step will pre-load all the Go modules needed by the test into the local `gosnappi` image. Note, this step is optional, if you have Golang installed on the Linux host and can run `go test` locally on it.
 
 ```Shell
-docker build -t gosnappi:local .
+sudo docker build -t gosnappi:local .
 ````
 
-## Deploy the topology with ContainerLab
+## Deploy the topology with Containerlab
 
 ```Shell
 sudo -E containerlab deploy -t topo.yml
@@ -30,10 +45,20 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 
 ## Run OTG Test
 
+### Option 1. Using `gosnappi` container
+
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
+```
+`
+### Option 2. Running `go test` locally
+
+```Shell
+DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
+go test -dstMac=${DMAC}
 ````
+
 
 ## Destroy the lab
 
@@ -45,10 +70,10 @@ sudo -E containerlab destroy -t topo.yml
 ### CLI access to nodes
 
 ```Shell
-docker exec -it clab-rtbh-pe-router vtysh
-docker exec -it clab-rtbh-ce-router vtysh
+sudo docker exec -it clab-rtbh-pe-router vtysh
+sudo docker exec -it clab-rtbh-ce-router vtysh
 
-docker exec -it clab-rtbh-ixia sh
+sudo docker exec -it clab-rtbh-ixia sh
 ````
 
 ## Credits
