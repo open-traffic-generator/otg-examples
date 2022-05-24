@@ -14,7 +14,7 @@
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
 ```Shell
-git clone  --single-branch https://github.com/OpenIxia/otg-demo.git
+git clone --single-branch https://github.com/OpenIxia/otg-demo.git
 ````
 
 2. Navigate to the lab folder
@@ -50,8 +50,8 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
-```
-`
+````
+
 ### Option 2. Running `go test` locally
 
 ```Shell
