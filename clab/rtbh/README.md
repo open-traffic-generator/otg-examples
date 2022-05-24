@@ -1,17 +1,25 @@
 # Remote Triggered Blackhole Scenario
 
-## Prepare (once)
-
 [//]: # (TODO Create a Linux VM)
+
+## Preprequisites
+
+* Linux host or VM with sudo permissions and Docker support
+* [Docker](https://docs.docker.com/engine/install/)
+* [Containerlab](https://containerlab.dev/install/)
+
+## Prepare a `gosnappi` container image
+
+Run the following only once, to build a container image where `go test` command would execute. This step will pre-load all the Go modules needed by the test into the local `gosnappi` image. Note, this step is optional, if you have Golang installed on the Linux host and can run `go test` locally on it.
 
 ```Shell
 docker build -t gosnappi:local .
 ````
 
-## Launch with ContainerLab
+## Deploy the topology with ContainerLab
 
 ```Shell
-sudo -E containerlab deploy -t rtbh.yml
+sudo -E containerlab deploy -t topo.yml
 ````
 
 ## Open DDoS Protect Dashboard
@@ -24,13 +32,13 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
-docker exec -it clab-rtbh-gosnappi bash -c "go test -v -dstMac=${DMAC} -pktCount=500 -pktPPS=100"
+docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
 ````
 
 ## Destroy the lab
 
 ```Shell
-sudo -E containerlab destroy -t rtbh.yml
+sudo -E containerlab destroy -t topo.yml
 ````
 
 ## Misc

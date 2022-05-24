@@ -18,13 +18,18 @@ topology:
         graph-level: 1
     ce-router:
       kind: linux
-      image: frrouting/frr:v8.2.2
+      image: netreplica/frr-sflow:v8.2.2
       mgmt_ipv4: 172.100.100.3      
       mgmt_ipv6: 2001:172:100:100::3
       binds:
       - ./ce-router/daemons:/etc/frr/daemons
       - ./ce-router/frr.conf:/etc/frr/frr.conf
       - ./ce-router/vtysh.conf:/etc/frr/vtysh.conf
+      - ./ce-router/hsflowd.conf:/etc/hsflowd.conf
+      env:                          
+        COLLECTOR: yes
+      exec:                         
+        - touch /tmp/initialized
       labels:
         graph-level: 1
     ixia:
@@ -50,6 +55,44 @@ topology:
         - .:/otg
       labels:
         graph-hide: yes
+    controller:
+      kind: linux
+      image: sflow/ddos-protect
+      mgmt_ipv4: 172.100.100.6
+      mgmt_ipv6: 2001:172:100:100::6
+      env:
+        RTPROP: >
+          -Dddos_protect.as=64497
+          -Dddos_protect.nexthop=203.0.113.2
+          -Dddos_protect.enable.flowspec=yes
+          -Dddos_protect.router=172.100.100.3
+          -Dddos_protect.group.local=192.0.2.0/24
+          -Dddos_protect.mode=automatic
+          -Dddos_protect.icmp_flood.action=filter
+          -Dddos_protect.icmp_flood.threshold=10000
+          -Dddos_protect.icmp_flood.timeout=2
+          -Dddos_protect.ip_flood.action=drop
+          -Dddos_protect.ip_flood.threshold=10000
+          -Dddos_protect.ip_flood.timeout=1
+          -Dddos_protect.ip_fragmentation.action=filter
+          -Dddos_protect.ip_fragmentation.threshold=10000
+          -Dddos_protect.ip_fragmentation.timeout=2
+          -Dddos_protect.tcp_amplification.action=filter
+          -Dddos_protect.tcp_amplification.threshold=10000
+          -Dddos_protect.tcp_amplification.timeout=2
+          -Dddos_protect.tcp_flood.action=filter
+          -Dddos_protect.tcp_flood.threshold=10000
+          -Dddos_protect.tcp_flood.timeout=1
+          -Dddos_protect.udp_amplification.action=filter
+          -Dddos_protect.udp_amplification.threshold=10000
+          -Dddos_protect.udp_amplification.timeout=2
+          -Dddos_protect.udp_flood.action=filter
+          -Dddos_protect.udp_flood.threshold=10000
+          -Dddos_protect.udp_flood.timeout=1
+      ports:
+        - 8008:8008
+      labels:
+        graph-icon: server
     graphite:
       kind: linux
       image: netreplica/graphite:local
