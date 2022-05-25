@@ -61,6 +61,7 @@ topology:
       mgmt_ipv4: 172.100.100.6
       mgmt_ipv6: 2001:172:100:100::6
       env:
+        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
         RTPROP: >
           -Dddos_protect.as=64497
           -Dddos_protect.nexthop=203.0.113.2
@@ -91,6 +92,10 @@ topology:
           -Dddos_protect.udp_flood.timeout=1
       ports:
         - 8008:8008
+      binds:
+        - ./sflow/sflow_url.sh:/sflow-rt/sflow_url.sh:ro
+      exec:
+        - sh -c '/sflow-rt/sflow_url.sh 8008'
       labels:
         graph-icon: server
     graphite:

@@ -49,9 +49,11 @@ sudo -E containerlab deploy -t topo.yml
 
 ## Open DDoS Protect Dashboard
 
-[//]: # (TODO add show url capabilities to sflow)
+As the lab is being deployed, in Containerlab output you should see a line like this:
 
-Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/](http://localhost:8008/app/ddos-protect/html/)
+  > DDoS Protect Dashboard 🛡️  http://some-ip-address:8008/app/ddos-protect/html/index.html
+
+Open the link in the browser to see the DDoS Protect Dashboard
 
 ## Run OTG Test
 
