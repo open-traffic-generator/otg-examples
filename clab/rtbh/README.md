@@ -35,7 +35,7 @@ cd otg-demo/clab/rtbh
 
 ## Prepare a `gosnappi` container image
 
-Run the following only once, to build a container image where `go test` command would execute. This step will pre-load all the Go modules needed by the test into the local `gosnappi` image. Note, this step is optional, if you have Golang installed on the Linux host and can run `go test` locally on it.
+Run the following only once, to build a container image where `go test` command would execute. This step will pre-load all the Go modules needed by the test into the local `gosnappi` image. 
 
 ```Shell
 sudo docker build -t gosnappi:local .
@@ -55,20 +55,10 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 
 ## Run OTG Test
 
-### Option 1. Using `gosnappi` container
-
 ```Shell
 DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
 ````
-
-### Option 2. Running `go test` locally
-
-```Shell
-DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
-go test -dstMac=${DMAC}
-````
-
 
 ## Destroy the lab
 
