@@ -11,12 +11,12 @@ Remote Triggered Blackhole (RTBH) is a common DDoS mitigation technique. It uses
     ```Shell
     brew install --cask multipass
     multipass version
-    multipass launch 22.04 -n otg-demo -c4 -m8G -d32G
+    multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
     multipass shell otg-demo
     ````
 
 * `git` - how to install depends on your Linux distro. The example above comes with `git` preinstalled.
-* [Docker](https://docs.docker.com/engine/install/)
+* [Docker](https://docs.docker.com/engine/install/), or `sudo apt install docker.io` for Ubuntu 20.04LTS VM example
 * [Containerlab](https://containerlab.dev/install/)
 
 ## Clone the repository
@@ -55,9 +55,11 @@ Access the DDoS Protect screen at [http://localhost:8008/app/ddos-protect/html/]
 
 ## Run OTG Test
 
+Execute the test by running `go test` in `clab-rtbh-gosnappi` container. Note, it will take some time for Golang to compile the test binary, so expect a delay before the test starts running.
+
 ```Shell
-DMAC=`docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
-docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
+DMAC=`sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
+sudo docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
 ````
 
 ## Destroy the lab
