@@ -95,7 +95,7 @@ topology:
         graph-icon: server
     graphite:
       kind: linux
-      image: netreplica/graphite:local
+      image: netreplica/graphite:latest
       mgmt_ipv4: 172.100.100.102
       mgmt_ipv6: 2001:172:100:100::102
       env:
