@@ -173,9 +173,9 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 							bar.Abort(false)
 							return
 						}
-						if trafficETA+time.Second < time.Since(start) {
+						if trafficETA*2 < time.Since(start) {
 							bar.Abort(false)
-							log.Infof("Traffic %s has been running past ETA, forcing to stop", fm.Name())
+							log.Infof("Traffic %s has been running twice longer than ETA, forcing to stop", fm.Name())
 							return
 						}
 					}
