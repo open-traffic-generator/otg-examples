@@ -4,6 +4,8 @@
 
 Remote Triggered Blackhole (RTBH) is a common DDoS mitigation technique. It uses BGP anouncements to request an ISP to drop all traffic to an IP address under a DDoS attack.
 
+![Diagram](diagram.png)
+
 ## Preprequisites
 
 * Linux host or VM with sudo permissions and Docker support. If you're on Mac, an example below can be used to create an Ubuntu 20.04LTS VM `otg-demo`, using [Multipass](https://multipass.run/). Ubuntu 22.04 is not yet supported for this test.
@@ -16,6 +18,7 @@ Remote Triggered Blackhole (RTBH) is a common DDoS mitigation technique. It uses
 * `git` - how to install depends on your Linux distro. The example above comes with `git` preinstalled.
 * [Docker](https://docs.docker.com/engine/install/), or `sudo apt install docker.io` for Ubuntu 20.04LTS VM example
 * [Containerlab](https://containerlab.dev/install/)
+* Access to the Linux host from your computer over TCP ports 22 (SSH), 8008 (DDoS Protect Dashboard) and 8080 (Graphite topology visualization)
 
 ## Clone the repository
 
