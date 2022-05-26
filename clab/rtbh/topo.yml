@@ -38,10 +38,10 @@ topology:
       mgmt_ipv4: 172.100.100.10
       mgmt_ipv6: 2001:172:100:100::10
       exec:
-        - "./ifcfg add eth1 198.51.100.2 24"
-        - "./ifcfg add eth2 192.0.2.2 24"
-        - "./ifcfg add eth2 192.0.2.201 24"
-        - "./ifcfg add eth2 192.0.2.202 24"
+        - sh -c './ifcfg add eth1 198.51.100.2 24 >/dev/null'
+        - sh -c './ifcfg add eth2 192.0.2.2 24 >/dev/null'
+        - sh -c './ifcfg add eth2 192.0.2.201 24 >/dev/null'
+        - sh -c './ifcfg add eth2 192.0.2.202 24 >/dev/null'
       labels:
         graph-icon: cloud
         graph-mode: port

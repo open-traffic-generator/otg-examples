@@ -83,11 +83,40 @@ Open the link in the browser to see a graphical representation of the topology.
 
 ### CLI access to nodes
 
-```Shell
-sudo docker exec -it clab-rtbh-pe-router vtysh
-sudo docker exec -it clab-rtbh-ce-router vtysh
+  ```Shell
+  # pe-router
+  sudo docker exec -it clab-rtbh-pe-router vtysh
+  # ce-router
+  sudo docker exec -it clab-rtbh-ce-router vtysh
+  # ixia
+  sudo docker exec -it clab-rtbh-ixia sh
+  # controller
+  sudo docker exec -it clab-rtbh-controller sh
+  ````
+  
+### Public cloud VM deployment
 
-sudo docker exec -it clab-rtbh-ixia sh
+* Google Cloud
+
+```Shell
+MYIP=`curl ifconfig.me`
+
+gcloud compute firewall-rules create otg-demo-allow-8008 --description="Allow tcp 8008 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8008 --source-ranges="$MYIP/32" --target-tags=otg-demo
+gcloud compute firewall-rules create otg-demo-allow-8080 --description="Allow tcp 8080 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8080 --source-ranges="$MYIP/32" --target-tags=otg-demo
+
+gcloud compute instances create otg-demo \
+--subnet=default \
+--machine-type=e2-standard-8 \
+--image-family=ubuntu-2004-lts \
+--image-project=ubuntu-os-cloud \
+--boot-disk-size=30GB \
+--boot-disk-device-name=otg-demo \
+--tags=otg-demo
+
+gcloud compute ssh otg-demo
+sudo apt update && sudo apt install docker.io -y
+bash -c "$(curl -sL https://get.containerlab.dev)"
+
 ````
 
 ## Credits
