@@ -72,7 +72,7 @@ sudo -E containerlab destroy -t topo.yml
 
 ### Topology Visualization
 
-As part of the lab [`topo.yml`](topo.yml) definitions, there is a topology visualization module included, called Graphite. As the lab is being deployed, in Containerlab output you should see a line like this:
+As part of the lab [`topo.yml`](topo.yml) definitions, there is a topology visualization module included, called [Graphite](https://github.com/netreplica/graphite). As the lab is being deployed, in Containerlab output you should see a line like this:
 
   > Graphite visualization 🎨 http://some-ip-address:8080/graphite
 
