@@ -8,7 +8,7 @@ Remote Triggered Blackhole (RTBH) is a common DDoS mitigation technique. It uses
 
 ## Preprequisites
 
-* Linux host or VM with sudo permissions and Docker support
+* Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
 * `git` - how to install depends on your Linux distro.
 * [Docker](https://docs.docker.com/engine/install/)
 * [Containerlab](https://containerlab.dev/install/)
