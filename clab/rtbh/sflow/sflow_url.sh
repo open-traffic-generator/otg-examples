@@ -12,7 +12,7 @@ else
   DHOST=$HOSTNAME
 fi
 
-if curl --silent --connect-timeout 1 http://169.254.169.254/; then
+if sh -c 'curl --silent --connect-timeout 1 http://169.254.169.254/ >/dev/null'; then
   # looks like we are running in a public cloud environment
   DHOST=`curl --silent --connect-timeout 3 ifconfig.me`
 fi
