@@ -1,4 +1,4 @@
-# Remote Triggered Blackhole Scenario
+# Remote Triggered Black Hole Scenario
 
 ## Overview
 

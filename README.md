@@ -2,7 +2,7 @@
 
 ## Scenarious with Containerlab
 
-* [Remote Triggered Blackhole Lab](/clab/rtbh) (RTBH) - common DDoS mitigation technique, uses BGP anouncements to request an ISP to drop all traffic to an IP address under a DDoS attack.
+* [Remote Triggered Black Hole Lab](/clab/rtbh) (RTBH) - common DDoS mitigation technique, uses BGP anouncements to request an ISP to drop all traffic to an IP address under a DDoS attack.
 
 ## Useful links
 
