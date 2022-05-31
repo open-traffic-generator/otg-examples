@@ -1,8 +1,8 @@
-# Open Traffic Generator Demo Scenarios
+# Open Traffic Generator examples
 
-## Scenarious with Containerlab
+## Scenarios with Containerlab
 
-* [Remote Triggered Black Hole Lab](/clab/rtbh) (RTBH) - common DDoS mitigation technique, uses BGP anouncements to request an ISP to drop all traffic to an IP address under a DDoS attack.
+* [Remote Triggered Black Hole Lab](/clab/rtbh) (RTBH) - common DDoS mitigation technique, uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
 
 ## Useful links
 
