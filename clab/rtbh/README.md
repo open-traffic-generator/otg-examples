@@ -19,13 +19,13 @@ Remote Triggered Black Hole (RTBH) is a common DDoS mitigation technique. It use
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
 ```Shell
-git clone --single-branch https://github.com/OpenIxia/otg-demo.git
+git clone --single-branch https://github.com/open-traffic-generator/otg-examples.git
 ````
 
 2. Navigate to the lab folder
 
 ```Shell
-cd otg-demo/clab/rtbh
+cd otg-examples/clab/rtbh
 ````
 
 ## Prepare a `gosnappi` container image
