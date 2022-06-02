@@ -1,0 +1,3 @@
+[submodule "clab/srl-oper-group/opergroup-lab"]
+	path = clab/srl-oper-group/opergroup-lab
+	url = https://github.com/srl-labs/opergroup-lab.git
