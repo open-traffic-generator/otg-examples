@@ -2,11 +2,24 @@
 
 ## Overview
 
+## Clone the repository
+
+1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
+
+```Shell
+git clone --recursive --single-branch https://github.com/open-traffic-generator/otg-examples.git
+````
+
+2. Navigate to the lab folder
+
+```Shell
+cd otg-examples/clab/srl-oper-group
+````
+
 ## Work-in-progress
 
 ```Shell
-git clone https://github.com/srl-labs/opergroup-lab.git && cd opergroup-lab
-sudo -E containerlab deploy -t opergroup.clab.yml
+sudo -E containerlab deploy -t topo.yml
 ````
 
 [Grafana dashboard](http://clabvm:3000/d/W19czJw7k/opergroups?orgId=1&refresh=5s)
