@@ -1,5 +1,29 @@
 import snappi
 import dpkt
+
+def port_metrics_ok(api, req, packets):
+    res = api.get_metrics(req)
+    print(res)
+    if packets == sum([m.frames_tx for m in res.port_metrics]) and packets == sum([m.frames_rx for m in res.port_metrics]):
+        return True
+
+def wait_for(func, timeout=15, interval=0.2):
+    """
+    Keeps calling the `func` until it returns true or `timeout` occurs
+    every `interval` seconds.
+    """
+    import time
+
+    start = time.time()
+
+    while time.time() - start <= timeout:
+        if func():
+            return True
+        time.sleep(interval)
+
+    print("Timeout occurred !")
+    return False
+
 api = snappi.api(location='https://clab-ixcb2b-ixia-c', verify=False)
 cfg = api.config()
 # this pushes object of type `snappi.Config` to controller
@@ -10,18 +34,6 @@ cfg = api.get_config()
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
 p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="eth2")
-
-# config has an attribute called `layer1` which holds an iterator of type
-# `snappi.Layer1Iter`, where each item is of type `snappi.Layer1` (ly)
-ly = cfg.layer1.layer1(name="ly")[-1]
-ly.speed = ly.SPEED_1_GBPS
-# set same properties on both ports
-ly.port_names = [p1.name, p2.name]
-
-# config has an attribute called `captures` which holds an iterator of type
-# `snappi.CaptureIter`, where each item is of type `snappi.Capture` (cp)
-cp = cfg.captures.capture(name="cp")[-1]
-cp.port_names = [p1.name, p2.name]
 
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
@@ -38,7 +50,9 @@ for f in cfg.flows:
     f.duration.fixed_packets.packets = 1000
     # send 1000 packets per second
     f.rate.pps = 1000
-    
+    # allow fetching flow metrics
+    f.metrics.enable = True
+
 # configure packet with Ethernet, IPv4 and UDP headers for both flows
 eth1, ip1, udp1 = f1.packet.ethernet().ipv4().udp()
 eth2, ip2, udp2 = f2.packet.ethernet().ipv4().udp()
@@ -64,15 +78,11 @@ udp2.src_port.increment.count = 10
 udp1.dst_port.values = [4000, 4044, 4060, 4074]
 udp2.dst_port.values = [8000, 8044, 8060, 8074, 8082, 8084]
 
-print(cfg)
+# print resulting otg configuration
+# print(cfg)
 
 # push configuration to controller
 api.set_config(cfg)
-
-# start packet capture on configured ports
-cs = api.capture_state()
-cs.state = cs.START
-api.set_capture_state(cs)
 
 # start transmitting configured flows
 ts = api.transmit_state()
@@ -88,25 +98,6 @@ req.port.column_names = [req.port.FRAMES_TX, req.port.FRAMES_RX]
 # fetch port metrics
 res = api.get_metrics(req)
 
-# calculate total frames sent and received across all configured ports
-total_tx = sum([m.frames_tx for m in res.port_metrics])
-total_rx = sum([m.frames_rx for m in res.port_metrics])
+# wait for port metrics to be as expected
 expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
-
-for p in cfg.ports:
-  # create capture request and filter based on port name
-  req = api.capture_request()
-  req.port_name = p.name
-  # fetch captured pcap bytes and feed it to pcap parser dpkt
-  pcap = dpkt.pcap.Reader(api.get_capture(req))
-  for _, buf in pcap:
-      # check if current packet is a valid UDP packet
-      eth = dpkt.ethernet.Ethernet(buf)
-      assert isinstance(eth.data.data, dpkt.udp.UDP)
-
-pcap_bytes = api.get_capture(req)
-with open('cap.pcap', 'wb') as p:
-  p.write(pcap_bytes.read())
-
-assert expected == total_tx and total_rx >= expected
-
+assert wait_for(lambda: port_metrics_ok(api, req, expected)), "Metrics validation failed!"
