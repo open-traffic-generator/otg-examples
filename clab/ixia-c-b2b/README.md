@@ -1,6 +1,7 @@
-# Hello World Scenario (Ixia-c Back-to-back)
+# Hello snappi!
 
 ## Overview
+This is a very basic lab with Ixia-c-one node connected back-2-back in a Containerlab environment. The goal is to demonstrate basics of creating a Python program to control Ixia-c via [`snappi`](https://github.com/open-traffic-generator/snappi) SDK.
 
 ## Preprequisites
 
