@@ -1,7 +1,7 @@
-# Hello snappi!
+# Hello, snappi!  Welcome to the Clab!
 
 ## Overview
-This is a very basic lab with Ixia-c-one node connected back-2-back in a Containerlab environment. The goal is to demonstrate basics of creating a Python program to control Ixia-c via [`snappi`](https://github.com/open-traffic-generator/snappi) SDK.
+This is a simple lab where an Ixia-c-one node has two traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate basics of creating a Python program to control Ixia-c via [`snappi`](https://github.com/open-traffic-generator/snappi) SDK.
 
 ## Preprequisites
 
