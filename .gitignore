@@ -133,5 +133,8 @@ clab/*/.*.yaml
 clab/*/.*.yml
 clab/*/clab-*
 .DS_Store
-clab/rtbh/test.out
 clab/srl-oper-group/opergroup-lab/
+
+*.out
+*.pcap
+*.swp

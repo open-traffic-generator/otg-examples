@@ -1,0 +1,13 @@
+name: ixcb2b
+topology:
+  nodes:
+    ixia-c:
+      kind: keysight_ixia-c-one
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-2934
+    snappi:
+      kind: linux
+      image: snappi:local
+      binds:
+        - .:/otg
+  links:
+    - endpoints: ["ixia-c:eth1","ixia-c:eth2"]
