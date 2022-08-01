@@ -19,10 +19,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 2. Install `otgen`
 
+```Shell
 curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
 sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
-
+```
 
 ## Deploy Ixia-c lab
 
@@ -70,7 +71,7 @@ EOF
 3. Launch the deployment and adjust MTUs on the veth pair
 
 ```Shell
-docker-compose -f ixia-c-b2b.yml up -d 
+sudo docker-compose -f ixia-c-b2b.yml up -d 
 sudo ip link set veth0 mtu 9500
 sudo ip link set veth1 mtu 9500
 ````
@@ -78,7 +79,7 @@ sudo ip link set veth1 mtu 9500
 4. Make sure you have all three containers running:
 
 ```Shell
-docker ps
+sudo docker ps
 ```
 
   The result should look like this
@@ -91,6 +92,12 @@ d3497ae9470e   ixiacom/ixia-c-controller:0.0.1-3002     "./bin/controller --…"
 ```
 
 ## Run OTG traffic flows
+
+1. Download an example of OTG traffic flow configuration file:
+
+```Shell
+wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/docker-compose/docker-compose/b2b/otg.yml
+```
 
 1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
 
@@ -133,4 +140,4 @@ sudo ip link del name veth0 type veth peer name veth1
 
 ## Credits
 
-* [Diana Galan](https://github.com/dgalan-xxia) for `docker-compose` example.
+* [Diana Galan](https://github.com/dgalan-xxia) is an author of `ixia-c-b2b.yml` example.
