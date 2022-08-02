@@ -10,6 +10,7 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
+* [Go](https://go.dev/dl/)
 
 ## Install components
 
@@ -98,12 +99,12 @@ sudo docker ps
 3. Make sure you have all five containers running. The result should look like this
   
 ```Shell
-CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED          STATUS          PORTS                                       NAMES
-3a7db5c9d0a9   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   26 seconds ago   Up 26 seconds                                               cpdp-b2b_protocol_engine_1_1
-4f095582ff1c   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   26 seconds ago   Up 26 seconds                                               cpdp-b2b_protocol_engine_2_1
-f727b3250300   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        28 seconds ago   Up 26 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp   cpdp-b2b_traffic_engine_1_1
-af5245d1148c   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        28 seconds ago   Up 26 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp   cpdp-b2b_traffic_engine_2_1
-b361813ea4f5   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002        "./bin/controller --…"   28 seconds ago   Up 26 seconds   0.0.0.0:443->443/tcp, :::443->443/tcp       cpdp-b2b_controller_1
+CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
+cae49d871bc9   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   4 seconds ago        Up 3 seconds                                                                                                   cpdp-b2b_protocol_engine_1_1
+82e89b618e66   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   4 seconds ago        Up 3 seconds                                                                                                   cpdp-b2b_protocol_engine_2_1
+7ed141bf8f41   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        5 seconds ago        Up 3 seconds        0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
+ee375ede5bbe   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        5 seconds ago        Up 3 seconds        0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
+0e3436e30680   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002        "./bin/controller --…"   About a minute ago   Up About a minute                                                                                              cpdp-b2b_controller_1
 ```
 
 4. Interconnect traffic engine containers via a veth pair
@@ -111,6 +112,22 @@ b361813ea4f5   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3
 ```Shell
 sudo ./connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
 ````
+
+5. Check traffic and protocol engine logs to see if they picked up veth interfaces
+
+```Shell
+sudo docker logs cpdp-b2b_traffic_engine_1_1
+sudo docker logs cpdp-b2b_traffic_engine_2_1
+sudo docker logs cpdp-b2b_protocol_engine_1_1
+sudo docker logs cpdp-b2b_protocol_engine_2_1
+```
+
+## Start protocols
+
+```Shell
+cd tests
+go test -run TestBGPRouteInstall
+```
 
 ## Run OTG traffic flows
 

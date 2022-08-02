@@ -10,6 +10,7 @@ services:
     privileged: true
     ports:
       - "5555:5555"
+      - "50071:50071"
     environment:
     - OPT_LISTEN_PORT=5555
     - ARG_IFACE_LIST=virtual@af_packet,veth0
@@ -22,6 +23,7 @@ services:
     privileged: true
     ports:
       - "5556:5556"
+      - "50072:50071"
     environment:
     - OPT_LISTEN_PORT=5556
     - ARG_IFACE_LIST=virtual@af_packet,veth1
