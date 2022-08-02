@@ -3,6 +3,7 @@
 ## Basic examples
 
 * [Ixia-c traffic engine back-to-back setup with Docker Compose](docker-compose/b2b). Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
+* [KENG back-to-back setup with Docker Compose](docker-compose/cpdp-b2b). This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP.
 
 ## Scenarios with Containerlab
 
