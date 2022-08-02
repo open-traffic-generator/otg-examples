@@ -122,50 +122,12 @@ sudo docker logs cpdp-b2b_protocol_engine_1_1
 sudo docker logs cpdp-b2b_protocol_engine_2_1
 ```
 
-## Start protocols
+## Run test package
 
 ```Shell
 cd tests
 go test -run TestBGPRouteInstall
 ```
-
-## Run OTG traffic flows
-
-1. Download an example of OTG traffic flow configuration file:
-
-```Shell
-wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/docker-compose/docker-compose/b2b/otg.yml
-```
-
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
-
-```Shell
-cat otg.yml | otgen run -k
-````
-
-2. You can now repeat this exercise, but transform output to a table
-
-```Shell
-cat otg.yml | otgen run -k 2>/dev/null | otgen transform -m port | otgen display -m table
-````
-
-3. The same, but with flow metrics
-
-```Shell
-cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
-````
-
-4. The same, but with byte instead of frame count (only receive stats are reported)
-
-```Shell
-cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
-````
-
-5. Now report packet per second rate, as a line chart (end with `Crtl-c`)
-
-```Shell
-cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
-````
 
 ## Destroy the lab
 
