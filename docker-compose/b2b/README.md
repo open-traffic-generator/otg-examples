@@ -98,7 +98,7 @@ d3497ae9470e   ixiacom/ixia-c-controller:0.0.1-3002     "./bin/controller --…"
 1. Download an example of OTG traffic flow configuration file:
 
 ```Shell
-wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/docker-compose/docker-compose/b2b/otg.yml
+wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/main/docker-compose/b2b/otg.yml
 ```
 
 1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
