@@ -21,15 +21,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-3. Install `otgen`
-
-```Shell
-curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-sudo mv otgen /usr/local/bin/otgen
-sudo chmod +x /usr/local/bin/otgen
-```
-
-3. Clone this repository
+2. Clone this repository
 
 ```Shell
 git clone --branch cpdp-b2b https://github.com/open-traffic-generator/otg-examples.git
