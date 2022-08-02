@@ -1,7 +1,7 @@
 # Basic Ixia-c back-to-back traffic engine setup with `docker-compose`
 
 ## Overview
-This is a basic lab where an Ixia-c has two traffic ports connected back-2-back using an veth pair. The lab is controlled via `docker-compose`. Once the lab is up, a CLI tool [`otgen`](https://github.com/open-traffic-generator/otgen) is used to request Ixia-c to generate traffic and report statistics.
+This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected back-2-back using a veth pair. The lab is defined via `docker-compose` YAML file. Once the lab is up, a CLI tool [`otgen`](https://github.com/open-traffic-generator/otgen) is used to request Ixia-c to generate traffic and report statistics.
 
 ![Diagram](./diagram.png)
 
