@@ -21,13 +21,6 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-2. Download `connect_containers_veth.sh`
-
-```Shell
-wget "https://raw.githubusercontent.com/open-traffic-generator/otg-examples/main/utils/connect_containers_veth.sh" 
-chmod +x connect_containers_veth.sh
-```
-
 3. Install `otgen`
 
 ```Shell
@@ -36,84 +29,40 @@ sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
 
+3. Clone this repository
+
+```Shell
+git clone --branch cpdp-b2b https://github.com/open-traffic-generator/otg-examples.git
+```
+
 ## Deploy Ixia-c lab
 
-1. Create YAML file for Docker Compose
+1. Launch the deployment
 
 ```Shell
-cat > cpdp-b2b.yml << EOF
-services:
-  controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002
-    command: --accept-eula --http-port 443
-    network_mode: "host"
-    restart: always
-  traffic_engine_1:
-    image: ixiacom/ixia-c-traffic-engine:1.4.1.29
-    restart: always
-    privileged: true
-    ports:
-      - "5555:5555"
-    environment:
-    - OPT_LISTEN_PORT=5555
-    - ARG_IFACE_LIST=virtual@af_packet,veth0
-    - OPT_NO_HUGEPAGES=Yes
-    - OPT_NO_PINNING=Yes
-    - WAIT_FOR_IFACE=Yes
-  traffic_engine_2:
-    image: ixiacom/ixia-c-traffic-engine:1.4.1.29
-    restart: always
-    privileged: true
-    ports:
-      - "5556:5556"
-    environment:
-    - OPT_LISTEN_PORT=5556
-    - ARG_IFACE_LIST=virtual@af_packet,veth1
-    - OPT_NO_HUGEPAGES=Yes
-    - OPT_NO_PINNING=Yes
-    - WAIT_FOR_IFACE=Yes
-  protocol_engine_1:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205
-    restart: always
-    privileged: true
-    network_mode: service:traffic_engine_1
-    environment:
-    - INTF_LIST=veth0
-  protocol_engine_2:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205
-    restart: always
-    privileged: true
-    network_mode: service:traffic_engine_2
-    environment:
-    - INTF_LIST=veth1
-EOF
-```
-
-2. Launch the deployment
-
-```Shell
+cd otg-examples/docker-compose/cpdp-b2b
 sudo docker-compose -f cpdp-b2b.yml up -d 
 sudo docker ps
-````
-
-3. Make sure you have all five containers running. The result should look like this
-  
-```Shell
-CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
-cae49d871bc9   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   4 seconds ago        Up 3 seconds                                                                                                   cpdp-b2b_protocol_engine_1_1
-82e89b618e66   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   4 seconds ago        Up 3 seconds                                                                                                   cpdp-b2b_protocol_engine_2_1
-7ed141bf8f41   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        5 seconds ago        Up 3 seconds        0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
-ee375ede5bbe   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        5 seconds ago        Up 3 seconds        0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
-0e3436e30680   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002        "./bin/controller --…"   About a minute ago   Up About a minute                                                                                              cpdp-b2b_controller_1
 ```
 
-4. Interconnect traffic engine containers via a veth pair
+2. Make sure you have all five containers running. The result should look like this
+  
+```Shell
+CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED          STATUS         PORTS                                                                                      NAMES
+4a9d84784c46   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   8 seconds ago    Up 7 seconds                                                                                              cpdp-b2b_protocol_engine_1_1
+13119efaea26   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   8 seconds ago    Up 7 seconds                                                                                              cpdp-b2b_protocol_engine_2_1
+0bf9781a133a   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        11 seconds ago   Up 8 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
+1604ef2956ab   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        11 seconds ago   Up 8 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
+45798f6d3c59   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002        "./bin/controller --…"   11 seconds ago   Up 9 seconds                                                                                              cpdp-b2b_controller_1
+```
+
+3. Interconnect traffic engine containers via a veth pair
 
 ```Shell
-sudo ./connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
+sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
 ````
 
-5. Check traffic and protocol engine logs to see if they picked up veth interfaces
+4. Check traffic and protocol engine logs to see if they picked up veth interfaces
 
 ```Shell
 sudo docker logs cpdp-b2b_traffic_engine_1_1
@@ -126,7 +75,8 @@ sudo docker logs cpdp-b2b_protocol_engine_2_1
 
 ```Shell
 cd tests
-go test -run TestBGPRouteInstall
+go test -run TestIPv4BGPRouteInstall
+cd ..
 ```
 
 ## Destroy the lab
