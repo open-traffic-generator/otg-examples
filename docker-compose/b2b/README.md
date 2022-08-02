@@ -1,7 +1,7 @@
-# Ixia-c traffic engine back-to-back setup with `docker-compose`
+# Ixia-c traffic engine back-to-back setup with Docker Compose
 
 ## Overview
-This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected back-2-back using a veth pair. The lab is defined via `docker-compose` YAML file. Once the lab is up, a CLI tool [`otgen`](https://github.com/open-traffic-generator/otgen) is used to request Ixia-c to generate traffic and report statistics.
+This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected back-2-back using a veth pair. The lab is defined via Docker Compose YAML file. Once the lab is up, a CLI tool [`otgen`](https://github.com/open-traffic-generator/otgen) is used to request Ixia-c to generate traffic and report statistics.
 
 ![Diagram](./diagram.png)
 
@@ -39,7 +39,7 @@ sudo sysctl net.ipv6.conf.veth0.disable_ipv6=1
 sudo sysctl net.ipv6.conf.veth1.disable_ipv6=1
 ```
 
-2. Create YAML file for `docker-compose` with veth interfaces assigned to `ixia-c-traffic-engine` containers
+2. Create YAML file for Docker Compose with veth interfaces assigned to `ixia-c-traffic-engine` containers
 
 ```Shell
 cat > ixia-c-b2b.yml << EOF
