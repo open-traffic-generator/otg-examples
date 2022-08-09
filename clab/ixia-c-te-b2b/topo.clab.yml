@@ -9,6 +9,8 @@ topology:
     te1:
       kind: linux
       image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+      exec:
+        - ip address add 192.0.2.1/30 dev eth1
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth1
@@ -18,6 +20,8 @@ topology:
     te2:
       kind: linux
       image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+      exec:
+        - ip address add 192.0.2.2/30 dev eth1
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth1
