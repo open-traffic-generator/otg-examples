@@ -20,10 +20,10 @@ flows:
     ethernet:
       dst:
         choice: value
-        value: 00:00:00:00:00:bb
+        value: 00:00:00:00:11:bb
       src:
         choice: value
-        value: 00:00:00:00:00:aa
+        value: 00:00:00:00:11:aa
   - choice: ipv4
     ipv4:
       dst:
@@ -59,7 +59,7 @@ flows:
     choice: fixed_packets
     fixed_packets:
       gap: 12
-      packets: 1000
+      packets: 500
   rate:
     choice: pps
     pps: 100
@@ -75,10 +75,10 @@ flows:
     ethernet:
       dst:
         choice: value
-        value: 00:00:00:00:00:aa
+        value: 00:00:00:00:22:bb
       src:
         choice: value
-        value: 00:00:00:00:00:bb
+        value: 00:00:00:00:22:aa
   - choice: ipv4
     ipv4:
       dst:

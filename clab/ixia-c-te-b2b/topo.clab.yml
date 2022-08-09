@@ -11,17 +11,26 @@ topology:
       image: ixiacom/ixia-c-traffic-engine:1.4.1.29
       exec:
         - ip address add 192.0.2.1/30 dev eth1
+        - ip route add 192.0.2.4/30 via 192.0.2.2
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth1
         OPT_NO_HUGEPAGES: Yes
         OPT_NO_PINNING: Yes
         WAIT_FOR_IFACE: Yes
+    frr:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+      - ./frr/daemons:/etc/frr/daemons
+      - ./frr/frr.conf:/etc/frr/frr.conf
+      - ./frr/vtysh.conf:/etc/frr/vtysh.conf
     te2:
       kind: linux
       image: ixiacom/ixia-c-traffic-engine:1.4.1.29
       exec:
-        - ip address add 192.0.2.2/30 dev eth1
+        - ip address add 192.0.2.5/30 dev eth1
+        - ip route add 192.0.2.0/30 via 192.0.2.6
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth1
@@ -30,4 +39,5 @@ topology:
         WAIT_FOR_IFACE: Yes
 
   links:
-    - endpoints: ["te1:eth1","te2:eth1"]
+    - endpoints: ["te1:eth1","frr:eth1"]
+    - endpoints: ["te2:eth1","frr:eth2"]

@@ -37,10 +37,19 @@ cd otg-examples/clab/ixia-c-te-b2b
 sudo containerlab deploy
 ````
 
+## Read MAC address info
+
+```Shell
+TE1SMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[0]["a"].mac'`
+TE1DMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[0]["z"].mac'`
+TE2SMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[1]["a"].mac'`
+TE2DMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[1]["z"].mac'`
+```
+
 ## Run `otgen` test
 
 ```Shell
-cat otg.yml | otgen run -k -a https://clab-ixcteb2b-ixc | otgen transform -m port | otgen display -m table
+cat otg.yml | sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | otgen run -k -a https://clab-ixcteb2b-ixc | otgen transform -m port | otgen display -m table
 ````
 
 ## Destroy the lab
