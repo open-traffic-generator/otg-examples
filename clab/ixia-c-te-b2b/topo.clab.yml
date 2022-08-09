@@ -1,0 +1,29 @@
+name: ixcteb2b
+topology:
+  nodes:
+    ixc:
+      kind: linux
+      image: ixiacom/ixia-c-controller:0.0.1-3027
+      cmd: --accept-eula --http-port 443
+      
+    te1:
+      kind: linux
+      image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+    te2:
+      kind: linux
+      image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+
+  links:
+    - endpoints: ["te1:eth1","te2:eth1"]
