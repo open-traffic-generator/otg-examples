@@ -1,7 +1,7 @@
-# Containerlab with Ixia-c Traffic Engine and FRR
+# Ixia-c Traffic Engine and FRR with Containerlab
 
 ## Overview
-In this Containerlab based setup, we demonstrate how to directly deploy Ixia-c Traffic Engine nodes, instead of using Ixia-c-one node type. This setup has an FRR container as a Device Under Test (DUT). Finally, we use `otgen` CLI tool to run the test and report statistics.
+In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test (DUT). Finally, we use `otgen` CLI tool to run the test and report statistics.
 
 ## Preprequisites
 
