@@ -1,7 +1,7 @@
-# Containerlab with Ixia-c Traffic Engine Back-2-Back
+# Containerlab with Ixia-c Traffic Engine and FRR
 
 ## Overview
-In this Containerlab-based setup, we demonstrate how to directly deploy Ixia-c Traffic Engine nodes, instead of using Ixia-c-one node type.
+In this Containerlab based setup, we demonstrate how to directly deploy Ixia-c Traffic Engine nodes, instead of using Ixia-c-one node type. This setup has an FRR container as a Device Under Test (DUT). Finally, we use `otgen` CLI tool to run the test and report statistics.
 
 ## Preprequisites
 
@@ -22,13 +22,13 @@ In this Containerlab-based setup, we demonstrate how to directly deploy Ixia-c T
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
 ```Shell
-git clone --recurse-submodules https://github.com/open-traffic-generator/otg-examples.git
+git clone https://github.com/open-traffic-generator/otg-examples.git
 ````
 
 2. Navigate to the lab folder
 
 ```Shell
-cd otg-examples/clab/ixia-c-te-b2b
+cd otg-examples/clab/ixia-c-te-frr
 ````
 
 ## Deploy a lab
@@ -40,10 +40,10 @@ sudo containerlab deploy
 ## Read MAC address info
 
 ```Shell
-TE1SMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[0]["a"].mac'`
-TE1DMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[0]["z"].mac'`
-TE2SMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[1]["a"].mac'`
-TE2DMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[1]["z"].mac'`
+TE1SMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[0]["a"].mac'`
+TE1DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[0]["z"].mac'`
+TE2SMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["a"].mac'`
+TE2DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["z"].mac'`
 ```
 
 ## Run `otgen` test
@@ -52,7 +52,7 @@ TE2DMAC=`cat clab-ixcteb2b/topology-data.json | jq -r '.links[1]["z"].mac'`
 cat otg.yml | \
 sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
 sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-otgen run -k -a https://clab-ixcteb2b-ixc | \
+otgen run -k -a https://clab-ixctefrr-ixc | \
 otgen transform -m port | \
 otgen display -m table
 ````
