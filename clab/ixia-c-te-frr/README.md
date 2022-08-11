@@ -5,6 +5,10 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ![Diagram](./diagram.png)
 
+Lab layer 3 topology and generated traffic flows:
+
+![IP Diagram](./ip-diagram.png)
+
 ## Preprequisites
 
 * Linux host or VM with sudo permissions and Docker support
