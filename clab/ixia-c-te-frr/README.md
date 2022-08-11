@@ -3,9 +3,11 @@
 ## Overview
 In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test (DUT). Finally, we use `otgen` CLI tool to run the test and report statistics.
 
+### Diagram
+
 ![Diagram](./diagram.png)
 
-Lab layer 3 topology and generated traffic flows:
+### Layer 3 topology and generated traffic flows
 
 ![IP Diagram](./ip-diagram.png)
 
