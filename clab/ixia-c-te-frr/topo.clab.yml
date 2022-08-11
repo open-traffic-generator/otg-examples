@@ -1,4 +1,4 @@
-name: ixctefrr
+name: ixctedut
 topology:
   nodes:
     ixc:
@@ -19,7 +19,7 @@ topology:
         OPT_NO_HUGEPAGES: Yes
         OPT_NO_PINNING: Yes
         WAIT_FOR_IFACE: Yes
-    frr:
+    dut:
       kind: linux
       image: frrouting/frr:v8.2.2
       binds:
@@ -40,5 +40,5 @@ topology:
         WAIT_FOR_IFACE: Yes
 
   links:
-    - endpoints: ["te1:eth1","frr:eth1"]
-    - endpoints: ["te2:eth1","frr:eth2"]
+    - endpoints: ["te1:eth1","dut:eth1"]
+    - endpoints: ["te2:eth1","dut:eth2"]

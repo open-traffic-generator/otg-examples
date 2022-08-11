@@ -42,10 +42,10 @@ sudo containerlab deploy
 ## Read MAC address info
 
 ```Shell
-TE1SMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[0]["a"].mac'`
-TE1DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[0]["z"].mac'`
-TE2SMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["a"].mac'`
-TE2DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["z"].mac'`
+TE1SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["a"].mac'`
+TE1DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["z"].mac'`
+TE2SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["a"].mac'`
+TE2DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["z"].mac'`
 ```
 
 ## Run `otgen` test
@@ -54,7 +54,7 @@ TE2DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["z"].mac'`
 cat otg.yml | \
 sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
 sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-otgen run -k | \
+otgen run -k 2>/dev/null| \
 otgen transform -m port | \
 otgen display -m table
 ````
