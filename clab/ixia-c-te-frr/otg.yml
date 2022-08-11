@@ -1,0 +1,116 @@
+flows:
+- name: p1>p2
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 1000
+  rate:
+    choice: pps
+    pps: 100
+  size:
+    choice: fixed
+    fixed: 512
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: 00:00:00:00:11:bb
+      src:
+        choice: value
+        value: 00:00:00:00:11:aa
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: increment
+        increment:
+          start: 203.0.113.1
+          step: 0.0.0.1
+          count: 100
+      src:
+        choice: increment
+        increment:
+          start: 198.51.100.1
+          step: 0.0.0.1
+          count: 100
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 80
+      src_port:
+        choice: increment
+        increment:
+          start: 23250
+          step: 7
+          count: 100
+  tx_rx:
+    choice: port
+    port:
+      tx_name: p1
+      rx_name: p2
+- name: p2>p1
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 500
+  rate:
+    choice: pps
+    pps: 100
+  size:
+    choice: fixed
+    fixed: 512
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: 00:00:00:00:22:bb
+      src:
+        choice: value
+        value: 00:00:00:00:22:aa
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: increment
+        increment:
+          start: 198.51.100.1
+          step: 0.0.0.1
+          count: 100
+      src:
+        choice: increment
+        increment:
+          start: 203.0.113.1
+          step: 0.0.0.1
+          count: 100
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 80
+      src_port:
+        choice: increment
+        increment:
+          start: 23250
+          step: 7
+          count: 100
+  tx_rx:
+    choice: port
+    port:
+      tx_name: p2
+      rx_name: p1
+ports:
+- location: te1:5555
+  name: p1
+- location: te2:5555
+  name: p2
