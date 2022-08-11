@@ -43,7 +43,9 @@ cd otg-examples/clab/ixia-c-te-frr
 sudo containerlab deploy
 ````
 
-## Read MAC address info
+## Run traffic
+
+1. Read MAC addresses assigned to the nodes
 
 ```Shell
 TE1SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["a"].mac'`
@@ -52,7 +54,7 @@ TE2SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["a"].mac'`
 TE2DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["z"].mac'`
 ```
 
-## Run `otgen` test
+2. Run traffic defined in [otg.yml](otg.yml) with `otgen` tool, taking care to replace stub MAC addresses with current values
 
 ```Shell
 cat otg.yml | \
