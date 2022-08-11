@@ -3,6 +3,8 @@
 ## Overview
 In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test (DUT). Finally, we use `otgen` CLI tool to run the test and report statistics.
 
+![Diagram](./diagram.png)
+
 ## Preprequisites
 
 * Linux host or VM with sudo permissions and Docker support
@@ -52,7 +54,7 @@ TE2DMAC=`cat clab-ixctefrr/topology-data.json | jq -r '.links[1]["z"].mac'`
 cat otg.yml | \
 sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
 sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-otgen run -k -a https://clab-ixctefrr-ixc | \
+otgen run -k | \
 otgen transform -m port | \
 otgen display -m table
 ````

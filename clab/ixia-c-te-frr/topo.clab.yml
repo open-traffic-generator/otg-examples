@@ -5,7 +5,8 @@ topology:
       kind: linux
       image: ixiacom/ixia-c-controller:0.0.1-3027
       cmd: --accept-eula --http-port 443
-      
+      ports:
+        - 443:443
     te1:
       kind: linux
       image: ixiacom/ixia-c-traffic-engine:1.4.1.29
