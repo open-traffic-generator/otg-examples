@@ -1,10 +1,9 @@
-# Keysight Elastic Traffic Generator traffic engine back-to-back setup with Docker Compose
+# KENG traffic engine back-to-back setup with Docker Compose
 
 ## Overview
-This lab is an extension of Ixia-c back-to-back traffic engine setup. Free version of Ixia-c supports up to 4 traffic engine ports. If number of ports you need exceeds four, a commercial subscription to Ixia-c – Keysight Elastic Traffic Generator - should be used. In this setup, we're using an evaluation copy of Keysight Elastic Traffic Generator controller, which is set to expire by 9/30/2022. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
+This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of Keysight Elastic Traffic Generator controller, which is set to expire on 9/30/2022. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
 
 ![Diagram](./diagram.3pairs.png)
-
 
 ## Preprequisites
 
