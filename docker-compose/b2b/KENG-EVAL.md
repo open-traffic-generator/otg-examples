@@ -27,6 +27,12 @@ sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
 
+3. Clone this repository
+
+```Shell
+git clone --branch cpdp-b2b https://github.com/open-traffic-generator/otg-examples.git
+```
+
 ## Deploy lab
 
 1. Create 3 veth pairs
@@ -54,6 +60,7 @@ sudo sysctl net.ipv6.conf.veth5.disable_ipv6=1
 2. Launch the deployment and adjust MTUs on the veth pair
 
 ```Shell
+cd otg-examples/docker-compose/b2b
 sudo docker-compose -f keng-te-eval-b2b.yml up -d 
 sudo ip link set veth0 mtu 9500
 sudo ip link set veth1 mtu 9500

@@ -24,7 +24,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 2. Clone this repository
 
 ```Shell
-git clone --branch cpdp-b2b https://github.com/open-traffic-generator/otg-examples.git
+git clone https://github.com/open-traffic-generator/otg-examples.git
 ```
 
 ## Deploy Ixia-c lab
