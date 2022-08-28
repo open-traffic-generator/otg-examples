@@ -1,11 +1,11 @@
-# KENG back-to-back setup with Docker Compose
+# KENG back-to-back BGP and traffic setup with Docker Compose
 
 ## Overview
 This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP. In this lab, [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected back-2-back using a veth pair. In addition, two protocol engines share network namespaces with respective traffic ports. The lab is defined via Docker Compose YAML file. Once the lab is up, a test Go package is used to request KENG to bring up a BGP session between two ports, generate traffic and report statistics.
 
 ![Diagram](./diagram.png)
 
-## Preprequisites
+## Prerequisites
 
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support
@@ -24,7 +24,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 2. Clone this repository
 
 ```Shell
-git clone --branch cpdp-b2b https://github.com/open-traffic-generator/otg-examples.git
+git clone https://github.com/open-traffic-generator/otg-examples.git
 ```
 
 ## Deploy Ixia-c lab

@@ -3,7 +3,7 @@
 ## Overview
 This is a simple lab where an Ixia-c-one node has two traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate basics of creating a Python program to control Ixia-c via [`snappi`](https://github.com/open-traffic-generator/snappi) SDK.
 
-## Preprequisites
+## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
 * `git` - how to install depends on your Linux distro.

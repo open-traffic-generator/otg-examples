@@ -8,7 +8,7 @@ Read a [blog post](https://blogs.keysight.com/blogs/tech/traf-gen.entry.html/202
 
 ![Diagram](diagram.png)
 
-## Preprequisites
+## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
 * `git` - how to install depends on your Linux distro.

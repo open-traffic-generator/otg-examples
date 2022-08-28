@@ -5,7 +5,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
 ![Diagram](./diagram.png)
 
-## Preprequisites
+## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
