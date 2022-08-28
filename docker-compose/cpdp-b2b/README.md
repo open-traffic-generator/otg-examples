@@ -5,7 +5,7 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
 ![Diagram](./diagram.png)
 
-## Preprequisites
+## Prerequisites
 
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support

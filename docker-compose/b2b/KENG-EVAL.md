@@ -5,7 +5,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 
 ![Diagram](./diagram.3pairs.png)
 
-## Preprequisites
+## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)

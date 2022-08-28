@@ -11,7 +11,7 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ![IP Diagram](./ip-diagram.png)
 
-## Preprequisites
+## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
 * `git` - how to install depends on your Linux distro.
