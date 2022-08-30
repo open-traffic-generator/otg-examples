@@ -115,7 +115,7 @@ cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow 
 cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
 ````
 
-5. Now report packet per second rate, as a line chart (end with `Crtl-c`)
+5. Now report packet per second rate, as a line chart (end with `Ctrl-c`)
 
 ```Shell
 cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
