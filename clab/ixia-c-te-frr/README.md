@@ -25,7 +25,7 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
     sudo chmod +x /usr/local/bin/otgen
     ```
 
-* Make sure `/use/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+* Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
     ```Shell
     cmd=otgen

@@ -27,7 +27,7 @@ sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
 
-3. Make sure `/use/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
 ```Shell
 cmd=docker-compose
