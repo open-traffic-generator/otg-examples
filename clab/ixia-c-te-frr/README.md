@@ -25,6 +25,18 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
     sudo chmod +x /usr/local/bin/otgen
     ```
 
+* Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+
+    ```Shell
+    cmd=otgen
+    dir=/usr/local/bin
+    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
+      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
+      PATH="/usr/local/bin:${PATH}"
+      echo $PATH
+    fi
+    ```
+
 ## Clone the repository
 
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
