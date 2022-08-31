@@ -21,7 +21,19 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-2. Clone this repository
+2. Make sure `/use/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+
+```Shell
+cmd=docker-compose
+dir=/usr/local/bin
+if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
+  echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
+  PATH="/usr/local/bin:${PATH}"
+  echo $PATH
+fi
+```
+
+1. Clone this repository
 
 ```Shell
 git clone https://github.com/open-traffic-generator/otg-examples.git

@@ -27,6 +27,18 @@ sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
 
+3. Make sure `/use/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+
+```Shell
+cmd=docker-compose
+dir=/usr/local/bin
+if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
+  echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
+  PATH="/usr/local/bin:${PATH}"
+  echo $PATH
+fi
+```
+
 ## Deploy Ixia-c lab
 
 1. Create veth pair `veth0 - veth1`
