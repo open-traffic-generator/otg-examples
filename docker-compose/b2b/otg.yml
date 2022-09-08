@@ -1,5 +1,5 @@
 flows:
-- name: p1>p2
+- name: p1-p2
   duration:
     choice: fixed_packets
     fixed_packets:
