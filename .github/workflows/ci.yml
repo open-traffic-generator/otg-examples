@@ -30,25 +30,25 @@ jobs:
       docker-compose-b2b: ${{ steps.changes.outputs.docker-compose-b2b }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: 'true'
-    - uses: dorny/paths-filter@v2
-      id: changes
-      with:
-        filters: |
-          docker-compose-b2b:
-          - '.github/workflows/ci.yml'
-          - 'docker-compose/b2b/**'
-          clab-rtbh:
-          - '.github/workflows/ci.yml'
-      - 'clab/rtbh/**'
-    - name: docker-compose b2b
-      if: steps.changes.outputs.docker-compose-b2b == 'true'
-      run: echo "Run docker-compose b2b CI"
-    - name: clab rtbh
-      if: steps.changes.outputs.clab-rtbh == 'true'
-      run: echo "Run Clab RTBH CI"
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            docker-compose-b2b:
+            - '.github/workflows/ci.yml'
+            - 'docker-compose/b2b/**'
+            clab-rtbh:
+            - '.github/workflows/ci.yml'
+            - 'clab/rtbh/**'
+      - name: docker-compose b2b
+        if: steps.changes.outputs.docker-compose-b2b == 'true'
+        run: echo "Run docker-compose b2b CI"
+      - name: clab rtbh
+        if: steps.changes.outputs.clab-rtbh == 'true'
+        run: echo "Run Clab RTBH CI"
   docker-compose-b2b:
     name: Run docker-compose b2b CI
     runs-on: ubuntu-20.04
