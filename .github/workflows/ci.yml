@@ -7,26 +7,48 @@ on:
       - '.github/workflows/ci.yml'
       - 'docker-compose/b2b/Makefile'
       - 'docker-compose/b2b/**.yml'
-      - 'docker-compose/b2b/**.yml'
   pull_request:
     branches: [ "main" ]
     paths:
       - '.github/workflows/ci.yml'
       - 'docker-compose/b2b/Makefile'
       - 'docker-compose/b2b/**.yml'
-      - 'docker-compose/b2b/**.yml'
   workflow_dispatch:
 
 jobs:
-  docker-compose-b2b:
-    name: Run docker-compose b2b lab
+  paths-filter:
+    name: Filter changes to subfolders
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: ./docker-compose/b2b
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: 'true'
-    - name: Run all
-      run:  make all
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          docker-compose-b2b:
+          - 'docker-compose/b2b/**'
+    - name: docker-compose b2b
+      if: steps.changes.outputs.docker-compose.b2b == 'true'
+      run: echo "Run docker-compose b2b CI"
+  docker-compose-b2b:
+    name: Run docker-compose b2b CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./docker-compose/b2b
+    if: steps.changes.outputs.docker-compose.b2b == 'true'
+      steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            docker-compose-b2b:
+            - 'docker-compose/b2b/**'
+      - name: Run all
+        run:  make all
