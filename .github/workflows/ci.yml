@@ -58,8 +58,11 @@ jobs:
         working-directory: ./docker-compose/b2b
     if: needs.paths-filter.outputs.docker-compose-b2b == 'true'
     steps:
-    - name: Run all
-      run:  make all
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Run all
+        run:  make all
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04
@@ -69,5 +72,8 @@ jobs:
         working-directory: ./clab/rtbh
     if: needs.paths-filter.outputs.clab-rtbh == 'true'
     steps:
-    - name: Run all
-      run:  make all
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Run all
+        run:  make all
