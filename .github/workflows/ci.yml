@@ -40,15 +40,15 @@ jobs:
       run:
         working-directory: ./docker-compose/b2b
     if: steps.changes.outputs.docker-compose.b2b == 'true'
-      steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            docker-compose-b2b:
-            - 'docker-compose/b2b/**'
-      - name: Run all
-        run:  make all
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          docker-compose-b2b:
+          - 'docker-compose/b2b/**'
+    - name: Run all
+      run:  make all
