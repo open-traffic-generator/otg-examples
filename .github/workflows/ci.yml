@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "**" ]
     paths:
+      - '.github/workflows/ci.yml'
+      - 'docker-compose/b2b/Makefile'
+      - 'docker-compose/b2b/**.yml'
       - 'docker-compose/b2b/**.yml'
 
 jobs:
