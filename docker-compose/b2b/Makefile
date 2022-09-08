@@ -79,10 +79,16 @@ otgen-run:
 	cat otg.yml | otgen run -k
 
 otgen-run-as-table-port:
-	cat otg.yml | otgen run -k 2>/dev/null | otgen transform -m port | otgen display -m table
+	@echo "cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
+	@echo "│Port│  FramesTx │  FramesRx │Port│  FramesTx │  FramesRx │"
+	@cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
 
 otgen-run-as-table-flow:
-	cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
+	@echo "cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
+	@echo "│ Flow  │  FramesTx │  FramesRx │"
+	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
 
 otgen-run-as-table-flow-bytes:
-	cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
+	@echo "cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
+	@echo "│ Flow  │   BytesTx │   BytesRx │"
+	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
