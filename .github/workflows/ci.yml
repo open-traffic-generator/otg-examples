@@ -19,6 +19,8 @@ jobs:
   paths-filter:
     name: Filter changes to subfolders
     runs-on: ubuntu-20.04
+    outputs:
+      docker-compose-b2b: ${{ steps.changes.outputs.docker-compose.b2b }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -39,7 +41,7 @@ jobs:
     defaults:
       run:
         working-directory: ./docker-compose/b2b
-    if: steps.changes.outputs.docker-compose.b2b == 'true'
+    if: needs.paths-filter.outputs.docker-compose-b2b == 'true'
     steps:
     - uses: actions/checkout@v3
       with:
