@@ -8,6 +8,14 @@ on:
       - 'docker-compose/b2b/Makefile'
       - 'docker-compose/b2b/**.yml'
       - 'docker-compose/b2b/**.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/ci.yml'
+      - 'docker-compose/b2b/Makefile'
+      - 'docker-compose/b2b/**.yml'
+      - 'docker-compose/b2b/**.yml'
+  workflow_dispatch:
 
 jobs:
   docker-compose-b2b:
