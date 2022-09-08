@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches: [ "**" ]
+    paths:
+      - 'docker-compose/b2b/**.yml'
+
+jobs:
+  run-labs:
+    name: Run otg-example labs
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker-compose B2B lab
+      run:  make all
+        working-directory: ./docker-compose/b2b
