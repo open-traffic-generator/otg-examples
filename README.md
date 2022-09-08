@@ -1,4 +1,5 @@
 # Open Traffic Generator examples
+[![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
 
 ## Basic examples
 
