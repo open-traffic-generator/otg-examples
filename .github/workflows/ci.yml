@@ -7,11 +7,13 @@ on:
       - 'docker-compose/b2b/**.yml'
 
 jobs:
-  run-labs:
-    name: Run otg-example labs
+  docker-compose-b2b:
+    name: Run docker-compose b2b lab
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./docker-compose/b2b
     steps:
     - uses: actions/checkout@v3
-    - name: Docker-compose B2B lab
+    - name: Run all
       run:  make all
-        working-directory: ./docker-compose/b2b
