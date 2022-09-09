@@ -7,7 +7,7 @@ topology:
   nodes:
     pe-router:
       kind: linux
-      image: frrouting/frr:v7.3.1
+      image: frrouting/frr:v7.3.0
       mgmt_ipv4: 172.100.100.2
       mgmt_ipv6: 2001:172:100:100::2
       binds:
