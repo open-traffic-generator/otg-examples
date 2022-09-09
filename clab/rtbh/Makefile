@@ -52,6 +52,5 @@ remove-lab:
 .PHONY: run
 run: gosnappi-run
 
-# TODO run in a gosnappi container
 gosnappi-run:
-	go test -dstMac=$$(sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \$$2}")
+	sudo docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=$$(sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk '{print $$2}')"
