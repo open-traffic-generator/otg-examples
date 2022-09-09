@@ -54,4 +54,5 @@ run: gosnappi-run
 
 gosnappi-run:
 	#sudo docker exec -t clab-rtbh-gosnappi bash -c "go test -dstMac=$$(sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk '{print $$2}')"
-	go test -dstMac=$$(sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk '{print $$2}')
+	go test -dstMac=$$(sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk '{print $$2}') \
+	-dstMac2=$$(sudo docker exec clab-rtbh-ce-router vtysh -c  'sh interface eth2 | include HWaddr' | awk '{print $$2}') \

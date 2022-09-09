@@ -14,7 +14,8 @@ const (
 )
 
 var (
-	dstMac   = "00:00:00:00:00:00" // Destination MAC for flows
+	dstMac   = "00:00:00:00:00:00" // Destination MAC for flows on p1
+	dstMac2  = "00:00:00:00:00:00" // Destination MAC for flows on p2
 	pktCount = 0                   // Number of packets to transmit
 	ratePPS  = 0                   // Rate to transmit at in packets per second
 )
@@ -32,7 +33,9 @@ func init() {
 	}
 
 	// replace value of dstMac with actual MAC of DUT interface connected to otgPort1
-	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for all packets")
+	flag.StringVar(&dstMac, "dstMac", dstMac, "Destination MAC address to be used for packets from p1")
+	// replace value of dstMac with actual MAC of DUT interface connected to otgPort2
+	flag.StringVar(&dstMac2, "dstMac2", dstMac2, "Destination MAC address to be used for packets from p2")
 	// Initialize packet count to transmit
 	flag.IntVar(&pktCount, "pktCount", pktCount, "Number of packets to transmit")
 	// Initialize packet rate to transmit

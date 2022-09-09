@@ -35,6 +35,7 @@ func Test_RTBH_IPv4_Normal_Traffic(t *testing.T) {
 		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, true}, // pktCount (rate * sec * min), ratePPS, positiveTest
 		"Attackers-2-Victim": &flowProfile{1000 * 10 * 1, 1000, true}, // pktCount (rate * sec * min), ratePPS, positiveTest
 		"Users-2-Bystander":  &flowProfile{2000 * 10 * 1, 2000, true}, // pktCount (rate * sec * min), ratePPS, positiveTest
+		"Bystander-2-Users":  &flowProfile{2000 * 10 * 1, 2000, true}, // pktCount (rate * sec * min), ratePPS, positiveTest
 	}
 
 	// override if requested via flags (see init.go)
@@ -66,6 +67,7 @@ func Test_RTBH_IPv4_DDoS_Traffic(t *testing.T) {
 		"Users-2-Victim":     &flowProfile{3000 * 10 * 1, 3000, false},   // pktCount (rate * sec * min), ratePPS, positiveTest
 		"Attackers-2-Victim": &flowProfile{20000 * 10 * 1, 20000, false}, // pktCount (rate * sec * min), ratePPS, positiveTest
 		"Users-2-Bystander":  &flowProfile{2000 * 10 * 1, 2000, true},    // pktCount (rate * sec * min), ratePPS, positiveTest
+		"Bystander-2-Users":  &flowProfile{2000 * 10 * 1, 2000, true},    // pktCount (rate * sec * min), ratePPS, positiveTest
 	}
 
 	config = updateConfigFlows(config, fps)
@@ -214,9 +216,14 @@ func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.C
 		// Set destination MAC
 		for _, h := range f.Packet().Items() {
 			if h.Choice() == "ethernet" {
-				h.Ethernet().Dst().SetValue(dstMac)
+				if f.TxRx().Port().TxName() == "p1" {
+					h.Ethernet().Dst().SetValue(dstMac)
+				} else {
+					h.Ethernet().Dst().SetValue(dstMac2)
+				}
 			}
 		}
+
 	}
 
 	return config

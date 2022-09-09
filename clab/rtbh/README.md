@@ -58,7 +58,8 @@ Execute the test by running `go test` in `clab-rtbh-gosnappi` container. Note, i
 
 ```Shell
 DMAC=`sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
-sudo docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
+DMAC2=`sudo docker exec clab-rtbh-ce-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
+sudo docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC} -dstMac2=${DMAC2}"
 ````
 
 ## Destroy the lab

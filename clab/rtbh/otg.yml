@@ -155,6 +155,55 @@ flows:
     port:
       rx_name: p2
       tx_name: p1
+- name: Bystander-2-Users
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 1000
+  rate:
+    choice: pps
+    pps: 100
+  size:
+    choice: fixed
+    fixed: 512
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: 00:00:00:00:00:00
+      src:
+        choice: value
+        value: 00:00:00:00:00:bb
+  - choice: ipv4
+    ipv4:
+      src:
+        choice: value
+        value: 192.0.2.202
+      dst:
+        choice: value
+        value: 198.51.100.2
+  - choice: tcp
+    tcp:
+      src_port:
+        choice: value
+        value: 80
+      dst_port:
+        choice: increment
+        increment:
+          start: 23250
+          step: 7
+          count: 100
+  tx_rx:
+    choice: port
+    port:
+      rx_name: p1
+      tx_name: p2
 ports:
 - location: eth1
   name: p1
