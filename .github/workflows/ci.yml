@@ -4,19 +4,18 @@ on:
   push:
     branches: [ "**" ]
     paths:
-      - '.github/workflows/ci.yml'
-      - 'docker-compose/b2b/Makefile'
-      - 'docker-compose/b2b/**.yml'
-      - 'clab/rtbh/Makefile'
+      - 'docker-compose/b2b/**'
+      - '!docker-compose/b2b/**.md'
+      - '!docker-compose/b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
   pull_request:
     branches: [ "main" ]
     paths:
-      - '.github/workflows/ci.yml'
-      - 'docker-compose/b2b/Makefile'
-      - 'docker-compose/b2b/**.yml'
+      - 'docker-compose/b2b/**'
+      - '!docker-compose/b2b/**.md'
+      - '!docker-compose/b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -38,10 +37,8 @@ jobs:
         with:
           filters: |
             docker-compose-b2b:
-            - '.github/workflows/ci.yml'
             - 'docker-compose/b2b/**'
             clab-rtbh:
-            - '.github/workflows/ci.yml'
             - 'clab/rtbh/**'
       - name: docker-compose b2b
         if: steps.changes.outputs.docker-compose-b2b == 'true'
