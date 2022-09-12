@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/open-traffic-generator/otg-examples v0.0.0-20220802143508-a81f2c7fbcf2
-	github.com/open-traffic-generator/snappi/gosnappi v0.8.5
+	github.com/open-traffic-generator/snappi/gosnappi v0.9.3
 )
 
 require (
@@ -25,8 +25,8 @@ require (
 	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20211129164237-f09f9a12af12 // indirect
-	google.golang.org/grpc v1.48.0 // indirect
-	google.golang.org/protobuf v1.28.0 // indirect
+	google.golang.org/grpc v1.49.0 // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
