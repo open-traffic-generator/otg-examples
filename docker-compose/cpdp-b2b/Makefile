@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install deploy run
+all: install pull deploy run
 
 .PHONY: clean
 clean: remove-lab
@@ -25,6 +25,23 @@ install-clean:
 	-sudo rm -f `command -v docker-compose`
 
 ###############################
+# Pull images
+###############################
+
+.PHONY: pull
+pull: pull-public pull-private
+
+pull-public:
+	docker-compose pull traffic_engine_1
+	
+pull-private: docker-login
+	docker-compose pull controller protocol_engine_1
+
+docker-login:
+	@if [ -n "${GITHUB_USER}" ] && [ -n "${GITHUB_PAT}" ]; then echo "${GITHUB_PAT}" | docker login -u"${GITHUB_USER}" --password-stdin ghcr.io; fi
+	
+
+###############################
 # Deploy lab
 ###############################
 
@@ -32,13 +49,13 @@ install-clean:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo docker-compose -f cpdp-b2b.yml up -d
+	sudo docker-compose up -d
 
 deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
 
 remove-lab:
-	docker-compose -f cpdp-b2b.yml down
+	docker-compose down
 
 ###############################
 # Run tests
