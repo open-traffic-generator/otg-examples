@@ -67,6 +67,7 @@ run: prerun gotest-run
 # pause for ixia-c-controller to detect newly created interfaces
 prerun:
 	sleep 3
+	sudo docker ps
 
 gotest-run:
 	cd tests; go test -run TestIPv4BGPRouteInstall
