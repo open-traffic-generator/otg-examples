@@ -7,6 +7,9 @@ on:
       - 'docker-compose/b2b/**'
       - '!docker-compose/b2b/**.md'
       - '!docker-compose/b2b/**.png'
+      - 'docker-compose/cpdp-b2b/**'
+      - '!docker-compose/cpdp-b2b/**.md'
+      - '!docker-compose/cpdp-b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -16,6 +19,9 @@ on:
       - 'docker-compose/b2b/**'
       - '!docker-compose/b2b/**.md'
       - '!docker-compose/b2b/**.png'
+      - 'docker-compose/cpdp-b2b/**'
+      - '!docker-compose/cpdp-b2b/**.md'
+      - '!docker-compose/cpdp-b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -27,6 +33,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       docker-compose-b2b: ${{ steps.changes.outputs.docker-compose-b2b }}
+      docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -38,11 +45,16 @@ jobs:
           filters: |
             docker-compose-b2b:
             - 'docker-compose/b2b/**'
+            docker-compose-cpdp-b2b:
+            - 'docker-compose/cpdp-b2b/**'
             clab-rtbh:
             - 'clab/rtbh/**'
       - name: docker-compose b2b
         if: steps.changes.outputs.docker-compose-b2b == 'true'
         run: echo "Run docker-compose b2b CI"
+      - name: docker-compose cpdp-b2b
+        if: steps.changes.outputs.docker-compose-cpdp-b2b == 'true'
+        run: echo "Run docker-compose cpdp-b2b CI"
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
@@ -54,6 +66,20 @@ jobs:
       run:
         working-directory: ./docker-compose/b2b
     if: needs.paths-filter.outputs.docker-compose-b2b == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Run all
+        run:  make all
+  docker-compose-cpdp-b2b:
+    name: Run docker-compose cpdp-b2b CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./docker-compose/cpdp-b2b
+    if: needs.paths-filter.outputs.docker-compose-cpdp-b2b == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
