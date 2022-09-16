@@ -45,7 +45,7 @@ git clone https://github.com/open-traffic-generator/otg-examples.git
 
 ```Shell
 cd otg-examples/docker-compose/cpdp-b2b
-sudo docker-compose -f cpdp-b2b.yml up -d 
+sudo docker-compose up -d 
 sudo docker ps
 ```
 
@@ -88,7 +88,7 @@ cd ..
 To destroy the lab, including veth pair, use:
 
 ```Shell
-docker-compose -f cpdp-b2b.yml down
+docker-compose down
 ````
 
 ## Credits
