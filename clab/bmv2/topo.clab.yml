@@ -1,0 +1,24 @@
+name: bmv2
+topology:
+  nodes:
+    p4c:
+      kind: linux
+      image: p4lang/p4c:latest
+      binds:
+        - ./p4:/p4
+      exec:
+        - bash -c "cd /p4; p4c --target bmv2 --arch v1model --std p4-16 demo1.p4_16.p4"
+    switch:
+      kind: linux
+      image: p4lang/behavioral-model:latest
+      binds:
+        - ./p4:/p4
+      cmd: simple_switch -i 0@eth1 -i 1@eth2 /p4/demo1.p4_16.json
+      wait-for:
+        - p4c
+    ixia:
+      kind: keysight_ixia-c-one
+      image: ghcr.io/open-traffic-generator/ixia-c-one:latest
+  links:
+    - endpoints: ["switch:eth1","ixia:eth1"]
+    - endpoints: ["switch:eth2","ixia:eth2"]

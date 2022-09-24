@@ -139,3 +139,5 @@ clab/srl-oper-group/opergroup-lab/
 *.pcap
 *.swp
 *.bak
+*.p4_16.p4i
+*.p4_16.json
