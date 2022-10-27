@@ -1,7 +1,7 @@
 # KENG three back-to-back pairs setup with Docker Compose
 
 ## Overview
-This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of the Keysight Elastic Traffic Generator controller, which is set to expire on 9/30/2022. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
+This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of the Keysight Elastic Traffic Generator controller. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
 
 ![Diagram](./diagram.png)
 
@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 2. Install `otgen`
 
 ```Shell
-curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
 sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
@@ -138,7 +138,7 @@ cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow 
 To destroy the lab, including veth pair, use:
 
 ```Shell
-docker-compose -f keng-te-eval-b2b.yml down
+sudo docker-compose -f keng-te-eval-b2b.yml down
 sudo ip link del name veth0 type veth peer name veth1
 sudo ip link del name veth2 type veth peer name veth3
 sudo ip link del name veth4 type veth peer name veth5
