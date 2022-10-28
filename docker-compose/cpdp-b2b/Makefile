@@ -34,12 +34,8 @@ pull: pull-public pull-private
 pull-public:
 	docker-compose pull traffic_engine_1
 	
-pull-private: docker-login
+pull-private:
 	docker-compose pull controller protocol_engine_1
-
-docker-login:
-	@if [ -n "${GITHUB_USER}" ] && [ -n "${GITHUB_PAT}" ]; then echo "${GITHUB_PAT}" | docker login -u"${GITHUB_USER}" --password-stdin ghcr.io; fi
-	
 
 ###############################
 # Deploy lab

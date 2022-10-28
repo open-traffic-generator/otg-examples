@@ -1,7 +1,7 @@
 # KENG three back-to-back pairs setup with Docker Compose
 
 ## Overview
-This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of the Keysight Elastic Traffic Generator controller, which is set to expire on 9/30/2022. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
+This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of the Keysight Elastic Traffic Generator controller. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
 
 ![Diagram](./diagram.png)
 
@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 2. Install `otgen`
 
 ```Shell
-curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
 sudo mv otgen /usr/local/bin/otgen
 sudo chmod +x /usr/local/bin/otgen
 ```
@@ -73,7 +73,7 @@ sudo sysctl net.ipv6.conf.veth5.disable_ipv6=1
 
 ```Shell
 cd otg-examples/docker-compose/b2b-3pair
-sudo docker-compose -f keng-te-eval-b2b.yml up -d 
+sudo docker-compose up -d 
 sudo ip link set veth0 mtu 9500
 sudo ip link set veth1 mtu 9500
 sudo ip link set veth2 mtu 9500
@@ -103,43 +103,43 @@ e205740a0f0d   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9     
 
 ## Run OTG traffic flows
 
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
+1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.3pairs.yml`. If successful, the result will come as OTG port metrics in JSON format
 
 ```Shell
-cat otg.3pairs.yml | otgen run -k
-````
+otgen run -k -f otg.3pairs.yml
+```
 
 2. You can now repeat this exercise, but transform output to a table
 
 ```Shell
-cat otg.3pairs.yml | otgen run -k 2>/dev/null | otgen transform -m port | otgen display -m table
-````
+otgen run -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
+```
 
 3. The same, but with flow metrics
 
 ```Shell
-cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
-````
+otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
+```
 
 4. The same, but with byte instead of frame count (only receive stats are reported)
 
 ```Shell
-cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
-````
+otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
+```
 
 5. Now report packet per second rate, as a line chart (end with `Ctrl-c`)
 
 ```Shell
-cat otg.3pairs.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
-````
+otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
+```
 
 ## Destroy the lab
 
 To destroy the lab, including veth pair, use:
 
 ```Shell
-docker-compose -f keng-te-eval-b2b.yml down
+sudo docker-compose down
 sudo ip link del name veth0 type veth peer name veth1
 sudo ip link del name veth2 type veth peer name veth3
 sudo ip link del name veth4 type veth peer name veth5
-````
+```
