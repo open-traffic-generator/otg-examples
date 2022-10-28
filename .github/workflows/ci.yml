@@ -97,7 +97,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Run all
-        run:  make all
+        run:  GITHUB_USER=${{ secrets.ENV_GITHUB_USER }} GITHUB_PAT=${{ secrets.ENV_GITHUB_PAT }} make all
   docker-compose-cpdp-b2b:
     name: Run docker-compose cpdp-b2b CI
     runs-on: ubuntu-20.04
