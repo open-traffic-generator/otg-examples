@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       docker-compose-b2b: ${{ steps.changes.outputs.docker-compose-b2b }}
-      docker-compose-b2b-3pair: ${{ steps.changes.outputs.docker-compose-b2-3pair }}
+      docker-compose-b2b-3pair: ${{ steps.changes.outputs.docker-compose-b2b-3pair }}
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
