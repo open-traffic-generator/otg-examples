@@ -58,6 +58,11 @@ jobs:
             - 'docker-compose/cpdp-b2b/**'
             clab-rtbh:
             - 'clab/rtbh/**'
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ENV_GITHUB_USER }}
+          password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: docker-compose b2b
         if: steps.changes.outputs.docker-compose-b2b == 'true'
         run: echo "Run docker-compose b2b CI"
@@ -97,7 +102,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Run all
-        run:  GITHUB_USER=${{ secrets.ENV_GITHUB_USER }} GITHUB_PAT=${{ secrets.ENV_GITHUB_PAT }} make all
+        run:  make all
   docker-compose-cpdp-b2b:
     name: Run docker-compose cpdp-b2b CI
     runs-on: ubuntu-20.04
@@ -111,7 +116,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Run all
-        run:  GITHUB_USER=${{ secrets.ENV_GITHUB_USER }} GITHUB_PAT=${{ secrets.ENV_GITHUB_PAT }} make all
+        run:  make all
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04
