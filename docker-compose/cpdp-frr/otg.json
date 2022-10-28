@@ -1,0 +1,142 @@
+{
+  "ports":  [
+    {
+      "location":  "localhost:5555+localhost:50071",
+      "name":  "p1"
+    },
+    {
+      "location":  "localhost:5556+localhost:50072",
+      "name":  "p2"
+    }
+  ],
+  "devices":  [
+    {
+      "ethernets":  [
+        {
+          "port_name":  "p1",
+          "ipv4_addresses":  [
+            {
+              "gateway":  "192.0.2.2",
+              "address":  "192.0.2.1",
+              "prefix":  30,
+              "name":  "otg1.eth[0].ipv4[0]"
+            }
+          ],
+          "mac":  "02:00:00:00:01:aa",
+          "mtu":  1500,
+          "name":  "otg1.eth[0]"
+        }
+      ],
+      "name":  "otg1"
+    },
+    {
+      "ethernets":  [
+        {
+          "port_name":  "p2",
+          "ipv4_addresses":  [
+            {
+              "gateway":  "192.0.2.6",
+              "address":  "192.0.2.5",
+              "prefix":  30,
+              "name":  "otg2.eth[0].ipv4[0]"
+            }
+          ],
+          "mac":  "02:00:00:00:02:aa",
+          "mtu":  1500,
+          "name":  "otg2.eth[0]"
+        }
+      ],
+      "name":  "otg2"
+    }
+  ],
+  "flows":  [
+    {
+      "tx_rx":  {
+        "choice":  "device",
+        "device":  {
+          "mode":  "mesh",
+          "tx_names":  [
+            "otg1.eth[0]"
+          ],
+          "rx_names":  [
+            "otg2.eth[0]"
+          ]
+        }
+      },
+      "packet":  [
+        {
+          "choice":  "ethernet",
+          "ethernet":  {
+            "dst":  {
+              "choice":  "value",
+              "value":  "32:bf:24:8c:3d:c7"
+            },
+            "src":  {
+              "choice":  "value",
+              "value":  "02:00:00:00:01:aa"
+            },
+            "ether_type":  {
+              "choice":  "auto",
+              "auto":  65535
+            }
+          }
+        },
+        {
+          "choice":  "ipv4",
+          "ipv4":  {
+            "version":  {
+              "choice":  "value",
+              "value":  4
+            },
+            "src":  {
+              "choice":  "value",
+              "value":  "192.0.2.1"
+            },
+            "dst":  {
+              "choice":  "value",
+              "value":  "192.0.2.5"
+            }
+          }
+        },
+        {
+          "choice":  "tcp",
+          "tcp":  {
+            "src_port":  {
+              "choice":  "increment",
+              "increment":  {
+                "start":  1024,
+                "step":  7,
+                "count":  64511
+              }
+            },
+            "dst_port":  {
+              "choice":  "value",
+              "value":  7
+            }
+          }
+        }
+      ],
+      "size":  {
+        "choice":  "fixed",
+        "fixed":  256
+      },
+      "rate":  {
+        "choice":  "pps",
+        "pps":  "1000"
+      },
+      "duration":  {
+        "choice":  "fixed_packets",
+        "fixed_packets":  {
+          "packets":  1000,
+          "gap":  12
+        }
+      },
+      "metrics":  {
+        "enable":  true,
+        "loss":  false,
+        "timestamps":  false
+      },
+      "name":  "f1"
+    }
+  ]
+}
