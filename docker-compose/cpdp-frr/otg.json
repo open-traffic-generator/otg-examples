@@ -56,10 +56,10 @@
         "device":  {
           "mode":  "mesh",
           "tx_names":  [
-            "otg1.eth[0]"
+            "otg1.eth[0].ipv4[0]"
           ],
           "rx_names":  [
-            "otg2.eth[0]"
+            "otg2.eth[0].ipv4[0]"
           ]
         }
       },
@@ -67,17 +67,9 @@
         {
           "choice":  "ethernet",
           "ethernet":  {
-            "dst":  {
-              "choice":  "value",
-              "value":  "32:bf:24:8c:3d:c7"
-            },
             "src":  {
               "choice":  "value",
               "value":  "02:00:00:00:01:aa"
-            },
-            "ether_type":  {
-              "choice":  "auto",
-              "auto":  65535
             }
           }
         },
@@ -90,11 +82,11 @@
             },
             "src":  {
               "choice":  "value",
-              "value":  "192.0.2.1"
+              "value":  "198.51.100.1"
             },
             "dst":  {
               "choice":  "value",
-              "value":  "192.0.2.5"
+              "value":  "203.0.113.1"
             }
           }
         },

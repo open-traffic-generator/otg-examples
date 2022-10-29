@@ -113,7 +113,7 @@ curl -sk "${OTG_HOST}/control/transmit" \
     -d '{"state": "start"}'
 ```
 
-5. Fetch port metrics
+5. Fetch port metrics (stop with `Ctrl-c`)
 
 ```Shell
 watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
@@ -123,7 +123,7 @@ watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
 ```
 
 
-6. Fetch flow metrics
+6. Fetch flow metrics (stop with `Ctrl-c`)
 
 ```Shell
 watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
