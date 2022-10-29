@@ -27,6 +27,39 @@
           "name":  "otg1.eth[0]"
         }
       ],
+      "bgp":  {
+        "router_id":  "1.1.1.1",
+        "ipv4_interfaces":  [
+          {
+            "ipv4_name":  "otg1.eth[0].ipv4[0]",
+            "peers":  [
+              {
+                "peer_address":  "192.0.2.2",
+                "as_type":  "ebgp",
+                "as_number":  1111,
+                "as_number_width":  "four",
+                "v4_routes":  [
+                  {
+                    "addresses":  [
+                      {
+                        "address":  "198.51.100.0",
+                        "prefix":  24,
+                        "count":  1,
+                        "step":  1
+                      }
+                    ],
+                    "next_hop_mode":  "manual",
+                    "next_hop_address_type":  "ipv4",
+                    "next_hop_ipv4_address":  "192.0.2.1",
+                    "name":  "otg1.bgp4.peer[0].rr4"
+                  }
+                ],
+                "name":  "otg1.bgp4.peer[0]"
+              }
+            ]
+          }
+        ]
+      },
       "name":  "otg1"
     },
     {
@@ -46,6 +79,39 @@
           "name":  "otg2.eth[0]"
         }
       ],
+      "bgp":  {
+        "router_id":  "5.5.5.5",
+        "ipv4_interfaces":  [
+          {
+            "ipv4_name":  "otg2.eth[0].ipv4[0]",
+            "peers":  [
+              {
+                "peer_address":  "192.0.2.6",
+                "as_type":  "ebgp",
+                "as_number":  5555,
+                "as_number_width":  "four",
+                "v4_routes":  [
+                  {
+                    "addresses":  [
+                      {
+                        "address":  "203.0.113.0",
+                        "prefix":  24,
+                        "count":  1,
+                        "step":  1
+                      }
+                    ],
+                    "next_hop_mode":  "manual",
+                    "next_hop_address_type":  "ipv4",
+                    "next_hop_ipv4_address":  "192.0.2.5",
+                    "name":  "otg2.bgp4.peer[0].rr4"
+                  }
+                ],
+                "name":  "otg2.bgp4.peer[0]"
+              }
+            ]
+          }
+        ]
+      },
       "name":  "otg2"
     }
   ],

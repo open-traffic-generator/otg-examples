@@ -105,7 +105,25 @@ curl -sk "${OTG_HOST}/results/states" \
     -d '{ "choice": "ipv4_neighbors" }'
 ```
 
-4. Start transmitting flows
+4. Fetch BGP metrics (stop with `Ctrl-c`)
+
+```Shell
+watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
+    -X POST \
+    -H  'Content-Type: application/json' \
+    -d '{ \"choice\": \"bgpv4\" }'"
+```
+
+5. Fetch BGP prefix announcements - TODO this doesn't show the actual announcements
+
+```Shell
+curl -sk "${OTG_HOST}/results/states" \
+    -X POST \
+    -H  'Content-Type: application/json' \
+    -d '{ "choice": "bgp_prefixes" }'
+```
+
+6. Start transmitting flows
 
 ```Shell
 curl -sk "${OTG_HOST}/control/transmit" \
@@ -113,17 +131,7 @@ curl -sk "${OTG_HOST}/control/transmit" \
     -d '{"state": "start"}'
 ```
 
-5. Fetch port metrics (stop with `Ctrl-c`)
-
-```Shell
-watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
-    -X POST \
-    -H  'Content-Type: application/json' \
-    -d '{ \"choice\": \"port\" }'"
-```
-
-
-6. Fetch flow metrics (stop with `Ctrl-c`)
+7. Fetch flow metrics (stop with `Ctrl-c`)
 
 ```Shell
 watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
@@ -132,6 +140,14 @@ watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
     -d '{ \"choice\": \"flow\" }'"
 ```
 
+8. Fetch port metrics
+
+```Shell
+curl -sk "${OTG_HOST}/results/metrics" \
+    -X POST \
+    -H  'Content-Type: application/json' \
+    -d '{ "choice": "port" }'
+```
 
 ## Destroy the lab
 
