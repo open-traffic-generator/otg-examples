@@ -1,7 +1,7 @@
 # KENG ARP, BGP and traffic with FRR as a DUT
 
 ## Overview
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, Keysight Elastic Network Generator is used. All OTG requests are made using `curl` utility to showcase each individual OTG API call needed to complete the test. The lab is declaratively described with Docker Compose.
+This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used. All OTG requests are made using `curl` utility to showcase each individual OTG API call needed to complete the test. The lab is declaratively described with Docker Compose.
 
 ### Diagram
 
@@ -16,7 +16,8 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
-* [Go](https://go.dev/dl/)
+* `curl` command
+* `watch` command
 
 ## Install components
 
