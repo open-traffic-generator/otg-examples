@@ -1,7 +1,15 @@
-# FRR as a DUT with BGP and traffic setup with Docker Compose
+# KENG ARP, BGP and traffic with FRR as a DUT
 
 ## Overview
-TODO 
+This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, Keysight Elastic Network Generator is used. All OTG requests are made using `curl` utility to showcase each individual OTG API call needed to complete the test. The lab is declaratively described with Docker Compose.
+
+### Diagram
+
+![Diagram](./diagram.png)
+
+### Layer 3 topology and generated traffic flows
+
+![IP Diagram](./ip-diagram.png)
 
 ## Prerequisites
 
