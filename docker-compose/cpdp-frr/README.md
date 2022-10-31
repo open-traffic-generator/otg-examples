@@ -11,6 +11,10 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 
 ![IP Diagram](./ip-diagram.png)
 
+## Quick start
+
+To run all the steps below at once, use `make all`. To destroy the lab, use `make clean`.
+
 ## Prerequisites
 
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
