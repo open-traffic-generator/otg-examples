@@ -68,16 +68,16 @@ otg-set-config:
 	@echo "# Apply OTG configuration"
 	@echo
 	sleep 5 # pause for ixia-c-controller to detect newly created interfaces
-	curl -k "$(OTG_HOST)/config" \
+	curl -sk "$(OTG_HOST)/config" \
 		-H "Content-Type: application/json" \
-		-d @otg.json
-	@echo
+		-d @otg.json | \
+	jq -e "if (.warnings | length) > 0 then false else true end"
 
 otg-start-protocols:
 	@echo "############################################"
 	@echo "# Start protocols"
 	@echo
-	curl -k "$(OTG_HOST)/control/protocols" \
+	curl -sk "$(OTG_HOST)/control/protocols" \
 		-H  "Content-Type: application/json" \
 		-d '{"state": "start"}'
 	@echo
