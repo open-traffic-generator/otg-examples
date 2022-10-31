@@ -184,7 +184,7 @@
       ],
       "size":  {
         "choice":  "fixed",
-        "fixed":  64
+        "fixed":  256
       },
       "rate":  {
         "choice":  "pps",
