@@ -6,6 +6,7 @@
 * [Ixia-c traffic engine back-to-back setup with Docker Compose](docker-compose/b2b). Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
 * [KENG 3 back-to-back pairs setup with Docker Compose](docker-compose/b2b-3pair). This lab is an extension of [Ixia-c back-2-back lab](docker-compose/b2b/README.md) traffic engine setup with more port pairs that is allowed with free version of Ixia-c. Use this lab to validate Ixia-c commercial version – KENG for basic traffic operations.
 * [KENG back-to-back BGP and traffic setup with Docker Compose](docker-compose/cpdp-b2b). This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP.
+* [KENG ARP, BGP and traffic with FRR as a DUT](docker-compose/cpdp-frr). This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets.
 
 ## Scenarios with Containerlab
 
