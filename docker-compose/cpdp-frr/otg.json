@@ -1,0 +1,208 @@
+{
+  "ports":  [
+    {
+      "location":  "localhost:5555+localhost:50071",
+      "name":  "p1"
+    },
+    {
+      "location":  "localhost:5556+localhost:50072",
+      "name":  "p2"
+    }
+  ],
+  "devices":  [
+    {
+      "ethernets":  [
+        {
+          "port_name":  "p1",
+          "ipv4_addresses":  [
+            {
+              "gateway":  "192.0.2.2",
+              "address":  "192.0.2.1",
+              "prefix":  30,
+              "name":  "otg1.eth[0].ipv4[0]"
+            }
+          ],
+          "mac":  "02:00:00:00:01:aa",
+          "mtu":  1500,
+          "name":  "otg1.eth[0]"
+        }
+      ],
+      "bgp":  {
+        "router_id":  "1.1.1.1",
+        "ipv4_interfaces":  [
+          {
+            "ipv4_name":  "otg1.eth[0].ipv4[0]",
+            "peers":  [
+              {
+                "peer_address":  "192.0.2.2",
+                "as_type":  "ebgp",
+                "as_number":  1111,
+                "as_number_width":  "four",
+                "v4_routes":  [
+                  {
+                    "addresses":  [
+                      {
+                        "address":  "198.51.100.0",
+                        "prefix":  24,
+                        "count":  1,
+                        "step":  1
+                      }
+                    ],
+                    "next_hop_mode":  "manual",
+                    "next_hop_address_type":  "ipv4",
+                    "next_hop_ipv4_address":  "192.0.2.1",
+                    "name":  "otg1.bgp4.peer[0].rr4"
+                  }
+                ],
+                "name":  "otg1.bgp4.peer[0]"
+              }
+            ]
+          }
+        ]
+      },
+      "name":  "otg1"
+    },
+    {
+      "ethernets":  [
+        {
+          "port_name":  "p2",
+          "ipv4_addresses":  [
+            {
+              "gateway":  "192.0.2.6",
+              "address":  "192.0.2.5",
+              "prefix":  30,
+              "name":  "otg2.eth[0].ipv4[0]"
+            }
+          ],
+          "mac":  "02:00:00:00:02:aa",
+          "mtu":  1500,
+          "name":  "otg2.eth[0]"
+        }
+      ],
+      "bgp":  {
+        "router_id":  "2.2.2.2",
+        "ipv4_interfaces":  [
+          {
+            "ipv4_name":  "otg2.eth[0].ipv4[0]",
+            "peers":  [
+              {
+                "peer_address":  "192.0.2.6",
+                "as_type":  "ebgp",
+                "as_number":  2222,
+                "as_number_width":  "four",
+                "v4_routes":  [
+                  {
+                    "addresses":  [
+                      {
+                        "address":  "203.0.113.0",
+                        "prefix":  24,
+                        "count":  1,
+                        "step":  1
+                      }
+                    ],
+                    "next_hop_mode":  "manual",
+                    "next_hop_address_type":  "ipv4",
+                    "next_hop_ipv4_address":  "192.0.2.5",
+                    "name":  "otg2.bgp4.peer[0].rr4"
+                  }
+                ],
+                "name":  "otg2.bgp4.peer[0]"
+              }
+            ]
+          }
+        ]
+      },
+      "name":  "otg2"
+    }
+  ],
+  "flows":  [
+    {
+      "tx_rx":  {
+        "choice":  "device",
+        "device":  {
+          "mode":  "mesh",
+          "tx_names":  [
+            "otg1.eth[0].ipv4[0]"
+          ],
+          "rx_names":  [
+            "otg2.eth[0].ipv4[0]"
+          ]
+        }
+      },
+      "packet":  [
+        {
+          "choice":  "ethernet",
+          "ethernet":  {
+            "src":  {
+              "choice":  "value",
+              "value":  "02:00:00:00:01:aa"
+            }
+          }
+        },
+        {
+          "choice":  "ipv4",
+          "ipv4":  {
+            "version":  {
+              "choice":  "value",
+              "value":  4
+            },
+            "src":  {
+              "choice":  "increment",
+              "increment" : {
+                "start":  "198.51.100.1",
+                "count": "253",
+                "step": "0.0.0.1"
+              }
+            },
+            "dst":  {
+              "choice":  "increment",
+              "increment" : {
+                "start":  "203.0.113.1",
+                "count": "253",
+                "step": "0.0.0.1"
+              }
+            }
+          }
+        },
+        {
+          "choice":  "tcp",
+          "tcp":  {
+            "src_port":  {
+              "choice":  "increment",
+              "increment":  {
+                "start":  1024,
+                "step":  7,
+                "count":  64511
+              }
+            },
+            "dst_port":  {
+              "choice":  "value",
+              "value":  7
+            }
+          }
+        }
+      ],
+      "size":  {
+        "choice":  "fixed",
+        "fixed":  256
+      },
+      "rate":  {
+        "choice":  "pps",
+        "pps":  "1000"
+      },
+      "duration":  {
+        "choice":  "fixed_packets",
+        "fixed_packets":  {
+          "packets":  1000,
+          "gap":  12
+        }
+      },
+      "metrics":  {
+        "enable":  true,
+        "loss":  false,
+        "timestamps":  false
+      },
+      "name":  "f1"
+    }
+  ]
+}

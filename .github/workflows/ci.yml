@@ -13,6 +13,9 @@ on:
       - 'docker-compose/cpdp-b2b/**'
       - '!docker-compose/cpdp-b2b/**.md'
       - '!docker-compose/cpdp-b2b/**.png'
+      - 'docker-compose/cpdp-frr/**'
+      - '!docker-compose/cpdp-frr/**.md'
+      - '!docker-compose/cpdp-frr/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -28,6 +31,9 @@ on:
       - 'docker-compose/cpdp-b2b/**'
       - '!docker-compose/cpdp-b2b/**.md'
       - '!docker-compose/cpdp-b2b/**.png'
+      - 'docker-compose/cpdp-frr/**'
+      - '!docker-compose/cpdp-frr/**.md'
+      - '!docker-compose/cpdp-frr/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -41,6 +47,7 @@ jobs:
       docker-compose-b2b: ${{ steps.changes.outputs.docker-compose-b2b }}
       docker-compose-b2b-3pair: ${{ steps.changes.outputs.docker-compose-b2b-3pair }}
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
+      docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -56,6 +63,8 @@ jobs:
             - 'docker-compose/b2b-3pair/**'
             docker-compose-cpdp-b2b:
             - 'docker-compose/cpdp-b2b/**'
+            docker-compose-cpdp-frr:
+            - 'docker-compose/cpdp-frr/**'
             clab-rtbh:
             - 'clab/rtbh/**'
       - name: docker-compose b2b
@@ -67,6 +76,9 @@ jobs:
       - name: docker-compose cpdp-b2b
         if: steps.changes.outputs.docker-compose-cpdp-b2b == 'true'
         run: echo "Run docker-compose cpdp-b2b CI"
+      - name: docker-compose cpdp-frr
+        if: steps.changes.outputs.docker-compose-cpdp-frr == 'true'
+        run: echo "Run docker-compose cpdp-frr CI"
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
@@ -112,6 +124,26 @@ jobs:
       run:
         working-directory: ./docker-compose/cpdp-b2b
     if: needs.paths-filter.outputs.docker-compose-cpdp-b2b == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ENV_GITHUB_USER }}
+          password: ${{ secrets.ENV_GITHUB_PAT }}
+      - name: Run all
+        run:  make all
+  docker-compose-cpdp-frr:
+    name: Run docker-compose cpdp-frr CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./docker-compose/cpdp-frr
+    if: needs.paths-filter.outputs.docker-compose-cpdp-frr == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
