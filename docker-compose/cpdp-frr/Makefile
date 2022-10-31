@@ -70,8 +70,9 @@ otg-set-config:
 	sleep 5 # pause for ixia-c-controller to detect newly created interfaces
 	curl -sk "$(OTG_HOST)/config" \
 		-H "Content-Type: application/json" \
-		-d @otg.json | \
-	jq -e "if (.warnings | length) > 0 then false else true end"
+		-d @otg.json | tee curl.out
+	@echo
+	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
 
 otg-start-protocols:
 	@echo "############################################"
@@ -79,8 +80,9 @@ otg-start-protocols:
 	@echo
 	curl -sk "$(OTG_HOST)/control/protocols" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}'
+		-d '{"state": "start"}' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
 
 otg-fetch-arp:
 	@echo "############################################"
@@ -90,8 +92,9 @@ otg-fetch-arp:
 	curl -sk "$(OTG_HOST)/results/states" \
 		-X POST \
 		-H  'Content-Type: application/json' \
-		-d '{ "choice": "ipv4_neighbors" }'
+		-d '{ "choice": "ipv4_neighbors" }' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.ipv4_neighbors | length) == 2 then true else false end"
 
 otg-fetch-bgp:
 	@echo "############################################"
@@ -101,8 +104,14 @@ otg-fetch-bgp:
 	curl -sk "$(OTG_HOST)/results/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
-		-d '{ "choice": "bgpv4" }'
+		-d '{ "choice": "bgpv4" }' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.bgpv4_metrics | length) == 2 and \
+		.bgpv4_metrics[0].session_state == \"up\" and \
+		.bgpv4_metrics[0].routes_received == 2 and \
+		.bgpv4_metrics[1].session_state == \"up\" and \
+		.bgpv4_metrics[1].routes_received == 2 \
+		then true else false end"
 
 otg-trasmit:
 	@echo "############################################"
@@ -110,8 +119,9 @@ otg-trasmit:
 	@echo
 	curl -sk "$(OTG_HOST)/control/transmit" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}'
+		-d '{"state": "start"}' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
 
 otg-metrics-flow:
 	@echo "############################################"
@@ -121,8 +131,13 @@ otg-metrics-flow:
 	curl -sk "$(OTG_HOST)/results/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
-		-d '{ "choice": "flow" }'
+		-d '{ "choice": "flow" }' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.flow_metrics | length) == 1 and \
+		.flow_metrics[0].transmit == \"stopped\" and \
+		.flow_metrics[0].frames_tx != \"0\" and \
+		.flow_metrics[0].frames_tx == .flow_metrics[0].frames_rx \
+		then true else false end"
 
 otg-metrics-port:
 	@echo "############################################"
@@ -131,5 +146,7 @@ otg-metrics-port:
 	curl -sk "$(OTG_HOST)/results/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
-		-d '{ "choice": "port" }'
+		-d '{ "choice": "port" }' | tee curl.out
 	@echo
+	cat curl.out | jq -e "if (.port_metrics | length) == 2 \
+		then true else false end"
