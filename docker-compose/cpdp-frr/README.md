@@ -13,7 +13,15 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 
 ## Quick start
 
-To run all the steps below at once, use `make all`. To destroy the lab, use `make clean`.
+To run all the steps below at once, use 
+
+```Shell
+git clone https://github.com/open-traffic-generator/otg-examples.git
+cd otg-examples/docker-compose/cpdp-frr
+make all
+```
+
+To destroy the lab, use `make clean`.
 
 ## Prerequisites
 
