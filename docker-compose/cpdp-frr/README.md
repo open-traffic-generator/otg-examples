@@ -3,6 +3,8 @@
 ## Overview
 This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used. All OTG requests are made using `curl` utility to showcase each individual OTG API call needed to complete the test. The lab is declaratively described with Docker Compose.
 
+## Lab configuration
+
 ### Diagram
 
 ![Diagram](./diagram.png)
@@ -10,6 +12,47 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 ### Layer 3 topology and generated traffic flows
 
 ![IP Diagram](./ip-diagram.png)
+
+### OTG
+
+The lab uses [`otg.json`](otg.json) configuration file with the following properties:
+
+![OTG Diagram](./otg-diagram.png)
+
+To request KENG to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
+
+```JSON
+  "flows":  [
+    {
+      "tx_rx":  {
+        "choice":  "device",
+        "device":  {
+          "mode":  "mesh",
+          "tx_names":  [
+            "otg1.eth[0].ipv4[0]"
+          ],
+          "rx_names":  [
+            "otg2.eth[0].ipv4[0]"
+          ]
+        }
+      },
+      "packet":  [
+        {
+          "choice":  "ethernet",
+          "ethernet":  {
+            "dst":  {
+              "choice":  "auto",
+              "auto":  "00:00:00:00:00:00"
+            },
+            "src":  {
+              "choice":  "value",
+              "value":  "02:00:00:00:01:aa"
+            }
+          }
+        },
+    }
+  ]
+```
 
 ## Quick start
 
