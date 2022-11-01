@@ -19,6 +19,40 @@ The lab uses [`otg.json`](otg.json) configuration file with the following proper
 
 ![OTG Diagram](./otg-diagram.png)
 
+To request KENG to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
+
+```JSON
+  "flows":  [
+    {
+      "tx_rx":  {
+        "choice":  "device",
+        "device":  {
+          "mode":  "mesh",
+          "tx_names":  [
+            "otg1.eth[0].ipv4[0]"
+          ],
+          "rx_names":  [
+            "otg2.eth[0].ipv4[0]"
+          ]
+        }
+      },
+      "packet":  [
+        {
+          "choice":  "ethernet",
+          "ethernet":  {
+            "dst":  {
+              "choice":  "auto",
+              "auto":  "00:00:00:00:00:00"
+            },
+            "src":  {
+              "choice":  "value",
+              "value":  "02:00:00:00:01:aa"
+            }
+          }
+        },
+    }
+  ]
+```
 
 ## Quick start
 
