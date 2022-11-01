@@ -3,6 +3,8 @@
 ## Overview
 This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used. All OTG requests are made using `curl` utility to showcase each individual OTG API call needed to complete the test. The lab is declaratively described with Docker Compose.
 
+## Lab configuration
+
 ### Diagram
 
 ![Diagram](./diagram.png)
@@ -10,6 +12,13 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 ### Layer 3 topology and generated traffic flows
 
 ![IP Diagram](./ip-diagram.png)
+
+### OTG
+
+The lab uses [`otg.json`](otg.json) configuration file with the following properties:
+
+![OTG Diagram](./otg-diagram.png)
+
 
 ## Quick start
 
