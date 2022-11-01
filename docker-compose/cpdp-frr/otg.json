@@ -193,7 +193,7 @@
       "duration":  {
         "choice":  "fixed_packets",
         "fixed_packets":  {
-          "packets":  1000,
+          "packets":  100000,
           "gap":  12
         }
       },
