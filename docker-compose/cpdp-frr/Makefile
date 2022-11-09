@@ -72,7 +72,7 @@ otg-set-config:
 		-H "Content-Type: application/json" \
 		-d @otg.json | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-start-protocols:
 	@echo "############################################"
@@ -82,7 +82,7 @@ otg-start-protocols:
 		-H  "Content-Type: application/json" \
 		-d '{"state": "start"}' | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-fetch-arp:
 	@echo "############################################"
@@ -121,7 +121,7 @@ otg-trasmit:
 		-H  "Content-Type: application/json" \
 		-d '{"state": "start"}' | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-metrics-flow:
 	@echo "############################################"
