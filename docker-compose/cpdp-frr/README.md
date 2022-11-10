@@ -254,7 +254,7 @@ curl -sk "${OTG_HOST}/results/metrics" \
 
 ## Run tests, `otgen` option
 
-1. Use one `otgen run` command to repeat all of the steps above. Note `--rxbgp 2x` parameter. We use it to tell `otgen` to wait until receiving from the DUT twice as many routes as it advertised. For our lab configuration it would be the signal that BGP protocol has converged. In other setups this parameter might be different.
+1. Use one `otgen run` command to repeat all of the steps above. Note `--rxbgp 2x` parameter. We use it to tell `otgen` it should wait, after starting the protocols, until twice as many routes were received from the DUT, than were advertised by KENG. For our lab configuration it would be the signal that BGP protocol has converged. In other setups this parameter might be different.
 
 ```Shell
 otgen --log info run --insecure --file otg.json --json --rxbgp 2x --metrics flow | jq
