@@ -61,7 +61,8 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
               "value":  "02:00:00:00:01:aa"
             }
           }
-        },
+        }
+      ]
     }
   ]
 ```
@@ -76,6 +77,8 @@ cd otg-examples/docker-compose/cpdp-frr
 make all
 ```
 
+TODO separate compose and clab runs.
+
 To destroy the lab, use `make clean`.
 
 ## Prerequisites
@@ -84,11 +87,12 @@ To destroy the lab, use `make clean`.
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * `curl` command
-* `watch` command
+* `watch` command (optional)
+* `jq` command (optional)
 
 ## Install components
 
-1. Install `docker-compose` and add yourself to `docker` group. Logout for group changes to take effect
+1. Install `docker-compose` and add yourself to `docker` group. Logout for group changes to take effect.
 
 ```Shell
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -97,7 +101,21 @@ sudo usermod -aG docker $USER
 logout
 ```
 
-2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+2. For Containerlab use case, install the latest release. For more installation options see [here](https://containerlab.dev/install/).
+
+```Shell
+bash -c "$(curl -sL https://get.containerlab.dev)"
+```
+
+3. Install `otgen` tool, version `0.4.0-rc1` or later.
+
+```Shell
+curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+sudo mv otgen /usr/local/bin/otgen
+sudo chmod +x /usr/local/bin/otgen
+```
+
+4. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
 ```Shell
 cmd=docker-compose
@@ -109,15 +127,15 @@ if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
 fi
 ```
 
-3. Clone this repository
+5. Clone this repository
 
 ```Shell
 git clone https://github.com/open-traffic-generator/otg-examples.git
 ```
 
-## Deploy Ixia-c lab
+## Docker Compose option to deploy the lab
 
-1. Launch the deployment
+1. Launch the deployment using Docker Compose
 
 ```Shell
 cd otg-examples/docker-compose/cpdp-frr
@@ -153,7 +171,16 @@ sudo docker logs cpdp-frr_protocol_engine_1_1
 sudo docker logs cpdp-frr_protocol_engine_2_1
 ```
 
-## Run tests
+## Containerlab option to deploy the lab
+
+1. Launch the deployment using Containerlab
+
+```Shell
+cd otg-examples/docker-compose/cpdp-frr
+sudo containerlab deploy
+```
+
+## Run tests, `curl` option
 
 1. Apply config
 
@@ -225,12 +252,32 @@ curl -sk "${OTG_HOST}/results/metrics" \
     -d '{ "choice": "port" }'
 ```
 
+## Run tests, `otgen` option
+
+1. Use one `otgen run` command to repeat all of the steps above
+
+```Shell
+otgen --log info run --insecure --file otg.json --json --rxbgp 2x --metrics flow | jq
+```
+
+2. To format output as a table, use the modified command below. Note, there will be no log output in this case, so be patient to wait for the table output to appear.
+
+```Shell
+otgen run --insecure --file otg.json --json --rxbgp 2x --metrics flow | otgen transform --metrics flow | otgen display --mode table
+```
+
 ## Destroy the lab
 
-To destroy the lab, including veth pair, use:
+* To destroy the lab brought up via Docker Compose, including veth pairs, use:
 
 ```Shell
 docker-compose down
+````
+
+* To destroy the lab brought up via Containerlab, use:
+
+```Shell
+sudo containerlab destroy -c
 ````
 
 ## Credits

@@ -16,7 +16,7 @@ topology:
         - 50071:50071
       env:
         OPT_LISTEN_PORT: 5555
-        ARG_IFACE_LIST: virtual@af_packet,eth1
+        ARG_IFACE_LIST: virtual@af_packet,veth0
         OPT_NO_HUGEPAGES: Yes
         OPT_NO_PINNING: Yes
         WAIT_FOR_IFACE: Yes
@@ -26,7 +26,7 @@ topology:
       network-mode: container:te1
       startup-delay: 5
       env:
-        INTF_LIST: eth1
+        INTF_LIST: veth0
     dut:
       kind: linux
       image: frrouting/frr:v8.2.2
@@ -42,7 +42,7 @@ topology:
         - 50072:50071
       env:
         OPT_LISTEN_PORT: 5556
-        ARG_IFACE_LIST: virtual@af_packet,eth1
+        ARG_IFACE_LIST: virtual@af_packet,veth2
         OPT_NO_HUGEPAGES: Yes
         OPT_NO_PINNING: Yes
         WAIT_FOR_IFACE: Yes
@@ -52,8 +52,8 @@ topology:
       network-mode: container:te2
       startup-delay: 5
       env:
-        INTF_LIST: eth1
+        INTF_LIST: veth2
 
   links:
-    - endpoints: ["te1:eth1","dut:veth1"]
-    - endpoints: ["te2:eth1","dut:veth3"]
+    - endpoints: ["te1:veth0","dut:veth1"]
+    - endpoints: ["te2:veth2","dut:veth3"]
