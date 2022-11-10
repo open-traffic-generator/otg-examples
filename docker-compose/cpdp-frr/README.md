@@ -5,15 +5,15 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 
 The same setup can be brought up using one of two methods:
 
-  * Docker Compose
-  * Containerlab
+  * [Docker Compose](https://docs.docker.com/compose/)
+  * [Containerlab](https://containerlab.dev/)
 
 Also, the same OTG test logic can be executed using one of two OTG clients:
 
   * [`curl`](https://otg.dev/clients/curl/)
   * [`otgen`](https://otg.dev/clients/otgen/)
 
-Each method has its own benefits. With `curl`, you can try each individual OTG API call needed to complete the test. On the other hand, `otgen` demonstrates how all these steps could be easily executed with a single command. By comparing with `curl` `get_metrics` or `get_state` requests output, you can better understands the logic `otgen` is using to wait for the results of previous API calls to converge or finish. Finally, you can use [`otgen run`](https://github.com/open-traffic-generator/otgen/blob/main/cmd/run.go) source code as a starting point for custom test logic you could develop using [`gosnappi`](https://otg.dev/clients/gosnappi/) library.
+Each method has its own benefits. With `curl`, you can try each individual OTG API call needed to complete the test. On the other hand, `otgen` demonstrates how all these steps could be easily executed with a single command. By comparing with `curl` `get_metrics` or `get_state` requests output, you can better understands the logic `otgen` is using to wait for the results of previous API calls to converge or complete. Finally, you can use [`otgen run`](https://github.com/open-traffic-generator/otgen/blob/main/cmd/run.go) source code as a starting point for custom test logic you could develop using [`gosnappi`](https://otg.dev/clients/gosnappi/) library.
 
 ## Lab configuration
 
