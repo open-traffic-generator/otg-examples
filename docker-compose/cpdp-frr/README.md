@@ -69,17 +69,26 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 
 ## Quick start
 
-To run all the steps below at once, use 
+1. Clone this repository
 
 ```Shell
 git clone https://github.com/open-traffic-generator/otg-examples.git
 cd otg-examples/docker-compose/cpdp-frr
-make all
 ```
 
-TODO separate compose and clab runs.
+2. To run all the steps below at once using Docker Compose, execute:
 
-To destroy the lab, use `make clean`.
+```Shell
+make all
+make clean
+```
+
+3. To use Containerlan option, run:
+
+```Shell
+make all-clab
+make clean
+```
 
 ## Prerequisites
 
