@@ -20,6 +20,15 @@ Many network vendors provide versions of their Network Operating Systems as a CN
 
 Some examples don't have any DUT and use back-2-back connections between Test Ports. These are quite useful to make sure the Traffic Generator part works just fine by itself, before introducing a DUT.
 
+## OTG Client
+
+A job of an OTG Client is to communicating with a Traffic Generator via the OTG API and request it to perform tasks such as applying a configuration, starting protocols, running traffic, collecting metrics. Each example uses one (or sometimes more) of the following OTG Clients:
+
+* [`curl`](https://otg.dev/clients/curl/) - The most basic utility for any kind of REST API calls, including OTG
+* [`otgen`](https://otg.dev/clients/otgen/) - This command-line utility comes as part of OTG toolkit. It is capable of manipulating a wide range of OTG features while hiding a lot of complexity from a user
+* [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API. 
+* [`gosnappi`](https://otg.dev/clients/gosnappi/) - Similar to `snappi`, test scripts written in `gosnappi`, an auto-generated Go module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
+
 ## Infrastructure
 
 To manage deployment of the example labs, we use one of the following declarative tools:
@@ -35,13 +44,13 @@ Some of the lab examples include Github Action workflow for executing OTG tests 
 
 | Lab                                                                                                                       | OTG Tool    | DUT  | Client     | Infrastructure | CI  |
 | ------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ---------- | -------------- | --- |
-| [Ixia-c traffic engine](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)              | Ixia-c TE   | B2B  | [`otgen`](../clients/otgen.md)    | Compose        | yes |
-| [KENG 3 pairs](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)                 | KENG TE     | B2B  | [`otgen`](../clients/otgen.md)    | Compose        | yes  |
-| [KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)          | KENG PE+TE  | B2B  | [`gosnappi`](../clients/gosnappi.md) | Compose        | yes |
-| [FRR+KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr) | KENG PE+TE  | FRR  | [`curl`](../clients/curl.md) | Compose        | yes |
-| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)   | Ixia-c-one  | B2B  | [`snappi`](../clients/snappi.md)   | Containerlab   | no  |
-| [Ixia-c-one and FRR](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                 | Ixia-c TE   | FRR  | [`otgen`](../clients/otgen.md)    | Containerlab   | no  |
-| [Remote Triggered Black Hole](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                 | Ixia-c-one  | FRR  | [`gosnappi`](../clients/gosnappi.md) | Containerlab   | yes |
+| [Ixia-c traffic engine](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)              | Ixia-c TE   | B2B  | `otgen`    | Compose        | yes |
+| [KENG 3 pairs](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)                 | KENG TE     | B2B  | `otgen`    | Compose        | yes |
+| [KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)          | KENG PE+TE  | B2B  | `gosnappi` | Compose        | yes |
+| [FRR+KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr) | KENG PE+TE  | FRR  | `curl`     | Compose        | yes |
+| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)   | Ixia-c-one  | B2B  | `snappi`   | Containerlab   | no  |
+| [Ixia-c-one and FRR](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                 | Ixia-c TE   | FRR  | `otgen`    | Containerlab   | no  |
+| [Remote Triggered Black Hole](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                 | Ixia-c-one  | FRR  | `gosnappi` | Containerlab   | yes |
 
 
 ## Quick Lab Descriptions
