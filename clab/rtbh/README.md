@@ -147,5 +147,6 @@ sudo docker exec -it clab-rtbh-controller sh
 ## Credits
 
 Original lab design: 
-  * [BGP Remotely Triggered Black Hole (RTBH)](https://blog.sflow.com/2022/04/bgp-remotely-triggered-blackhole-rtbh.html)
-  * [sflow-rt github repository](https://github.com/sflow-rt/containerlab)
+
+* [BGP Remotely Triggered Black Hole (RTBH)](https://blog.sflow.com/2022/04/bgp-remotely-triggered-blackhole-rtbh.html)
+* [sflow-rt github repository](https://github.com/sflow-rt/containerlab)
