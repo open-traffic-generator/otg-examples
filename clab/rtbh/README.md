@@ -20,15 +20,15 @@ Read a [blog post](https://blogs.keysight.com/blogs/tech/traf-gen.entry.html/202
 
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
-```Shell
-git clone --single-branch https://github.com/open-traffic-generator/otg-examples.git
-```
+    ```Shell
+    git clone --single-branch https://github.com/open-traffic-generator/otg-examples.git
+    ```
 
 2. Navigate to the lab folder
 
-```Shell
-cd otg-examples/clab/rtbh
-```
+    ```Shell
+    cd otg-examples/clab/rtbh
+    ```
 
 ## Prepare a `gosnappi` container image
 
@@ -73,51 +73,51 @@ sudo -E containerlab destroy -t topo.yml
 
 1. If you're on Mac, an example below can be used to create an Ubuntu 20.04LTS VM `otg-demo`, using [Multipass](https://multipass.run/). Ubuntu 22.04 is not yet supported for this test.
 
-```Shell
-multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
-multipass shell otg-demo
-sudo apt update && sudo apt install docker.io -y
-bash -c "$(curl -sL https://get.containerlab.dev)"
-```
+    ```Shell
+    multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
+    multipass shell otg-demo
+    sudo apt update && sudo apt install docker.io -y
+    bash -c "$(curl -sL https://get.containerlab.dev)"
+    ```
 
 2. Delete the VM after testing is done
 
-```Shell
-multipass stop otg-demo
-multipass delete otg-demo
-```
+    ```Shell
+    multipass stop otg-demo
+    multipass delete otg-demo
+    ```
 
 ###  Containerlab VM deployment in Google Cloud
 
 1. Create a VM in a default VPC, with needed firewall rules and all the nessesary components
 
-```Shell
-MYIP=`curl ifconfig.me`
+    ```Shell
+    MYIP=`curl ifconfig.me`
 
-gcloud compute firewall-rules create otg-demo-allow-8008 --description="Allow tcp 8008 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8008 --source-ranges="$MYIP/32" --target-tags=otg-demo
-gcloud compute firewall-rules create otg-demo-allow-8080 --description="Allow tcp 8080 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8080 --source-ranges="$MYIP/32" --target-tags=otg-demo
+    gcloud compute firewall-rules create otg-demo-allow-8008 --description="Allow tcp 8008 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8008 --source-ranges="$MYIP/32" --target-tags=otg-demo
+    gcloud compute firewall-rules create otg-demo-allow-8080 --description="Allow tcp 8080 ingress to any instance tagged as otg-demo" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8080 --source-ranges="$MYIP/32" --target-tags=otg-demo
 
-gcloud compute instances create otg-demo \
---subnet=default \
---machine-type=e2-standard-8 \
---image-family=ubuntu-2004-lts \
---image-project=ubuntu-os-cloud \
---boot-disk-size=30GB \
---boot-disk-device-name=otg-demo \
---tags=otg-demo
+    gcloud compute instances create otg-demo \
+    --subnet=default \
+    --machine-type=e2-standard-8 \
+    --image-family=ubuntu-2004-lts \
+    --image-project=ubuntu-os-cloud \
+    --boot-disk-size=30GB \
+    --boot-disk-device-name=otg-demo \
+    --tags=otg-demo
 
-gcloud compute ssh otg-demo
-sudo apt update && sudo apt install docker.io -y
-bash -c "$(curl -sL https://get.containerlab.dev)"
-```
+    gcloud compute ssh otg-demo
+    sudo apt update && sudo apt install docker.io -y
+    bash -c "$(curl -sL https://get.containerlab.dev)"
+    ```
 
 2. Delete all resources and the VM after testing is done (run them one by one, as you'll need to confirm it is OK to delete)
 
-```Shell
-gcloud compute instances delete otg-demo
-gcloud compute firewall-rules delete otg-demo-allow-8008
-gcloud compute firewall-rules delete otg-demo-allow-8080
-```
+    ```Shell
+    gcloud compute instances delete otg-demo
+    gcloud compute firewall-rules delete otg-demo-allow-8008
+    gcloud compute firewall-rules delete otg-demo-allow-8080
+    ```
 
 ## Misc
 
@@ -131,16 +131,16 @@ Open the link in the browser to see a graphical representation of the topology.
 
 ### CLI access to nodes
 
-  ```Shell
-  # pe-router
-  sudo docker exec -it clab-rtbh-pe-router vtysh
-  # ce-router
-  sudo docker exec -it clab-rtbh-ce-router vtysh
-  # ixia
-  sudo docker exec -it clab-rtbh-ixia sh
-  # controller
-  sudo docker exec -it clab-rtbh-controller sh
-  ```
+```Shell
+# pe-router
+sudo docker exec -it clab-rtbh-pe-router vtysh
+# ce-router
+sudo docker exec -it clab-rtbh-ce-router vtysh
+# ixia
+sudo docker exec -it clab-rtbh-ixia sh
+# controller
+sudo docker exec -it clab-rtbh-controller sh
+```
   
 
 
