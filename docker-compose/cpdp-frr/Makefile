@@ -44,10 +44,11 @@ install-clean:
 ###############################
 
 .PHONY: pull
-pull: pull-public pull-private
+pull: pull-private
 
 pull-public:
 	docker-compose pull traffic_engine_1
+	docker-compose pull frr
 	
 pull-private:
 	docker-compose pull controller protocol_engine_1
@@ -174,5 +175,5 @@ otg-metrics-port:
 
 .PHONY: run-otgen
 run-otgen:
-	sleep 5 # pause for all componets to initialize
+	sleep 5 # pause for all components to initialize
 	otgen --log debug run --insecure --file otg.json --json --rxbgp 2x --metrics flow | otgen transform --metrics flow
