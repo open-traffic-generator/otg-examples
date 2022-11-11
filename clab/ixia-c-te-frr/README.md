@@ -43,19 +43,19 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ```Shell
 git clone https://github.com/open-traffic-generator/otg-examples.git
-````
+```
 
 2. Navigate to the lab folder
 
 ```Shell
 cd otg-examples/clab/ixia-c-te-frr
-````
+```
 
 ## Deploy a lab
 
 ```Shell
 sudo containerlab deploy
-````
+```
 
 ## Run traffic
 
@@ -77,10 +77,10 @@ sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
 otgen run -k 2>/dev/null| \
 otgen transform -m port | \
 otgen display -m table
-````
+```
 
 ## Destroy the lab
 
 ```Shell
 sudo containerlab destroy
-````
+```

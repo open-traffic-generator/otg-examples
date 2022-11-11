@@ -22,13 +22,13 @@ Read a [blog post](https://blogs.keysight.com/blogs/tech/traf-gen.entry.html/202
 
 ```Shell
 git clone --single-branch https://github.com/open-traffic-generator/otg-examples.git
-````
+```
 
 2. Navigate to the lab folder
 
 ```Shell
 cd otg-examples/clab/rtbh
-````
+```
 
 ## Prepare a `gosnappi` container image
 
@@ -36,13 +36,13 @@ Run the following only once, to build a container image where `go test` command 
 
 ```Shell
 sudo docker build -t gosnappi:local .
-````
+```
 
 ## Deploy the topology with Containerlab
 
 ```Shell
 sudo -E containerlab deploy -t topo.yml
-````
+```
 
 ## Open DDoS Protect Dashboard
 
@@ -59,13 +59,13 @@ Execute the test by running `go test` in `clab-rtbh-gosnappi` container. Note, i
 ```Shell
 DMAC=`sudo docker exec clab-rtbh-pe-router vtysh -c  'sh interface eth2 | include HWaddr' | awk "{print \\$2}"`
 sudo docker exec -it clab-rtbh-gosnappi bash -c "go test -dstMac=${DMAC}"
-````
+```
 
 ## Destroy the lab
 
 ```Shell
 sudo -E containerlab destroy -t topo.yml
-````
+```
 
 ## Options for Linux VM deployment for Containerlab
 
@@ -78,14 +78,14 @@ multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
 multipass shell otg-demo
 sudo apt update && sudo apt install docker.io -y
 bash -c "$(curl -sL https://get.containerlab.dev)"
-````
+```
 
 2. Delete the VM after testing is done
 
 ```Shell
 multipass stop otg-demo
 multipass delete otg-demo
-````
+```
 
 ###  Containerlab VM deployment in Google Cloud
 
@@ -109,7 +109,7 @@ gcloud compute instances create otg-demo \
 gcloud compute ssh otg-demo
 sudo apt update && sudo apt install docker.io -y
 bash -c "$(curl -sL https://get.containerlab.dev)"
-````
+```
 
 2. Delete all resources and the VM after testing is done (run them one by one, as you'll need to confirm it is OK to delete)
 
@@ -117,7 +117,7 @@ bash -c "$(curl -sL https://get.containerlab.dev)"
 gcloud compute instances delete otg-demo
 gcloud compute firewall-rules delete otg-demo-allow-8008
 gcloud compute firewall-rules delete otg-demo-allow-8080
-````
+```
 
 ## Misc
 
@@ -140,7 +140,7 @@ Open the link in the browser to see a graphical representation of the topology.
   sudo docker exec -it clab-rtbh-ixia sh
   # controller
   sudo docker exec -it clab-rtbh-controller sh
-  ````
+  ```
   
 
 

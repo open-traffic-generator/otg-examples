@@ -70,11 +70,11 @@ This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b
 
 This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets.
 
-### [Ixia-c Traffic Engine and FRR](/clab/ixia-c-te-frr)
+### [Ixia-c Traffic Engine and FRR](clab/ixia-c-te-frr)
 
 Demonstrates how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test.
 
-### [Hello, snappi! Welcome to the Clab!](/clab/ixia-c-b2b) 
+### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b) 
 
 Basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
 
@@ -82,7 +82,7 @@ Basics of creating a Python program to control Ixia-c-one node, all packaged in 
 
 This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. Same lab as in basic examples section, but with Containerlab. 
 
-### [Remote Triggered Black Hole Lab](/clab/rtbh) (RTBH) 
+### [Remote Triggered Black Hole Lab](clab/rtbh) (RTBH) 
 
 RTBH is a common DDoS mitigation technique which uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
 
