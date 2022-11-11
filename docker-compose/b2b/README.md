@@ -96,7 +96,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     sudo docker ps
     ```
 
-  The result should look like this
+    The result should look like this
   
     ```Shell
     CONTAINER ID   IMAGE                                    COMMAND                  CREATED          STATUS          PORTS     NAMES
