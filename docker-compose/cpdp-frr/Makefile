@@ -3,8 +3,11 @@ SHELL = /bin/bash
 .PHONY: all
 all: install pull deploy run
 
+.PHONY: all-clab
+all-clab: install pull deploy-clab run-otgen
+
 .PHONY: clean
-clean: remove-lab
+clean: remove-lab remove-clab
 
 .PHONY: clean-all
 clean-all: clean install-clean
@@ -14,25 +17,38 @@ clean-all: clean install-clean
 ###############################
 
 .PHONY: install
-install: install-docker-compose
+install: install-docker-compose install-clab install-otgen
 
 install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
-	
+
+install-clab: /usr/bin/containerlab
+/usr/bin/containerlab:
+	bash -c "$$(curl -sL https://get.containerlab.dev)"
+
+install-otgen: /usr/local/bin/otgen
+/usr/local/bin/otgen:
+	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
+	sudo mv otgen /usr/local/bin/otgen
+	sudo chmod +x /usr/local/bin/otgen
+
 install-clean:
 	-sudo rm -f `command -v docker-compose`
+	-sudo rm -f `command -v otgen`
+	-sudo apt remove containerlab -y
 
 ###############################
 # Pull images
 ###############################
 
 .PHONY: pull
-pull: pull-public pull-private
+pull: pull-private
 
 pull-public:
 	docker-compose pull traffic_engine_1
+	docker-compose pull frr
 	
 pull-private:
 	docker-compose pull controller protocol_engine_1
@@ -51,8 +67,14 @@ deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
 
+deploy-clab:
+	sudo containerlab deploy --reconfigure
+
 remove-lab:
 	docker-compose down
+
+remove-clab:
+	sudo containerlab destroy --cleanup
 
 ###############################
 # Run tests
@@ -72,7 +94,7 @@ otg-set-config:
 		-H "Content-Type: application/json" \
 		-d @otg.json | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-start-protocols:
 	@echo "############################################"
@@ -82,7 +104,7 @@ otg-start-protocols:
 		-H  "Content-Type: application/json" \
 		-d '{"state": "start"}' | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-fetch-arp:
 	@echo "############################################"
@@ -121,7 +143,7 @@ otg-trasmit:
 		-H  "Content-Type: application/json" \
 		-d '{"state": "start"}' | tee curl.out
 	@echo
-	cat curl.out | jq -e "if (.warnings | length) > 0 then false else true end"
+	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
 otg-metrics-flow:
 	@echo "############################################"
@@ -150,3 +172,8 @@ otg-metrics-port:
 	@echo
 	cat curl.out | jq -e "if (.port_metrics | length) == 2 \
 		then true else false end"
+
+.PHONY: run-otgen
+run-otgen:
+	sleep 5 # pause for all components to initialize
+	otgen --log debug run --insecure --file otg.json --json --rxbgp 2x --metrics flow | otgen transform --metrics flow

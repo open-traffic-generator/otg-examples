@@ -1,0 +1,59 @@
+name: keng-frr
+topology:
+  nodes:
+    ixc:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3587
+      network-mode: host
+      cmd: --accept-eula --http-port 443
+      ports:
+        - 443:443
+    te1:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+      ports:
+        - 5555:5555
+        - 50071:50071
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,veth0
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+    pe1:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+      network-mode: container:te1
+      startup-delay: 5
+      env:
+        INTF_LIST: veth0
+    dut:
+      kind: linux
+      image: frrouting/frr:v8.2.2
+      binds:
+      - ./frr/daemons:/etc/frr/daemons
+      - ./frr/frr.conf:/etc/frr/frr.conf
+      - ./frr/vtysh.conf:/etc/frr/vtysh.conf
+    te2:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+      ports:
+        - 5556:5556
+        - 50072:50071
+      env:
+        OPT_LISTEN_PORT: 5556
+        ARG_IFACE_LIST: virtual@af_packet,veth2
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+    pe2:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+      network-mode: container:te2
+      startup-delay: 5
+      env:
+        INTF_LIST: veth2
+
+  links:
+    - endpoints: ["te1:veth0","dut:veth1"]
+    - endpoints: ["te2:veth2","dut:veth3"]

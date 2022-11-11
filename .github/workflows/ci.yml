@@ -48,6 +48,7 @@ jobs:
       docker-compose-b2b-3pair: ${{ steps.changes.outputs.docker-compose-b2b-3pair }}
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
+      clab-cpdp-frr: ${{ steps.changes.outputs.clab-cpdp-frr }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -65,6 +66,8 @@ jobs:
             - 'docker-compose/cpdp-b2b/**'
             docker-compose-cpdp-frr:
             - 'docker-compose/cpdp-frr/**'
+            clab-cpdp-frr:
+            - 'docker-compose/cpdp-frr/**'
             clab-rtbh:
             - 'clab/rtbh/**'
       - name: docker-compose b2b
@@ -79,6 +82,9 @@ jobs:
       - name: docker-compose cpdp-frr
         if: steps.changes.outputs.docker-compose-cpdp-frr == 'true'
         run: echo "Run docker-compose cpdp-frr CI"
+      - name: clab cpdp-frr
+        if: steps.changes.outputs.clab-cpdp-frr == 'true'
+        run: echo "Run clab cpdp-frr CI"
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
@@ -156,6 +162,26 @@ jobs:
           password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Run all
         run:  make all
+  clab-cpdp-frr:
+    name: Run containerlab cpdp-frr CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./clab/cpdp-frr
+    if: needs.paths-filter.outputs.clab-cpdp-frr == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ENV_GITHUB_USER }}
+          password: ${{ secrets.ENV_GITHUB_PAT }}
+      - name: Run all-clab
+        run:  make all-clab
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04

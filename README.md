@@ -12,6 +12,7 @@
 
 * [Ixia-c Traffic Engine and FRR](/clab/ixia-c-te-frr) – demonstrates how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test.
 * [Hello, snappi! Welcome to the Clab!](/clab/ixia-c-b2b) – basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
+* [KENG ARP, BGP and traffic with FRR as a DUT](docker-compose/cpdp-frr) - This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. Same lab as in basic examples section, but with Containerlab. 
 * [Remote Triggered Black Hole Lab](/clab/rtbh) (RTBH) - common DDoS mitigation technique, uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
 
 ## Useful links
