@@ -14,15 +14,15 @@ This is a simple lab where an Ixia-c-one node has two traffic ports connected ba
 
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
-```Shell
-git clone --recurse-submodules https://github.com/open-traffic-generator/otg-examples.git
-```
+    ```Shell
+    git clone --recurse-submodules https://github.com/open-traffic-generator/otg-examples.git
+    ```
 
 2. Navigate to the lab folder
 
-```Shell
-cd otg-examples/clab/ixia-c-b2b
-```
+    ```Shell
+    cd otg-examples/clab/ixia-c-b2b
+    ```
 
 ## Prepare a `snappi` container image
 
@@ -56,54 +56,54 @@ sudo -E containerlab destroy -t topo.yml
 
 1. If you're on Mac, an example below can be used to create an Ubuntu 20.04LTS VM `otg-demo`, using [Multipass](https://multipass.run/). Ubuntu 22.04 is not yet supported for this test.
 
-```Shell
-multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
-multipass shell otg-demo
-sudo apt update && sudo apt install docker.io -y
-bash -c "$(curl -sL https://get.containerlab.dev)"
-```
+    ```Shell
+    multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
+    multipass shell otg-demo
+    sudo apt update && sudo apt install docker.io -y
+    bash -c "$(curl -sL https://get.containerlab.dev)"
+    ```
 
 2. Delete the VM after testing is done
 
-```Shell
-multipass stop otg-demo
-multipass delete otg-demo
-```
+    ```Shell
+    multipass stop otg-demo
+    multipass delete otg-demo
+    ```
 
 ###  Containerlab VM deployment in Google Cloud
 
 1. Create a VM in a default VPC
 
-```Shell
-gcloud compute instances create otg-demo \
---subnet=default \
---machine-type=e2-standard-8 \
---image-family=ubuntu-2004-lts \
---image-project=ubuntu-os-cloud \
---boot-disk-size=30GB \
---boot-disk-device-name=otg-demo \
---tags=otg-demo
+    ```Shell
+    gcloud compute instances create otg-demo \
+    --subnet=default \
+    --machine-type=e2-standard-8 \
+    --image-family=ubuntu-2004-lts \
+    --image-project=ubuntu-os-cloud \
+    --boot-disk-size=30GB \
+    --boot-disk-device-name=otg-demo \
+    --tags=otg-demo
 
-gcloud compute ssh otg-demo
-sudo apt update && sudo apt install docker.io -y
-bash -c "$(curl -sL https://get.containerlab.dev)"
-```
+    gcloud compute ssh otg-demo
+    sudo apt update && sudo apt install docker.io -y
+    bash -c "$(curl -sL https://get.containerlab.dev)"
+    ```
 
 2. Delete all resources and the VM after testing is done
 
-```Shell
-gcloud compute instances delete otg-demo
-```
+    ```Shell
+    gcloud compute instances delete otg-demo
+    ```
 
 ## Misc
 
 ### CLI access to nodes
 
-  ```Shell
-  # ixia-c
-  sudo docker exec -it clab-ixcb2b-ixia-c sh
-  sudo docker exec -it clab-ixcb2b-snappi bash
-  ```
+```Shell
+# ixia-c
+sudo docker exec -it clab-ixcb2b-ixia-c sh
+sudo docker exec -it clab-ixcb2b-snappi bash
+```
 
 ## Credits
 
