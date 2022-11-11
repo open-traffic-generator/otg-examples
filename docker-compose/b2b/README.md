@@ -88,7 +88,7 @@ EOF
 sudo docker-compose -f ixia-c-b2b.yml up -d 
 sudo ip link set veth0 mtu 9500
 sudo ip link set veth1 mtu 9500
-````
+```
 
 4. Make sure you have all three containers running:
 
@@ -117,31 +117,31 @@ wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/main/
 
 ```Shell
 cat otg.yml | otgen run -k
-````
+```
 
 2. You can now repeat this exercise, but transform output to a table
 
 ```Shell
 cat otg.yml | otgen run -k 2>/dev/null | otgen transform -m port | otgen display -m table
-````
+```
 
 3. The same, but with flow metrics
 
 ```Shell
 cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
-````
+```
 
 4. The same, but with byte instead of frame count (only receive stats are reported)
 
 ```Shell
 cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
-````
+```
 
 5. Now report packet per second rate, as a line chart (end with `Crtl-c`)
 
 ```Shell
 cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
-````
+```
 
 ## Destroy the lab
 
@@ -150,7 +150,7 @@ To destroy the lab, including veth pair, use:
 ```Shell
 docker-compose -f ixia-c-b2b.yml down
 sudo ip link del name veth0 type veth peer name veth1
-````
+```
 
 ## Credits
 

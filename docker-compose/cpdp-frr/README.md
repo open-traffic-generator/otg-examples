@@ -169,7 +169,7 @@ b0dcff8f14be   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19    
 ```Shell
 sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
 sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
-````
+```
 
 4. Check traffic and protocol engine logs to see if they picked up veth interfaces
 
@@ -281,13 +281,13 @@ otgen run --insecure --file otg.json --json --rxbgp 2x --metrics flow | otgen tr
 
 ```Shell
 docker-compose down
-````
+```
 
 * To destroy the lab brought up via Containerlab, use:
 
 ```Shell
 sudo containerlab destroy -c
-````
+```
 
 ## Credits
 

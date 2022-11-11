@@ -64,7 +64,7 @@ CONTAINER ID   IMAGE                                                            
 
 ```Shell
 sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
-````
+```
 
 4. Check traffic and protocol engine logs to see if they picked up veth interfaces
 
@@ -89,7 +89,7 @@ To destroy the lab, including veth pair, use:
 
 ```Shell
 docker-compose down
-````
+```
 
 ## Credits
 

@@ -16,13 +16,13 @@ This is a simple lab where an Ixia-c-one node has two traffic ports connected ba
 
 ```Shell
 git clone --recurse-submodules https://github.com/open-traffic-generator/otg-examples.git
-````
+```
 
 2. Navigate to the lab folder
 
 ```Shell
 cd otg-examples/clab/ixia-c-b2b
-````
+```
 
 ## Prepare a `snappi` container image
 
@@ -30,25 +30,25 @@ Run the following only once, to build a container image where `snappi` program w
 
 ```Shell
 sudo docker build -t snappi:local .
-````
+```
 
 ## Deploy a lab
 
 ```Shell
 sudo -E containerlab deploy -t topo.yml
-````
+```
 
 ## Run snappi test
 
 ```Shell
 sudo docker exec -it clab-ixcb2b-snappi bash -c "python otg.py"
-````
+```
 
 ## Destroy the lab
 
 ```Shell
 sudo -E containerlab destroy -t topo.yml
-````
+```
 
 ## Options for Linux VM deployment for Containerlab
 
@@ -61,14 +61,14 @@ multipass launch 20.04 -n otg-demo -c4 -m8G -d32G
 multipass shell otg-demo
 sudo apt update && sudo apt install docker.io -y
 bash -c "$(curl -sL https://get.containerlab.dev)"
-````
+```
 
 2. Delete the VM after testing is done
 
 ```Shell
 multipass stop otg-demo
 multipass delete otg-demo
-````
+```
 
 ###  Containerlab VM deployment in Google Cloud
 
@@ -87,13 +87,13 @@ gcloud compute instances create otg-demo \
 gcloud compute ssh otg-demo
 sudo apt update && sudo apt install docker.io -y
 bash -c "$(curl -sL https://get.containerlab.dev)"
-````
+```
 
 2. Delete all resources and the VM after testing is done
 
 ```Shell
 gcloud compute instances delete otg-demo
-````
+```
 
 ## Misc
 
@@ -103,7 +103,7 @@ gcloud compute instances delete otg-demo
   # ixia-c
   sudo docker exec -it clab-ixcb2b-ixia-c sh
   sudo docker exec -it clab-ixcb2b-snappi bash
-  ````
+  ```
 
 ## Credits
 

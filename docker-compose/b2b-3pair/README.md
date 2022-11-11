@@ -80,7 +80,7 @@ sudo ip link set veth2 mtu 9500
 sudo ip link set veth3 mtu 9500
 sudo ip link set veth4 mtu 9500
 sudo ip link set veth5 mtu 9500
-````
+```
 
 3. Make sure you have all seven containers (six Ixia-c Traffic Engine + one KENG Controller) running:
 
