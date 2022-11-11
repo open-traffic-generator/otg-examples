@@ -3,7 +3,7 @@
 
 ## Overview 
 
-[OTG examples](https://github.com/open-traffic-generator/otg-examples) repository is a great way to get started. It features a collection of software-only network labs ranging from very simple to more complex. To setup network labs in software we use containerized or virtualized NOS images.
+[OTG examples](https://github.com/open-traffic-generator/otg-examples) repository is a great way to get started with [Open Traffic Generator API](https://otg.dev). It features a collection of software-only network labs ranging from very simple to more complex. To setup network labs in software we use containerized or virtualized NOS images.
 
 ## OTG Tools
 
@@ -85,14 +85,3 @@ This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix ann
 ### [Remote Triggered Black Hole Lab](clab/rtbh) (RTBH) 
 
 RTBH is a common DDoS mitigation technique which uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
-
-## Useful links
-
-[//]: # (TODO add source tracking to the links)
-
-* Vendor-neutral [Open Traffic Generator](https://github.com/open-traffic-generator) model and API
-* [Ixia-c](https://github.com/open-traffic-generator/ixia-c), a powerful traffic generator based on Open Traffic Generator API
-* [`otgen`](https://github.com/open-traffic-generator/otgen) command line client tool to communicate with OTG-compliant traffic generators
-* [Ixia-c Slack support channel](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/support.md)
-* [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html), a commercial version of Ixia-c with L3 protocol engine, no restrictions on performance and scalability, priority technical support.
-* [Containerlab](https://containerlab.dev/), a CLI for orchestrating and managing container-based networking labs.
