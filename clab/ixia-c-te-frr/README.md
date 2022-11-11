@@ -41,15 +41,15 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
-```Shell
-git clone https://github.com/open-traffic-generator/otg-examples.git
-```
+    ```Shell
+    git clone https://github.com/open-traffic-generator/otg-examples.git
+    ```
 
 2. Navigate to the lab folder
 
-```Shell
-cd otg-examples/clab/ixia-c-te-frr
-```
+    ```Shell
+    cd otg-examples/clab/ixia-c-te-frr
+    ```
 
 ## Deploy a lab
 
@@ -61,23 +61,23 @@ sudo containerlab deploy
 
 1. Read MAC addresses assigned to the nodes
 
-```Shell
-TE1SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["a"].mac'`
-TE1DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["z"].mac'`
-TE2SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["a"].mac'`
-TE2DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["z"].mac'`
-```
+    ```Shell
+    TE1SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["a"].mac'`
+    TE1DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[0]["z"].mac'`
+    TE2SMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["a"].mac'`
+    TE2DMAC=`cat clab-ixctedut/topology-data.json | jq -r '.links[1]["z"].mac'`
+    ```
 
 2. Run traffic defined in [otg.yml](otg.yml) with `otgen` tool, taking care to replace stub MAC addresses with current values
 
-```Shell
-cat otg.yml | \
-sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
-sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-otgen run -k 2>/dev/null| \
-otgen transform -m port | \
-otgen display -m table
-```
+    ```Shell
+    cat otg.yml | \
+    sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
+    sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
+    otgen run -k 2>/dev/null| \
+    otgen transform -m port | \
+    otgen display -m table
+    ```
 
 ## Destroy the lab
 
