@@ -88,7 +88,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
     sudo docker ps
     ```
 
-  The result should look like this
+    The result should look like this
   
     ```Shell
     CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS     NAMES
