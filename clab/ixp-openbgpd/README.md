@@ -21,6 +21,12 @@
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
+* Arista cEOSLab image. Arista EOS containerized version is called cEOSLab and can be obtained by registering on Arista website and downloading an archive with container image. Follow the [instructions](https://containerlab.dev/manual/kinds/ceos/#getting-ceos-image) provided on Containerlab website to get it. Once the image is installed, tag it as `ceos:latest`:
+
+    ```Shell
+    docker tag <ceos_image_name:version> ceos:latest
+    ```
+
 * Clone of this repository
 
     ```Shell
