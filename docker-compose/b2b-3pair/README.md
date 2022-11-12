@@ -14,124 +14,124 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 
 1. Install `docker-compose`
 
-```Shell
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-```
+    ```Shell
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    ```
 
 2. Install `otgen`
 
-```Shell
-curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-sudo mv otgen /usr/local/bin/otgen
-sudo chmod +x /usr/local/bin/otgen
-```
+    ```Shell
+    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+    sudo mv otgen /usr/local/bin/otgen
+    sudo chmod +x /usr/local/bin/otgen
+    ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
-```Shell
-cmd=docker-compose
-dir=/usr/local/bin
-if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
-  echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
-  PATH="/usr/local/bin:${PATH}"
-  echo $PATH
-fi
-```
+    ```Shell
+    cmd=docker-compose
+    dir=/usr/local/bin
+    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
+      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
+      PATH="/usr/local/bin:${PATH}"
+      echo $PATH
+    fi
+    ```
 
 4. Clone this repository
 
-```Shell
-git clone https://github.com/open-traffic-generator/otg-examples.git
-```
+    ```Shell
+    git clone https://github.com/open-traffic-generator/otg-examples.git
+    ```
 
 ## Deploy lab
 
 1. Create 3 veth pairs
 
-```Shell
-sudo ip link add name veth0 type veth peer name veth1
-sudo ip link set dev veth0 up
-sudo ip link set dev veth1 up
-sudo sysctl net.ipv6.conf.veth0.disable_ipv6=1
-sudo sysctl net.ipv6.conf.veth1.disable_ipv6=1
+    ```Shell
+    sudo ip link add name veth0 type veth peer name veth1
+    sudo ip link set dev veth0 up
+    sudo ip link set dev veth1 up
+    sudo sysctl net.ipv6.conf.veth0.disable_ipv6=1
+    sudo sysctl net.ipv6.conf.veth1.disable_ipv6=1
 
-sudo ip link add name veth2 type veth peer name veth3
-sudo ip link set dev veth2 up
-sudo ip link set dev veth3 up
-sudo sysctl net.ipv6.conf.veth2.disable_ipv6=1
-sudo sysctl net.ipv6.conf.veth3.disable_ipv6=1
+    sudo ip link add name veth2 type veth peer name veth3
+    sudo ip link set dev veth2 up
+    sudo ip link set dev veth3 up
+    sudo sysctl net.ipv6.conf.veth2.disable_ipv6=1
+    sudo sysctl net.ipv6.conf.veth3.disable_ipv6=1
 
-sudo ip link add name veth4 type veth peer name veth5
-sudo ip link set dev veth4 up
-sudo ip link set dev veth5 up
-sudo sysctl net.ipv6.conf.veth4.disable_ipv6=1
-sudo sysctl net.ipv6.conf.veth5.disable_ipv6=1
-```
+    sudo ip link add name veth4 type veth peer name veth5
+    sudo ip link set dev veth4 up
+    sudo ip link set dev veth5 up
+    sudo sysctl net.ipv6.conf.veth4.disable_ipv6=1
+    sudo sysctl net.ipv6.conf.veth5.disable_ipv6=1
+    ```
 
 2. Launch the deployment and adjust MTUs on the veth pair
 
-```Shell
-cd otg-examples/docker-compose/b2b-3pair
-sudo docker-compose up -d 
-sudo ip link set veth0 mtu 9500
-sudo ip link set veth1 mtu 9500
-sudo ip link set veth2 mtu 9500
-sudo ip link set veth3 mtu 9500
-sudo ip link set veth4 mtu 9500
-sudo ip link set veth5 mtu 9500
-```
+    ```Shell
+    cd otg-examples/docker-compose/b2b-3pair
+    sudo docker-compose up -d 
+    sudo ip link set veth0 mtu 9500
+    sudo ip link set veth1 mtu 9500
+    sudo ip link set veth2 mtu 9500
+    sudo ip link set veth3 mtu 9500
+    sudo ip link set veth4 mtu 9500
+    sudo ip link set veth5 mtu 9500
+    ```
 
 3. Make sure you have all seven containers (six Ixia-c Traffic Engine + one KENG Controller) running:
 
-```Shell
-sudo docker ps
-```
+    ```Shell
+    sudo docker ps
+    ```
 
-  The result should look like this
+    The result should look like this
   
-```Shell
-CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS     NAMES
-6f3b3f0f4104   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_1_1
-2815f742922a   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 6 seconds             b2b_traffic_engine_6_1
-7bafb0bc3bbc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_3_1
-e205740a0f0d   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_4_1
-539f386b5e7e   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_5_1
-2ec23b5623dc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_2_1
-16cfd8d59224   ghcr.io/open-traffic-generator/keng-commercial-sep-30:0.0.1-3113   "./bin/controller --…"   7 seconds ago   Up 5 seconds             b2b_controller_1
-```
+    ```Shell
+    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS     NAMES
+    6f3b3f0f4104   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_1_1
+    2815f742922a   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 6 seconds             b2b_traffic_engine_6_1
+    7bafb0bc3bbc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_3_1
+    e205740a0f0d   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_4_1
+    539f386b5e7e   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_5_1
+    2ec23b5623dc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_2_1
+    16cfd8d59224   ghcr.io/open-traffic-generator/keng-commercial-sep-30:0.0.1-3113   "./bin/controller --…"   7 seconds ago   Up 5 seconds             b2b_controller_1
+    ```
 
 ## Run OTG traffic flows
 
 1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.3pairs.yml`. If successful, the result will come as OTG port metrics in JSON format
 
-```Shell
-otgen run -k -f otg.3pairs.yml
-```
+    ```Shell
+    otgen run -k -f otg.3pairs.yml
+    ```
 
 2. You can now repeat this exercise, but transform output to a table
 
-```Shell
-otgen run -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
-```
+    ```Shell
+    otgen run -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
+    ```
 
 3. The same, but with flow metrics
 
-```Shell
-otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
-```
+    ```Shell
+    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
+    ```
 
 4. The same, but with byte instead of frame count (only receive stats are reported)
 
-```Shell
-otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
-```
+    ```Shell
+    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
+    ```
 
 5. Now report packet per second rate, as a line chart (end with `Ctrl-c`)
 
-```Shell
-otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
-```
+    ```Shell
+    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    ```
 
 ## Destroy the lab
 
