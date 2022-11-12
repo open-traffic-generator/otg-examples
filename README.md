@@ -42,46 +42,43 @@ Some of the lab examples include Github Action workflow for executing OTG tests 
 
 ## Reference
 
-| Lab                                                                                                                       | OTG Tool    | DUT  | Client     | Infrastructure | CI  |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ---------- | -------------- | --- |
-| [Ixia-c traffic engine](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)              | Ixia-c TE   | B2B  | `otgen`    | Compose        | yes |
-| [KENG 3 pairs](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)                 | KENG TE     | B2B  | `otgen`    | Compose        | yes |
-| [KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)          | KENG PE+TE  | B2B  | `gosnappi` | Compose        | yes |
-| [FRR+KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr) | KENG PE+TE  | FRR  | `curl`     | Compose        | yes |
-| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)   | Ixia-c-one  | B2B  | `snappi`   | Containerlab   | no  |
-| [Ixia-c-one and FRR](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                 | Ixia-c TE   | FRR  | `otgen`    | Containerlab   | no  |
-| [Remote Triggered Black Hole](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                 | Ixia-c-one  | FRR  | `gosnappi` | Containerlab   | yes |
+| Lab                                                                                                                       | OTG Tool    | DUT  | Client           | Infrastructure | CI  |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ---------------- | -------------- | --- |
+| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                 | Ixia-c TE   | B2B  | `otgen`          | Compose        | yes |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                 | Ixia-c TE   | FRR  | `otgen`          | Containerlab   | no  |
+| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)           | KENG TE     | B2B  | `otgen`          | Compose        | yes |
+| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)      | KENG PE+TE  | B2B  | `gosnappi`       | Compose        | yes |
+| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr) | KENG PE+TE  | FRR  | `curl` & `otgen` | Compose & Clab | yes |
+| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)   | Ixia-c-one  | B2B  | `snappi`         | Containerlab   | no  |
+| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                        | Ixia-c-one  | FRR  | `gosnappi`       | Containerlab   | yes |
 
 
 ## Quick Lab Descriptions
 
-### [Ixia-c traffic engine back-to-back setup with Docker Compose](docker-compose/b2b)
+### [B2B Ixia-c Traffic](docker-compose/b2b)
 
-Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
+Ixia-c traffic engine back-to-back setup with Docker Compose. Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
 
-### [KENG 3 back-to-back pairs setup with Docker Compose](docker-compose/b2b-3pair)
-This lab is an extension of [Ixia-c back-2-back lab](docker-compose/b2b/README.md) traffic engine setup with more port pairs that is allowed with free version of Ixia-c. Use this lab to validate Ixia-c commercial version – KENG for basic traffic operations.
+### [FRR Ixia-c Traffic](clab/ixia-c-te-frr)
 
-### [KENG back-to-back BGP and traffic setup with Docker Compose](docker-compose/cpdp-b2b)
+Ixia-c Traffic Engine and FRR. Demonstrates how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test.
 
-This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP.
+### [3xB2B KENG Traffic](docker-compose/b2b-3pair)
 
-### [KENG ARP, BGP and traffic with FRR as a DUT](docker-compose/cpdp-frr)
+KENG 3 back-to-back pairs setup with Docker Compose. This lab is an extension of [Ixia-c back-2-back lab](docker-compose/b2b/README.md) traffic engine setup with more port pairs that is allowed with free version of Ixia-c. Use this lab to validate Ixia-c commercial version – KENG for basic traffic operations.
 
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets.
+### [B2B KENG BGP and traffic](docker-compose/cpdp-b2b)
 
-### [Ixia-c Traffic Engine and FRR](clab/ixia-c-te-frr)
+KENG back-to-back BGP and traffic setup with Docker Compose. This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP.
 
-Demonstrates how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test.
+### [FRR KENG ARP, BGP and traffic](docker-compose/cpdp-frr)
+
+KENG ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. The lab has two alternative deployment methods: Compose as well as Containerlab.
 
 ### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b) 
 
 Basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
 
-### [KENG ARP, BGP and traffic with FRR as a DUT](docker-compose/cpdp-frr) 
+### [RTBH](clab/rtbh)
 
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. Same lab as in basic examples section, but with Containerlab. 
-
-### [Remote Triggered Black Hole Lab](clab/rtbh) (RTBH) 
-
-RTBH is a common DDoS mitigation technique which uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
+Remote Triggered Black Hole (RTBH) is a common DDoS mitigation technique which uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
