@@ -10,20 +10,20 @@ topology:
     srlinux:
       kind: srl
       image: ghcr.io/nokia/srlinux:22.6.4
-      startup-config: srlinux.cfg
+      startup-config: openbgpd-lab/srlinux.cfg
       labels:
         graph-level: 3
     ceos:
       kind: ceos
       image: ceos:latest
-      startup-config: ceos.cfg
+      startup-config: openbgpd-lab/ceos.cfg
       labels:
         graph-level: 3
     openbgpd:
       kind: linux
       image: quay.io/openbgpd/openbgpd:7.7
       binds:
-        - openbgpd.conf:/etc/bgpd/bgpd.conf
+        - openbgpd-lab/openbgpd.conf:/etc/bgpd/bgpd.conf
       exec:
         - "ip address add dev eth1 192.168.0.3/24"
       labels:
@@ -32,12 +32,11 @@ topology:
 
     graphite:
       kind: linux
-      image: netreplica/graphite:nanog86
+      image: netreplica/graphite:latest
       env:
         CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
       binds:
-        - __clabDir__/topology-data.json:/htdocs/lab/default/topology-data.json:ro
-        - __clabDir__/ansible-inventory.yml:/htdocs/lab/default/ansible-inventory.yml:ro
+        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
       ports:
         - 8080:80
       exec:
@@ -46,6 +45,6 @@ topology:
         graph-hide: yes
 
   links:
-    - endpoints: ["srlinux:e1-1", "ixp:srl1"]
-    - endpoints: ["ceos:eth1", "ixp:ceos1"]
-    - endpoints: ["openbgpd:eth1", "ixp:obgp1"]
+    - endpoints: ["openbgpd:eth1", "ixp:veth1"]
+    - endpoints: ["ceos:eth1", "ixp:veth2"]
+    - endpoints: ["srlinux:e1-1", "ixp:veth3"]

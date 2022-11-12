@@ -88,6 +88,7 @@ Otherwise, follow step-by-step instructions below:
 
 ```Shell
 sudo containerlab destroy -c
+sudo ip link delete dev ixp
 ```
 
 ## Credits
