@@ -7,13 +7,13 @@ topology:
       labels:
         graph-level: 2
         graph-icon: switch
-    srlinux:
+    r1:
       kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux:22.6.4
       startup-config: openbgpd-lab/srlinux.cfg
       labels:
         graph-level: 3
-    ceos:
+    r2:
       kind: arista_ceos
       image: ceos:latest
       startup-config: openbgpd-lab/ceos.cfg
@@ -29,6 +29,61 @@ topology:
       labels:
         graph-level: 1
         graph-icon: server
+    otg:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3587
+      network-mode: host
+      cmd: --accept-eula --http-port 443
+      ports:
+        - 443:443
+      labels:
+        graph-hide: yes
+    te1:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+      ports:
+        - 5555:5555
+        - 50071:50071
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+      labels:
+        graph-level: 4
+    pe1:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+      network-mode: container:te1
+      startup-delay: 5
+      env:
+        INTF_LIST: eth1
+      labels:
+        graph-hide: yes
+    te2:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+      ports:
+        - 5556:5556
+        - 50072:50071
+      env:
+        OPT_LISTEN_PORT: 5556
+        ARG_IFACE_LIST: virtual@af_packet,eth1
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+      labels:
+        graph-level: 4
+    pe2:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+      network-mode: container:te2
+      startup-delay: 5
+      env:
+        INTF_LIST: eth1
+      labels:
+        graph-hide: yes
 
     graphite:
       kind: linux
@@ -45,6 +100,8 @@ topology:
         graph-hide: yes
 
   links:
-    - endpoints: ["openbgpd:eth1", "ixp:veth1"]
-    - endpoints: ["ceos:eth1", "ixp:veth2"]
-    - endpoints: ["srlinux:e1-1", "ixp:veth3"]
+    - endpoints: ["openbgpd:eth1", "ixp:eth3"]
+    - endpoints: ["r1:e1-1", "ixp:eth1"]
+    - endpoints: ["r1:e1-2", "te1:eth1"]
+    - endpoints: ["r2:eth1", "ixp:eth2"]
+    - endpoints: ["r2:eth2", "te2:eth1"]
