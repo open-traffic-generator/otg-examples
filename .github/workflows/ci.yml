@@ -16,6 +16,9 @@ on:
       - 'docker-compose/cpdp-frr/**'
       - '!docker-compose/cpdp-frr/**.md'
       - '!docker-compose/cpdp-frr/**.png'
+      - 'clab/ixp-openbgpd/**'
+      - '!clab/ixp-openbgpd/**.md'
+      - '!clab/ixp-openbgpd/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -34,6 +37,9 @@ on:
       - 'docker-compose/cpdp-frr/**'
       - '!docker-compose/cpdp-frr/**.md'
       - '!docker-compose/cpdp-frr/**.png'
+      - 'clab/ixp-openbgpd/**'
+      - '!clab/ixp-openbgpd/**.md'
+      - '!clab/ixp-openbgpd/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -49,6 +55,7 @@ jobs:
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
       clab-cpdp-frr: ${{ steps.changes.outputs.clab-cpdp-frr }}
+      clab-ixp-openbgpd: ${{ steps.changes.outputs.ixp-openbgpd }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -68,6 +75,8 @@ jobs:
             - 'docker-compose/cpdp-frr/**'
             clab-cpdp-frr:
             - 'docker-compose/cpdp-frr/**'
+            clab-ixp-openbgpd:
+            - 'clab/ixp-openbgpd/**'
             clab-rtbh:
             - 'clab/rtbh/**'
       - name: docker-compose b2b
@@ -88,6 +97,9 @@ jobs:
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
+      - name: clab ixp-openbgpd
+        if: steps.changes.outputs.ixp-openbgpd == 'true'
+        run: echo "Run Clab ixp-openbgpd CI"
   docker-compose-b2b:
     name: Run docker-compose b2b CI
     runs-on: ubuntu-20.04
@@ -182,6 +194,26 @@ jobs:
           password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Run all-clab
         run:  make all-clab
+  clab-ixp-openbgpd:
+    name: Run Clab ixp-openbgpd CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./clab/ixp-openbgpd
+    if: needs.paths-filter.outputs.ixp-openbgpd == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ENV_GITHUB_USER }}
+          password: ${{ secrets.ENV_GITHUB_PAT }}
+      - name: Run all and clean
+        run:  make all clean-all
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04
