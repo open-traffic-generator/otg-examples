@@ -1,13 +1,13 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install deploy
+all: install pull deploy
 
 .PHONY: clean
 clean: remove-clab remove-net
 
 .PHONY: clean-all
-clean-all: clean install-clean
+clean-all: clean pull-clean install-clean
 
 ###############################
 # Install components
@@ -29,6 +29,28 @@ install-otgen: /usr/local/bin/otgen
 install-clean:
 	-sudo rm -f `command -v otgen`
 	-sudo apt remove containerlab -y
+
+###############################
+# Pull images
+###############################
+
+.PHONY: pull
+
+pull: pull-ceos
+
+pull-clean: remove-ceos
+
+pull-ceos:
+ifeq ($(shell docker images -q ceos:latest 2> /dev/null),)
+	docker pull ghcr.io/open-traffic-generator/ceos:4.28.0F
+	docker tag ghcr.io/open-traffic-generator/ceos:4.28.0F ceos:latest
+endif
+
+remove-ceos:
+ifneq ($(shell docker images -q ceos:latest 2> /dev/null),)
+	docker rmi `docker images -q ceos:latest 2> /dev/null` --force
+endif
+
 
 ###############################
 # Deploy lab
