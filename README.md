@@ -1,5 +1,4 @@
 # Open Traffic Generator examples
-[![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
 
 ## Overview 
 
@@ -38,6 +37,7 @@ To manage deployment of the example labs, we use one of the following declarativ
 
 ## CI with Github Actions
 
+[![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
 Some of the lab examples include Github Action workflow for executing OTG tests on any changes to the lab code. This could serve as a template for your CI workflow.
 
 ## Reference
