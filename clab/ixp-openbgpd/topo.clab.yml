@@ -8,13 +8,13 @@ topology:
         graph-level: 2
         graph-icon: switch
     srlinux:
-      kind: srl
+      kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux:22.6.4
       startup-config: openbgpd-lab/srlinux.cfg
       labels:
         graph-level: 3
     ceos:
-      kind: ceos
+      kind: arista_ceos
       image: ceos:latest
       startup-config: openbgpd-lab/ceos.cfg
       labels:

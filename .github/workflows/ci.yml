@@ -213,7 +213,7 @@ jobs:
           username: ${{ secrets.ENV_GITHUB_USER }}
           password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Run all and clean
-        run:  make all clean-all
+        run:  make all clean pull-clean
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04
