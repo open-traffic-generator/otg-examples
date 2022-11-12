@@ -55,7 +55,7 @@ jobs:
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
       clab-cpdp-frr: ${{ steps.changes.outputs.clab-cpdp-frr }}
-      clab-ixp-openbgpd: ${{ steps.changes.outputs.ixp-openbgpd }}
+      clab-ixp-openbgpd: ${{ steps.changes.outputs.clab-ixp-openbgpd }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -94,12 +94,12 @@ jobs:
       - name: clab cpdp-frr
         if: steps.changes.outputs.clab-cpdp-frr == 'true'
         run: echo "Run clab cpdp-frr CI"
-      - name: clab rtbh
-        if: steps.changes.outputs.clab-rtbh == 'true'
-        run: echo "Run Clab RTBH CI"
       - name: clab ixp-openbgpd
         if: steps.changes.outputs.ixp-openbgpd == 'true'
         run: echo "Run Clab ixp-openbgpd CI"
+      - name: clab rtbh
+        if: steps.changes.outputs.clab-rtbh == 'true'
+        run: echo "Run Clab RTBH CI"
   docker-compose-b2b:
     name: Run docker-compose b2b CI
     runs-on: ubuntu-20.04
