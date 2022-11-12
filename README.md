@@ -53,7 +53,7 @@ Some of the lab examples include Github Action workflow for executing OTG tests 
 | [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                        | Ixia-c-one  | FRR  | `gosnappi`       | Containerlab   | yes |
 
 
-## Quick Lab Descriptions
+## Lab Descriptions
 
 ### [B2B Ixia-c Traffic](docker-compose/b2b)
 
