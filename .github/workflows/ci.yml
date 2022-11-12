@@ -95,7 +95,7 @@ jobs:
         if: steps.changes.outputs.clab-cpdp-frr == 'true'
         run: echo "Run clab cpdp-frr CI"
       - name: clab ixp-openbgpd
-        if: steps.changes.outputs.ixp-openbgpd == 'true'
+        if: steps.changes.outputs.clab-ixp-openbgpd == 'true'
         run: echo "Run Clab ixp-openbgpd CI"
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
@@ -201,7 +201,7 @@ jobs:
     defaults:
       run:
         working-directory: ./clab/ixp-openbgpd
-    if: needs.paths-filter.outputs.ixp-openbgpd == 'true'
+    if: needs.paths-filter.outputs.clab-ixp-openbgpd == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
