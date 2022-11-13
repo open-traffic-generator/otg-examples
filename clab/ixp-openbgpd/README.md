@@ -4,17 +4,9 @@
 
 ## Lab configuration
 
-### Diagram
-
-![Diagram](./diagram.png)
-
 ### Layer 3 topology and generated traffic flows
 
 ![IP Diagram](./ip-diagram.png)
-
-### OTG
-
-![OTG Diagram](./otg-diagram.png)
 
 ## Prerequisites
 
