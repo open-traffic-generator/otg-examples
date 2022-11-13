@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy
+all: install pull deploy run
 
 .PHONY: clean
 clean: remove-clab remove-net
@@ -64,9 +64,18 @@ deploy-net:
 
 deploy-clab:
 	sudo -E containerlab deploy --reconfigure
+	sleep 30 # pause for all components to initialize
 
 remove-clab:
 	sudo containerlab destroy --cleanup
 
 remove-net:
 	-sudo ip link delete dev ixp
+
+###############################
+# Run tests
+###############################
+
+.PHONY: run
+run:
+	otgen --log debug run --insecure --file otg.json --json --metrics flow | otgen transform --metrics flow | otgen display -m table

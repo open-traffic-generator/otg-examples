@@ -82,6 +82,10 @@ Otherwise, follow step-by-step instructions below:
 
 ## Run tests
 
+```Shell
+otgen --log debug run -k --file otg.json -m flow | otgen transform -m flow | otgen display -m table
+```
+
 ## Destroy the lab
 
 ```Shell
