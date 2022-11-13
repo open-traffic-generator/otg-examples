@@ -10,13 +10,13 @@ topology:
     r1:
       kind: nokia_srlinux
       image: ghcr.io/nokia/srlinux:22.6.4
-      startup-config: openbgpd-lab/srlinux.cfg
+      startup-config: srlinux.cfg
       labels:
         graph-level: 3
     r2:
       kind: arista_ceos
       image: ceos:latest
-      startup-config: openbgpd-lab/ceos.cfg
+      startup-config: ceos.cfg
       labels:
         graph-level: 3
     openbgpd:
