@@ -1,6 +1,3 @@
 [submodule "submodules/otgen"]
 	path = submodules/otgen
 	url = https://github.com/open-traffic-generator/otgen.git
-[submodule "clab/ixp-openbgpd/openbgpd-lab"]
-	path = clab/ixp-openbgpd/openbgpd-lab
-	url = https://github.com/hellt/openbgpd-lab.git

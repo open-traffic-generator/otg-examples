@@ -77,5 +77,22 @@ remove-net:
 ###############################
 
 .PHONY: run
-run:
+run: run-connected run-ce
+
+run-connected:
+	@echo "#################################################################"
+	@echo "# Run traffic between subnets directly connected to r1 and r2"
+	@echo "#################################################################"
+
 	otgen --log debug run --insecure --file otg.json --json --metrics flow | otgen transform --metrics flow | otgen display -m table
+
+	@echo 
+
+run-ce:
+	@echo "#################################################################"
+	@echo "# Run raffic from behind emulated CE routers downstream from r1 and r2"
+	@echo "#################################################################"
+
+	cat otgen.run-ce.sh | sh
+
+	@echo 

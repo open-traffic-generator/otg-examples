@@ -23,7 +23,7 @@ topology:
       kind: linux
       image: quay.io/openbgpd/openbgpd:7.7
       binds:
-        - openbgpd-lab/openbgpd.conf:/etc/bgpd/bgpd.conf
+        - ./openbgpd.conf:/etc/bgpd/bgpd.conf
       exec:
         - "ip address add dev eth1 192.168.0.3/24"
       labels:
@@ -52,6 +52,7 @@ topology:
         WAIT_FOR_IFACE: Yes
       labels:
         graph-level: 4
+        graph-icon: server
     pe1:
       kind: linux
       image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
@@ -75,6 +76,7 @@ topology:
         WAIT_FOR_IFACE: Yes
       labels:
         graph-level: 4
+        graph-icon: server
     pe2:
       kind: linux
       image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
