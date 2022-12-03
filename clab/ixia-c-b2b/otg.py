@@ -1,5 +1,4 @@
 import snappi
-import dpkt
 
 def port_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
@@ -40,6 +39,11 @@ cfg = api.get_config()
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
 p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="eth2")
+
+# config has an attribute called `captures` which holds an iterator of type
+# `snappi.CaptureIter`, where each item is of type `snappi.Capture` (cp)
+cp = cfg.captures.capture(name="cp")[-1]
+cp.port_names = [p1.name, p2.name]
 
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
@@ -90,6 +94,11 @@ print(cfg)
 # push configuration to controller
 api.set_config(cfg)
 
+# start packet capture on configured ports
+cs = api.capture_state()
+cs.state = cs.START
+api.set_capture_state(cs)
+
 # start transmitting configured flows
 ts = api.transmit_state()
 ts.state = ts.START
@@ -105,3 +114,12 @@ res = api.get_metrics(req)
 # wait for port metrics to be as expected
 expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
 assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
+
+for p in cfg.ports:
+    # create capture request and filter based on port name
+    req = api.capture_request()
+    req.port_name = p.name
+    # fetch captured pcap bytes and write it to pcap
+    pcap_bytes = api.get_capture(req)
+    with open(p.name + '.pcap', 'wb') as p:
+        p.write(pcap_bytes.read())

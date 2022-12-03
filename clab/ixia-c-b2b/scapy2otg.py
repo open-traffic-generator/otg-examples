@@ -1,5 +1,4 @@
 import snappi
-import dpkt
 from scapy.all import *
 
 def port_metrics_ok(api, req, packets):
@@ -42,6 +41,11 @@ cfg = api.get_config()
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
 p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="eth2")
 
+# config has an attribute called `captures` which holds an iterator of type
+# `snappi.CaptureIter`, where each item is of type `snappi.Capture` (cp)
+cp = cfg.captures.capture(name="cp")[-1]
+cp.port_names = [p1.name, p2.name]
+
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
 f1, f2 = cfg.flows.flow(name="scapy p1->p2").flow(name="scapy p2->p1")
@@ -71,17 +75,24 @@ eth1 = f1.packet[0]
 eth2 = f2.packet[0]
 eth1.src.value, eth1.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
 eth2.src.value, eth2.dst.value = "00:AA:00:00:00:AA", "00:AA:00:00:04:00"
+eth1.ether_type.value = 0x0800 #IPv4
+eth2.ether_type.value = eth1.ether_type.value
 
 payload1 = f1.packet[1]
 payload2 = f2.packet[1]
-payload1.bytes = packet1[0].payload.build().hex()
-payload2.bytes = packet2[0].payload.build().hex()
+payload1.bytes = packet1.build().hex()
+payload2.bytes = packet2.build().hex()
 
 # print resulting otg configuration
 print(cfg)
 
 # push configuration to controller
 api.set_config(cfg)
+
+# start packet capture on configured ports
+cs = api.capture_state()
+cs.state = cs.START
+api.set_capture_state(cs)
 
 # start transmitting configured flows
 ts = api.transmit_state()
@@ -98,3 +109,12 @@ res = api.get_metrics(req)
 # wait for port metrics to be as expected
 expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
 assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
+
+for p in cfg.ports:
+    # create capture request and filter based on port name
+    req = api.capture_request()
+    req.port_name = p.name
+    # fetch captured pcap bytes and write it to pcap
+    pcap_bytes = api.get_capture(req)
+    with open(p.name + '.pcap', 'wb') as p:
+        p.write(pcap_bytes.read())
