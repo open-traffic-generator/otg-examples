@@ -1,5 +1,6 @@
 import snappi
 import dpkt
+from scapy.all import *
 
 def port_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
@@ -43,7 +44,7 @@ p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="et
 
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
-f1, f2 = cfg.flows.flow(name="flow p1->p2").flow(name="flow p2->p1")
+f1, f2 = cfg.flows.flow(name="scapy p1->p2").flow(name="scapy p2->p1")
 
 # and assign source and destination ports for each
 f1.tx_rx.port.tx_name, f1.tx_rx.port.rx_name = p1.name, p2.name
@@ -59,30 +60,22 @@ for f in cfg.flows:
     # allow fetching flow metrics
     f.metrics.enable = True
 
-# configure packet with Ethernet, IPv4 and UDP headers for both flows
-eth1, ip1, udp1 = f1.packet.ethernet().ipv4().udp()
-eth2, ip2, udp2 = f2.packet.ethernet().ipv4().udp()
+# custom flow from scapy
+packet1 = IP(src="10.11.12.13", dst="10.11.12.14")/UDP(sport=1024, dport=53)/DNS(rd=1, qd=DNSQR(qtype="A", qname="google.com"))
+packet2 = IP(src="10.11.12.14", dst="10.11.12.13")/UDP(sport=53, dport=1024)/DNS(rd=1, qd=DNSQR(qtype="A", qname="google.com"))
 
-# set source and destination MAC addresses
+f1.packet.ethernet().custom()
+f2.packet.ethernet().custom()
+
+eth1 = f1.packet[0]
+eth2 = f2.packet[0]
 eth1.src.value, eth1.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
 eth2.src.value, eth2.dst.value = "00:AA:00:00:00:AA", "00:AA:00:00:04:00"
 
-# set source and destination IPv4 addresses
-ip1.src.value, ip1.dst.value = "10.0.0.1", "10.0.0.2"
-ip2.src.value, ip2.dst.value = "10.0.0.2", "10.0.0.1"
-
-# set incrementing port numbers as source UDP ports
-udp1.src_port.increment.start = 5000
-udp1.src_port.increment.step = 2
-udp1.src_port.increment.count = 10
-
-udp2.src_port.increment.start = 6000
-udp2.src_port.increment.step = 4
-udp2.src_port.increment.count = 10
-
-# assign list of port numbers as destination UDP ports
-udp1.dst_port.values = [4000, 4044, 4060, 4074]
-udp2.dst_port.values = [8000, 8044, 8060, 8074, 8082, 8084]
+payload1 = f1.packet[1]
+payload2 = f2.packet[1]
+payload1.bytes = packet1[0].payload.build().hex()
+payload2.bytes = packet2[0].payload.build().hex()
 
 # print resulting otg configuration
 print(cfg)
