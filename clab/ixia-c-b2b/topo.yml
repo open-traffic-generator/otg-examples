@@ -3,7 +3,7 @@ topology:
   nodes:
     ixia-c:
       kind: keysight_ixia-c-one
-      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-2934
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-3662
     snappi:
       kind: linux
       image: snappi:local
