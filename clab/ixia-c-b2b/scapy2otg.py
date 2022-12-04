@@ -42,9 +42,9 @@ p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="et
 cp = cfg.captures.capture(name="cp")[-1]
 cp.port_names = [p1.name, p2.name]
 
-# custom flow from scapy
+# create custom payloads with scapy
 packets1 = [
-        IP(src="10.0.0.1", dst="10.0.0.2")/UDP(sport=1024, dport=53)/DNS(
+        DNS(
             id=0,
             rd=1, 
             qr=0, 
@@ -53,7 +53,7 @@ packets1 = [
                 qname="example.com"
             )
         ),
-        IP(src="10.0.0.1", dst="10.0.0.2")/UDP(sport=1024, dport=53)/DNS(
+        DNS(
             id=1,
             rd=1, 
             qr=0, 
@@ -64,7 +64,7 @@ packets1 = [
         ),
     ]
 packets2 = [
-        IP(src="10.0.0.2", dst="10.0.0.1")/UDP(sport=53, dport=1024)/DNS(
+        DNS(
             id=0,
             rd=1, 
             qr=1, 
@@ -78,7 +78,7 @@ packets2 = [
                 rdata="1.1.1.1"
             )
         ),
-        IP(src="10.0.0.2", dst="10.0.0.1")/UDP(sport=53, dport=1024)/DNS(
+        DNS(
             id=1,
             rd=1, 
             qr=1, 
@@ -99,14 +99,17 @@ for i in range(len(packets1)):
     n = "f1-" + str(i)
     f = cfg.flows.flow(name=n)[-1]
     f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p1.name, p2.name
-    f.packet.ethernet().custom()
-    eth = f.packet[0]
+    eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
     eth.src.value, eth.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
-    eth.ether_type.value = 0x0800 #IPv4
-    payload = f.packet[1]
+    ip.src.value, ip.dst.value = "10.0.0.1", "10.0.0.2"
+    # set incrementing port numbers as source UDP ports
+    udp.src_port.increment.start = 5000
+    udp.src_port.increment.step = 7
+    udp.src_port.increment.count = 10
+    udp.dst_port.value = 53
     payload.bytes = packets1[i].build().hex()
-    # send 1 packet per each flow
-    f.duration.fixed_packets.packets = 1
+    # send 10 packets per each flow
+    f.duration.fixed_packets.packets = 10
     # delay between flows to simulate a sequence of packets: 1ms
     f.duration.fixed_packets.delay.microseconds = 1000 * i
     # allow fetching flow metrics
@@ -117,14 +120,17 @@ for i in range(len(packets2)):
     n = "f2-" + str(i)
     f = cfg.flows.flow(name=n)[-1]
     f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p2.name, p1.name
-    f.packet.ethernet().custom()
-    eth = f.packet[0]
+    eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
     eth.src.value, eth.dst.value = "00:AA:00:00:00:AA", "00:AA:00:00:04:00"
-    eth.ether_type.value = 0x0800 #IPv4
-    payload = f.packet[1]
+    ip.src.value, ip.dst.value = "10.0.0.2", "10.0.0.1"
+    # set incrementing port numbers as source UDP ports
+    udp.dst_port.increment.start = 5000
+    udp.dst_port.increment.step = 7
+    udp.dst_port.increment.count = 10
+    udp.src_port.value = 53
     payload.bytes = packets2[i].build().hex()
-    # send 1 packet per each flow
-    f.duration.fixed_packets.packets = 1
+    # send 10 packets per each flow
+    f.duration.fixed_packets.packets = 10
     # delay between flows to simulate a sequence of packets: 1ms, plus initial 500us to simulate a response
     f.duration.fixed_packets.delay.microseconds = 1000 * i + 500
     # allow fetching flow metrics
