@@ -54,19 +54,26 @@ f1, f2 = cfg.flows.flow(name="scapy p1->p2").flow(name="scapy p2->p1")
 f1.tx_rx.port.tx_name, f1.tx_rx.port.rx_name = p1.name, p2.name
 f2.tx_rx.port.tx_name, f2.tx_rx.port.rx_name = p2.name, p1.name
 
-# configure packet size, rate and duration for both flows
-f1.size.fixed, f2.size.fixed = 128, 256
-for f in cfg.flows:
-    # send 1000 packets and stop
-    f.duration.fixed_packets.packets = 1000
-    # send 1000 packets per second
-    f.rate.pps = 1000
-    # allow fetching flow metrics
-    f.metrics.enable = True
-
 # custom flow from scapy
-packet1 = IP(src="10.11.12.13", dst="10.11.12.14")/UDP(sport=1024, dport=53)/DNS(rd=1, qd=DNSQR(qtype="A", qname="google.com"))
-packet2 = IP(src="10.11.12.14", dst="10.11.12.13")/UDP(sport=53, dport=1024)/DNS(rd=1, qd=DNSQR(qtype="A", qname="google.com"))
+packets1 = [IP(src="10.0.0.1", dst="10.0.0.2")/UDP(sport=1024, dport=53)/DNS(
+    rd=1, 
+    qr=0, 
+    qd=DNSQR(
+        qtype="A", 
+        qname="google.com"
+    ))]
+packets2 = [IP(src="10.0.0.2", dst="10.0.0.1")/UDP(sport=53, dport=1024)/DNS(
+    rd=1, 
+    qr=1, 
+    ra=1, 
+    qdcount=1, 
+    ancount=1,
+    ar=DNSRR(
+        type="A", 
+        rrname="example.com", 
+        ttl=600,
+        rdata="1.1.1.1"
+    ))]
 
 f1.packet.ethernet().custom()
 f2.packet.ethernet().custom()
@@ -80,8 +87,17 @@ eth2.ether_type.value = eth1.ether_type.value
 
 payload1 = f1.packet[1]
 payload2 = f2.packet[1]
-payload1.bytes = packet1.build().hex()
-payload2.bytes = packet2.build().hex()
+payload1.bytes = packets1[0].build().hex()
+payload2.bytes = packets2[0].build().hex()
+
+# configure packet rate and duration for both flows
+for f in cfg.flows:
+    # send 1 packet and stop
+    f.duration.fixed_packets.packets = 1
+    # send 1 packets per second
+    f.rate.pps = 1
+    # allow fetching flow metrics
+    f.metrics.enable = True
 
 # print resulting otg configuration
 print(cfg)

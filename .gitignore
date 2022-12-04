@@ -141,3 +141,4 @@ clab/srl-oper-group/opergroup-lab/
 *.bak
 *.bkp
 *.dtmp
+*.pcapng
