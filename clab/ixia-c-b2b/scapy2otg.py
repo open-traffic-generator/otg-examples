@@ -65,7 +65,8 @@ packets1 = [
     ]
 packets2 = [
         DNS(
-            id=0,
+            id=packets1[0][DNS].id,
+            qd=packets1[0][DNS].qd,
             rd=1, 
             qr=1, 
             ra=1, 
@@ -79,7 +80,8 @@ packets2 = [
             )
         ),
         DNS(
-            id=1,
+            id=packets1[1][DNS].id,
+            qd=packets1[1][DNS].qd,
             rd=1, 
             qr=1, 
             ra=1, 
