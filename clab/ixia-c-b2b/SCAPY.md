@@ -56,7 +56,7 @@ for i in range(len(requests)):
 
  Some details above are omitted, see [scapy2otg.py](scapy2otg.py) for more.
 
- As a result, the produced OTG configuration of the first flow of the requests will have a custom payload after the UDP layer (at the very end of the YAML below):
+ As a result, the produced OTG configuration of the first flow of the DNS requests will have a custom payload after the UDP layer (see the very end of the YAML below):
 
  ```Yaml
 flows:
@@ -101,3 +101,9 @@ flows:
     custom:
       bytes: 000001000001000000000000076578616d706c6503636f6d0000010001
 ```
+
+## Capture
+
+If captured, the packets looks as expected in Wireshark, with the exception of additional data Ixia-c adds at the end of each payload. That data is needed to track each packet at the receiving side and measure parameters like latency and packet loss.
+
+![DNS Requests Capture](p2_pcap.png)
