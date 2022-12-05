@@ -29,7 +29,7 @@ Now, with snappi, we can use these payloads to create a dedicated flow for each 
 ```Python
 import snappi
 
-api = snappi.api(location='https://clab-ixcb2b-ixia-c:8443', verify=False)
+api = snappi.api(location=OTG_API, verify=False)
 cfg = api.config()
 packet_count = 10 # send 10 packets per each flow
 
@@ -39,8 +39,8 @@ for i in range(len(requests)):
     f = cfg.flows.flow(name=n)[-1]
     # will use UDP with custom payload
     eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
-    eth.src.value, eth.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
-    ip.src.value, ip.dst.value = "10.0.0.1", "10.0.0.2"
+    eth.src.value, eth.dst.value = "02:00:00:00:01:AA", "02:00:00:00:02:AA"
+    ip.src.value, ip.dst.value = "192.0.2.1", "192.0.2.2"
     # increment UDP source port number for each packet
     udp.src_port.increment.start = 1024
     udp.src_port.increment.step = 1
@@ -54,9 +54,9 @@ for i in range(len(requests)):
     f.duration.fixed_packets.delay.microseconds = 1000 * i
 ```
 
- Some details above are omitted, see [scapy2otg.py](scapy2otg.py) for more).
+ Some details above are omitted, see [scapy2otg.py](scapy2otg.py) for more.
 
- As a result, the produced OTG configuration of the first flow of the requests will have a custom payload after the UDP layer:
+ As a result, the produced OTG configuration of the first flow of the requests will have a custom payload after the UDP layer (at the very end of the YAML below):
 
  ```Yaml
 flows:
@@ -74,18 +74,18 @@ flows:
     ethernet:
       dst:
         choice: value
-        value: 00:AA:00:00:00:AA
+        value: 02:00:00:00:02:AA
       src:
         choice: value
-        value: 00:AA:00:00:04:00
+        value: 02:00:00:00:01:AA
   - choice: ipv4
     ipv4:
       dst:
         choice: value
-        value: 10.0.0.2
+        value: 192.0.2.2
       src:
         choice: value
-        value: 10.0.0.1
+        value: 192.0.2.1
   - choice: udp
     udp:
       dst_port:

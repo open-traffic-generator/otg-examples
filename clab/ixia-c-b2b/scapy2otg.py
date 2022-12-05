@@ -30,7 +30,9 @@ def wait_for(func, timeout=15, interval=0.2):
     print("Timeout occurred !")
     return False
 
-api = snappi.api(location='https://clab-ixcb2b-ixia-c:8443', verify=False)
+OTG_API = 'https://clab-ixcb2b-ixia-c:8443'
+
+api = snappi.api(location=OTG_API, verify=False)
 cfg = api.config()
 
 # config has an attribute called `ports` which holds an iterator of type
@@ -105,8 +107,8 @@ for i in range(len(requests)):
     f = cfg.flows.flow(name=n)[-1]
     # will use UDP with custom payload
     eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
-    eth.src.value, eth.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
-    ip.src.value, ip.dst.value = "10.0.0.1", "10.0.0.2"
+    eth.src.value, eth.dst.value = "02:00:00:00:01:AA", "02:00:00:00:02:AA"
+    ip.src.value, ip.dst.value = "192.0.2.1", "192.0.2.2"
    # increment UDP source port number for each packet
     udp.src_port.increment.start = 1024
     udp.src_port.increment.step = 1
@@ -129,8 +131,8 @@ for i in range(len(responses)):
     f = cfg.flows.flow(name=n)[-1]
     # will use UDP with custom payload
     eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
-    eth.src.value, eth.dst.value = "00:AA:00:00:00:AA", "00:AA:00:00:04:00"
-    ip.src.value, ip.dst.value = "10.0.0.2", "10.0.0.1"
+    eth.src.value, eth.dst.value = "02:00:00:00:02:AA", "02:00:00:00:01:AA"
+    ip.src.value, ip.dst.value = "192.0.2.2", "192.0.2.1"
     # increment UDP destination port number for each packet
     udp.dst_port.increment.start = 1024
     udp.dst_port.increment.step = 1
