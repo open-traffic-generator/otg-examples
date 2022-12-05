@@ -54,10 +54,13 @@ remove-clab:
 ###############################
 
 .PHONY: run
-run: run-snappi run-scapy
+run: run-snappi run-scapy run-scapy-port
 
 run-snappi:
 	sudo docker exec clab-ixcb2b-snappi bash -c "python otg.py"
 
 run-scapy:
 	sudo docker exec clab-ixcb2b-snappi bash -c "python scapy2otg.py"
+
+run-scapy-port:
+	sudo docker exec clab-ixcb2b-snappi bash -c "python scapy2otg-port.py"
