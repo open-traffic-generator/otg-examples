@@ -48,7 +48,7 @@ cfg = api.config()
 
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
-p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="eth2")
+p1, p2 = cfg.ports.port(name="p1", location=P1_LOCATION).port(name="p2", location=P2_LOCATION)
 
 # config has an attribute called `captures` which holds an iterator of type
 # `snappi.CaptureIter`, where each item is of type `snappi.Capture` (cp)

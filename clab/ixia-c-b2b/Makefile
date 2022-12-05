@@ -60,7 +60,7 @@ run-snappi:
 	sudo docker exec clab-ixcb2b-snappi bash -c "python otg.py"
 
 run-scapy:
-	sudo docker exec clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' python scapy2otg.py"
+	sudo docker exec clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' OTG_LOCATION_P1=eth1 OTG_LOCATION_P2=eth2 python scapy2otg.py"
 
 run-scapy-port:
-	sudo docker exec clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' python scapy2otg-port.py"
+	sudo docker exec clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' OTG_LOCATION_P1=eth1 OTG_LOCATION_P2=eth2 python scapy2otg-port.py"
