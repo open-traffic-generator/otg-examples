@@ -5,7 +5,7 @@ from scapy.all import *
 def port_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
     print(res)
-    if packets == sum([m.frames_tx for m in res.port_metrics]) and packets == sum([m.frames_rx for m in res.port_metrics]):
+    if packets == sum([m.frames_tx for m in res.port_metrics]) and packets <= sum([m.frames_rx for m in res.port_metrics]):
         return True
 
 def flow_metrics_ok(api, req, packets):
