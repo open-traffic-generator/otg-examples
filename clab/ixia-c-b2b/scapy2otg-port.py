@@ -121,7 +121,7 @@ for i in range(len(requests)):
     # delay between flows to simulate a sequence of packets: 1ms
     f.duration.fixed_packets.delay.microseconds = 1000 * i
     # allow fetching flow metrics
-    f.metrics.enable = True
+    f.metrics.enable = False
     # transmit from p1, expect on p2
     f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p1.name, p2.name
 
@@ -145,7 +145,7 @@ for i in range(len(responses)):
     # delay between flows to simulate a sequence of packets: 1ms, plus initial 500us to simulate a response
     f.duration.fixed_packets.delay.microseconds = 1000 * i + 500
     # allow fetching flow metrics
-    f.metrics.enable = True
+    f.metrics.enable = False
     # transmit from p2, expect on p1
     f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p2.name, p1.name
 
@@ -167,14 +167,14 @@ api.set_transmit_state(ts)
 
 # create a metrics request
 req = api.metrics_request()
-req.flow.flow_names = [f.name for f in cfg.flows]
+req.port.port_names = [p.name for p in cfg.ports]
 
 # fetch metrics
 res = api.get_metrics(req)
 
 # wait for metrics to be as expected
 expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
-assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
+assert wait_for(lambda: port_metrics_ok(api, req, expected)), "Metrics validation failed!"
 
 for p in cfg.ports:
     # create capture request and filter based on port name
