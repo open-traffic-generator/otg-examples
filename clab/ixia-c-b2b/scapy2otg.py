@@ -43,7 +43,7 @@ cp = cfg.captures.capture(name="cp")[-1]
 cp.port_names = [p1.name, p2.name]
 
 # create custom payloads with scapy
-packets1 = [
+requests = [
         DNS(
             id=0,
             rd=1, 
@@ -63,10 +63,10 @@ packets1 = [
             )
         ),
     ]
-packets2 = [
+responses = [
         DNS(
-            id=packets1[0][DNS].id,
-            qd=packets1[0][DNS].qd,
+            id=requests[0][DNS].id,
+            qd=requests[0][DNS].qd,
             rd=1, 
             qr=1, 
             ra=1, 
@@ -80,8 +80,8 @@ packets2 = [
             )
         ),
         DNS(
-            id=packets1[1][DNS].id,
-            qd=packets1[1][DNS].qd,
+            id=requests[1][DNS].id,
+            qd=requests[1][DNS].qd,
             rd=1, 
             qr=1, 
             ra=1, 
@@ -96,47 +96,56 @@ packets2 = [
         ),
     ]
 
-# flows p1 -> p2
-for i in range(len(packets1)):
-    n = "f1-" + str(i)
+# send 10 packets per each flow
+packet_count = 10 
+
+# flows for requests
+for i in range(len(requests)):
+    n = "request" + str(i)
     f = cfg.flows.flow(name=n)[-1]
-    f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p1.name, p2.name
+    # will use UDP with custom payload
     eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
     eth.src.value, eth.dst.value = "00:AA:00:00:04:00", "00:AA:00:00:00:AA"
     ip.src.value, ip.dst.value = "10.0.0.1", "10.0.0.2"
-    # set incrementing port numbers as source UDP ports
-    udp.src_port.increment.start = 5000
-    udp.src_port.increment.step = 7
-    udp.src_port.increment.count = 10
+   # increment UDP source port number for each packet
+    udp.src_port.increment.start = 1024
+    udp.src_port.increment.step = 1
+    udp.src_port.increment.count = packet_count
     udp.dst_port.value = 53
-    payload.bytes = packets1[i].build().hex()
-    # send 10 packets per each flow
-    f.duration.fixed_packets.packets = 10
+    # copy a payload from Scapy packet into a snappi flow
+    payload.bytes = requests[i].build().hex()
+    # number of packets to transmit
+    f.duration.fixed_packets.packets = packet_count
     # delay between flows to simulate a sequence of packets: 1ms
     f.duration.fixed_packets.delay.microseconds = 1000 * i
     # allow fetching flow metrics
     f.metrics.enable = True
+    # transmit from p1, expect on p2
+    f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p1.name, p2.name
 
 # flows p2 -> p1
-for i in range(len(packets2)):
-    n = "f2-" + str(i)
+for i in range(len(responses)):
+    n = "response" + str(i)
     f = cfg.flows.flow(name=n)[-1]
-    f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p2.name, p1.name
+    # will use UDP with custom payload
     eth, ip, udp, payload = f.packet.ethernet().ipv4().udp().custom()
     eth.src.value, eth.dst.value = "00:AA:00:00:00:AA", "00:AA:00:00:04:00"
     ip.src.value, ip.dst.value = "10.0.0.2", "10.0.0.1"
-    # set incrementing port numbers as source UDP ports
-    udp.dst_port.increment.start = 5000
-    udp.dst_port.increment.step = 7
-    udp.dst_port.increment.count = 10
+    # increment UDP destination port number for each packet
+    udp.dst_port.increment.start = 1024
+    udp.dst_port.increment.step = 1
+    udp.dst_port.increment.count = packet_count
     udp.src_port.value = 53
-    payload.bytes = packets2[i].build().hex()
-    # send 10 packets per each flow
-    f.duration.fixed_packets.packets = 10
+    # copy a payload from Scapy packet into a snappi flow
+    payload.bytes = responses[i].build().hex()
+    # number of packets to transmit
+    f.duration.fixed_packets.packets = packet_count
     # delay between flows to simulate a sequence of packets: 1ms, plus initial 500us to simulate a response
     f.duration.fixed_packets.delay.microseconds = 1000 * i + 500
     # allow fetching flow metrics
     f.metrics.enable = True
+    # transmit from p2, expect on p1
+    f.tx_rx.port.tx_name, f.tx_rx.port.rx_name = p2.name, p1.name
 
 # print resulting otg configuration
 print(cfg)
