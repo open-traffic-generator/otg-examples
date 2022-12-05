@@ -104,6 +104,6 @@ flows:
 
 ## Capture
 
-If captured, the packets looks as expected in Wireshark, with the exception of additional data Ixia-c adds at the end of each payload. That data is needed to track each packet at the receiving side and measure parameters like latency and packet loss.
+If captured, the packets look as expected in Wireshark, with the exception of additional data Ixia-c adds at the end of each payload. That data is needed to track each packet at the receiving side and measure latency and packet loss.
 
 ![DNS Requests Capture](p2_pcap.png)
