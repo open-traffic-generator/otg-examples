@@ -153,7 +153,7 @@ sudo -E containerlab deploy -t topo.yml
 ### Run scapy2otg test
 
 ```Shell
-sudo docker exec -it clab-ixcb2b-snappi bash -c "python scapy2otg.py"
+sudo docker exec -it clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' python scapy2otg.py"
 ```
 
 ### Destroy the lab

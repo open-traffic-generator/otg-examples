@@ -1,3 +1,4 @@
+import os
 import snappi
 from scapy.all import *
 
@@ -30,7 +31,17 @@ def wait_for(func, timeout=15, interval=0.2):
     print("Timeout occurred !")
     return False
 
-OTG_API = 'https://clab-ixcb2b-ixia-c:8443'
+OTG_API=os.environ.get('OTG_API')
+if OTG_API == None:
+   OTG_API = "https://localhost:8443"
+
+P1_LOCATION=os.environ.get('OTG_LOCATION_P1')
+if P1_LOCATION == None:
+   P1_LOCATION = "localhost:5555"
+
+P2_LOCATION=os.environ.get('OTG_LOCATION_P2')
+if P2_LOCATION == None:
+   P2_LOCATION = "localhost:5556"
 
 api = snappi.api(location=OTG_API, verify=False)
 cfg = api.config()
