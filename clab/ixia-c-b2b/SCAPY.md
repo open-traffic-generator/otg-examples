@@ -14,7 +14,7 @@ Wouldn't it be nice if these two could meet and work as a team?
 
 ## How would it work?
 
-![Scapy as a custom payload for snappi](scappy-snappi.svg)
+![Scapy as a custom payload for snappi](scapy-snappi.svg)
 
 Let's assume you want to stress-test a network device with a large number of specific packets. For example, DNS requests & replies. With Scapy, it is easy to craft such payload:
 
