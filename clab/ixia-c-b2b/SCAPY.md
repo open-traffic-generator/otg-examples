@@ -8,7 +8,7 @@ As [Scapy Project](https://scapy.net/) puts it:
 
 In other words, Scapy allows you to craft any packet you want, including L2-4 headers as well as L7 payload. It can also send these packets into a network, as is.
 
-Meanwhile, the [Open Traffic Generator API](https://otg.dev) with its Python client library [snappi](https://snappi.dev), is really great with scaling up the task of putting the packets onto a wire by leveraging OTG-compliant traffic generators, like [Ixia-c](https://ixia-c.dev). The OTG supports the notion of flows, with precise capabilities to schedule packet transmission – like rate, interval and duration. It also has rich capabilities to iterate over ranges of MAC and IP addresses, TCP/UDP ports and other parameters.
+Meanwhile, the [Open Traffic Generator API](https://otg.dev) with its Python client library [snappi](https://snappi.dev), is really great with scaling up the task of putting the packets onto a wire by leveraging OTG-compliant traffic generators, like [Ixia-c](https://ixia-c.dev). The OTG supports the notion of flows, with precise capabilities to schedule packet transmission - rate, interval, duration. It also has rich capabilities to iterate over ranges of MAC and IP addresses, TCP/UDP ports and other parameters.
 
 Wouldn't it be nice if these two could meet and work as a team?
 
@@ -16,7 +16,7 @@ Wouldn't it be nice if these two could meet and work as a team?
 
 ![Scapy as a custom payload for snappi](scapy-snappi.svg)
 
-Let's assume you want to stress-test a network device with a large number of specific packets. For example, DNS requests & replies. With Scapy, it is easy to craft such payload:
+Let's assume you want to stress-test a network device with a large number of specific packets. For example, DNS requests & replies. With Scapy, it is easy to craft such payload. Note, how Scapy allows you to create a subset of packet layers. In this case, we're skipping Ethernet, IP and UDP, as OTG would take care of them.
 
 ```Python
 from scapy.all import *
