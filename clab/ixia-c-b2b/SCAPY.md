@@ -60,7 +60,7 @@ for i in range(len(requests)):
 
  As a result, the produced OTG configuration of the first flow of the DNS requests will have a custom payload after the UDP layer (see the very end of the YAML below):
 
- ```Yaml
+```Yaml
 flows:
 - duration:
     choice: fixed_packets
