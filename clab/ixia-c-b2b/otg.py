@@ -1,10 +1,15 @@
 import snappi
-import dpkt
 
 def port_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
     print(res)
     if packets == sum([m.frames_tx for m in res.port_metrics]) and packets == sum([m.frames_rx for m in res.port_metrics]):
+        return True
+
+def flow_metrics_ok(api, req, packets):
+    res = api.get_metrics(req)
+    print(res)
+    if packets == sum([m.frames_tx for m in res.flow_metrics]) and packets == sum([m.frames_rx for m in res.flow_metrics]):
         return True
 
 def wait_for(func, timeout=15, interval=0.2):
@@ -24,7 +29,7 @@ def wait_for(func, timeout=15, interval=0.2):
     print("Timeout occurred !")
     return False
 
-api = snappi.api(location='https://clab-ixcb2b-ixia-c', verify=False)
+api = snappi.api(location='https://clab-ixcb2b-ixia-c:8443', verify=False)
 cfg = api.config()
 # this pushes object of type `snappi.Config` to controller
 api.set_config(cfg)
@@ -34,6 +39,11 @@ cfg = api.get_config()
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
 p1, p2 = cfg.ports.port(name="p1", location="eth1").port(name="p2", location="eth2")
+
+# config has an attribute called `captures` which holds an iterator of type
+# `snappi.CaptureIter`, where each item is of type `snappi.Capture` (cp)
+cp = cfg.captures.capture(name="cp")[-1]
+cp.port_names = [p1.name, p2.name]
 
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
@@ -79,10 +89,15 @@ udp1.dst_port.values = [4000, 4044, 4060, 4074]
 udp2.dst_port.values = [8000, 8044, 8060, 8074, 8082, 8084]
 
 # print resulting otg configuration
-# print(cfg)
+print(cfg)
 
 # push configuration to controller
 api.set_config(cfg)
+
+# start packet capture on configured ports
+cs = api.capture_state()
+cs.state = cs.START
+api.set_capture_state(cs)
 
 # start transmitting configured flows
 ts = api.transmit_state()
@@ -91,13 +106,20 @@ api.set_transmit_state(ts)
 
 # create a port metrics request and filter based on port names
 req = api.metrics_request()
-req.port.port_names = [p.name for p in cfg.ports]
-# include only sent and received packet counts
-req.port.column_names = [req.port.FRAMES_TX, req.port.FRAMES_RX]
+req.flow.flow_names = [f.name for f in cfg.flows]
 
 # fetch port metrics
 res = api.get_metrics(req)
 
 # wait for port metrics to be as expected
 expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
-assert wait_for(lambda: port_metrics_ok(api, req, expected)), "Metrics validation failed!"
+assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
+
+for p in cfg.ports:
+    # create capture request and filter based on port name
+    req = api.capture_request()
+    req.port_name = p.name
+    # fetch captured pcap bytes and write it to pcap
+    pcap_bytes = api.get_capture(req)
+    with open(p.name + '.pcap', 'wb') as p:
+        p.write(pcap_bytes.read())

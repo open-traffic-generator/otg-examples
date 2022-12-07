@@ -1,2 +1,2 @@
-dpkt==1.9.4
-snappi==0.7.37
+snappi==0.9.8
+scapy==2.4.5

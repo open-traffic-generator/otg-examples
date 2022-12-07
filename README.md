@@ -42,15 +42,16 @@ Some of the lab examples include Github Action workflow for executing OTG tests 
 
 ## Reference
 
-| Lab                                                                                                                       | OTG Tool    | DUT  | Client           | Infrastructure | CI  |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ---------------- | -------------- | --- |
-| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                 | Ixia-c TE   | B2B  | `otgen`          | Compose        | yes |
-| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                 | Ixia-c TE   | FRR  | `otgen`          | Containerlab   | no  |
-| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)           | KENG TE     | B2B  | `otgen`          | Compose        | yes |
-| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)      | KENG PE+TE  | B2B  | `gosnappi`       | Compose        | yes |
-| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr) | KENG PE+TE  | FRR  | `curl` & `otgen` | Compose & Clab | yes |
-| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)   | Ixia-c-one  | B2B  | `snappi`         | Containerlab   | no  |
-| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                        | Ixia-c-one  | FRR  | `gosnappi`       | Containerlab   | yes |
+| Lab                                                                                                                          | OTG Tool    | DUT  | Client             | Infrastructure | CI  |
+| ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ------------------ | -------------- | --- |
+| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen`            | Compose        | yes |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | no  |
+| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`            | Compose        | yes |
+| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`         | Compose        | yes |
+| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`   | Compose & Clab | yes |
+| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one  | B2B  | `snappi`           | Containerlab   | yes |
+| [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi` | Containerlab   | yes |
+| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`         | Containerlab   | yes |
 
 
 ## Lab Descriptions
@@ -78,6 +79,10 @@ KENG ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of
 ### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b) 
 
 Basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
+
+### [Dear snappi, please meet Scapy!](clab/ixia-c-b2b/SCAPY.md) 
+
+Joint use of Scapy packet crafting Python module with snappi, to generate custom DNS flows via Ixia-c-one node.
 
 ### [RTBH](clab/rtbh)
 

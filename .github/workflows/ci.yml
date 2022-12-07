@@ -16,6 +16,9 @@ on:
       - 'docker-compose/cpdp-frr/**'
       - '!docker-compose/cpdp-frr/**.md'
       - '!docker-compose/cpdp-frr/**.png'
+      - 'clab/ixia-c-b2b/**'
+      - '!clab/ixia-c-b2b/**.md'
+      - '!clab/ixia-c-b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -34,6 +37,9 @@ on:
       - 'docker-compose/cpdp-frr/**'
       - '!docker-compose/cpdp-frr/**.md'
       - '!docker-compose/cpdp-frr/**.png'
+      - 'clab/ixia-c-b2b/**'
+      - '!clab/ixia-c-b2b/**.md'
+      - '!clab/ixia-c-b2b/**.png'
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
@@ -49,6 +55,7 @@ jobs:
       docker-compose-cpdp-b2b: ${{ steps.changes.outputs.docker-compose-cpdp-b2b }}
       docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
       clab-cpdp-frr: ${{ steps.changes.outputs.clab-cpdp-frr }}
+      clab-ixia-c-b2b: ${{ steps.changes.outputs.clab-ixia-c-b2b }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
     steps:
       - uses: actions/checkout@v3
@@ -68,6 +75,8 @@ jobs:
             - 'docker-compose/cpdp-frr/**'
             clab-cpdp-frr:
             - 'docker-compose/cpdp-frr/**'
+            clab-ixia-c-b2b:
+            - 'clab/ixia-c-b2b/**'
             clab-rtbh:
             - 'clab/rtbh/**'
       - name: docker-compose b2b
@@ -85,6 +94,9 @@ jobs:
       - name: clab cpdp-frr
         if: steps.changes.outputs.clab-cpdp-frr == 'true'
         run: echo "Run clab cpdp-frr CI"
+      - name: clab ixia-c-b2b
+        if: steps.changes.outputs.clab-ixia-c-b2b == 'true'
+        run: echo "Run Clab ixia-c-b2b CI"
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
@@ -182,6 +194,20 @@ jobs:
           password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Run all-clab
         run:  make all-clab
+  clab-ixia-c-b2b:
+    name: Run Clab ixia-c-b2b CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./clab/ixia-c-b2b
+    if: needs.paths-filter.outputs.clab-ixia-c-b2b == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Run all
+        run:  make all
   clab-rtbh:
     name: Run Clab RTBH CI
     runs-on: ubuntu-20.04
