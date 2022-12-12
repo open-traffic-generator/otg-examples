@@ -1,0 +1,35 @@
+{
+    "metadata": {
+        "name": "otg",
+        "namespace": "ixia-c"
+    },
+    "spec": {
+        "api_endpoint_map": {
+            "https": {
+                "in": 443,
+                "out": 31001
+            },
+            "grpc": {
+                "in": 40051,
+                "out": 31002
+            },
+            "gnmi": {
+                "in": 50051,
+                "out": 31003
+            }
+        },
+        "interfaces": [
+            {
+                "name": "eth1",
+                "peer": "localhost",
+                "peer_interface": "${OTG_PORT1}"
+            },
+            {
+                "name": "eth2",
+                "peer": "localhost",
+                "peer_interface": "${OTG_PORT2}"
+            }
+        ],
+        "release": "local-latest"
+    }
+}

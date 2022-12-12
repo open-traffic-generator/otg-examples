@@ -1,0 +1,31 @@
+# proto-file: github.com/openconfig/featureprofiles/blob/main/topologies/proto/binding.proto
+# proto-message: openconfig.testing.Binding
+
+options {
+  username: "admin"
+  password: "nopassword"
+}
+
+ates {
+  id: "ate"
+  name: "127.0.0.1"
+
+  otg {
+    target: "127.0.0.1:31002"
+    insecure: true
+  }
+
+  gnmi {
+    target: "127.0.0.1:31003"
+    skip_verify: true
+  }
+
+  ports {
+    id: "port1"
+    name: "eth1"
+  }
+  ports {
+    id: "port2"
+    name: "eth2"
+  }
+}
