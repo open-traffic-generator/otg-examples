@@ -18,58 +18,64 @@ Although original intent of `static binding` is to describe a connection between
 
 ## Prerequisites
 
-1. Linux VM
-2. [Go](https://go.dev/dl/) version 1.18 or later
-3. Docker
-4. `envsubst`
-5. Clone this repository
+* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
+* Linux host or VM with sudo permissions and Docker support
+* [Docker](https://docs.docker.com/engine/install/)
+* [Go](https://go.dev/dl/) version 1.18 or later
+* `envsubst` command
+
+## Initial setup
+
+1. Clone this repository
 
     ```Shell
     git clone https://github.com/open-traffic-generator/otg-examples.git
-    OTGEXDIR="${PWD}/otg-examples/hybrid/fp-b2b"
+    OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
     ```
 
-## Setup
+2. Pull Docker images
 
-### Pull Docker images
+    ```Shell
+    docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
+    docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
+    docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+    docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
+    ```
 
-```Shell
-docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
-docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
-docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
-docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
-```
+3. Start Ixia-c operator. TODO ixia-c-operator public image
 
-### Start Ixia-c operator
-
-TODO ixia-c-operator public image
-
-```Shell
-docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock --pid=host --net=host --user=root --name=ixia-c-operator ixia-c-operator:local --server-bind-address=:35000
-curl --data-binary @"${OTGEXDIR}/ixiatg-configmap.yml" http://localhost:35000/config
-```
+    ```Shell
+    docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock --pid=host --net=host --user=root --name=ixia-c-operator ixia-c-operator:local --server-bind-address=:35000
+    curl --data-binary @"${OTGLABDIR}/ixiatg-configmap.yml" http://localhost:35000/config
+    ```
 
 ### Create Ixia-c B2B deployment
 
-1. Create back-2-back connection using veth pair
+1. Create a back-2-back connection using `veth` pair. 
 
     ```Shell
-    sudo ip link add name veth0 type veth peer name veth1
-    sudo ip link set dev veth0 up
-    sudo ip link set dev veth1 up
     export OTG_PORT1="veth0"
     export OTG_PORT2="veth1"
+    sudo ip link add name ${OTG_PORT1} type veth peer name ${OTG_PORT2}
+    sudo ip link set dev ${OTG_PORT1} up
+    sudo ip link set dev ${OTG_PORT2} up
     ```
+    
+    Instead of `veth` pair, you could also use one of the following methods. In such case, please initialize `OTG_PORT1` and `OTG_PORT2` env vars with correct interface names.
 
-2. Deploy Ixia-c over a pair the veth pair
+    * a physical cable between two network interface cards
+    * a layer-2 switch between two network interface cards
+
+
+2. Request the `ixia-c-operator` to bring up Ixia-c test ports using [ixia-c-hybrid.yml](ixia-c-hybrid.yml) deployment manifest. Note how `envsubst` command will insert proper interface names you're using into the manifest before it gets submitted by the `curl` to the `ixia-c-operator` API.
 
     ```Shell
-    cat "${OTGEXDIR}/ixia-c-hybrid.yml" | envsubst | curl --data-binary @- http://localhost:35000/create
+    cat "${OTGLABDIR}/ixia-c-hybrid.yml" | envsubst | curl --data-binary @- http://localhost:35000/create
     ```
 
-### Run FP OTG back-2-back test
+### Run FeatureProfiles OTG back-2-back test
 
-1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back tests we're going to be using a published under a `static` branch we need to clone:
+1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
 
     ```Shell
     git clone -b static https://github.com/open-traffic-generator/featureprofiles.git
@@ -79,11 +85,16 @@ curl --data-binary @"${OTGEXDIR}/ixiatg-configmap.yml" http://localhost:35000/co
 
     ```Shell
     cd featureprofiles/feature/experimental/otg_only
-    go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "${OTGEXDIR}/otgb2b.binding"
+    go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "${OTGLABDIR}/otgb2b.binding"
     ```
 
 ## Cleanup
 
+To remove all the components we created, run:
+
 ```Shell
-cat "${OTGEXDIR}/ixia-c-hybrid.yml" | envsubst | curl -d @- http://localhost:35000/delete
+cat "${OTGLABDIR}/ixia-c-hybrid.yml" | envsubst | curl -d @- http://localhost:35000/delete
+docker stop ixia-c-operator
+docker rm ixia-c-operator
+sudo ip link del name ${OTG_PORT1}
 ```
