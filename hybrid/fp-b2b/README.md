@@ -2,7 +2,7 @@
 
 ## Overview
 
-This lab is an introduction [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites build with the [Open Traffic Generator API](https://otg.dev).
+This lab is an introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites build with the [Open Traffic Generator API](https://otg.dev).
 
 > Feature profiles define groups of OpenConfig paths that can be invoked on network devices. A feature profile may contain configuration, telemetry, operational or any other paths that a device exposes. Example management plane device APIs are gNMI, and gNOI. Example control plane APIs are gRIBI, and protocols such as BGP, IS-IS.
 
@@ -14,7 +14,7 @@ There are several ways to run FeatureProfiles tests. In this example, we're demo
 
 > The static binding supports ATE based testing with a real hardware device. It assumes that there is one ATE hooked up to one DUT in the testbed, and their ports are connected pairwise.
 
-Although original intent of `static binding` is to describe a connection between the ATE and a hardware Device Under Test (DUT), it can also be described a back-2-back ATE setup, w/o a DUT. Such setup is helpful to validate basic ATE operations within FeatureProfiles test framework. In this lab, we're using [otgb2b.binding](otgb2b.binding) to describe such back-2-back ATE connection.
+Although original intent of `static binding` is to describe a connection between the ATE and a hardware Device Under Test (DUT), it can also be used to describe a back-2-back ATE setup, w/o a DUT. Such setup is helpful to validate basic ATE operations within FeatureProfiles test framework. In this lab, we're using [otgb2b.binding](otgb2b.binding) paired with [otgb2b.testbed](https://github.com/open-traffic-generator/featureprofiles/blob/static/feature/experimental/otg_only/otgb2b.testbed) testbed specification to describe such back-2-back ATE connection.
 
 ## Prerequisites
 
