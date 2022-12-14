@@ -122,12 +122,15 @@ An alternative implementation that uses port-level metrics instead of packet sig
 * `git` - how to install depends on your Linux distro.
 * [Docker](https://docs.docker.com/engine/install/)
 * [Containerlab](https://containerlab.dev/install/)
+* `mergecap` - a utility to merge pcap files, part of `tshark` package (optional)
+* [Wireshark](https://www.wireshark.org/) packet capture and analysis utility (optional)
 * Clone of the repository
 
     ```Shell
     git clone --recurse-submodules https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/clab/ixia-c-b2b
     ```
+
 ### TLDR version
 
 ```Shell
@@ -156,6 +159,14 @@ sudo -E containerlab deploy -t topo.yml
 
 ```Shell
 sudo docker exec -it clab-ixcb2b-snappi bash -c "OTG_API='https://clab-ixcb2b-ixia-c:8443' OTG_LOCATION_P1=eth1 OTG_LOCATION_P2=eth2 python scapy2otg.py"
+```
+
+### Inspect capture files
+
+Merge capture files into `flows.pcap` and review it with Wireshark
+
+```Shell
+mergecap -w flows.pcap p1.pcap p2.pcap
 ```
 
 ### Destroy the lab
