@@ -29,23 +29,29 @@ Although original intent of `static binding` is to describe a connection between
 1. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone -b hybrid https://github.com/open-traffic-generator/otg-examples.git
     OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
     ```
 
 2. Pull Docker images
 
     ```Shell
+    docker pull ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3
     docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
     docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
     docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
     docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
     ```
 
-3. Start Ixia-c operator. TODO ixia-c-operator public image
+3. Start Ixia-c operator
 
     ```Shell
-    docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock --pid=host --net=host --user=root --name=ixia-c-operator ixia-c-operator:local --server-bind-address=:35000
+    docker run -d --name=ixia-c-operator \
+               -v /var/run/docker.sock:/var/run/docker.sock \
+               --cap-add CAP_NET_ADMIN \
+               --pid=host --net=host --user=root \
+               ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3 \
+               --server-bind-address=:35000
     curl --data-binary @"${OTGLABDIR}/ixiatg-configmap.yml" http://localhost:35000/config
     ```
 
