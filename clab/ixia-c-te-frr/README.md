@@ -20,7 +20,7 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 * [otgen](https://github.com/open-traffic-generator/otgen)
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
     sudo mv otgen /usr/local/bin/otgen
     sudo chmod +x /usr/local/bin/otgen
     ```
@@ -74,7 +74,7 @@ sudo containerlab deploy
     cat otg.yml | \
     sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
     sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-    otgen run -k 2>/dev/null| \
+    otgen run -k | \
     otgen transform -m port | \
     otgen display -m table
     ```
