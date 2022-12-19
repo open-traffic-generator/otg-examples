@@ -38,14 +38,14 @@ To manage deployment of the example labs, we use one of the following declarativ
 ## CI with Github Actions
 
 [![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
-Some of the lab examples include Github Action workflow for executing OTG tests on any changes to the lab code. This could serve as a template for your CI workflow.
+Most of the lab examples include Github Action workflow for executing OTG tests on any changes to the lab code. This could serve as a template for your CI workflow.
 
 ## Reference
 
 | Lab                                                                                                                          | OTG Tool    | DUT  | Client             | Infrastructure | CI  |
 | ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ------------------ | -------------- | --- |
 | [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen`            | Compose        | yes |
-| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | no  |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | yes  |
 | [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`            | Compose        | yes |
 | [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`         | Compose        | yes |
 | [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`   | Compose & Clab | yes |

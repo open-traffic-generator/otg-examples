@@ -11,6 +11,26 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ![IP Diagram](./ip-diagram.png)
 
+## Quick start
+
+Follow this sections for a quick version of how to run the lab using `make`. This is how CI pipeline in GitHub Actions runs it.
+
+1. Clone this repository
+
+    ```Shell
+    git clone https://github.com/open-traffic-generator/otg-examples.git
+    cd otg-examples/clab/ixia-c-te-frr
+    ```
+
+2. To run all the steps below at once, execute:
+
+    ```Shell
+    make all
+    make clean
+    ```
+
+Otherwise, follow step-by-step instructions below.
+
 ## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
@@ -20,7 +40,7 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 * [otgen](https://github.com/open-traffic-generator/otgen)
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
+    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
     sudo mv otgen /usr/local/bin/otgen
     sudo chmod +x /usr/local/bin/otgen
     ```
@@ -74,7 +94,7 @@ sudo containerlab deploy
     cat otg.yml | \
     sed "s/00:00:00:00:11:aa/$TE1SMAC/g" | sed "s/00:00:00:00:11:bb/$TE1DMAC/g" | \
     sed "s/00:00:00:00:22:aa/$TE2SMAC/g" | sed "s/00:00:00:00:22:bb/$TE2DMAC/g" | \
-    otgen run -k 2>/dev/null| \
+    otgen run -k | \
     otgen transform -m port | \
     otgen display -m table
     ```
