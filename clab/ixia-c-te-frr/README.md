@@ -11,6 +11,26 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ![IP Diagram](./ip-diagram.png)
 
+## Quick start
+
+Follow this sections for a quick version of how to run the lab using `make`. This is how CI pipeline in GitHub Actions runs it.
+
+1. Clone this repository
+
+    ```Shell
+    git clone https://github.com/open-traffic-generator/otg-examples.git
+    cd otg-examples/clab/ixia-c-te-frr
+    ```
+
+2. To run all the steps below at once, execute:
+
+    ```Shell
+    make all
+    make clean
+    ```
+
+Otherwise, follow step-by-step instructions below.
+
 ## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
