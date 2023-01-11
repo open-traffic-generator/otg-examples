@@ -39,10 +39,10 @@ install-clean:
 pull: pull-public pull-private
 
 pull-public:
-	docker-compose pull traffic_engine_1
+	sudo docker-compose pull traffic_engine_1
 	
 pull-private:
-	docker-compose pull controller
+	sudo docker-compose pull controller
 
 ###############################
 # Deploy lab
@@ -90,7 +90,7 @@ deploy-lab:
 deploy: deploy-net deploy-lab 
 
 lab-clean:
-	docker-compose down
+	sudo docker-compose down
 
 network-clean: veth0-clean veth2-clean veth4-clean
 veth0-clean:

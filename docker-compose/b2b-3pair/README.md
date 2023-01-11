@@ -42,7 +42,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 4. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     ```
 
 ## Deploy lab

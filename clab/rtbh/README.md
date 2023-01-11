@@ -21,7 +21,7 @@ Read a [blog post](https://blogs.keysight.com/blogs/tech/traf-gen.entry.html/202
 1. Clone this repository to the Linux host where you want to run the lab. Do this only once.
 
     ```Shell
-    git clone --single-branch https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive --single-branch https://github.com/open-traffic-generator/otg-examples.git
     ```
 
 2. Navigate to the lab folder

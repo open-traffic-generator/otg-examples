@@ -72,7 +72,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 1. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/docker-compose/cpdp-frr
     ```
 
@@ -139,7 +139,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 5. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     ```
 
 ## Docker Compose option to deploy the lab

@@ -66,7 +66,7 @@ deploy-lab:
 	sudo docker-compose -f ixia-c-b2b.yml up -d 
 
 remove-lab:
-	docker-compose -f ixia-c-b2b.yml down
+	sudo docker-compose -f ixia-c-b2b.yml down
 
 ###############################
 # Run tests
