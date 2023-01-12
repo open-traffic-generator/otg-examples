@@ -23,7 +23,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 	
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
+	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
 	sudo mv otgen /usr/local/bin/otgen
 	sudo chmod +x /usr/local/bin/otgen
 
@@ -112,13 +112,13 @@ veth4-clean:
 run: otgen-run otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
 
 otgen-run:
-	otgen run -k -f otg.3pairs.yml
+	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml
 
 otgen-run-display-table-port:
-	otgen run -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
+	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
 
 otgen-run-display-table-flow:
-	otgen run -k -f otg.3pairs.yml | otgen transform -m flow | otgen display -m table
+	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m flow | otgen display -m table
 
 otgen-run-display-table-flow-bytes:
-	otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
+	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
