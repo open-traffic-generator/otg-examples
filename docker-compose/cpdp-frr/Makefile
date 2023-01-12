@@ -47,11 +47,11 @@ install-clean:
 pull: pull-private
 
 pull-public:
-	sudo docker-compose pull traffic_engine_1
-	sudo docker-compose pull frr
+	sudo -E docker-compose pull traffic_engine_1
+	sudo -E docker-compose pull frr
 	
 pull-private:
-	sudo docker-compose pull controller protocol_engine_1
+	sudo -E docker-compose pull controller protocol_engine_1
 
 ###############################
 # Deploy lab
