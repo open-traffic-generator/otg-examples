@@ -18,7 +18,7 @@ Follow this sections for a quick version of how to run the lab using `make`. Thi
 1. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/clab/ixia-c-te-frr
     ```
 

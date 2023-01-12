@@ -39,6 +39,13 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     fi
     ```
 
+4. Clone this repository (optional, only needed to use `make all` to run all the steps automatically)
+
+    ```Shell
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
+    cd otg-examples/docker-compose/b2b
+    ```
+
 ## Deploy Ixia-c lab
 
 1. Create veth pair `veth0 - veth1`

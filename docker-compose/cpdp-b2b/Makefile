@@ -32,10 +32,10 @@ install-clean:
 pull: pull-public pull-private
 
 pull-public:
-	docker-compose pull traffic_engine_1
+	sudo -E docker-compose pull traffic_engine_1
 	
 pull-private:
-	docker-compose pull controller protocol_engine_1
+	sudo -E docker-compose pull controller protocol_engine_1
 
 ###############################
 # Deploy lab
@@ -51,7 +51,7 @@ deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
 
 remove-lab:
-	docker-compose down
+	sudo docker-compose down
 
 ###############################
 # Run tests
