@@ -11,7 +11,7 @@ Read a [blog post](https://blogs.keysight.com/blogs/tech/traf-gen.entry.html/202
 ## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
-* `git` - how to install depends on your Linux distro.
+* `git` and `build-essential` packages - how to install depends on your Linux distribution
 * [Docker](https://docs.docker.com/engine/install/)
 * [Containerlab](https://containerlab.dev/install/)
 * Access to the Linux host from your computer over TCP ports 22 (SSH), 8008 (DDoS Protect Dashboard) and 8080 (Graphite topology visualization)
@@ -107,7 +107,7 @@ sudo -E containerlab destroy -t topo.yml
     --tags=otg-demo
 
     gcloud compute ssh otg-demo
-    sudo apt update && sudo apt install docker.io -y
+    sudo apt update && sudo apt install docker.io build-essential -y
     bash -c "$(curl -sL https://get.containerlab.dev)"
     ```
 
