@@ -106,31 +106,31 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.3pairs.yml`. If successful, the result will come as OTG port metrics in JSON format
 
     ```Shell
-    otgen run -k -f otg.3pairs.yml
+    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml
     ```
 
 2. You can now repeat this exercise, but transform output to a table
 
     ```Shell
-    otgen run -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
+    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
     ```
 
 3. The same, but with flow metrics
 
     ```Shell
-    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
+    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
     ```
 
 4. The same, but with byte instead of frame count (only receive stats are reported)
 
     ```Shell
-    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
+    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
     ```
 
 5. Now report packet per second rate, as a line chart (end with `Ctrl-c`)
 
     ```Shell
-    otgen run -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Destroy the lab
