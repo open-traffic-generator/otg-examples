@@ -39,10 +39,10 @@ install-clean:
 pull: pull-public pull-private
 
 pull-public:
-	sudo docker-compose pull traffic_engine_1
+	sudo -E docker-compose pull traffic_engine_1
 	
 pull-private:
-	sudo docker-compose pull controller
+	sudo -E docker-compose pull controller
 
 ###############################
 # Deploy lab

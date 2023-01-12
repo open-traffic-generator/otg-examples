@@ -45,7 +45,7 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-b2b
-    sudo docker-compose up -d 
+    sudo -E docker-compose up -d 
     sudo docker ps
     ```
 
