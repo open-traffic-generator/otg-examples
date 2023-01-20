@@ -43,11 +43,11 @@ Although original intent of `static binding` is to describe a connection between
 3. Pull Docker images
 
     ```Shell
-    docker-compose --project-directory "${OTGLABDIR}" pull operator
-    docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
-    docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
-    docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
-    docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
+    sudo -E docker-compose --project-directory "${OTGLABDIR}" pull operator
+    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
+    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
+    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
     ```
 
 4. Start and configure Ixia-c operator
