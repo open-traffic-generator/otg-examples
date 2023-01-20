@@ -48,46 +48,46 @@ pull-ixia-c-operator:
 	sudo -E docker-compose pull operator
 
 pull-ixia-c-controller:
-ifeq ($(shell docker images -q ixia-c-controller:latest 2> /dev/null),)
+ifeq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
 	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
 	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662 ixia-c-controller:latest
 endif
 
 remove-ixia-c-controller:
-ifneq ($(shell docker images -q ixia-c-controller:latest 2> /dev/null),)
+ifneq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
 	sudo -E docker rmi `docker images -q ixia-c-controller:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-gnmi-server:
-ifeq ($(shell docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
+ifeq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
 	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
 	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9 ixia-c-gnmi-server:latest
 endif
 
 remove-ixia-c-gnmi-server:
-ifneq ($(shell docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
+ifneq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
 	sudo -E docker rmi `docker images -q ixia-c-gnmi-server:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-traffic-engine:
-ifeq ($(shell docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
-	docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19 ixia-c-traffic-engine:latest
+ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
+	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19 ixia-c-traffic-engine:latest
 endif
 
 remove-ixia-c-traffic-engine:
-ifneq ($(shell docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
+ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
 	sudo -E docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-protocol-engine:
-ifeq ($(shell docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
+ifeq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
 	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
 	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243 ixia-c-protocol-engine:latest
 endif
 
 remove-ixia-c-protocol-engine:
-ifneq ($(shell docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
+ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
 	sudo -E docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
 
