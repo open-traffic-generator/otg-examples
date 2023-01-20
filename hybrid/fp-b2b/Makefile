@@ -101,6 +101,7 @@ undeploy: remove-operator
 
 deploy-operator:
 	sudo -E docker-compose up -d
+	sleep 2
 	curl --data-binary @"ixiatg-configmap.yml" http://localhost:35000/config
 
 remove-operator:

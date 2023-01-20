@@ -54,6 +54,7 @@ Although original intent of `static binding` is to describe a connection between
 
     ```Shell
     sudo -E docker-compose --project-directory "${OTGLABDIR}" up -d
+    sleep 2
     curl --data-binary @"${OTGLABDIR}/ixiatg-configmap.yml" http://localhost:35000/config
     ```
 
