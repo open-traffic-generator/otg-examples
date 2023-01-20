@@ -26,32 +26,34 @@ Although original intent of `static binding` is to describe a connection between
 
 ## Initial setup
 
-1. Clone this repository
+1. Install `docker-compose`
+
+    ```Shell
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    ```
+
+2. Clone this repository
 
     ```Shell
     git clone -b hybrid https://github.com/open-traffic-generator/otg-examples.git
     OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
     ```
 
-2. Pull Docker images
+3. Pull Docker images
 
     ```Shell
-    docker pull ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3
+    docker-compose --project-directory "${OTGLABDIR}" pull operator
     docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
     docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
     docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
     docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
     ```
 
-3. Start Ixia-c operator
+4. Start and configure Ixia-c operator
 
     ```Shell
-    docker run -d --name=ixia-c-operator \
-               -v /var/run/docker.sock:/var/run/docker.sock \
-               --cap-add CAP_NET_ADMIN \
-               --pid=host --net=host --user=root \
-               ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3 \
-               --server-bind-address=:35000
+    sudo -E docker-compose --project-directory "${OTGLABDIR}" up -d
     curl --data-binary @"${OTGLABDIR}/ixiatg-configmap.yml" http://localhost:35000/config
     ```
 
@@ -100,7 +102,6 @@ To remove all the components we created, run:
 
 ```Shell
 cat "${OTGLABDIR}/ixia-c-hybrid.yml" | envsubst | curl -d @- http://localhost:35000/delete
-docker stop ixia-c-operator
-docker rm ixia-c-operator
 sudo ip link del name ${OTG_PORT1}
+sudo -E docker-compose --project-directory "${OTGLABDIR}" down
 ```
