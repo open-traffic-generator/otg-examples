@@ -45,7 +45,7 @@ pull-clean: remove-keng
 remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-operator:
-	docker-compose pull operator
+	sudo -E docker-compose pull operator
 
 pull-ixia-c-controller:
 ifeq ($(shell docker images -q ixia-c-controller:latest 2> /dev/null),)
