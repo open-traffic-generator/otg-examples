@@ -1,11 +1,11 @@
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3182
-    command: --accept-eula --http-port 443
+    image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3724
+    command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
   traffic_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
     network_mode: "host"
     restart: always
     privileged: true
@@ -14,7 +14,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth0
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
     network_mode: "host"
     restart: always
     privileged: true

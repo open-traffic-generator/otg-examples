@@ -2,15 +2,16 @@ package tests
 
 import (
 	"flag"
-	"github.com/sirupsen/logrus"
 	"os"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 // hostname and interfaces of ixia-c-one node from containerlab topology
 const (
-	otgHost = "https://172.100.100.10" // OTG API Endpoint
-	timeout = 60 * time.Second         // Max time to wait for traffic to complete
+	otgHost = "https://172.100.100.10:8443" // OTG API Endpoint
+	timeout = 60 * time.Second              // Max time to wait for traffic to complete
 )
 
 var (
