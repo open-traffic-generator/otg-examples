@@ -49,8 +49,8 @@ pull-ixia-c-operator:
 
 pull-ixia-c-controller:
 ifeq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662
-	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3662 ixia-c-controller:latest
+	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
+	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724 ixia-c-controller:latest
 endif
 
 remove-ixia-c-controller:
@@ -60,8 +60,8 @@ endif
 
 pull-ixia-c-gnmi-server:
 ifeq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9
-	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.9.9 ixia-c-gnmi-server:latest
+	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6
+	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6 ixia-c-gnmi-server:latest
 endif
 
 remove-ixia-c-gnmi-server:
@@ -71,8 +71,8 @@ endif
 
 pull-ixia-c-traffic-engine:
 ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
-	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19 ixia-c-traffic-engine:latest
+	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24 ixia-c-traffic-engine:latest
 endif
 
 remove-ixia-c-traffic-engine:
@@ -82,8 +82,8 @@ endif
 
 pull-ixia-c-protocol-engine:
 ifeq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243
-	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.243 ixia-c-protocol-engine:latest
+	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
+	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256 ixia-c-protocol-engine:latest
 endif
 
 remove-ixia-c-protocol-engine:
