@@ -1,0 +1,14 @@
+services:
+  operator:
+    image: ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3
+    command: --server-bind-address=:35000
+    pid: "host"
+    user: "root"
+    network_mode: "host"
+    restart: always
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    cap_add:
+      - NET_ADMIN

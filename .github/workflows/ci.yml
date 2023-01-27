@@ -25,6 +25,9 @@ on:
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
+      - 'hybrid/fp-b2b/**'
+      - '!hybrid/fp-b2b/**.md'
+      - '!hybrid/fp-b2b/**.png'
   pull_request:
     branches: [ "main" ]
     paths:
@@ -49,6 +52,9 @@ on:
       - 'clab/rtbh/**'
       - '!clab/rtbh/**.md'
       - '!clab/rtbh/**.png'
+      - 'hybrid/fp-b2b/**'
+      - '!hybrid/fp-b2b/**.md'
+      - '!hybrid/fp-b2b/**.png'
   workflow_dispatch:
 
 jobs:
@@ -64,6 +70,7 @@ jobs:
       clab-ixia-c-b2b: ${{ steps.changes.outputs.clab-ixia-c-b2b }}
       clab-ixia-c-te-frr: ${{ steps.changes.outputs.clab-ixia-c-te-frr }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
+      hybrid-fp-b2b: ${{ steps.changes.outputs.hybrid-fp-b2b }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -88,6 +95,8 @@ jobs:
             - 'clab/ixia-c-te-frr/**'
             clab-rtbh:
             - 'clab/rtbh/**'
+            hybrid-fp-b2b:
+            - 'hybrid/fp-b2b/**'
       - name: docker-compose b2b
         if: steps.changes.outputs.docker-compose-b2b == 'true'
         run: echo "Run docker-compose b2b CI"
@@ -112,6 +121,9 @@ jobs:
       - name: clab rtbh
         if: steps.changes.outputs.clab-rtbh == 'true'
         run: echo "Run Clab RTBH CI"
+      - name: hybrid fp-b2b
+        if: steps.changes.outputs.hybrid-fp-b2b == 'true'
+        run: echo "Run hybrid fp-b2b CI"
   docker-compose-b2b:
     name: Run docker-compose b2b CI
     runs-on: ubuntu-20.04
@@ -246,5 +258,29 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'true'
+      - name: Run all
+        run:  make all
+  hybrid-fp-b2b:
+    name: Run hybrid fp-b2b CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./hybrid/fp-b2b
+    if: needs.paths-filter.outputs.hybrid-fp-b2b == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.ENV_GITHUB_USER }}
+          password: ${{ secrets.ENV_GITHUB_PAT }}
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
       - name: Run all
         run:  make all
