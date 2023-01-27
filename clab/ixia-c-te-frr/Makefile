@@ -50,7 +50,7 @@ remove-clab:
 .PHONY: run
 run: run-otgen
 
-OTG_HOST="https://localhost"
+export OTG_API="https://localhost:8443"
 
 .PHONY: run-otgen
 run-otgen:
