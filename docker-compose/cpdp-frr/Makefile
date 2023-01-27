@@ -68,7 +68,7 @@ deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
 
 deploy-clab:
-	sudo containerlab deploy --reconfigure
+	sudo -E containerlab deploy --reconfigure
 
 remove-lab:
 	sudo docker-compose down

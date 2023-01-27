@@ -186,7 +186,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-frr
-    sudo containerlab deploy
+    sudo -E containerlab deploy
     ```
 
 ## Run tests, `curl` option
