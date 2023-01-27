@@ -194,7 +194,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 1. Apply config
 
     ```Shell
-    OTG_HOST="https://localhost"
+    OTG_HOST="https://localhost:8443"
     curl -k "${OTG_HOST}/config" \
         -H "Content-Type: application/json" \
         -d @otg.json
@@ -266,6 +266,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 1. Use one `otgen run` command to repeat all of the steps above. Note `--rxbgp 2x` parameter. We use it to tell `otgen` it should wait, after starting the protocols, until twice as many routes were received from the DUT, than were advertised by KENG. For our lab configuration it would be the signal that BGP protocol has converged. In other setups this parameter might be different.
 
     ```Shell
+    export OTG_API="https://localhost:8443"
     otgen --log info run --insecure --file otg.json --json --rxbgp 2x --metrics flow | jq
     ```
 
