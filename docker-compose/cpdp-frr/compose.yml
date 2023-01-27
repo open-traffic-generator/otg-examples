@@ -45,7 +45,7 @@ services:
     environment:
     - INTF_LIST=veth2
   frr:
-    image: frrouting/frr:v8.2.2
+    image: frrouting/frr:v8.4.1
     cap_add:
       - NET_ADMIN
       - NET_RAW
