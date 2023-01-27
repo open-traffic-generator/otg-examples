@@ -278,5 +278,9 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.ENV_GITHUB_USER }}
           password: ${{ secrets.ENV_GITHUB_PAT }}
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
       - name: Run all
         run:  make all
