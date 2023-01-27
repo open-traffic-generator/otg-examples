@@ -61,15 +61,15 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 2. Create YAML file for Docker Compose with veth interfaces assigned to `ixia-c-traffic-engine` containers
 
     ```Shell
-    cat > ixia-c-b2b.yml << EOF
+    cat > compose.yml << EOF
     services:
       controller:
-        image: ixiacom/ixia-c-controller:0.0.1-3002
-        command: --accept-eula --http-port 443
+        image: ixiacom/ixia-c-controller:0.0.1-3724
+        command: --accept-eula --http-port 8443
         network_mode: "host"
         restart: always
       traffic_engine_1:
-        image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
         network_mode: "host"
         restart: always
         privileged: true
@@ -78,7 +78,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
         - ARG_IFACE_LIST=virtual@af_packet,veth0
         - OPT_NO_HUGEPAGES=Yes
       traffic_engine_2:
-        image: ixiacom/ixia-c-traffic-engine:1.4.1.29
+        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
         network_mode: "host"
         restart: always
         privileged: true
@@ -92,7 +92,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 3. Launch the deployment and adjust MTUs on the veth pair
 
     ```Shell
-    sudo docker-compose -f ixia-c-b2b.yml up -d 
+    sudo docker-compose up -d 
     sudo ip link set veth0 mtu 9500
     sudo ip link set veth1 mtu 9500
     ```
@@ -101,15 +101,6 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
     ```Shell
     sudo docker ps
-    ```
-
-    The result should look like this
-  
-    ```Shell
-    CONTAINER ID   IMAGE                                    COMMAND                  CREATED          STATUS          PORTS     NAMES
-    4b1e929d8153   ixiacom/ixia-c-traffic-engine:1.4.1.29   "./entrypoint.sh"        29 seconds ago   Up 27 seconds             b2b_traffic_engine_2_1
-    1943f3a25849   ixiacom/ixia-c-traffic-engine:1.4.1.29   "./entrypoint.sh"        29 seconds ago   Up 27 seconds             b2b_traffic_engine_1_1
-    d3497ae9470e   ixiacom/ixia-c-controller:0.0.1-3002     "./bin/controller --…"   29 seconds ago   Up 27 seconds             b2b_controller_1
     ```
 
 ## Run OTG traffic flows
@@ -123,31 +114,31 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 2. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
 
     ```Shell
-    cat otg.yml | otgen run -k
+    cat otg.yml | otgen run -k -a https://localhost:8443
     ```
 
 3. You can now repeat this exercise, but transform output to a table
 
     ```Shell
-    cat otg.yml | otgen run -k 2>/dev/null | otgen transform -m port | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -m port | otgen display -m table
     ```
 
 4. The same, but with flow metrics
 
     ```Shell
-    cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
     ```
 
 5. The same, but with byte instead of frame count (only receive stats are reported)
 
     ```Shell
-    cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
     ```
 
 6. Now report packet per second rate, as a line chart (end with `Crtl-c`)
 
     ```Shell
-    cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Destroy the lab
@@ -155,10 +146,10 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 To destroy the lab, including veth pair, use:
 
 ```Shell
-docker-compose -f ixia-c-b2b.yml down
+docker-compose down
 sudo ip link del name veth0 type veth peer name veth1
 ```
 
 ## Credits
 
-* [Diana Galan](https://github.com/dgalan-xxia) is an author of `ixia-c-b2b.yml` example.
+* [Diana Galan](https://github.com/dgalan-xxia) is an author of `compose.yml` example.
