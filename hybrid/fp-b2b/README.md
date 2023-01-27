@@ -89,7 +89,7 @@ Although original intent of `static binding` is to describe a connection between
 1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
 
     ```Shell
-    git clone -b static https://github.com/open-traffic-generator/featureprofiles.git
+    git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
     ```
 
 2. Run FeatureProfiles OTG B2B test

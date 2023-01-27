@@ -4,7 +4,7 @@ export OTG_PORT1 = veth0
 export OTG_PORT2 = veth1
 
 .PHONY: all
-all: install pull deploy start
+all: install pull deploy start run
 
 .PHONY: clean
 clean: stop undeploy
@@ -39,17 +39,17 @@ uninstall:
 .PHONY: pull
 
 pull: pull-keng
-pull-keng: pull-ixia-c-operator pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
+pull-keng: pull-ixia-c-operator pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine pull-feature-profiles
 
 pull-clean: remove-keng
-remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
+remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine remove-feature-profiles
 
 pull-ixia-c-operator:
 	sudo -E docker-compose pull operator
 
 pull-ixia-c-controller:
 ifeq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
+	-sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
 	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724 ixia-c-controller:latest
 endif
 
@@ -60,7 +60,7 @@ endif
 
 pull-ixia-c-gnmi-server:
 ifeq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6
+	-sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6
 	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6 ixia-c-gnmi-server:latest
 endif
 
@@ -71,7 +71,7 @@ endif
 
 pull-ixia-c-traffic-engine:
 ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+	-sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
 	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24 ixia-c-traffic-engine:latest
 endif
 
@@ -82,7 +82,7 @@ endif
 
 pull-ixia-c-protocol-engine:
 ifeq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
-	sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
+	-sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
 	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256 ixia-c-protocol-engine:latest
 endif
 
@@ -90,6 +90,13 @@ remove-ixia-c-protocol-engine:
 ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
 	sudo -E docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
+
+pull-feature-profiles: ./featureprofiles
+./featureprofiles:
+	git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
+
+remove-feature-profiles:
+	-rm -r ./featureprofiles
 
 ###############################
 # Deploy operator
@@ -101,7 +108,7 @@ undeploy: remove-operator
 
 deploy-operator:
 	sudo -E docker-compose up -d
-	sleep 2
+	sleep 5
 	curl --data-binary @"ixiatg-configmap.yml" http://localhost:35000/config
 
 remove-operator:
@@ -133,3 +140,11 @@ start-ixia-c:
 stop-ixia-c:
 	-cat "ixia-c-hybrid.yml" | envsubst | curl --data-binary @- http://localhost:35000/delete
 
+###############################
+# Run tests
+###############################
+
+.PHONY: run
+run:
+	cd featureprofiles/feature/experimental/otg_only && \
+	go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "../../../../otgb2b.binding"
