@@ -2,13 +2,15 @@
 
 ## Overview
 
-This lab is an introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites build with the [Open Traffic Generator API](https://otg.dev).
+This lab is an introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites built with the [Open Traffic Generator API](https://otg.dev).
 
 > Feature profiles define groups of OpenConfig paths that can be invoked on network devices. A feature profile may contain configuration, telemetry, operational or any other paths that a device exposes. Example management plane device APIs are gNMI, and gNOI. Example control plane APIs are gRIBI, and protocols such as BGP, IS-IS.
 
 > Feature profiles also include a suite of tests for validating the network device behavior for each defined feature.
 
 In FeatureProfiles terminology, a term `ATE` is used to refer to a Traffic Generator, and it stands for `Automated Test Equipment`. This lab uses [Keysight Elastic Network Generator](../../KENG.md) with containerized [Ixia-c](https://ixia-c.dev) test ports as the `ATE`.
+
+FeatureProfiles use [Ondatra](https://github.com/openconfig/ondatra) framework for writing and running tests against both real and containerized network devices. When executing a test via the Open Traffic Generator API, it uses `gosnappi` client library internally.
 
 There are several ways to run FeatureProfiles tests. In this example, we're demonstrating a use of so called `static binding`:
 

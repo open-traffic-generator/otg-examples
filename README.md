@@ -29,6 +29,7 @@ A job of an OTG Client is to communicating with a Traffic Generator via the OTG 
 * [`otgen`](https://otg.dev/clients/otgen/) - This command-line utility comes as part of OTG toolkit. It is capable of manipulating a wide range of OTG features while hiding a lot of complexity from a user
 * [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API. 
 * [`gosnappi`](https://otg.dev/clients/gosnappi/) - Similar to `snappi`, test scripts written in `gosnappi`, an auto-generated Go module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
+* [`ondatra`](https://github.com/openconfig/ondatra) – Ondatra is a framework for writing and running tests against both real and containerized network devices. When executing a test via the Open Traffic Generator API, it uses `gosnappi` client library internally.
 
 ## Infrastructure
 
@@ -53,6 +54,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one  | B2B  | `snappi`           | Containerlab   | yes |
 | [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi` | Containerlab   | yes |
 | [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`         | Containerlab   | yes |
+| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`          | KENG Hybrid    | yes |
 
 
 ## Lab Descriptions
@@ -88,3 +90,7 @@ Joint use of Scapy packet crafting Python module with snappi, to generate custom
 ### [RTBH](clab/rtbh)
 
 Remote Triggered Black Hole (RTBH) is a common DDoS mitigation technique which uses BGP announcements to request an ISP to drop all traffic to an IP address under a DDoS attack.
+
+### [FeatureProfiles in Hybrid mode](hybrid/fp-b2b)
+
+An introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites built with the [Open Traffic Generator API](https://otg.dev).
