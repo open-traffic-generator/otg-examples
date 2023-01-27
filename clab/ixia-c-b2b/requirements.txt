@@ -1,2 +1,2 @@
 snappi==0.9.8
-scapy==2.4.5
+scapy==2.5.0
