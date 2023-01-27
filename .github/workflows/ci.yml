@@ -55,7 +55,7 @@ on:
       - 'hybrid/fp-b2b/**'
       - '!hybrid/fp-b2b/**.md'
       - '!hybrid/fp-b2b/**.png'
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   paths-filter:
