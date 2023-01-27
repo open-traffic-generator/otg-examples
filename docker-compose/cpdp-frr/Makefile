@@ -47,11 +47,11 @@ install-clean:
 pull: pull-private
 
 pull-public:
-	docker-compose pull traffic_engine_1
-	docker-compose pull frr
+	sudo -E docker-compose pull traffic_engine_1
+	sudo -E docker-compose pull frr
 	
 pull-private:
-	docker-compose pull controller protocol_engine_1
+	sudo -E docker-compose pull controller protocol_engine_1
 
 ###############################
 # Deploy lab
@@ -68,10 +68,10 @@ deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
 
 deploy-clab:
-	sudo containerlab deploy --reconfigure
+	sudo -E containerlab deploy --reconfigure
 
 remove-lab:
-	docker-compose down
+	sudo docker-compose down
 
 remove-clab:
 	sudo containerlab destroy --cleanup
@@ -83,7 +83,7 @@ remove-clab:
 .PHONY: run
 run: otg-set-config otg-start-protocols otg-fetch-arp otg-fetch-bgp otg-trasmit otg-metrics-flow otg-metrics-port
 
-OTG_HOST="https://localhost"
+OTG_HOST="https://localhost:8443"
 
 otg-set-config:
 	@echo "############################################"
@@ -174,6 +174,9 @@ otg-metrics-port:
 		then true else false end"
 
 .PHONY: run-otgen
+
+export OTG_API="https://localhost:8443"
+
 run-otgen:
 	sleep 5 # pause for all components to initialize
 	otgen --log debug run --insecure --file otg.json --json --rxbgp 2x --metrics flow | otgen transform --metrics flow

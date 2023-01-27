@@ -36,7 +36,7 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 1. Clone this repository
 
     ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     ```
 
 ## Deploy Ixia-c lab
@@ -45,7 +45,7 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-b2b
-    sudo docker-compose up -d 
+    sudo -E docker-compose up -d 
     sudo docker ps
     ```
 

@@ -1,11 +1,11 @@
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3587
-    command: --accept-eula --http-port 443
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
+    command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
   traffic_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
     restart: always
     privileged: true
     ports:
@@ -18,7 +18,7 @@ services:
     - OPT_NO_PINNING=Yes
     - WAIT_FOR_IFACE=Yes
   traffic_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
     restart: always
     privileged: true
     ports:
@@ -31,21 +31,21 @@ services:
     - OPT_NO_PINNING=Yes
     - WAIT_FOR_IFACE=Yes
   protocol_engine_1:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
     restart: always
     privileged: true
     network_mode: service:traffic_engine_1
     environment:
     - INTF_LIST=veth0
   protocol_engine_2:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
     restart: always
     privileged: true
     network_mode: service:traffic_engine_2
     environment:
     - INTF_LIST=veth2
   frr:
-    image: frrouting/frr:v8.2.2
+    image: frrouting/frr:v8.4.1
     cap_add:
       - NET_ADMIN
       - NET_RAW
