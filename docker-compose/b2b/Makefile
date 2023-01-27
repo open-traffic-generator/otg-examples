@@ -63,10 +63,10 @@ veth0-clean:
 deploy: deploy-lab
 
 deploy-lab:
-	sudo docker-compose -f ixia-c-b2b.yml up -d 
+	sudo docker-compose up -d 
 
 remove-lab:
-	sudo docker-compose -f ixia-c-b2b.yml down
+	sudo docker-compose down
 
 ###############################
 # Run tests
@@ -76,19 +76,19 @@ remove-lab:
 run: network-mtu otgen-run otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
 
 otgen-run:
-	cat otg.yml | otgen run -k
+	cat otg.yml | otgen run -k -a https://localhost:8443
 
 otgen-run-as-table-port:
-	@echo "cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
 	@echo "│Port│  FramesTx │  FramesRx │Port│  FramesTx │  FramesRx │"
 	@cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
 
 otgen-run-as-table-flow:
-	@echo "cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
 	@echo "│ Flow  │  FramesTx │  FramesRx │"
 	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
 
 otgen-run-as-table-flow-bytes:
-	@echo "cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
 	@echo "│ Flow  │   BytesTx │   BytesRx │"
 	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
