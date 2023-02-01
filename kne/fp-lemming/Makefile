@@ -4,6 +4,7 @@ IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.
 IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24"
 IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256"
+otgen_image = "otgen:local"
 
 .PHONY: all
 all: install build pull deploy start
@@ -19,9 +20,10 @@ clean-all: clean clean-pull clean-build uninstall
 ###############################
 
 .PHONY: install
-install: install-go install-kubectl install-kind
+install: install-go install-kubectl install-kind install-otgen
 
-install-go:
+install-go: /snap/bin/go
+/snap/bin/go:
 	sudo snap install go --classic
 
 install-kubectl: /usr/local/bin/kubectl
@@ -46,7 +48,8 @@ uninstall:
 ###############################
 
 .PHONY: build
-build: build-kne
+.PHONY: clean-build
+build: build-kne build-otgen
 
 build-kne: /usr/local/bin/kne
 /usr/local/bin/kne:
@@ -54,7 +57,13 @@ build-kne: /usr/local/bin/kne
 	cd kne && make build
 	sudo install -o root -g root -m 0755 kne/kne /usr/local/bin/kne
 
+build-otgen:
+ifeq ($(shell sudo docker images -q $(otgen_image) 2> /dev/null),)
+	docker build -t $(otgen_image) -f Dockerfile.otgen .
+endif
+
 clean-build:
+	-docker rmi $(otgen_image)
 	-sudo rm -f `command -v kne`
 	-rm -rf ./kne
 
@@ -130,20 +139,32 @@ load-images:
 	kind load docker-image $(IxiaC_gNMI) --name=kne	
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
+	kind load docker-image $(otgen_image) --name=kne
 
 remove-cluster:
 	kind delete cluster --name kne
 
 ###############################
-# Start lab
+# Start labs
 ###############################
 
-.PHONY: start
-start: start-topo
-stop: stop-topo
+.PHONY: start-b2b
+.PHONY: stop-b2b
+start-b2b: start-topo-keng-b2b
+stop-b2b: stop-topo-keng-b2b
 
-start-topo:
-	kne create 3node-ubuntu-host.pb.txt
+start-topo-keng-b2b:
+	kne create ate-b2b.pb.txt
 
-stop-topo:
-	kne delete 3node-ubuntu-host.pb.txt
+stop-topo-keng-b2b:
+	kne delete ate-b2b.pb.txt
+
+###############################
+# Run tests
+###############################
+
+.PHONY: run-b2b
+run-b2b:
+	kubectl create -f job-otgen-flow-b2b.yaml
+	sleep 2
+	kubectl get job -l flow=b2b --sort-by='{.metadata.creationTimestamp}' -o name | tac | head -1 | xargs kubectl logs -f

@@ -1,0 +1,20 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: otgen-flow-b2b-
+  labels:
+    flow: b2b
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+        - command:
+            - /bin/sh
+            - "-c"
+            - |
+              otgen create flow --txl eth1 --rxl eth2 | otgen --log debug run -k --api https://service-https-ate-controller.ate-b2b.svc.cluster.local:8443 --metrics flow | otgen transform --metrics flow| otgen display --mode table
+          image: otgen:local
+          name: otgen
+      restartPolicy: Never

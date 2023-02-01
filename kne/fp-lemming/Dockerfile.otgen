@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN apk add --no-cache \
+  bash \
+  curl \
+  tar \
+  openssl \
+  && rm -rf /var/cache/apk/* \
+  && bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
