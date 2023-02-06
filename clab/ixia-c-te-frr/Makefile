@@ -38,10 +38,16 @@ install-clean:
 deploy: deploy-clab
 
 deploy-clab:
-	sudo containerlab deploy --reconfigure
+	sudo containerlab deploy -t topo.clab.yml --reconfigure
+
+deploy-clab-3768:
+	sudo containerlab deploy -t topo-0.0.1-3768.clab.yml --reconfigure
 
 remove-clab:
-	sudo containerlab destroy --cleanup
+	sudo containerlab destroy -t topo.clab.yml --cleanup
+
+remove-clab-3768:
+	sudo containerlab destroy -t topo-0.0.1-3768.clab.yml --cleanup
 
 ###############################
 # Run tests
@@ -61,6 +67,16 @@ run-otgen:
 	cat otg.yml | \
 	sed "s/00:00:00:00:11:aa/$${TE1SMAC}/g" | sed "s/00:00:00:00:11:bb/$${TE1DMAC}/g" | \
 	sed "s/00:00:00:00:22:aa/$${TE2SMAC}/g" | sed "s/00:00:00:00:22:bb/$${TE2DMAC}/g" | \
+	otgen run -k | \
+	otgen transform -m port | \
+	otgen display -m table
+
+run-d2d:
+	export OTG_FLOW_SMAC_P1=$$(cat clab-ixctedut/topology-data.json | jq -r '.links[0]["a"].mac'); \
+	export OTG_FLOW_DMAC_P1=$$(cat clab-ixctedut/topology-data.json | jq -r '.links[0]["z"].mac'); \
+	export OTG_FLOW_SMAC_P2=$$(cat clab-ixctedut/topology-data.json | jq -r '.links[1]["a"].mac'); \
+	export OTG_FLOW_DMAC_P2=$$(cat clab-ixctedut/topology-data.json | jq -r '.links[1]["z"].mac'); \
+	otgen create flow -s 192.0.2.1 -d 192.0.2.5 -p 80 --rate 100 --count 1000 --size 512 --txl te1:5555 --rxl te2:5555 | \
 	otgen run -k | \
 	otgen transform -m port | \
 	otgen display -m table
