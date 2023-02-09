@@ -4,7 +4,9 @@ IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.
 IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24"
 IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256"
-otgen_image = "otgen:local"
+
+otgen_version = 0.4.0
+otgen_image = otgen:$(otgen_version)
 
 .PHONY: all
 all: install build pull deploy start
@@ -59,7 +61,8 @@ build-kne: /usr/local/bin/kne
 
 build-otgen:
 ifeq ($(shell sudo docker images -q $(otgen_image) 2> /dev/null),)
-	docker build -t $(otgen_image) -f Dockerfile.otgen .
+	docker build -t $(otgen_image) -f Dockerfile.otgen --build-arg version=$(otgen_version) .
+	docker tag $(otgen_image) otgen:local
 endif
 
 clean-build:
@@ -139,7 +142,7 @@ load-images:
 	kind load docker-image $(IxiaC_gNMI) --name=kne	
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
-	kind load docker-image $(otgen_image) --name=kne
+	kind load docker-image otgen:local --name=kne
 
 remove-cluster:
 	kind delete cluster --name kne
