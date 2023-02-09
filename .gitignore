@@ -144,3 +144,4 @@ clab/srl-oper-group/opergroup-lab/
 *.pcapng
 hybrid/fp-b2b/featureprofiles/
 kne/fp-lemming/kne/
+kne/fp-lemming/featureprofiles/

@@ -76,10 +76,10 @@ clean-build:
 
 .PHONY: pull
 
-pull: pull-keng
+pull: pull-keng pull-feature-profiles
 pull-keng: pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-clean-pull: remove-keng
+clean-pull: remove-keng remove-feature-profiles
 remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-controller:
@@ -126,6 +126,13 @@ ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null)
 	docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
 
+pull-feature-profiles: ./featureprofiles
+./featureprofiles:
+	git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
+
+remove-feature-profiles:
+	-rm -r ./featureprofiles
+
 ###############################
 # Deploy cluster
 ###############################
@@ -166,8 +173,11 @@ stop-topo-keng-b2b:
 # Run tests
 ###############################
 
-.PHONY: run-b2b
-run-b2b:
+run-b2b-otgen:
 	kubectl create -f job-otgen-flow-b2b.yaml
 	sleep 2
 	kubectl get job -l flow=b2b --sort-by='{.metadata.creationTimestamp}' -o name | tac | head -1 | xargs kubectl logs -f
+
+run-b2b-fp:
+	cd featureprofiles/feature/experimental/otg_only && \
+	go test -v otgb2b_test.go -testbed otgb2b.testbed -kne-config "../../../../ate-b2b.ondatra.yaml"
