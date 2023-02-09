@@ -9,10 +9,10 @@ otgen_version = 0.4.0
 otgen_image = otgen:$(otgen_version)
 
 .PHONY: all
-all: install build pull deploy start
+all: install build pull deploy start-b2b run-b2b-otgen run-b2b-fp
 
 .PHONY: clean
-clean: stop undeploy
+clean: stop-b2b undeploy
 
 .PHONY: clean-all
 clean-all: clean clean-pull clean-build uninstall
@@ -22,7 +22,7 @@ clean-all: clean clean-pull clean-build uninstall
 ###############################
 
 .PHONY: install
-install: install-go install-kubectl install-kind install-otgen
+install: install-go install-kubectl install-kind
 
 install-go: /snap/bin/go
 /snap/bin/go:
