@@ -8,6 +8,8 @@ IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.
 otgen_version = 0.4.0
 otgen_image = otgen:$(otgen_version)
 
+kne_version = v0.1.7
+
 .PHONY: all
 all: install build pull deploy start-b2b run-b2b-otgen run-b2b-fp
 
@@ -55,7 +57,7 @@ build: build-kne build-otgen
 
 build-kne: /usr/local/bin/kne
 /usr/local/bin/kne:
-	git clone --depth 1 https://github.com/openconfig/kne.git
+	git clone --depth 1 --branch $(kne_version) https://github.com/openconfig/kne.git
 	cd kne && make build
 	sudo install -o root -g root -m 0755 kne/kne /usr/local/bin/kne
 
@@ -76,10 +78,10 @@ clean-build:
 
 .PHONY: pull
 
-pull: pull-keng pull-feature-profiles
+pull: pull-keng pull-feature-profiles pull-lemming pull-feature-profiles-static
 pull-keng: pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-clean-pull: remove-keng remove-feature-profiles
+clean-pull: remove-keng remove-feature-profiles remove-lemming remove-feature-profiles-static
 remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-controller:
@@ -126,9 +128,23 @@ ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null)
 	docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
 
+pull-lemming: ./lemming
+./lemming:
+	git clone --depth 1 https://github.com/openconfig/lemming.git
+
+remove-lemming:
+	-rm -r ./lemming
+
+pull-feature-profiles-static: ./featureprofiles-static
+./featureprofiles-static:
+	git clone --depth 1 -b static https://github.com/open-traffic-generator/featureprofiles.git featureprofiles-static
+
+remove-feature-profiles-static:
+	-rm -r ./featureprofiles-static
+
 pull-feature-profiles: ./featureprofiles
 ./featureprofiles:
-	git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
+	git clone --depth 1 https://github.com/openconfig/featureprofiles.git
 
 remove-feature-profiles:
 	-rm -r ./featureprofiles
@@ -138,7 +154,7 @@ remove-feature-profiles:
 ###############################
 
 .PHONY: deploy
-deploy: deploy-cluster load-images
+deploy: deploy-cluster load-images apply-ixiatg-configmap deploy-operator-lemming
 undeploy: remove-cluster 
 
 deploy-cluster:
@@ -150,6 +166,12 @@ load-images:
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
 	kind load docker-image otgen:local --name=kne
+
+apply-ixiatg-configmap:
+	kubectl apply -f manifests/keysight/ixiatg-configmap.yaml
+
+deploy-operator-lemming:
+	kubectl apply -k lemming/operator/config/default
 
 remove-cluster:
 	kind delete cluster --name kne
@@ -179,5 +201,9 @@ run-b2b-otgen:
 	kubectl get job -l flow=b2b --sort-by='{.metadata.creationTimestamp}' -o name | tac | head -1 | xargs kubectl logs -f
 
 run-b2b-fp:
-	cd featureprofiles/feature/experimental/otg_only && \
+	cd featureprofiles-static/feature/experimental/otg_only && \
 	go test -v otgb2b_test.go -testbed otgb2b.testbed -kne-config "../../../../ate-b2b.ondatra.yaml"
+
+run-lemming-tests:
+	cd lemming && \
+	go test ./integration_tests/...
