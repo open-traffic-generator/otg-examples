@@ -5,9 +5,9 @@ topology:
       kind: linux
       image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
       network-mode: host
-      cmd: --accept-eula --http-port 443
+      cmd: --accept-eula --http-port 8443
       ports:
-        - 443:443
+        - 8443:8443
     te1:
       kind: linux
       image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
