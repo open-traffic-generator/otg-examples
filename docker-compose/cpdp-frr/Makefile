@@ -83,7 +83,7 @@ remove-clab:
 .PHONY: run
 run: otg-set-config otg-start-protocols otg-fetch-arp otg-fetch-bgp otg-trasmit otg-metrics-flow otg-metrics-port
 
-OTG_HOST="https://localhost:8443"
+OTG_HOST=https://localhost:8443
 
 otg-set-config:
 	@echo "############################################"
@@ -175,7 +175,7 @@ otg-metrics-port:
 
 .PHONY: run-otgen
 
-export OTG_API="https://localhost:8443"
+export OTG_API=https://localhost:8443
 
 run-otgen:
 	sleep 5 # pause for all components to initialize
