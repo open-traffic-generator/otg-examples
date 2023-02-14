@@ -29,34 +29,34 @@ Further due to a NUMA-related limitation with DPDK 19.11 used by Ixia-C Traffic 
 needs to be same across all `traffic-engine` instances. In the example above, core number 2 is used for control in all three containers.
 
 
-```Yaml
-services:
-    controller:
-    image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3724
-    command: --accept-eula --http-port 8443
-    network_mode: "host"
-    restart: always
-    traffic_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
-    network_mode: "host"
-    restart: always
-    privileged: true
-    cpuset: 2,3,4
-    environment:
-    - OPT_LISTEN_PORT=5555
-    - ARG_IFACE_LIST=virtual@af_packet,veth0
-    - OPT_NO_HUGEPAGES=Yes
-    traffic_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
-    network_mode: "host"
-    restart: always
-    privileged: true
-    cpuset: 2,5,6
-    environment:
-    - OPT_LISTEN_PORT=5556
-    - ARG_IFACE_LIST=virtual@af_packet,veth1
-    - OPT_NO_HUGEPAGES=Yes
-```
+ ```Yaml
+ services:
+   controller:
+     image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3724
+     command: --accept-eula --http-port 8443
+     network_mode: "host"
+     restart: always
+   traffic_engine_1:
+     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+     network_mode: "host"
+     restart: always
+     privileged: true
+     cpuset: 2,3,4
+     environment:
+     - OPT_LISTEN_PORT=5555
+     - ARG_IFACE_LIST=virtual@af_packet,veth0
+     - OPT_NO_HUGEPAGES=Yes
+   traffic_engine_2:
+     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+     network_mode: "host"
+     restart: always
+     privileged: true
+     cpuset: 2,5,6
+     environment:
+     - OPT_LISTEN_PORT=5556
+     - ARG_IFACE_LIST=virtual@af_packet,veth1
+     - OPT_NO_HUGEPAGES=Yes
+ ```
 
 ## System Prerequisites
 
