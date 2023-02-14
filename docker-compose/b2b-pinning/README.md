@@ -29,8 +29,7 @@ Further due to a NUMA-related limitation with DPDK 19.11 used by Ixia-C Traffic 
 needs to be same across all `traffic-engine` instances. In the example above, core number 2 is used for control in all three containers.
 
 
-    ```Shell
-    cat > compose.yml << EOF
+    ```Yaml
     services:
       controller:
         image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3724
@@ -57,7 +56,6 @@ needs to be same across all `traffic-engine` instances. In the example above, co
         - OPT_LISTEN_PORT=5556
         - ARG_IFACE_LIST=virtual@af_packet,veth1
         - OPT_NO_HUGEPAGES=Yes
-    EOF
     ```
 
 ## System Prerequisites
