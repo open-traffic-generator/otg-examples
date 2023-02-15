@@ -3,17 +3,17 @@ SHELL = /bin/bash
 .PHONY: all
 all: install network deploy run
 
-.PHONY: all-nopinning
-all: install network deploy-nopinning run
+.PHONY: all-nopin
+all-nopin: install network deploy-nopin run
 
 .PHONY: clean
 clean: remove-lab network-clean
 
-.PHONY: clean-nopinning
-clean: remove-lab-nopinning network-clean
+.PHONY: clean-nopin
+clean-nopin: remove-lab-nopin network-clean
 
 .PHONY: clean-all
-clean-all: clean clean-nopinning install-clean
+clean-all: clean clean-nopin install-clean
 
 ###############################
 # Install components
@@ -59,8 +59,8 @@ veth0-clean:
 .PHONY: deploy
 deploy: deploy-lab
 
-.PHONY: deploy-nopinning
-deploy-nopinning: deploy-lab-nopinning
+.PHONY: deploy-nopin
+deploy-nopin: deploy-lab-nopin
 
 deploy-lab:
 	sudo docker-compose up -d 
@@ -68,11 +68,11 @@ deploy-lab:
 remove-lab:
 	-sudo docker-compose down
 
-deploy-lab-nopinning:
-	sudo docker-compose -f compose.nopinning.yml up -d
+deploy-lab-nopin:
+	sudo docker-compose -f compose.nopin.yml up -d
 
-remove-lab-nopinning:
-	-sudo docker-compose -f compose.nopinning.yml down
+remove-lab-nopin:
+	-sudo docker-compose -f compose.nopin.yml down
 
 
 ###############################
