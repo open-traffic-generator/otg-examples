@@ -6,14 +6,20 @@ all: install network deploy run
 .PHONY: all-nopin
 all-nopin: install network deploy-nopin run
 
+.PHONY: all-argpin
+all-argpin: install network deploy-argpin run
+
 .PHONY: clean
 clean: remove-lab network-clean
 
 .PHONY: clean-nopin
 clean-nopin: remove-lab-nopin network-clean
 
+.PHONY: clean-argpin
+clean-argpin: remove-lab-argpin network-clean
+
 .PHONY: clean-all
-clean-all: clean clean-nopin install-clean
+clean-all: clean clean-nopin clean-argpin install-clean
 
 ###############################
 # Install components
@@ -62,6 +68,9 @@ deploy: deploy-lab
 .PHONY: deploy-nopin
 deploy-nopin: deploy-lab-nopin
 
+.PHONY: deploy-argpin
+deploy-argpin: deploy-lab-argpin
+
 deploy-lab:
 	sudo docker-compose up -d 
 
@@ -73,6 +82,12 @@ deploy-lab-nopin:
 
 remove-lab-nopin:
 	-sudo docker-compose -f compose.nopin.yml down
+
+deploy-lab-argpin:
+	sudo docker-compose -f compose.argpin.yml up -d
+
+remove-lab-argpin:
+	-sudo docker-compose -f compose.argpin.yml down
 
 
 ###############################
