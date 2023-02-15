@@ -10,23 +10,20 @@ This lab demonstrates how to maximize performance of [Ixia-c](https://github.com
 
 In the deployment steps listed below, two `traffic-engine` containers will be started. The table below describes parameters that are unique among them:
 
-- **Listen Port**: Port on which the `traffic-engine` will listen to for communication with the `controller`.
+- **Listen Port**: Port on which the `traffic-engine` will listen to for communication with the `controller`
+- **Network Interfaces**: Interfaces on which the `traffic-engine` will transmit and receive traffic
 - **CPU Cores Allocated**: Each instance of `traffic-engine` uses three cores. Two dedicated cores are used for  
   sending and receiving packets and one is used for configuration, control and statistics. In the example above all  
   instances of `traffic-engine` are sharing core number 2 for the configuration, control and statistics while  
-  instance 1 is using cores 3/4 for Tx/Rx, instance 2 is using cores 5/6 for Tx/Rx, and so on.
+  instance 1 is using cores 3/4 for Tx/Rx, instance 2 is using cores 5/6 for Tx/Rx, and so on
 
-| Instance | Listen Port | Cores Allocated | vEth Interface Used     |
+| Instance | Listen Port | Cores Allocated | Network Interfaces      |
 |----------|-------------|-----------------|-------------------------|
 | 1        | 5555        | 2, 3, 4         | veth0                   |
 | 2        | 5556        | 2, 5, 6         | veth1                   |
 
 
-**Note**: The Tx/Rx cores allocated to a `traffic-engine` instance (using the ARG_CORE_LIST environment variable)  
-MUST NOT overlap across other such instances (even if they are idle and not sending/receiving any traffic).  
-Sharing Tx/Rx cores will result in undefined behavior including but not limited to loss of performance.  
-Further due to a NUMA-related limitation with DPDK 19.11 used by Ixia-C Traffic Engine, the core used for control  
-needs to be same across all `traffic-engine` instances. In the example above, core number 2 is used for control in all three containers.
+**Note**: The Tx/Rx cores allocated to a `traffic-engine` instance using `cpuset` parameter MUST NOT overlap across other such instances (even if they are idle and not sending/receiving any traffic). Sharing Tx/Rx cores will result in undefined behavior including but not limited to loss of performance. Further due to a NUMA-related limitation with DPDK 19.11 used by Ixia-C Traffic Engine, the core used for control needs to be same across all `traffic-engine` instances. In the example above, core number 2 is used for control in all three containers.
 
 
  ```Yaml
