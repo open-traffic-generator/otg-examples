@@ -43,17 +43,10 @@ veth0: /sys/class/net/veth0
 	sudo ip link add name veth0 type veth peer name veth1
 	sudo ip link set dev veth0 up
 	sudo ip link set dev veth1 up
-	sudo sysctl net.ipv6.conf.veth0.disable_ipv6=1
-	sudo sysctl net.ipv6.conf.veth1.disable_ipv6=1
-
-network-mtu:
-	sudo ip link set veth0 mtu 9500
-	sudo ip link set veth1 mtu 9500
 
 network-clean: veth0-clean
 veth0-clean:
-#TODO run only if veth0 exists
-	sudo ip link del name veth0 type veth peer name veth1
+	-sudo ip link del name veth0 type veth peer name veth1
 
 ###############################
 # Deploy lab
@@ -73,22 +66,7 @@ remove-lab:
 ###############################
 
 .PHONY: run
-run: network-mtu otgen-run otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
+run: otgen-run
 
 otgen-run:
-	cat otg.yml | otgen run -k -a https://localhost:8443
-
-otgen-run-as-table-port:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
-	@echo "│Port│  FramesTx │  FramesRx │Port│  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
-
-otgen-run-as-table-flow:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
-	@echo "│ Flow  │  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
-
-otgen-run-as-table-flow-bytes:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
-	@echo "│ Flow  │   BytesTx │   BytesRx │"
-	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
+	otgen run -f otg.yml -k --api https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m table
