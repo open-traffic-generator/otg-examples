@@ -60,7 +60,7 @@ veth0-clean:
 deploy: deploy-lab
 
 .PHONY: deploy-nopinning
-deploy: deploy-lab-nopinning
+deploy-nopinning: deploy-lab-nopinning
 
 deploy-lab:
 	sudo docker-compose up -d 
