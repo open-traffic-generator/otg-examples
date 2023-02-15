@@ -57,7 +57,7 @@ deploy-lab:
 	sudo docker-compose up -d 
 
 remove-lab:
-	sudo docker-compose down
+	-sudo docker-compose down
 
 ###############################
 # Run tests
