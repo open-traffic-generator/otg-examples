@@ -23,9 +23,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 	
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -73,22 +71,22 @@ remove-lab:
 ###############################
 
 .PHONY: run
-run: network-mtu otgen-run otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
+run: network-mtu otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
 
 otgen-run:
 	cat otg.yml | otgen run -k -a https://localhost:8443
 
 otgen-run-as-table-port:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
 	@echo "│Port│  FramesTx │  FramesRx │Port│  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
+	@cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
 
 otgen-run-as-table-flow:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
 	@echo "│ Flow  │  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
+	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
 
 otgen-run-as-table-flow-bytes:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
 	@echo "│ Flow  │   BytesTx │   BytesRx │"
-	@cat otg.yml | otgen run -k -m flow 2>/dev/null | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
+	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
