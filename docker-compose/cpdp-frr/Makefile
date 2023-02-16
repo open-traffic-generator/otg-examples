@@ -1,10 +1,10 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: all-clab
-all-clab: install pull deploy-clab run-otgen
+all-clab: install deploy-clab run-otgen
 
 .PHONY: clean
 clean: remove-lab remove-clab
@@ -30,9 +30,7 @@ install-clab: /usr/bin/containerlab
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -61,7 +59,7 @@ pull-private:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 
 deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1

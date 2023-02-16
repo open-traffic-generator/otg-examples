@@ -22,9 +22,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 2. Install `otgen`
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-    sudo mv otgen /usr/local/bin/otgen
-    sudo chmod +x /usr/local/bin/otgen
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
     ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -64,12 +62,12 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     cat > compose.yml << EOF
     services:
       controller:
-        image: ixiacom/ixia-c-controller:0.0.1-3724
+        image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3724
         command: --accept-eula --http-port 8443
         network_mode: "host"
         restart: always
       traffic_engine_1:
-        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
+        image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
         network_mode: "host"
         restart: always
         privileged: true
@@ -78,7 +76,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
         - ARG_IFACE_LIST=virtual@af_packet,veth0
         - OPT_NO_HUGEPAGES=Yes
       traffic_engine_2:
-        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
+        image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
         network_mode: "host"
         restart: always
         privileged: true
@@ -120,25 +118,25 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 3. You can now repeat this exercise, but transform output to a table
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -m port | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
     ```
 
 4. The same, but with flow metrics
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
     ```
 
 5. The same, but with byte instead of frame count (only receive stats are reported)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
     ```
 
 6. Now report packet per second rate, as a line chart (end with `Crtl-c`)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Destroy the lab

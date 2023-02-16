@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: clean
 clean: remove-lab
@@ -45,7 +45,7 @@ pull-private:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 
 deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
