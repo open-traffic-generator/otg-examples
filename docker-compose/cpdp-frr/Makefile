@@ -1,10 +1,10 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: all-clab
-all-clab: install pull deploy-clab run-otgen
+all-clab: install deploy-clab run-otgen
 
 .PHONY: clean
 clean: remove-lab remove-clab
