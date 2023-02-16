@@ -107,7 +107,7 @@ veth4-clean:
 ###############################
 
 .PHONY: run
-run: otgen-run otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
+run: otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
 
 otgen-run:
 	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml
