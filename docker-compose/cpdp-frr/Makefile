@@ -26,13 +26,11 @@ install-docker-compose: /usr/local/bin/docker-compose
 
 install-clab: /usr/bin/containerlab
 /usr/bin/containerlab:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+	bash -c "$$(curl -sL https://get.containerlab.dev)"
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -61,7 +59,7 @@ pull-private:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 
 deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1

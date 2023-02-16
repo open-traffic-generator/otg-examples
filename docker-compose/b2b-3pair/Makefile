@@ -77,7 +77,7 @@ veth4: /sys/class/net/veth4
 
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 	sudo ip link set veth0 mtu 9500
 	sudo ip link set veth1 mtu 9500
 	sudo ip link set veth2 mtu 9500
