@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: clean
 clean: lab-clean network-clean
@@ -23,9 +23,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 	
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`

@@ -26,7 +26,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 
 install-clab: /usr/bin/containerlab
 /usr/bin/containerlab:
-	bash -c "$$(curl -sL https://get.containerlab.dev)"
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
