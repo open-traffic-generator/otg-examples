@@ -38,7 +38,7 @@ Although original intent of `static binding` is to describe a connection between
 2. Clone this repository
 
     ```Shell
-    git clone -b hybrid https://github.com/open-traffic-generator/otg-examples.git
+    git clone https://github.com/open-traffic-generator/otg-examples.git
     OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
     ```
 
