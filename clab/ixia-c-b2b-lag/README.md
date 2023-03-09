@@ -1,7 +1,7 @@
 # Static B2B LAG
 
 ## Overview
-This is a simple lab where an Ixia-c-one node has two pairs of traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of from two ports and run traffic over the LAG interface.
+This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of from two ports and run traffic over the LAG interface.
 
 ## Prerequisites
 
