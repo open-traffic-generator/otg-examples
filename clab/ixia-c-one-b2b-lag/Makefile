@@ -48,9 +48,9 @@ remove-clab:
 .PHONY: run
 run: run-otgen
 
-export OTG_API=https://clab-ixcb2b-lag-ixia-c:8443
+export OTG_API=https://clab-ixcb2b-lag-ixc:8443
 
 run-otgen:
 #	sleep 5 # pause for all components to initialize
-	otgen --log debug run --insecure --file otg.yaml --yaml --metrics flow | otgen transform --metrics flow
-	otgen --log debug run --insecure --file otg.yaml --yaml --metrics port | otgen transform --metrics port
+	otgen run --insecure --file otg.yaml --yaml --metrics flow | otgen transform --metrics flow | otgen display -m table
+	otgen run --insecure --file otg.yaml --yaml --metrics port | otgen transform --metrics port | otgen display -m table
