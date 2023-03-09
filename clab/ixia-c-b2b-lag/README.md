@@ -24,6 +24,12 @@ This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traff
     cd otg-examples/clab/ixia-c-one-b2b-lag
     ```
 
+## Install components
+
+```Shell
+make install
+```
+
 ## Deploy a lab
 
 ```Shell
@@ -33,7 +39,7 @@ sudo -E containerlab deploy -t topo.yml
 ## Run otgen test
 
 ```Shell
-TBD
+make run
 ```
 
 ## Destroy the lab
