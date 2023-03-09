@@ -1,0 +1,9 @@
+name: ixcb2b-lag
+topology:
+  nodes:
+    ixia-c:
+      kind: keysight_ixia-c-one
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-3841
+  links:
+    - endpoints: ["ixia-c:eth1","ixia-c:eth2"]
+    - endpoints: ["ixia-c:eth3","ixia-c:eth4"]
