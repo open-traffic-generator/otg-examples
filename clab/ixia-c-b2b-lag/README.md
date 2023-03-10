@@ -3,6 +3,8 @@
 ## Overview
 This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of from two ports and run traffic over the LAG interface.
 
+![Diagram](./diagram.svg)
+
 ## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
@@ -26,9 +28,11 @@ This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traff
 
 ## Install components
 
-```Shell
-make install
-```
+1. Install `otgen`
+
+    ```Shell
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.1
+    ```
 
 ## Deploy a lab
 

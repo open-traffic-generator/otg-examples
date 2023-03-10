@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install build deploy run
+all: install deploy run
 
 .PHONY: clean
 clean: remove-clab
@@ -22,7 +22,7 @@ install-clab: /usr/bin/containerlab
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.1
 
 install-clean:
 	-sudo rm -f `command -v otgen`
@@ -48,7 +48,7 @@ remove-clab:
 .PHONY: run
 run: run-otgen
 
-export OTG_API=https://clab-ixcb2b-lag-ixc:8443
+export OTG_API=https://clab-b2blag-ixc:8443
 
 run-otgen:
 #	sleep 5 # pause for all components to initialize
