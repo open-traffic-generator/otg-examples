@@ -134,3 +134,4 @@ clab/*/.*.yml
 clab/*/clab-*
 .DS_Store
 clab/rtbh/test.out
+*.bak

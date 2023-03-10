@@ -11,110 +11,71 @@ topology:
   nodes:
     ### FABRIC ###
     leaf1:
-      startup-config: opergroup-lab/configs/leaf1.cfg
+      startup-config: configs/leaf1.cfg
       binds:
-        - opergroup-lab/opergroup.py:/etc/opt/srlinux/eventmgr/opergroup.py
-      labels:
-        graph-level: 2
-        graph-icon: switch
+        - opergroup.py:/etc/opt/srlinux/eventmgr/opergroup.py
     leaf2:
-      startup-config: opergroup-lab/configs/leaf2.cfg
-      labels:
-        graph-level: 2
-        graph-icon: switch
+      startup-config: configs/leaf2.cfg
     leaf3:
-      startup-config: opergroup-lab/configs/leaf3.cfg
-      labels:
-        graph-level: 2
-        graph-icon: switch
+      startup-config: configs/leaf3.cfg
     leaf4:
-      startup-config: opergroup-lab/configs/leaf4.cfg
-      labels:
-        graph-level: 2
-        graph-icon: switch
+      startup-config: configs/leaf4.cfg
     spine1:
-      startup-config: opergroup-lab/configs/spine1.cfg
-      labels:
-        graph-level: 1
-        graph-icon: router
+      startup-config: configs/spine1.cfg
     spine2:
-      startup-config: opergroup-lab/configs/spine2.cfg
-      labels:
-        graph-level: 1
-        graph-icon: router
+      startup-config: configs/spine2.cfg
     ### CLIENTS ###
     client1:
       kind: linux
-      image: ghcr.io/hellt/network-multitool
-      binds:
-        - opergroup-lab/configs/bond.sh:/tmp/bond.sh
-      exec:
-        - bash /tmp/bond.sh
-        - ip link set bond0 address 00:c1:ab:00:00:01
-        - ip addr add 192.168.100.1/24 dev bond0
-      labels:
-        graph-level: 3
-        graph-icon: server
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1 virtual@af_packet,eth2
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
     client2:
       kind: linux
-      image: ghcr.io/hellt/network-multitool
-      binds:
-        - opergroup-lab/configs/bond.sh:/tmp/bond.sh
-      exec:
-        - bash /tmp/bond.sh
-        - ip link set bond0 address 00:c1:ab:00:00:02
-        - ip addr add 192.168.100.2/24 dev bond0
-        - iperf3 -s -D > iperf3.log
-      labels:
-        graph-level: 3
-        graph-icon: server
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1 virtual@af_packet,eth2
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
 
     ### TELEMETRY STACK ###
+    ixc:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3841
+      cmd: --accept-eula --http-port 8443
+      ports:
+        - 8443:8443
     gnmic:
       kind: linux
       image: ghcr.io/karimra/gnmic:0.24.4
       binds:
-        - opergroup-lab/configs/gnmic.yml:/gnmic.yml:ro
+        - configs/gnmic.yml:/gnmic.yml:ro
       cmd: --config /gnmic.yml --log subscribe
-      labels:
-        graph-hide: yes
 
     prometheus:
       kind: linux
       image: prom/prometheus:v2.23.0
       binds:
-        - opergroup-lab/configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       cmd: --config.file=/etc/prometheus/prometheus.yml
       ports:
         - 9090:9090
-      labels:
-        graph-hide: yes
 
     grafana:
       kind: linux
       image: grafana/grafana:8.5.0
       binds:
-        - opergroup-lab/configs/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
-        - opergroup-lab/configs/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
-        - opergroup-lab/configs/grafana/dashboards:/var/lib/grafana/dashboards
+        - configs/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        - configs/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+        - configs/grafana/dashboards:/var/lib/grafana/dashboards
       ports:
         - 3000:3000
-      labels:
-        graph-hide: yes
-
-    graphite:
-      kind: linux
-      image: netreplica/graphite:latest
-      env:
-        CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
-      binds:
-        - __clabDir__/topology-data.json:/htdocs/default/default.json:ro
-      ports:
-        - 8080:80
-      exec:
-        - sh -c 'graphite_motd.sh 8080'
-      labels:
-        graph-hide: yes
 
   links:
     # client1/2 links towards leaves
