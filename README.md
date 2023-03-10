@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
 
-## Overview 
+## Overview
 
 [OTG examples](https://github.com/open-traffic-generator/otg-examples) repository is a great way to get started with [Open Traffic Generator API](https://otg.dev). It features a collection of software-only network labs ranging from very simple to more complex. To setup network labs in software we use containerized or virtualized NOS images.
 
@@ -27,7 +27,7 @@ A job of an OTG Client is to communicating with a Traffic Generator via the OTG 
 
 * [`curl`](https://otg.dev/clients/curl/) - The most basic utility for any kind of REST API calls, including OTG
 * [`otgen`](https://otg.dev/clients/otgen/) - This command-line utility comes as part of OTG toolkit. It is capable of manipulating a wide range of OTG features while hiding a lot of complexity from a user
-* [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API. 
+* [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
 * [`gosnappi`](https://otg.dev/clients/gosnappi/) - Similar to `snappi`, test scripts written in `gosnappi`, an auto-generated Go module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
 * [`ondatra`](https://github.com/openconfig/ondatra) – Ondatra is a framework for writing and running tests against both real and containerized network devices. When executing a test via the Open Traffic Generator API, it uses `gosnappi` client library internally.
 
@@ -47,7 +47,8 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | Lab                                                                                                                          | OTG Tool    | DUT  | Client             | Infrastructure | CI  |
 | ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ------------------ | -------------- | --- |
 | [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen`            | Compose        | yes |
-| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | yes  |
+| [Static B2B LAG](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b-lag)                       | Ixia-c TE   | B2B  | `otgen`            | Containerlab   | yes |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | yes |
 | [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`            | Compose        | yes |
 | [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`         | Compose        | yes |
 | [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`   | Compose & Clab | yes |
@@ -62,6 +63,10 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 ### [B2B Ixia-c Traffic](docker-compose/b2b)
 
 Ixia-c traffic engine back-to-back setup with Docker Compose. Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
+
+### [Static B2B LAG](clab/ixia-c-b2b-lag)
+
+Two Ixia-c Traffic Engines connected back-2-back in a Containerlab environment over two pairs of ports in a LAG. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of two ports and run traffic over the LAG interface.
 
 ### [FRR Ixia-c Traffic](clab/ixia-c-te-frr)
 
@@ -79,11 +84,11 @@ KENG back-to-back BGP and traffic setup with Docker Compose. This is an extended
 
 KENG ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. The lab has two alternative deployment methods: Compose as well as Containerlab.
 
-### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b) 
+### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b)
 
 Basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
 
-### [Dear snappi, please meet Scapy!](clab/ixia-c-b2b/SCAPY.md) 
+### [Dear snappi, please meet Scapy!](clab/ixia-c-b2b/SCAPY.md)
 
 Joint use of Scapy packet crafting Python module with snappi, to generate custom DNS flows via Ixia-c-one node.
 

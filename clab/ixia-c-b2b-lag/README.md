@@ -1,14 +1,14 @@
 # Static B2B LAG
 
 ## Overview
-This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traffic ports connected back-2-back in a Containerlab environment. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of from two ports and run traffic over the LAG interface.
+In this lab two Ixia-c Traffic Engines have a pairs of traffic ports each connected back-2-back in a Containerlab environment. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of two ports and run traffic over the LAG interface.
 
 ![Diagram](./diagram.svg)
 
 ## Prerequisites
 
-* Linux host or VM with sudo permissions and Docker support. See [some ready-to-use options below](#options-for-linux-vm-deployment-for-containerlab)
-* `git` - how to install depends on your Linux distro.
+* Linux host or VM with sudo permissions and Docker support
+* `git` - how to install depends on your Linux distro
 * [Docker](https://docs.docker.com/engine/install/)
 * [Containerlab](https://containerlab.dev/install/)
 
@@ -40,11 +40,19 @@ This is a simple lab where an Ixia-c Traffic Engine nodes has two pairs of traff
 sudo -E containerlab deploy -t topo.yml
 ```
 
-## Run otgen test
+## Run otgen tests
 
-```Shell
-make run
-```
+1. Flow-based statistics over the LAG
+
+    ```Shell
+    otgen run --insecure --file otg.yaml --yaml --metrics flow | otgen transform --metrics flow | otgen display -m table
+    ```
+
+2. Individual port statistics showing packet distribution over the LAG members
+
+    ```Shell
+    otgen run --insecure --file otg.yaml --yaml --metrics port | otgen transform --metrics port | otgen display -m table
+    ```
 
 ## Destroy the lab
 
