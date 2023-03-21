@@ -1,0 +1,14 @@
+apiVersion: networkop.co.uk/v1beta1
+kind: Topology
+metadata:
+  generation: 1
+  name: ate-port-eth2
+  namespace: ixia-c
+spec:
+  links:
+  - local_intf: eth2
+    local_ip: ""
+    peer_intf: eth1
+    peer_ip: ""
+    peer_pod: ate-port-eth1
+    uid: 0

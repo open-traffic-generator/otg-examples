@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: ate-port-eth1
+    topo: ate-b2b
+  name: ate-port-eth1
+  namespace: ixia-c
+spec:
+  containers:
+  - env:
+    - name: ARG_IFACE_LIST
+      value: virtual@af_packet,eth1
+    - name: OPT_NO_HUGEPAGES
+      value: "Yes"
+    - name: OPT_LISTEN_PORT
+      value: "5555"
+    - name: ARG_CORE_LIST
+      value: 2 3 4
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    imagePullPolicy: IfNotPresent
+    name: ate-port-eth1-traffic-engine
+    resources: {}
+    securityContext:
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-zcrxn
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  imagePullSecrets:
+  - name: ixia-pull-secret
+  initContainers:
+  - args:
+    - "2"
+    - "10"
+    image: networkop/init-wait:latest
+    imagePullPolicy: IfNotPresent
+    name: init-container
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-zcrxn
+      readOnly: true
+  nodeName: kne-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 5
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-zcrxn
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace

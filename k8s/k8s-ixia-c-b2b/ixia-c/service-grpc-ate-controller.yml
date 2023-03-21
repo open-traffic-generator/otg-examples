@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-grpc-ate-controller
+  namespace: ixia-c
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: grpc
+    port: 40051
+    protocol: TCP
+    targetPort: 40051
+  selector:
+    app: ate-controller
+  sessionAffinity: None
+  type: LoadBalancer
