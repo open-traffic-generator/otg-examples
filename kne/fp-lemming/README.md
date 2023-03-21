@@ -32,15 +32,17 @@ gcloud compute ssh otg-demo-kne
 sudo apt update && sudo apt upgrade -y
 sudo apt install build-essential docker.io -y
 sudo usermod -aG docker $USER
- CR_PAT=YOUR_TOKEN
+logout
+gcloud compute ssh otg-demo-kne
+CR_PAT=YOUR_TOKEN
 CR_USERNAME=YOUR_USERNAME
 echo $CR_PAT | docker login ghcr.io -u $CR_USERNAME --password-stdin
-git clone -b kne --depth 1 https://github.com/open-traffic-generator/otg-examples.git
 logout
 ```
 
 ```Shell
 gcloud compute ssh otg-demo-kne
+git clone -b kne --depth 1 https://github.com/open-traffic-generator/otg-examples.git
 cd otg-examples/kne/fp-lemming
 LABDIR=$PWD
 make all
