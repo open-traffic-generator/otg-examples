@@ -46,7 +46,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 
 | Lab                                                                                                                          | OTG Tool    | DUT  | Client             | Infrastructure | CI  |
 | ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ------------------ | -------------- | --- |
-| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen`            | Compose        | yes |
+| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen` & `snappi` | Compose        | yes |
 | [Static B2B LAG](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b-lag)                       | Ixia-c TE   | B2B  | `otgen`            | Containerlab   | yes |
 | [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | yes |
 | [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`            | Compose        | yes |
