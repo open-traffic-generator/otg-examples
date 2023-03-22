@@ -1,5 +1,5 @@
+import os
 import snappi
-import dpkt
 
 def port_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
@@ -24,16 +24,24 @@ def wait_for(func, timeout=15, interval=0.2):
     print("Timeout occurred !")
     return False
 
-api = snappi.api(location='https://localhost:8443', verify=False)
+API=os.environ.get('OTG_API')
+if API == None:
+   API = "https://localhost:8443"
+
+P1_LOCATION=os.environ.get('OTG_LOCATION_P1')
+if P1_LOCATION == None:
+   P1_LOCATION = "localhost:5555"
+
+P2_LOCATION=os.environ.get('OTG_LOCATION_P2')
+if P2_LOCATION == None:
+   P2_LOCATION = "localhost:5556"
+
+api = snappi.api(location=API, verify=False)
 cfg = api.config()
-# this pushes object of type `snappi.Config` to controller
-api.set_config(cfg)
-# this retrieves back object of type `snappi.Config` from controller
-cfg = api.get_config()
 
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
-p1, p2 = cfg.ports.port(name="p1", location="localhost:5555").port(name="p2", location="localhost:5556")
+p1, p2 = cfg.ports.port(name="p1", location=P1_LOCATION).port(name="p2", location=P2_LOCATION)
 
 # config has an attribute called `flows` which holds an iterator of type
 # `snappi.FlowIter`, where each item is of type `snappi.Flow` (f1, f2)
@@ -79,7 +87,7 @@ udp1.dst_port.values = [4000, 4044, 4060, 4074]
 udp2.dst_port.values = [8000, 8044, 8060, 8074, 8082, 8084]
 
 # print resulting otg configuration
-# print(cfg)
+print(cfg)
 
 # push configuration to controller
 api.set_config(cfg)
