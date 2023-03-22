@@ -18,7 +18,14 @@
 # THE SOFTWARE.
 
 import sys, os
+import argparse
 import snappi
+
+def port_metrics_ok(api, req, packets):
+    res = api.get_metrics(req)
+    print(res)
+    if packets == sum([m.frames_tx for m in res.port_metrics]) and packets == sum([m.frames_rx for m in res.port_metrics]):
+        return True
 
 def flow_metrics_ok(api, req, packets):
     res = api.get_metrics(req)
@@ -43,10 +50,30 @@ def wait_for(func, timeout=15, interval=0.2):
     print("Timeout occurred !")
     return False
 
+def arg_metric_check(s):
+    allowed_values = ['port', 'flow']
+    if s in allowed_values:
+        return s
+    raise argparse.ArgumentTypeError(f"metric has to be one of {allowed_values}")
+
+def parse_args():
+    # Argument parser
+    parser = argparse.ArgumentParser(description='Run OTG traffic flows')
+
+    # Add arguments to the parser
+    parser.add_argument('-m', '--metric',    required=False, help='metrics to monitor: port | flow',
+                                             default='port',
+                                             type=arg_metric_check)
+    # Parse the arguments
+    return parser.parse_args()
+
 def main():
     """
     Main function
     """
+    # Parameters
+    args = parse_args()
+
     API=os.environ.get('OTG_API')
     if API == None:
         API = "https://localhost:8443"
@@ -120,16 +147,32 @@ def main():
     ts.state = ts.START
     api.set_transmit_state(ts)
 
-    # create a flow metrics request and filter based on port names
-    req = api.metrics_request()
-    req.flow.flow_names = [f.name for f in cfg.flows]
+    # Check if the file argument is provided
+    if args.metric == 'port':
+        # create a port metrics request and filter based on port names
+        req = api.metrics_request()
+        req.port.port_names = [p.name for p in cfg.ports]
+        # include only sent and received packet counts
+        req.port.column_names = [req.port.FRAMES_TX, req.port.FRAMES_RX]
 
-    # fetch flow metrics
-    res = api.get_metrics(req)
+        # fetch port metrics
+        res = api.get_metrics(req)
 
-    # wait for flow metrics to be as expected
-    expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
-    assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
+        # wait for port metrics to be as expected
+        expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
+        assert wait_for(lambda: port_metrics_ok(api, req, expected)), "Metrics validation failed!"
+
+    elif args.metric == 'flow':
+        # create a flow metrics request and filter based on port names
+        req = api.metrics_request()
+        req.flow.flow_names = [f.name for f in cfg.flows]
+
+        # fetch metrics
+        res = api.get_metrics(req)
+
+        # wait for flow metrics to be as expected
+        expected = sum([f.duration.fixed_packets.packets for f in cfg.flows])
+        assert wait_for(lambda: flow_metrics_ok(api, req, expected)), "Metrics validation failed!"
 
 if __name__ == '__main__':
     sys.exit(main())
