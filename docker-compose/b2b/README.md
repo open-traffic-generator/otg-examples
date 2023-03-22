@@ -147,13 +147,13 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     ```Shell
     python3.9 -m venv venv
     source venv/bin/activate
-    pip install -r ../../snappi/requirements.txt
+    pip install -r requirements.txt
     ```
 
 2. Run snappi script
 
     ```Shell
-    ../../snappi/otg-flows.py
+    ./snappi/otg-flows.py
     ```
 
 ## Destroy the lab
