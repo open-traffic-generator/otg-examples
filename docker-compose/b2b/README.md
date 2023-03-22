@@ -9,6 +9,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
+* Python3.9 for `snappi` part
 
 ## Install components
 
@@ -90,7 +91,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 3. Launch the deployment and adjust MTUs on the veth pair
 
     ```Shell
-    sudo docker-compose up -d 
+    sudo docker-compose up -d
     sudo ip link set veth0 mtu 9500
     sudo ip link set veth1 mtu 9500
     ```
@@ -101,7 +102,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     sudo docker ps
     ```
 
-## Run OTG traffic flows
+## Run OTG traffic flows with `otgen` tool
 
 1. Download an example of OTG traffic flow configuration file:
 
@@ -139,6 +140,22 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
+## Run OTG traffic flows with Python `snappi` library
+
+1. Setup virtualenv for Python
+
+    ```Shell
+    python3.9 -m venv venv
+    source venv/bin/activate
+    pip install -r ../../snappi/requirements.txt
+    ```
+
+2. Run snappi script
+
+    ```Shell
+    ../../snappi/otg-flows.py
+    ```
+
 ## Destroy the lab
 
 To destroy the lab, including veth pair, use:
@@ -148,6 +165,3 @@ docker-compose down
 sudo ip link del name veth0 type veth peer name veth1
 ```
 
-## Credits
-
-* [Diana Galan](https://github.com/dgalan-xxia) is an author of `compose.yml` example.
