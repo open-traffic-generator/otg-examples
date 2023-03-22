@@ -3,6 +3,8 @@
 ## Overview
 TODO
 
+![Diagram](./diagram.png)
+
 ## Prerequisites
 
 * Linux host or VM with sudo permissions and Docker support
@@ -52,10 +54,44 @@ TODO
     sudo docker-compose up -d
     ```
 
-2. Make sure you have all three containers running:
+2. Make sure you have two containers running: `ixhw-b2b_keng-controller_1` and `ixhw-b2b_otg-ixhw_1`
 
     ```Shell
     sudo docker ps
+    ```
+
+3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+
+    ```Shell
+    export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
+    export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
+    ```
+
+
+## Run OTG traffic flows with `otgen` tool
+
+1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in table format
+
+    ```Shell
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
+    ```
+
+2. The same, but with flow metrics
+
+    ```Shell
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
+    ```
+
+3. The same, but with byte instead of frame count (only receive stats are reported)
+
+    ```Shell
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
+    ```
+
+4. Now report packet per second rate, as a line chart (end with `Crtl-c`)
+
+    ```Shell
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Run OTG traffic flows with Python `snappi` library
@@ -68,30 +104,22 @@ TODO
     pip install -r requirements.txt
     ```
 
-2. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
-
-    ```Shell
-    export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
-    export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
-    ```
-
-3. Run flows via snappi script, reporting port metrics
+2. Run flows via snappi script, reporting port metrics
 
     ```Shell
     ./snappi/otg-flows.py -m port
     ```
 
-4. Run flows via snappi script, reporting port flow
+3. Run flows via snappi script, reporting port flow
 
     ```Shell
     ./snappi/otg-flows.py -m flow
     ```
-
 
 ## Destroy the KENG Controller
 
 To stop the KENG Controller:
 
 ```Shell
-docker-compose down
+sudo docker-compose down
 ```
