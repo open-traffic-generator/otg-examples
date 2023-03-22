@@ -8,7 +8,7 @@ TODO
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * Python3.9
-* Ixia hardware chassis or appliance with IxOS 9.2 or higher
+* Keysight/Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.2 or higher
 
 ## Install components
 
@@ -58,11 +58,33 @@ TODO
     sudo docker ps
     ```
 
-3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+## Run OTG traffic flows with Python `snappi` library
+
+1. Setup virtualenv for Python
+
+    ```Shell
+    python3.9 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+2. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
+    ```
+
+3. Run flows via snappi script, reporting port metrics
+
+    ```Shell
+    ./snappi/otg-flows.py -m port
+    ```
+
+4. Run flows via snappi script, reporting port flow
+
+    ```Shell
+    ./snappi/otg-flows.py -m flow
     ```
 
 
