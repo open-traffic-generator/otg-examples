@@ -56,6 +56,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi` | Containerlab   | yes |
 | [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`         | Containerlab   | yes |
 | [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`          | KENG Hybrid    | yes |
+| [B2B Ixia Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | KENG HW     | B2B  | `otgen` & `snappi` | Compose & HW   | no  |
 
 
 ## Lab Descriptions
@@ -99,3 +100,7 @@ Remote Triggered Black Hole (RTBH) is a common DDoS mitigation technique which u
 ### [FeatureProfiles in Hybrid mode](hybrid/fp-b2b)
 
 An introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites built with the [Open Traffic Generator API](https://otg.dev).
+
+### [OTG with Ixia L23 Hardware: back-to-back setup](hw/ixhw-b2b)
+
+ Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html).
