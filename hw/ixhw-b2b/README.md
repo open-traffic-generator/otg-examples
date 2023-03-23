@@ -7,10 +7,12 @@ TODO
 
 ## Prerequisites
 
+* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * Python3.9
 * Keysight/Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.2 or higher
+* `envsubst` command
 
 ## Install components
 
