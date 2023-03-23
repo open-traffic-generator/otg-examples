@@ -51,7 +51,7 @@ TODO
 1. Launch the deployment
 
     ```Shell
-    sudo docker-compose up -d
+    sudo -E docker-compose up -d
     ```
 
 2. Make sure you have two containers running: `ixhw-b2b_keng-controller_1` and `ixhw-b2b_otg-ixhw_1`

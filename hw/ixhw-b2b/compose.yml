@@ -2,7 +2,7 @@ version: "2"
 
 services:
   keng-controller:
-    image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3768
+    image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3841
     restart: always
     ports:
       - "8443:8443"
@@ -15,7 +15,7 @@ services:
       - "--ixia-c-ixhw-server"
       - "otg-ixhw:5001"
   otg-ixhw:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.10.7-8
+    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.10.12-2
     restart: always
     ports:
       - "5000:5000"
