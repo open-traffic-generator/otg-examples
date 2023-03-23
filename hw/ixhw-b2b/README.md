@@ -1,7 +1,7 @@
 # OTG with Ixia L23 Hardware: back-to-back setup
 
 ## Overview
-This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) controller that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `ixia-c-ixhw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
+This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) `ixia-c-controller` that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `ixia-c-ixhw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
 
 ![Diagram](./diagram.png)
 
@@ -48,7 +48,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     cd otg-examples/docker-compose/b2b
     ```
 
-## Deploy KENG Controller
+## Deploy Keysight Elastic Network Generator
 
 1. Launch the deployment
 
@@ -56,7 +56,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo -E docker-compose up -d
     ```
 
-2. Make sure you have two containers running: `ixhw-b2b_keng-controller_1` and `ixhw-b2b_otg-ixhw_1`
+2. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
 
     ```Shell
     sudo docker ps
@@ -118,9 +118,9 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     ./snappi/otg-flows.py -m flow
     ```
 
-## Destroy the KENG Controller
+## Destroy the Keysight Elastic Network Generator deployment
 
-To stop the KENG Controller:
+To stop the deployment, run:
 
 ```Shell
 sudo docker-compose down

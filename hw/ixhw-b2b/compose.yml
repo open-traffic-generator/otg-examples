@@ -1,20 +1,20 @@
 version: "2"
 
 services:
-  keng-controller:
+  ixia-c-controller:
     image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3841
     restart: always
     ports:
       - "8443:8443"
       - "40051:40051"
     depends_on:
-      otg-ixhw:
+      ixia-c-ixhw-server:
         condition: service_started
     command:
       - "--accept-eula"
       - "--ixia-c-ixhw-server"
-      - "otg-ixhw:5001"
-  otg-ixhw:
+      - "ixia-c-ixhw-server:5001"
+  ixia-c-ixhw-server:
     image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.10.12-2
     restart: always
     ports:
