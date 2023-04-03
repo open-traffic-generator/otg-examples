@@ -359,5 +359,5 @@ layer1:
 ports:
 - location: ${OTG_LOCATION_P1}
   name: p1
-- location: ${OTG_LOCATION_P1}
+- location: ${OTG_LOCATION_P2}
   name: p2
