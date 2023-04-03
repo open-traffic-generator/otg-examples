@@ -60,16 +60,10 @@ remove-lab:
 run: otgen-run-as-table-port #otgen-run-as-table-flow otgen-run-as-table-flow-bytes
 
 otgen-run-as-table-port:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl"
-	@echo "│Port│  FramesTx │  FramesRx │Port│  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortFramesTable.tmpl
+	cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
 
 otgen-run-as-table-flow:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl"
-	@echo "│ Flow  │  FramesTx │  FramesRx │"
-	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
+	cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
 
 otgen-run-as-table-flow-bytes:
-	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
-	@echo "│ Flow  │   BytesTx │   BytesRx │"
-	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
+	cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
