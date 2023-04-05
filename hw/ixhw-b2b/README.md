@@ -9,7 +9,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 
-* Keysight/Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.2 or higher
+* Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 or higher
 
 * Linux host or VM with sudo permissions and Docker support. Here is an example of deploying an Ubuntu VM `otg` using [multipass](https://multipass.run/):
 
@@ -24,18 +24,17 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo apt update && sudo apt install docker.io -y
     ```
 
-* Python3.9, PIP and VirtualEnv
+* Python3 (version 3.9 or higher), PIP and VirtualEnv
 
     ```Shell
-    sudo apt install python3.9 -y
-    curl -sL https://bootstrap.pypa.io/get-pip.py | python3.9 -
-    pip install virtualenv
+    sudo apt install python3 python3-pip -y
+    sudo pip3 install virtualenv
     ```
 
-* `git` and `envsubst` commands
+* `git` and `envsubst` commands (typically installed by default)
 
     ```Shell
-    sudo apt install git envsubst -y
+    sudo apt install git gettext-base -y
     ```
 
 ## Install components
