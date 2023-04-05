@@ -1,4 +1,22 @@
-# Keysight Elastic Network Generator Container Registry Access
+# Keysight Elastic Network Generator Licensing and Image Access
+
+## License Server
+
+In order to use capabilities of Elastic Network Generator that require a valid license, Keysight License Server needs to be deployed. The License Server is a virtual machine and it is distributed as an OVA file. Please download the OVA file from [here](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-1.7.0-204.ova).
+
+To make a decision where to deploy the License Server VM, take into the account the following requirements:
+
+1. VMWare ESXi hypervisor, 6.5 or newer versions are supported
+2. 2 vCPU cores
+3. 4GB of RAM
+4. Minimum of 100GB storage
+5. 1 vNIC for network connectivity
+
+Network connectivity requirements for the License Server VM
+
+1. Internet access from the VM over HTTPS is desirable for online license activation, but not strictly required. Offline activation method is available as well.
+2. Access from a user browser over HTTPS (TCP/443) for license operations (activation, deactivation, reservation, sync)
+3. Access from any `ixia-c-controller` that needs a license during a test run over gRPC (TCP/7443) for license checkout and check-in
 
 ## Github Contaner Registry
 
