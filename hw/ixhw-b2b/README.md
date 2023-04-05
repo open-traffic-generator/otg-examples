@@ -27,8 +27,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 * Python3 (version 3.9 or higher), PIP and VirtualEnv
 
     ```Shell
-    sudo apt install python3 python3-pip -y
-    sudo pip3 install virtualenv
+    sudo apt install python3 python3-pip python3.10-venv -y
     ```
 
 * `git` and `envsubst` commands (typically installed by default)
@@ -47,13 +46,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo chmod +x /usr/local/bin/docker-compose
     ```
 
-2. Install `otgen`
-
-    ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.2
-    ```
-
-3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
     ```Shell
     cmd=docker-compose
@@ -65,7 +58,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     fi
     ```
 
-4. Clone this repository
+3. Clone this repository
 
     ```Shell
     git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
@@ -91,33 +84,6 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
-    ```
-
-
-## Run OTG traffic flows with `otgen` tool
-
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in table format
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
-    ```
-
-2. The same, but with flow metrics
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
-    ```
-
-3. The same, but with byte instead of frame count (only receive stats are reported)
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
-    ```
-
-4. Now report packet per second rate, as a line chart (end with `Crtl-c`)
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Run OTG traffic flows with Python `snappi` library
