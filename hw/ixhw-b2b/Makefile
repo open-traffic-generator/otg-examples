@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: clean
 clean: remove-lab
@@ -28,16 +28,6 @@ install-otgen: /usr/local/bin/otgen
 install-clean:
 	-sudo rm -f `command -v docker-compose`
 	-sudo rm -f `command -v otgen`
-
-###############################
-# Pull images
-###############################
-
-.PHONY: pull
-pull: pull-private
-
-pull-private:
-	sudo -E docker-compose pull ixia-c-ixhw-server
 
 ###############################
 # Deploy lab

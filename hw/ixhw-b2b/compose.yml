@@ -18,7 +18,7 @@ services:
     environment:
       - "LICENSE_SERVERS=${LICENSE_SERVERS}"
   ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.4-1
+    image: ixia-c-ixhw-server:0.11.4-1
     restart: always
     ports:
       - "5000:5000"
