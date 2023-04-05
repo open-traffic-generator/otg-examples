@@ -10,7 +10,7 @@ To make a decision where to deploy the License Server VM, take into the account 
 * 2 vCPU cores
 * 4GB of RAM
 * Minimum of 100GB storage
-* 1 vNIC for network connectivity
+* 1 vNIC for network connectivity. Note that DHCP is the preferred option, and this is also how the VM is configured to obtain its IP address.
 
 Network connectivity requirements for the License Server VM
 
@@ -24,9 +24,11 @@ Here is an example of how different components communicate with the License Serv
 
 ## License Activation
 
-https://ksm.software.keysight.com
+You will now be able to activate licenses and use the License Server on your Elastic Network Generator setup. Go to https://<obtainedIpAddress> to access the application. Enter credentials: admin/admin
 
-## Github Container Registry
+If you have an activation code, to perform an online activation, click "Activate Licenses", enter the code and click "Activate". For offline mode, choose "Offline Operations" instead.
+
+## Access to private images on Github Container Registry
 
 In order to use this method, you need a Github account. The account should be given access to private [KENG](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images by Keysight team. Use "Request Demo" link on [KENG](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) page for that.
 
