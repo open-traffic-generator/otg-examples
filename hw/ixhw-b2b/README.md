@@ -68,8 +68,8 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 4. Clone this repository
 
     ```Shell
-    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
-    cd otg-examples/docker-compose/b2b
+    git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
+    cd otg-examples/hw/ixhw-b2b
     ```
 
 ## Deploy Keysight Elastic Network Generator
@@ -86,7 +86,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo docker ps
     ```
 
-3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
