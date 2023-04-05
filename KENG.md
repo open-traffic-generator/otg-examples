@@ -18,6 +18,14 @@ Network connectivity requirements for the License Server VM
 2. Access from a user browser over HTTPS (TCP/443) for license operations (activation, deactivation, reservation, sync)
 3. Access from any `ixia-c-controller` that needs a license during a test run over gRPC (TCP/7443) for license checkout and check-in
 
+Here is an example of how different components communicate with the License Server:
+
+![License Server Connectivity](./images/license-server.png)
+
+## License Activation
+
+https://ksm.software.keysight.com
+
 ## Github Container Registry
 
 In order to use this method, you need a Github account. The account should be given access to private [KENG](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images by Keysight team. Use "Request Demo" link on [KENG](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) page for that.
