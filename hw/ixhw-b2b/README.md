@@ -8,18 +8,43 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 ## Prerequisites
 
 * Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
-* Linux host or VM with sudo permissions and Docker support
-* [Docker](https://docs.docker.com/engine/install/)
-* Python3.9
+
 * Keysight/Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.2 or higher
-* `envsubst` command
+
+* Linux host or VM with sudo permissions and Docker support. Here is an example of deploying an Ubuntu VM `otg` using [multipass](https://multipass.run/):
+
+    ```Shell
+    multipass launch 22.04 -n otg -c4 -m8G -d32G
+    multipass shell otg
+    ```
+
+* [Docker](https://docs.docker.com/engine/install/)
+
+    ```Shell
+    sudo apt update && sudo apt install docker.io -y
+    ```
+
+* Python3.9, PIP and VirtualEnv
+
+    ```Shell
+    sudo apt install python3.9 -y
+    curl -sL https://bootstrap.pypa.io/get-pip.py | python3.9 -
+    pip install virtualenv
+    ```
+
+* `git` and `envsubst` commands
+
+    ```Shell
+    sudo apt install git envsubst -y
+    ```
 
 ## Install components
 
 1. Install `docker-compose`
 
     ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
+    -o /usr/local/bin/docker-compose && \
     sudo chmod +x /usr/local/bin/docker-compose
     ```
 
