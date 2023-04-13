@@ -47,7 +47,7 @@ pull: pull-private
 pull-public:
 	sudo -E docker-compose pull traffic_engine_1
 	sudo -E docker-compose pull frr
-	
+
 pull-private:
 	sudo -E docker-compose pull controller protocol_engine_1
 
@@ -69,10 +69,10 @@ deploy-clab:
 	sudo -E containerlab deploy --reconfigure
 
 remove-lab:
-	sudo docker-compose down
+	-sudo docker-compose down
 
 remove-clab:
-	sudo containerlab destroy --cleanup
+	-sudo containerlab destroy --cleanup
 
 ###############################
 # Run tests
