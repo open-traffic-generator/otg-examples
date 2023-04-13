@@ -22,6 +22,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
     ```Shell
     sudo apt update && sudo apt install docker.io -y
+    sudo usermod -aG docker $USER
     ```
 
 * Python3 (version 3.9 or higher), PIP and VirtualEnv
