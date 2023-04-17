@@ -68,13 +68,20 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment
+1. Create an environment file `.env` by using `dotenv` as a template and providing an IP-address or hostname of the Keysight Licensing Server you deployed as part of prerequisite steps in place of `licensing_server_ip_address`.
+
+    ```Shell
+    LICENSE_SERVERS=licensing_server_ip_address
+    cat dotenv | sed "s/lic-serv-ip1.*/${LICENSE_SERVERS}/g" > .env
+    ```
+
+2. Launch the deployment
 
     ```Shell
     sudo -E docker-compose up -d
     ```
 
-2. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+3. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
 
     ```Shell
     sudo docker ps
