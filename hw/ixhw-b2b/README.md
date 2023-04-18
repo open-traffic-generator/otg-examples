@@ -97,6 +97,13 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
     ```
 
+    For example, if IxOS management IP is `10.10.10.10` and you need to use ports `14` and `15` in the slot number `2`:
+
+    ```Shell
+    export OTG_LOCATION_P1="10.10.10.10;2;14"
+    export OTG_LOCATION_P2="10.10.10.10;2;15"
+    ```
+
 ## Run OTG traffic flows with Python `snappi` library
 
 1. Setup virtualenv for Python
@@ -164,6 +171,13 @@ sudo docker-compose down
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
+    ```
+
+    For example, if IxOS management IP is `10.10.10.10` and you need to use ports `14` and `15` in the slot number `2`:
+
+    ```Shell
+    export OTG_LOCATION_P1="10.10.10.10;2;14"
+    export OTG_LOCATION_P2="10.10.10.10;2;15"
     ```
 
 5. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
