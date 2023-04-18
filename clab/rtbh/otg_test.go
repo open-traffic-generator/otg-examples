@@ -102,14 +102,14 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	fmt.Printf("Applying OTG config...")
 	log.Infof("\n%s\n", config)
 	res, err := api.SetConfig(config)
-	checkResponse(res, err, t)
+	checkResponse(api, res, err, t)
 	fmt.Println("ready.")
 
 	// start transmitting configured flows
 	fmt.Printf("Starting traffic...")
 	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
 	res, err = api.SetTransmitState(ts)
-	checkResponse(res, err, t)
+	checkResponse(api, res, err, t)
 	fmt.Printf("started...")
 
 	trafficETA := calculateTrafficETA(config)
@@ -168,7 +168,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
 						bar.IncrInt64(fm.FramesRx() - bar.Current())
-						checkResponse(fm, err, t)
+						checkResponse(api, fm, err, t)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 							bar.Abort(false)
 							return
@@ -192,7 +192,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	fmt.Printf("Stopping traffic...")
 	ts = api.NewTransmitState().SetState(gosnappi.TransmitStateState.STOP)
 	res, err = api.SetTransmitState(ts)
-	checkResponse(res, err, t)
+	checkResponse(api, res, err, t)
 	fmt.Println("stopped.")
 
 	return flowMetrics
@@ -241,9 +241,22 @@ func calculateTrafficETA(config gosnappi.Config) time.Duration {
 }
 
 // print otg api response content
-func checkResponse(res interface{}, err error, t *testing.T) {
+func checkResponse(api gosnappi.GosnappiApi, res interface{}, err error, t *testing.T) {
 	if err != nil {
-		t.Fatal(err)
+		errSt, ok := api.FromError(err)
+		// helper function to parse error
+		// returns a bool with err, indicating weather the error was of otg error format
+		if ok {
+			log.Infof("Error code: %d", errSt.Code())
+			if errSt.HasKind() {
+				log.Infof("Error kind: %v", errSt.Kind())
+			}
+			for _, e := range errSt.Errors() {
+				log.Infof(e)
+			}
+		} else {
+			t.Fatal(err)
+		}
 	}
 	switch v := res.(type) {
 	case gosnappi.MetricsResponse:
@@ -252,12 +265,6 @@ func checkResponse(res interface{}, err error, t *testing.T) {
 		}
 	case gosnappi.FlowMetric:
 		log.Infof("Traffic stats for %s:\n%s\n", v.Name(), v)
-	case gosnappi.ResponseWarning:
-		for _, w := range v.Warnings() {
-			log.Println("WARNING:", w)
-		}
-	default:
-		t.Fatal("Unknown response type:", v)
 	}
 }
 
