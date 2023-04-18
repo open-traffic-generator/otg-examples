@@ -79,11 +79,10 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo -E docker-compose up -d
     ```
 
-2. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+2. Make sure you have the following containers running:
 
-    ```Shell
-    sudo docker ps
-    ```
+    * `ixhw-b2b_ixia-c-controller_1`
+    * `ixhw-b2b_ixia-c-ixhw-server_1`
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
@@ -139,7 +138,12 @@ sudo docker-compose down
     sudo -E docker-compose --file fp.compose.yml up -d
     ```
 
-3. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+3. Make sure you have the following containers running:
+
+    * `ixhw-b2b_ixia-c-controller_1`
+    * `ixhw-b2b_ixia-c-ixhw-server_1`
+    * `ixhw-b2b_ixia-c-gnmi-server_1`
+    * `ixhw-b2b_jaeger_1`
 
     ```Shell
     sudo docker ps
