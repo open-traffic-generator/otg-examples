@@ -2,11 +2,15 @@
 
 ## License Server
 
-In order to use capabilities of Elastic Network Generator that require a valid license, you need to deploy a Keysight License Server. The License Server is a virtual machine and it is distributed as an OVA file. Please download the OVA file from [here](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-1.7.0-204.ova).
+In order to use capabilities of Elastic Network Generator that require a valid license, you need to deploy a Keysight License Server. The License Server is a virtual machine and it is distributed as OVA and QCOW2 images (you only need one of them depending on your hypervisor).
+
+* [OVA image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-1.7.0-204.ova)
+* [QCOW2 image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-1.7.0-204.qcow2.gz), compressed with `gzip`
 
 To make a decision where to deploy the License Server VM, take into the account the following requirements:
 
-* VMWare ESXi hypervisor, 6.5 or newer versions are supported
+* VMWare ESXi hypervisor, 6.5 or newer versions are supported using the OVA image
+* For Linux-based QEMU or KVM, use the QCOW2 image (uncompressed)
 * 2 vCPU cores
 * 4GB of RAM
 * Minimum of 100GB storage
@@ -52,4 +56,3 @@ Pull KENG images to validate access (note, depending on the access provided, you
 docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002
 docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205
 ```
-
