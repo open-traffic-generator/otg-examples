@@ -55,8 +55,8 @@ func bgpRouteInstallConfigIPv4(client *ApiClient) (gosnappi.Config, ExpectedStat
 	dutPort1 := config.Devices().Add().SetName("dutPort1")
 	dutPort1Eth := dutPort1.Ethernets().Add().
 		SetName("dutPort1.eth").
-		SetPortName(port1.Name()).
 		SetMac("00:00:01:01:01:01")
+	dutPort1Eth.Connection().SetPortName(port1.Name())
 	dutPort1Ipv4 := dutPort1Eth.Ipv4Addresses().Add().
 		SetName("dutPort1.ipv4").
 		SetAddress("1.1.1.1").
@@ -64,8 +64,8 @@ func bgpRouteInstallConfigIPv4(client *ApiClient) (gosnappi.Config, ExpectedStat
 	dutPort2 := config.Devices().Add().SetName("dutPort2")
 	dutPort2Eth := dutPort2.Ethernets().Add().
 		SetName("dutPort2.eth").
-		SetPortName(port2.Name()).
 		SetMac("00:00:02:01:01:01")
+	dutPort2Eth.Connection().SetPortName(port2.Name())
 	dutPort2Ipv4 := dutPort2Eth.Ipv4Addresses().Add().
 		SetName("dutPort2.ipv4").
 		SetAddress("1.1.1.2").
