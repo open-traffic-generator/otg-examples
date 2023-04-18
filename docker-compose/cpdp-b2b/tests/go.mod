@@ -3,31 +3,21 @@ module github.com/open-traffic-generator/otg-examples/cpdp-b2b/tests
 go 1.19
 
 require (
-	github.com/open-traffic-generator/otg-examples v0.0.0-20220802143508-a81f2c7fbcf2
 	github.com/open-traffic-generator/snappi/gosnappi v0.11.6
+	google.golang.org/protobuf v1.30.0
 )
 
 require (
 	github.com/Masterminds/semver/v3 v3.2.0 // indirect
-	github.com/cenkalti/backoff/v4 v4.1.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
-	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/openconfig/gnmi v0.0.0-20220131173555-39aa74195f0d // indirect
-	github.com/openconfig/goyang v0.4.0 // indirect
-	github.com/openconfig/grpctunnel v0.0.0-20210610163803-fde4a9dc048d // indirect
-	github.com/openconfig/ygot v0.14.0 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
 	google.golang.org/grpc v1.54.0 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

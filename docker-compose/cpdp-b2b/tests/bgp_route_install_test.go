@@ -9,12 +9,11 @@ package tests
 import (
 	"testing"
 
-	"github.com/open-traffic-generator/otg-examples/helpers"
 	"github.com/open-traffic-generator/snappi/gosnappi"
 )
 
 func TestIPv4BGPRouteInstall(t *testing.T) {
-	client, err := helpers.NewClient(otgHttpLocation)
+	client, err := NewClient(otgHttpLocation)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -32,7 +31,7 @@ func TestIPv4BGPRouteInstall(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	helpers.WaitFor(t, func() (bool, error) { return client.AllBgp4SessionUp(expected) }, nil)
+	WaitFor(t, func() (bool, error) { return client.AllBgp4SessionUp(expected) }, nil)
 
 	ethernetNames := []string{"dutPort1.eth", "dutPort2.eth"}
 	if _, err := client.GetIPv4NeighborsStates(ethernetNames); err != nil {
@@ -44,10 +43,10 @@ func TestIPv4BGPRouteInstall(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	helpers.WaitFor(t, func() (bool, error) { return client.FlowMetricsOk(expected) }, nil)
+	WaitFor(t, func() (bool, error) { return client.FlowMetricsOk(expected) }, nil)
 }
 
-func bgpRouteInstallConfigIPv4(client *helpers.ApiClient) (gosnappi.Config, helpers.ExpectedState) {
+func bgpRouteInstallConfigIPv4(client *ApiClient) (gosnappi.Config, ExpectedState) {
 	config := client.Api().NewConfig()
 
 	port1 := config.Ports().Add().SetName("ixia-c-port1").SetLocation(otgPort1Location)
@@ -130,12 +129,12 @@ func bgpRouteInstallConfigIPv4(client *helpers.ApiClient) (gosnappi.Config, help
 	v4.Src().SetValue("40.40.40.1")
 	v4.Dst().Increment().SetStart("50.50.50.1").SetStep("0.0.0.1").SetCount(5)
 
-	expected := helpers.ExpectedState{
-		Bgp4: map[string]helpers.ExpectedBgpMetrics{
+	expected := ExpectedState{
+		Bgp4: map[string]ExpectedBgpMetrics{
 			dutPort1Bgp4Peer.Name(): {Advertised: 5, Received: 5},
 			dutPort2Bgp4Peer.Name(): {Advertised: 5, Received: 5},
 		},
-		Flow: map[string]helpers.ExpectedFlowMetrics{
+		Flow: map[string]ExpectedFlowMetrics{
 			f1.Name(): {FramesRx: 1000, FramesRxRate: 0},
 		},
 	}
