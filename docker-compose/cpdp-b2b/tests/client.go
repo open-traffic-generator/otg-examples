@@ -114,7 +114,7 @@ func (client *ApiClient) SetConfig(v gosnappi.Config) error {
 	return nil
 }
 
-func (client *ApiClient) SetTransmitState(v gosnappi.TransmitState) error {
+func (client *ApiClient) SetTransmitState(v gosnappi.ControlState) error {
 	log.Println("Setting TransmitState ...")
 
 	if optsDebug {
@@ -125,7 +125,7 @@ func (client *ApiClient) SetTransmitState(v gosnappi.TransmitState) error {
 		log.Println("SetTransmitState Request: " + reqYaml)
 	}
 
-	res, err := client.Api().SetTransmitState(v)
+	res, err := client.Api().SetControlState(v)
 	if err != nil {
 		return fmt.Errorf("could not SetTransmitState: %v", err)
 	}
@@ -331,16 +331,14 @@ func (client *ApiClient) GetCapture(r gosnappi.CaptureRequest) ([]byte, error) {
 }
 
 func (client *ApiClient) StartTransmit(flowNames []string) error {
-	s := client.Api().NewTransmitState().
-		SetState(gosnappi.TransmitStateState.START).
-		SetFlowNames(flowNames)
+	s := client.Api().NewControlState()
+	s.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.START)
 	return client.SetTransmitState(s)
 }
 
 func (client *ApiClient) StopTransmit(flowNames []string) error {
-	s := client.Api().NewTransmitState().
-		SetState(gosnappi.TransmitStateState.STOP).
-		SetFlowNames(flowNames)
+	s := client.Api().NewControlState()
+	s.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.STOP)
 	return client.SetTransmitState(s)
 }
 
@@ -371,9 +369,8 @@ func (client *ApiClient) WithdrawRoutes(routeNames []string) error {
 }
 
 func (client *ApiClient) PauseTransmit(flowNames []string) error {
-	s := client.Api().NewTransmitState().
-		SetState(gosnappi.TransmitStateState.PAUSE).
-		SetFlowNames(flowNames)
+	s := client.Api().NewControlState()
+	s.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.PAUSE)
 	return client.SetTransmitState(s)
 }
 
