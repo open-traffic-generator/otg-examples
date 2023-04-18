@@ -142,7 +142,7 @@ func (client *ApiClient) SetTransmitState(v gosnappi.ControlState) error {
 	return nil
 }
 
-func (client *ApiClient) SetProtocolState(v gosnappi.ProtocolState) error {
+func (client *ApiClient) SetProtocolState(v gosnappi.ControlState) error {
 	log.Println("Setting SetProtocolState ...")
 	if optsDebug {
 		reqYaml, err := v.ToYaml()
@@ -152,7 +152,7 @@ func (client *ApiClient) SetProtocolState(v gosnappi.ProtocolState) error {
 		log.Println("SetProtocolState Request: " + reqYaml)
 	}
 
-	res, err := client.Api().SetProtocolState(v)
+	res, err := client.Api().SetControlState(v)
 	if err != nil {
 		return fmt.Errorf("could not SetProtocolState: %v", err)
 	}
@@ -343,14 +343,14 @@ func (client *ApiClient) StopTransmit(flowNames []string) error {
 }
 
 func (client *ApiClient) StartProtocol() error {
-	s := client.Api().NewProtocolState().
-		SetState(gosnappi.ProtocolStateState.START)
+	s := client.Api().NewControlState()
+	s.Protocol().All().SetState(gosnappi.StateProtocolAllState.START)
 	return client.SetProtocolState(s)
 }
 
 func (client *ApiClient) StopProtocol() error {
-	s := client.Api().NewProtocolState().
-		SetState(gosnappi.ProtocolStateState.STOP)
+	s := client.Api().NewControlState()
+	s.Protocol().All().SetState(gosnappi.StateProtocolAllState.STOP)
 	return client.SetProtocolState(s)
 }
 
