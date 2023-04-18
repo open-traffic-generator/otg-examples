@@ -107,8 +107,9 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 
 	// start transmitting configured flows
 	fmt.Printf("Starting traffic...")
-	ts := api.NewTransmitState().SetState(gosnappi.TransmitStateState.START)
-	res, err = api.SetTransmitState(ts)
+	ts := api.NewControlState()
+	ts.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.START)
+	res, err = api.SetControlState(ts)
 	checkResponse(api, res, err, t)
 	fmt.Printf("started...")
 
@@ -190,8 +191,9 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 
 	// stop transmitting traffic
 	fmt.Printf("Stopping traffic...")
-	ts = api.NewTransmitState().SetState(gosnappi.TransmitStateState.STOP)
-	res, err = api.SetTransmitState(ts)
+	ts = api.NewControlState()
+	ts.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.STOP)
+	res, err = api.SetControlState(ts)
 	checkResponse(api, res, err, t)
 	fmt.Println("stopped.")
 
