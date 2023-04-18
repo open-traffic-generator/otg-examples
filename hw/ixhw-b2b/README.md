@@ -30,6 +30,11 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     ```Shell
     sudo apt install python3 python3-pip python3.10-venv -y
     ```
+* [Go](https://go.dev/dl/) version 1.19 or later
+
+    ```Shell
+    sudo snap install go --channel=1.19/stable --classic
+    ```
 
 * `git` and `envsubst` commands (typically installed by default)
 
@@ -68,26 +73,19 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Create an environment file `.env` by using `dotenv` as a template and providing an IP-address or hostname of the Keysight Licensing Server you deployed as part of prerequisite steps in place of `licensing_server_ip_address`.
-
-    ```Shell
-    LICENSE_SERVERS=licensing_server_ip_address
-    cat dotenv | sed "s/lic-serv-ip1.*/${LICENSE_SERVERS}/g" > .env
-    ```
-
-2. Launch the deployment
+1. Launch the deployment
 
     ```Shell
     sudo -E docker-compose up -d
     ```
 
-3. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+2. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
 
     ```Shell
     sudo docker ps
     ```
 
-4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
@@ -116,10 +114,71 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     ./snappi/otg-flows.py -m flow
     ```
 
-## Destroy the Keysight Elastic Network Generator deployment
+## Cleanup
 
 To stop the deployment, run:
 
 ```Shell
 sudo docker-compose down
+```
+
+# OpenConfig Feature Profiles B2B test
+
+## Deploy Keysight Elastic Network Generator
+
+1. Create an environment file `.env` by using `dotenv` as a template and providing an IP-address or hostname of the Keysight Licensing Server you deployed as part of prerequisite steps in place of `licensing_server_ip_address`.
+
+    ```Shell
+    LICENSE_SERVERS=licensing_server_ip_address
+    cat dotenv | sed "s/lic-serv-ip1.*/${LICENSE_SERVERS}/g" > .env
+    ```
+
+2. Launch the deployment
+
+    ```Shell
+    sudo -E docker-compose --file fp.compose.yml up -d
+    ```
+
+3. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+
+    ```Shell
+    sudo docker ps
+    ```
+
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+
+    ```Shell
+    export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
+    export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
+    ```
+
+5. Create an ONDATRA binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
+
+    ```Shell
+    cat otgb2b.template | envsubst > otgb2b.binding
+    export OTGB2B_BINDING="$(pwd)/otgb2b.binding"
+    ```
+
+### Run FeatureProfiles OTG HW back-2-back test
+
+1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
+
+    ```Shell
+    git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git fp-static
+    ```
+
+2. Run FeatureProfiles OTG HW B2B test
+
+    ```Shell
+    cd fp-static/feature/experimental/otg_only
+    go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "${OTGB2B_BINDING}"
+    cd ../../../..
+    ```
+
+## Cleanup
+
+To stop the deployment, run:
+
+```Shell
+sudo -E docker-compose --file fp.compose.yml down
 ```

@@ -1,0 +1,33 @@
+options {
+  username: "admin"
+  password: "admin"
+}
+
+ates {
+  id: "ate"
+  name: "127.0.0.1:40051"  # Change this to the Ixia-C-Controler hostname.
+
+  # This option specific to OTG over Ixia-HW.
+  otg {
+    target: "127.0.0.1:40051" # Change this to the Ixia-c-grpc server endpoint.
+    insecure: true
+    timeout: 30
+  }
+
+  gnmi {
+    target: "127.0.0.1:50051"  # Change this to the Ixia-c-gnmi server endpoint.
+    skip_verify: true
+    timeout: 30
+  }
+
+  # Before this binding can be used with a topology, add ports mapping
+  # from its topology ID to the actual port name on the device.
+  ports {
+    id: "port1"
+    name: "${OTG_LOCATION_P1}"  # Change this to the ixia-c-hw port location.
+  }
+  ports {
+    id: "port2"
+    name: "${OTG_LOCATION_P2}"  # Change this to the ixia-c-hw port location.
+  }
+}
