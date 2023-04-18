@@ -102,7 +102,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	fmt.Printf("Applying OTG config...")
 	log.Infof("\n%s\n", config)
 	res, err := api.SetConfig(config)
-	checkResponse(api, res, err, t)
+	checkOTGError(api, err, t)
+	checkResponse(api, res)
 	fmt.Println("ready.")
 
 	// start transmitting configured flows
@@ -110,7 +111,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	ts := api.NewControlState()
 	ts.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.START)
 	res, err = api.SetControlState(ts)
-	checkResponse(api, res, err, t)
+	checkOTGError(api, err, t)
+	checkResponse(api, res)
 	fmt.Printf("started...")
 
 	trafficETA := calculateTrafficETA(config)
@@ -120,9 +122,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	mr := api.NewMetricsRequest()
 	mr.Flow()
 	flowMetrics, err := api.GetMetrics(mr)
-	if err != nil {
-		t.Fatal(err)
-	}
+	checkOTGError(api, err, t)
 
 	// launch a routine to periodically pull flow metrics
 	var flowMetricsMutex sync.Mutex
@@ -169,7 +169,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
 						bar.IncrInt64(fm.FramesRx() - bar.Current())
-						checkResponse(api, fm, err, t)
+						checkOTGError(api, err, t)
+						checkResponse(api, res)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
 							bar.Abort(false)
 							return
@@ -194,7 +195,8 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 	ts = api.NewControlState()
 	ts.Traffic().FlowTransmit().SetState(gosnappi.StateTrafficFlowTransmitState.STOP)
 	res, err = api.SetControlState(ts)
-	checkResponse(api, res, err, t)
+	checkOTGError(api, err, t)
+	checkResponse(api, res)
 	fmt.Println("stopped.")
 
 	return flowMetrics
@@ -242,24 +244,31 @@ func calculateTrafficETA(config gosnappi.Config) time.Duration {
 	return trafficETA
 }
 
-// print otg api response content
-func checkResponse(api gosnappi.GosnappiApi, res interface{}, err error, t *testing.T) {
+// check for OTG error and print it
+func checkOTGError(api gosnappi.GosnappiApi, err error, t *testing.T) {
 	if err != nil {
-		errSt, ok := api.FromError(err)
+		errData, ok := api.FromError(err)
 		// helper function to parse error
 		// returns a bool with err, indicating weather the error was of otg error format
 		if ok {
-			log.Infof("Error code: %d", errSt.Code())
-			if errSt.HasKind() {
-				log.Infof("Error kind: %v", errSt.Kind())
+			fmt.Printf("\nOTG API error code: %d", errData.Code())
+			if errData.HasKind() {
+				fmt.Printf("\nOTG API error kind: %v", errData.Kind())
 			}
-			for _, e := range errSt.Errors() {
-				log.Infof(e)
+			fmt.Printf("\nOTG API error messages:\n")
+			for _, e := range errData.Errors() {
+				fmt.Println(e)
 			}
+			t.Fatalf("Fatal OTG error, exiting...")
 		} else {
-			t.Fatal(err)
+			fmt.Printf("Fatal OTG error: %v\n", err)
+			t.Fatal("Exiting...")
 		}
 	}
+}
+
+// print otg api response content
+func checkResponse(api gosnappi.GosnappiApi, res interface{}) {
 	switch v := res.(type) {
 	case gosnappi.MetricsResponse:
 		for _, fm := range v.FlowMetrics().Items() {
