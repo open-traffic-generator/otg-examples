@@ -157,7 +157,7 @@ sudo docker-compose down
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
     ```
 
-5. Create an ONDATRA binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
+5. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
 
     ```Shell
     cat otgb2b.template | envsubst > otgb2b.binding
@@ -166,7 +166,7 @@ sudo docker-compose down
 
 ### Run FeatureProfiles OTG HW back-2-back test
 
-1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
+1. Clone [FeatureProfiles fork](https://github.com/open-traffic-generator/featureprofiles/tree/static) from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
 
     ```Shell
     git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git fp-static
