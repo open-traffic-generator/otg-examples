@@ -14,20 +14,27 @@ clean-all: clean install-clean
 ###############################
 
 .PHONY: install
-install: install-docker-compose install-otgen
+install: install-docker-compose install-otgen install-snappi
 
 install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
-	
+
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+
+install-snappi: ./venv/lib/python3.9/site-packages/snappi/snappi.py
+./venv/lib/python3.9/site-packages/snappi/snappi.py:
+	python3.9 -m venv venv && \
+	source venv/bin/activate && \
+	pip install -r requirements.txt
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
 	-sudo rm -f `command -v otgen`
+	-sudo rm -rf venv
 
 ###############################
 # Test network
@@ -51,7 +58,7 @@ network-mtu:
 network-clean: veth0-clean
 veth0-clean:
 #TODO run only if veth0 exists
-	sudo ip link del name veth0 type veth peer name veth1
+	-sudo ip link del name veth0 type veth peer name veth1
 
 ###############################
 # Deploy lab
@@ -61,7 +68,8 @@ veth0-clean:
 deploy: deploy-lab
 
 deploy-lab:
-	sudo docker-compose up -d 
+	sudo docker-compose up -d
+	sleep 3
 
 remove-lab:
 	sudo docker-compose down
@@ -71,7 +79,7 @@ remove-lab:
 ###############################
 
 .PHONY: run
-run: network-mtu otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
+run: network-mtu otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes snappi-run
 
 otgen-run:
 	cat otg.yml | otgen run -k -a https://localhost:8443
@@ -90,3 +98,7 @@ otgen-run-as-table-flow-bytes:
 	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
 	@echo "│ Flow  │   BytesTx │   BytesRx │"
 	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
+
+snappi-run:
+	source venv/bin/activate && \
+	./snappi/otg-flows.py -m port
