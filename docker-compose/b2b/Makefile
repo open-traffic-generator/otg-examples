@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install network deploy run
+all: install build deploy run
 
 .PHONY: clean
 clean: remove-lab network-clean
@@ -14,7 +14,7 @@ clean-all: clean install-clean
 ###############################
 
 .PHONY: install
-install: install-docker-compose install-otgen install-snappi
+install: install-docker-compose install-otgen
 
 install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
@@ -25,22 +25,35 @@ install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
 	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
-install-snappi: ./venv/lib/python3.9/site-packages/snappi/snappi.py
-./venv/lib/python3.9/site-packages/snappi/snappi.py:
-	python3.9 -m venv venv && \
-	source venv/bin/activate && \
-	pip install -r requirements.txt
-
 install-clean:
 	-sudo rm -f `command -v docker-compose`
 	-sudo rm -f `command -v otgen`
-	-sudo rm -rf venv
 
 ###############################
-# Test network
+# Build components
 ###############################
 
-.PHONY: network
+.PHONY: build
+build: build-snappi
+
+build-snappi:
+ifeq ($(shell docker images -q snappi:local 2> /dev/null),)
+	cd ../../snappi && \
+	sudo docker build -t snappi:local .
+endif
+
+build-clean:
+ifneq ($(shell docker images -q snappi:local 2> /dev/null),)
+	docker rmi `docker images -q snappi:local 2> /dev/null` --force
+endif
+
+###############################
+# Deploy lab
+###############################
+
+.PHONY: deploy
+deploy: network deploy-lab
+
 network:veth0
 
 veth0: /sys/class/net/veth0
@@ -55,18 +68,6 @@ network-mtu:
 	sudo ip link set veth0 mtu 9500
 	sudo ip link set veth1 mtu 9500
 
-network-clean: veth0-clean
-veth0-clean:
-#TODO run only if veth0 exists
-	-sudo ip link del name veth0 type veth peer name veth1
-
-###############################
-# Deploy lab
-###############################
-
-.PHONY: deploy
-deploy: deploy-lab
-
 deploy-lab:
 	sudo docker-compose up -d
 	sleep 3
@@ -74,12 +75,19 @@ deploy-lab:
 remove-lab:
 	sudo docker-compose down
 
+network-clean: veth0-clean
+veth0-clean:
+	-sudo ip link del name veth0 type veth peer name veth1
+
 ###############################
 # Run tests
 ###############################
 
 .PHONY: run
-run: network-mtu otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes snappi-run
+run: network-mtu run-otgen run-snappi
+
+run-otgen: otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
+run-snappi: run-snappi-port run-snappi-flow
 
 otgen-run:
 	cat otg.yml | otgen run -k -a https://localhost:8443
@@ -99,6 +107,8 @@ otgen-run-as-table-flow-bytes:
 	@echo "│ Flow  │   BytesTx │   BytesRx │"
 	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
 
-snappi-run:
-	source venv/bin/activate && \
-	./snappi/otg-flows.py -m port
+run-snappi-port:
+	sudo docker run --rm -t --net host -v $$(pwd)/snappi:/snappi --name snappi snappi:local  bash -c "python otg-flows.py -m port"
+
+run-snappi-flow:
+	sudo docker run --rm -t --net host -v $$(pwd)/snappi:/snappi --name snappi snappi:local  bash -c "python otg-flows.py -m flow"
