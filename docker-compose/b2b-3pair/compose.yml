@@ -1,11 +1,11 @@
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3889
     command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
   traffic_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true
@@ -14,7 +14,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth0
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true
@@ -23,7 +23,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth1
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_3:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true
@@ -32,7 +32,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth2
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_4:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true
@@ -41,7 +41,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth3
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_5:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true
@@ -50,7 +50,7 @@ services:
     - ARG_IFACE_LIST=virtual@af_packet,veth4
     - OPT_NO_HUGEPAGES=Yes
   traffic_engine_6:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
     network_mode: "host"
     restart: always
     privileged: true

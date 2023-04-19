@@ -20,10 +20,10 @@ install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
-	
+
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -38,7 +38,7 @@ pull: pull-public pull-private
 
 pull-public:
 	sudo -E docker-compose pull traffic_engine_1
-	
+
 pull-private:
 	sudo -E docker-compose pull controller
 
@@ -47,7 +47,7 @@ pull-private:
 ###############################
 
 .PHONY: deploy
-deploy: deploy-net deploy-lab 
+deploy: deploy-net deploy-lab
 
 deploy-net:veth0 veth2 veth4
 
@@ -85,7 +85,7 @@ deploy-lab:
 	sudo ip link set veth4 mtu 9500
 	sudo ip link set veth5 mtu 9500
 
-deploy: deploy-net deploy-lab 
+deploy: deploy-net deploy-lab
 
 lab-clean:
 	sudo docker-compose down
