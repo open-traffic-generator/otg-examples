@@ -38,8 +38,7 @@ build: build-snappi
 
 build-snappi:
 ifeq ($(shell docker images -q snappi:local 2> /dev/null),)
-	cd ../../snappi && \
-	sudo docker build -t snappi:local .
+	sudo docker build -t snappi:local snappi
 endif
 
 build-clean:
