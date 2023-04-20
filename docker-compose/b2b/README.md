@@ -23,7 +23,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 2. Install `otgen`
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
     ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -105,12 +105,14 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
 ## Run OTG traffic flows with Python `snappi` library
 
+If you have issues with setting up Python virtual environment, see an alternative way to run `snappi` scripts from inside a Docker container [below](#running-snappi-scripts-from-a-docker-container).
+
 1. Setup virtualenv for Python
 
     ```Shell
     python3.9 -m venv venv
     source venv/bin/activate
-    pip install -r requirements.txt
+    pip install -r snappi/requirements.txt
     ```
 
 2. Run flows via snappi script, reporting port metrics
@@ -123,6 +125,26 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
     ```Shell
     ./snappi/otg-flows.py -m flow
+    ```
+
+### Running snappi scripts from a Docker container
+
+1. Build a Docker image with `snappi` library
+
+    ```Shell
+    sudo docker build -t snappi:local snappi
+    ```
+
+2. Run flows via snappi script in a container, reporting port metrics
+
+    ```Shell
+    sudo docker run --rm -t --net host -v $(pwd)/snappi:/snappi --name snappi snappi:local bash -c "python otg-flows.py -m port"
+    ```
+
+3. Run flows via snappi script in a container, reporting port flow
+
+    ```Shell
+    sudo docker run --rm -t --net host -v $(pwd)/snappi:/snappi --name snappi snappi:local bash -c "python otg-flows.py -m flow"
     ```
 
 ## Destroy the lab

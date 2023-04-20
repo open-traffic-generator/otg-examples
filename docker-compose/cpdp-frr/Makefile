@@ -30,7 +30,7 @@ install-clab: /usr/bin/containerlab
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.0
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -109,7 +109,7 @@ otg-fetch-arp:
 	@echo "# Fetch ARP table"
 	@echo
 	sleep 2 # pause for ARP to complete
-	curl -sk "$(OTG_HOST)/results/states" \
+	curl -sk "$(OTG_HOST)/monitor/states" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "ipv4_neighbors" }' | tee curl.out
@@ -121,7 +121,7 @@ otg-fetch-bgp:
 	@echo "# Fetch BGP metrics"
 	@echo
 	sleep 5 # pause for BGP to converge
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "bgpv4" }' | tee curl.out
@@ -148,7 +148,7 @@ otg-metrics-flow:
 	@echo "# Fetch flow metrics"
 	@echo
 	sleep 10 # pause for traffic to finish
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "flow" }' | tee curl.out
@@ -163,7 +163,7 @@ otg-metrics-port:
 	@echo "############################################"
 	@echo "# Fetch port metrics"
 	@echo
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "port" }' | tee curl.out
