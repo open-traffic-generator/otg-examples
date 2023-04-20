@@ -110,7 +110,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     ```Shell
     python3.9 -m venv venv
     source venv/bin/activate
-    pip install -r requirements.txt
+    pip install -r snappi/requirements.txt
     ```
 
 2. Run flows via snappi script, reporting port metrics
