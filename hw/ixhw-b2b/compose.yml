@@ -27,3 +27,14 @@ services:
       - "--trace"
       - "--log-level"
       - "trace"
+      - "--grpc-trace-collector"
+      - "jaeger:4317"
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    restart: always
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "16685:16685"
