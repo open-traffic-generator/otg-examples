@@ -164,10 +164,10 @@ remove-cluster:
 start: start-topo-keng-ceos
 stop: stop-topo-keng-ceos
 
-start-topo-keng-b2b:
+start-topo-keng-ceos:
 	kne create keng-ceos.pb.txt
 
-stop-topo-keng-b2b:
+stop-topo-keng-ceos:
 	kne delete keng-ceos.pb.txt
 
 ###############################
