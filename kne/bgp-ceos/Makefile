@@ -159,16 +159,16 @@ remove-cluster:
 # Start labs
 ###############################
 
-.PHONY: start-b2b
-.PHONY: stop-b2b
-start-b2b: start-topo-keng-b2b
-stop-b2b: stop-topo-keng-b2b
+.PHONY: start
+.PHONY: stop
+start: start-topo-keng-ceos
+stop: stop-topo-keng-ceos
 
 start-topo-keng-b2b:
-	kne create ate-b2b.pb.txt
+	kne create keng-ceos.pb.txt
 
 stop-topo-keng-b2b:
-	kne delete ate-b2b.pb.txt
+	kne delete keng-ceos.pb.txt
 
 ###############################
 # Run tests
