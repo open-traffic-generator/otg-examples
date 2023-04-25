@@ -45,30 +45,32 @@ gcloud compute ssh otg-demo-kne
 git clone -b kne --depth 1 https://github.com/open-traffic-generator/otg-examples.git
 cd otg-examples/kne/bgp-ceos
 LABDIR=$PWD
-make prereqs
-logout
+make prereqs deploy start
+kubectl run otgen --image otgen:local -- sleep 1000000
+kubectl exec -it otgen -- /bin/bash
+curl -k https://service-https-keng-controller.keng-ceos.svc.cluster.local:8443/capabilities/version
+exit
 ```
+
+
+```Shell
+kubectl exec -it r1 -n keng-ceos -- Cli
+en
+watch show ip bgp summary
+```
+
+Separate SSH session:
 
 ```Shell
 gcloud compute ssh otg-demo-kne
-cd otg-examples/kne/fp-lemming
-LABDIR=$PWD
-kne create ./lemming/integration_tests/onedut_oneotg_tests/topology.pb.txt
-cd featureprofiles/feature/bgp/addpath/otg_tests/route_propagation_test
-go test -v route_propagation_test.go -testbed "$LABDIR/lemming/integration_tests/onedut_oneotg_tests/testbed.pb.txt" -kne-config "$LABDIR/ate-lemming.ondatra.yaml"
-logout
-```
-
-Cisco c8201
-
-```Shell
-kind load docker-image 8000e:latest --name=kne
-cd ./featureprofiles/topologies/kne/
-kne create cisco_ixia.textproto
-```
-
-```Shell
-gcloud compute instances stop otg-demo-kne
-gcloud compute instances delete otg-demo-kne
-gcloud compute firewall-rules delete otg-demo-allow-ssh-${MYIPSTR}
+kubectl exec -it otgen -- /bin/bash
+export OTG_API="https://service-https-keng-controller.keng-ceos.svc.cluster.local:8443"
+otgen create device -n otg1 -p p1 -l eth1 --ip 192.0.2.1 --prefix 30 --gw 192.0.2.2 | \
+otgen add device    -n otg2 -p p2 -l eth2 --ip 192.0.2.5 --prefix 30 --gw 192.0.2.6 | \
+otgen add bgp -d otg1 --asn 1111 --route 198.51.100.0/24 | \
+otgen add bgp -d otg2 --asn 2222 --route 203.0.113.0/24  | \
+otgen add flow -n f-1-2 --tx otg1 --rx otg2 --src 198.51.100.1 --dst 203.0.113.1 --count 1000 --rate 100 --size 128 | \
+otgen add flow -n f-2-1 --tx otg2 --rx otg1 --dst 198.51.100.1 --src 203.0.113.1 --count 2000 --rate 200 --size 256 | \
+otgen --log info run -k -m flow | otgen transform -m flow | otgen display -m table
+exit
 ```

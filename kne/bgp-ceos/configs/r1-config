@@ -26,25 +26,22 @@ username admin privilege 15 role network-admin secret sha512 $6$YDkKMqrZIRO65B7i
 !
 interface Ethernet1
    no switchport
-   ip address 10.0.0.1/30
+   ip address 192.0.2.2/30
    mtu 1450
 !
 interface Ethernet2
    no switchport
-   ip address 10.0.0.5/30
+   ip address 192.0.2.6/30
    mtu 1450
 !
 interface Loopback0
-   ip address 2.2.2.1/32
+   ip address 3.3.3.3/32
 !
 ip routing
 !
-router bgp 1
-   neighbor 1.2.0.2 remote-as 1
-   neighbor 1.2.0.6 remote-as 1
-   neighbor 20.20.20.1 remote-as 3001
-   network 2.2.2.0/30
-   network 20.20.20.0/24
+router bgp 3333
+   neighbor 192.0.2.1 remote-as 1111
+   neighbor 192.0.2.5 remote-as 2222
 !
 management api gnmi
    transport grpc default

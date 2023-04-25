@@ -16,10 +16,10 @@ kne_version = v0.1.11
 prereqs: install build pull
 
 .PHONY: all
-all: prereqs deploy start-b2b run-b2b-otgen run-b2b-fp
+all: prereqs deploy start run
 
 .PHONY: clean
-clean: stop-b2b undeploy
+clean: stop undeploy
 
 .PHONY: clean-all
 clean-all: clean clean-pull clean-build uninstall
