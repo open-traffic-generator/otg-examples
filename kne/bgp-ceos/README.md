@@ -1,5 +1,16 @@
+# KNE Lab with BGP and traffic via Arista cEOSLab as a DUT
 
-Multipass VM
+## Overview
+
+## Lab configuration
+
+### Diagram
+
+![Diagram](./diagram.png)
+
+# Virtual machine setup examples
+
+## Multipass VM
 
 ```Shell
 multipass launch 20.04 -n knevm -c8 -m16G -d64G
@@ -11,7 +22,7 @@ sudo usermod -aG docker $USER
 logout
 ```
 
-GCP Instance
+## GCP Instance
 
 ```Shell
 MYIP=`curl -s ifconfig.me`
