@@ -5,6 +5,8 @@ IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.5"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35"
 IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.290"
 
+cEOSLab = "ceos:latest"
+
 otgen_version = 0.5.0-rc1
 otgen_image = otgen:$(otgen_version)
 
@@ -136,7 +138,7 @@ endif
 ###############################
 
 .PHONY: deploy
-deploy: deploy-cluster load-images apply-ixiatg-configmap deploy-operator-lemming
+deploy: deploy-cluster load-images
 undeploy: remove-cluster
 
 deploy-cluster:
@@ -147,13 +149,8 @@ load-images:
 	kind load docker-image $(IxiaC_gNMI) --name=kne
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
+	kind load docker-image $(cEOSLab) --name=kne
 	kind load docker-image otgen:local --name=kne
-
-apply-ixiatg-configmap:
-	kubectl apply -f manifests/keysight/ixiatg-configmap.yaml
-
-deploy-operator-lemming:
-	kubectl apply -k lemming/operator/config/default
 
 remove-cluster:
 	kind delete cluster --name kne
