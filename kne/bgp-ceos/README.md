@@ -45,7 +45,7 @@ gcloud compute ssh otg-demo-kne
 git clone -b kne --depth 1 https://github.com/open-traffic-generator/otg-examples.git
 cd otg-examples/kne/bgp-ceos
 LABDIR=$PWD
-make all
+make prereqs
 logout
 ```
 

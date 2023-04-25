@@ -11,7 +11,7 @@ otgen_image = otgen:$(otgen_version)
 kne_version = v0.1.7
 
 .PHONY: prereqs
-all: install build pull
+prereqs: install build pull
 
 .PHONY: all
 all: prereqs deploy start-b2b run-b2b-otgen run-b2b-fp
