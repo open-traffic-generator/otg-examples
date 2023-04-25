@@ -8,7 +8,7 @@ IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.
 otgen_version = 0.5.0-rc1
 otgen_image = otgen:$(otgen_version)
 
-kne_version = v0.1.7
+kne_version = v0.1.11
 
 .PHONY: prereqs
 prereqs: install build pull
@@ -81,10 +81,10 @@ clean-build:
 
 .PHONY: pull
 
-pull: pull-keng pull-feature-profiles pull-lemming pull-feature-profiles-static
+pull: pull-keng
 pull-keng: pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-clean-pull: remove-keng remove-feature-profiles remove-lemming remove-feature-profiles-static
+clean-pull: remove-keng
 remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-controller:
@@ -130,27 +130,6 @@ remove-ixia-c-protocol-engine:
 ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
 	docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
-
-pull-lemming: ./lemming
-./lemming:
-	git clone --depth 1 https://github.com/openconfig/lemming.git
-
-remove-lemming:
-	-rm -r ./lemming
-
-pull-feature-profiles-static: ./featureprofiles-static
-./featureprofiles-static:
-	git clone --depth 1 -b static https://github.com/open-traffic-generator/featureprofiles.git featureprofiles-static
-
-remove-feature-profiles-static:
-	-rm -r ./featureprofiles-static
-
-pull-feature-profiles: ./featureprofiles
-./featureprofiles:
-	git clone --depth 1 https://github.com/openconfig/featureprofiles.git
-
-remove-feature-profiles:
-	-rm -r ./featureprofiles
 
 ###############################
 # Deploy cluster
