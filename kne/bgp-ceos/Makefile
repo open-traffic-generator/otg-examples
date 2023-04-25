@@ -1,17 +1,20 @@
 SHELL = /bin/bash
 
-IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724"
-IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6"
-IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24"
-IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256"
+IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3889"
+IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.5"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35"
+IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.290"
 
-otgen_version = 0.4.0
+otgen_version = 0.5.0-rc1
 otgen_image = otgen:$(otgen_version)
 
 kne_version = v0.1.7
 
+.PHONY: prereqs
+all: install build pull
+
 .PHONY: all
-all: install build pull deploy start-b2b run-b2b-otgen run-b2b-fp
+all: prereqs deploy start-b2b run-b2b-otgen run-b2b-fp
 
 .PHONY: clean
 clean: stop-b2b undeploy
@@ -38,7 +41,7 @@ install-kubectl: /usr/local/bin/kubectl
 
 install-kind: /usr/local/bin/kind
 /usr/local/bin/kind:
-	go install sigs.k8s.io/kind@v0.14.0
+	go install sigs.k8s.io/kind@v0.17.0
 	sudo install -o root -g root -m 0755 $(HOME)/go/bin/kind /usr/local/bin/kind
 
 uninstall:
@@ -155,14 +158,14 @@ remove-feature-profiles:
 
 .PHONY: deploy
 deploy: deploy-cluster load-images apply-ixiatg-configmap deploy-operator-lemming
-undeploy: remove-cluster 
+undeploy: remove-cluster
 
 deploy-cluster:
 	kne deploy kind-bridge.yaml
 
 load-images:
 	kind load docker-image $(IxiaC_Controller) --name=kne
-	kind load docker-image $(IxiaC_gNMI) --name=kne	
+	kind load docker-image $(IxiaC_gNMI) --name=kne
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
 	kind load docker-image otgen:local --name=kne
