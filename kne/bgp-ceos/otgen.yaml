@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: otgen
+  labels:
+    app: otgen
+  namespace: default
+spec:
+  containers:
+    - name: otgen
+      image: otgen:local
+      command: ["tail"]
+      args: ["-f", "/dev/null"]
+  restartPolicy: Never
