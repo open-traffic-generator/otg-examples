@@ -174,15 +174,11 @@ stop-topo-keng-ceos:
 # Run tests
 ###############################
 
-run-b2b-otgen:
-	kubectl create -f job-otgen-flow-b2b.yaml
+.PHONY: run
+
+run: run-otgen-bgp
+
+run-otgen-bgp:
+	kubectl create -f job-otgen-bgp.yaml
 	sleep 2
-	kubectl get job -l flow=b2b --sort-by='{.metadata.creationTimestamp}' -o name | tac | head -1 | xargs kubectl logs -f
-
-run-b2b-fp:
-	cd featureprofiles-static/feature/experimental/otg_only && \
-	go test -v otgb2b_test.go -testbed otgb2b.testbed -kne-config "../../../../ate-b2b.ondatra.yaml"
-
-run-lemming-tests:
-	cd lemming && \
-	go test ./integration_tests/...
+	kubectl get job -l testcase=otgen-bgp --sort-by='{.metadata.creationTimestamp}' -o name | tac | head -1 | xargs kubectl logs -f
