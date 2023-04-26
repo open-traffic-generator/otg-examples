@@ -1,6 +1,16 @@
 # KNE Lab with BGP and traffic via Arista cEOSLab as a DUT
 
 ## Overview
+This lab demonstrates validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used.
+
+To run the lab, OpenConfig KNE is used on top of a KIND cluster – K8s environment running inside a single Docker container.
+
+  * [OpenConfig KNE](https://github.com/openconfig/kne/blob/main/docs/README.md)
+  * [KIND](https://kind.sigs.k8s.io/)
+
+OTG test logic is executed using `otgen` CLI client running in a dedicated K8s POD:
+
+  * [`otgen`](https://otg.dev/clients/otgen/)
 
 ## Lab configuration
 
