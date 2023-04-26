@@ -12,6 +12,13 @@
 
 ![IP Diagram](./ip-diagram.png)
 
+### OTG
+
+The lab uses OTG configuration created by `otgen` with the following properties:
+
+![OTG Diagram](./otg-diagram.png)
+
+
 # Virtual machine setup examples
 
 ## Multipass VM
