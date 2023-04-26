@@ -76,6 +76,17 @@ The lab uses OTG configuration created by `otgen` with the following properties:
     watch show ip bgp summary
     ```
 
+7. To stop the `keng-ceos` lab, use
+
+    ```Shell
+    make stop
+    ```
+
+8. To remove the KIND cluster with KNE, use
+
+    ```Shell
+    make clean
+    ```
 
 # Virtual machine setup examples
 
@@ -91,26 +102,36 @@ sudo usermod -aG docker $USER
 logout
 ```
 
-## GCP Instance
+## Google Cloud Compute Instance
 
-```Shell
-MYIP=`curl -s ifconfig.me`
-MYIPSTR="$(echo $MYIP | sed 's/\./-/g')"
+1. Deploy the instance
 
-gcloud compute firewall-rules create otg-demo-allow-ssh-${MYIPSTR} --description="Allow tcp 22 ingress to any instance tagged as otg-demo-kne" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:22 --source-ranges="$MYIP/32" --target-tags=otg-demo-kne
+    ```Shell
+    MYIP=`curl -s ifconfig.me`
+    MYIPSTR="$(echo $MYIP | sed 's/\./-/g')"
 
-gcloud compute instances create otg-demo-kne \
---subnet=default \
---machine-type=e2-standard-16 \
---image-family=ubuntu-2004-lts \
---image-project=ubuntu-os-cloud \
---boot-disk-size=100GB \
---boot-disk-device-name=otg-demo-kne \
---tags=otg-demo-kne
+    gcloud compute firewall-rules create otg-demo-allow-ssh-${MYIPSTR} --description="Allow tcp 22 ingress to any instance tagged as otg-demo-kne" --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:22 --source-ranges="$MYIP/32" --target-tags=otg-demo-kne
 
-gcloud compute ssh otg-demo-kne
-sudo apt update && sudo apt upgrade -y
-sudo apt install build-essential docker.io -y
-sudo usermod -aG docker $USER
-logout
-```
+    gcloud compute instances create otg-demo-kne \
+    --subnet=default \
+    --machine-type=e2-standard-16 \
+    --image-family=ubuntu-2004-lts \
+    --image-project=ubuntu-os-cloud \
+    --boot-disk-size=100GB \
+    --boot-disk-device-name=otg-demo-kne \
+    --tags=otg-demo-kne
+
+    gcloud compute ssh otg-demo-kne
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install build-essential docker.io -y
+    sudo usermod -aG docker $USER
+    logout
+    ```
+
+2. Terminate the instance
+
+    ```Shell
+    gcloud compute instances stop otg-demo-kne
+    gcloud compute instances delete otg-demo-kne
+    gcloud compute firewall-rules delete otg-demo-allow-ssh-${MYIPSTR}
+    ```
