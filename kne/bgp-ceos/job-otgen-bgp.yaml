@@ -21,7 +21,7 @@ spec:
               otgen add bgp -d otg2 --asn 2222 --route 203.0.113.0/24  | \
               otgen add flow -n f-1-2 --tx otg1 --rx otg2 --src 198.51.100.1 --dst 203.0.113.1 --count 1000 --rate 100 --size 128 | \
               otgen add flow -n f-2-1 --tx otg2 --rx otg1 --dst 198.51.100.1 --src 203.0.113.1 --count 2000 --rate 200 --size 256 | \
-              otgen --log debug run -k -m bgp4,flow
+              otgen --log info run -k -m flow | otgen transform -m flow | otgen display -m table
           image: otgen:local
           name: otgen
       restartPolicy: Never

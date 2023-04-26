@@ -168,7 +168,7 @@ start-topo-keng-ceos:
 	kne create keng-ceos.pb.txt
 
 stop-topo-keng-ceos:
-	kne delete keng-ceos.pb.txt
+	-kne delete keng-ceos.pb.txt
 
 ###############################
 # Run tests
