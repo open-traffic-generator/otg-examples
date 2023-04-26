@@ -14,7 +14,7 @@ spec:
             - /bin/sh
             - "-c"
             - |
-              OTG_API="https://service-https-keng-controller.keng-ceos.svc.cluster.local:8443" \
+              export OTG_API="https://service-https-keng-controller.keng-ceos.svc.cluster.local:8443"
               otgen create device -n otg1 -p p1 -l eth1 --ip 192.0.2.1 --prefix 30 --gw 192.0.2.2 | \
               otgen add device    -n otg2 -p p2 -l eth2 --ip 192.0.2.5 --prefix 30 --gw 192.0.2.6 | \
               otgen add bgp -d otg1 --asn 1111 --route 198.51.100.0/24 | \
