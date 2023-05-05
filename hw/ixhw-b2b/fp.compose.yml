@@ -5,7 +5,6 @@ services:
     image: ixia-c-controller:0.0.1-4364
     restart: always
     ports:
-      - "8443:8443"
       - "40051:40051"
     depends_on:
       ixia-c-ixhw-server:
