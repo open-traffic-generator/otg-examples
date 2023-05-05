@@ -23,7 +23,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.2
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`

@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ixia-c-controller:0.0.1-4219
+    image: ixia-c-controller:0.0.1-4364
     restart: always
     ports:
       - "8443:8443"
@@ -18,7 +18,7 @@ services:
       - "--license-servers"
       - "${LICENSE_SERVERS}"
   ixia-c-ixhw-server:
-    image: ixia-c-ixhw-server:0.11.4-1
+    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
     restart: always
     ports:
       - "5000:5000"
@@ -32,7 +32,7 @@ services:
       - "--grpc-trace-collector"
       - "jaeger:4317"
   ixia-c-gnmi-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.1
+    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.13
     restart: always
     ports:
       - "50051:50051"
