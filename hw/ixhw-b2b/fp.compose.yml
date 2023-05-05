@@ -20,9 +20,6 @@ services:
   ixia-c-ixhw-server:
     image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
     restart: always
-    ports:
-      - "5000:5000"
-      - "5001:5001"
     command:
       - "dotnet"
       - "otg-ixhw.dll"
@@ -48,7 +45,3 @@ services:
     restart: always
     environment:
       - COLLECTOR_OTLP_ENABLED=true
-    ports:
-      - "16686:16686"
-      - "4317:4317"
-      - "16685:16685"
