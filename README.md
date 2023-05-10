@@ -14,7 +14,7 @@ There are several implementations of OTG API. Each example uses one of the follo
 * [Ixia-c-one](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/deployments.md#deploy-ixia-c-one-using-containerlab): a single-container package of Ixia-c Traffic Engine for Containerlab
 * [KENG TE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic Engine
 * [KENG TE+PE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic and Protocol Engines
-* [KENG IxHW](https://otg.dev/implementations/#ixhw): Keysight Elastic Network Generator with Ixia Hardware Load Modules/Appliances
+* [KENG IxHW](https://otg.dev/implementations/#ixhw): Keysight Elastic Network Generator with [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html)
 
 ## Device Under Test
 
