@@ -1,7 +1,7 @@
 # KENG ARP, BGP and traffic with FRR as a DUT
 
 ## Overview
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used. 
+This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used.
 
 The same setup can be brought up using one of two methods:
 
@@ -116,12 +116,10 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
     bash -c "$(curl -sL https://get.containerlab.dev)"
     ```
 
-3. Install `otgen` tool, version `0.4.0-rc1` or later.
+3. Install `otgen` tool, version `0.5.0-rc1` or later.
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-    sudo mv otgen /usr/local/bin/otgen
-    sudo chmod +x /usr/local/bin/otgen
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
     ```
 
 4. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -148,12 +146,12 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-frr
-    docker-compose up -d 
+    docker-compose up -d
     sudo docker ps
     ```
 
 2. Make sure you have all five containers running. The result should look like this
-  
+
     ```Shell
     CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
     22c439d4f632   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_1_1
@@ -211,7 +209,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 3. Fetch ARP table
 
     ```Shell
-    curl -sk "${OTG_HOST}/results/states" \
+    curl -sk "${OTG_HOST}/monitor/states" \
         -X POST \
         -H  'Content-Type: application/json' \
         -d '{ "choice": "ipv4_neighbors" }'
@@ -220,7 +218,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 4. Fetch BGP metrics (stop with `Ctrl-c`)
 
     ```Shell
-    watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
+    watch -n 1 "curl -sk \"${OTG_HOST}/monitor/metrics\" \
         -X POST \
         -H  'Content-Type: application/json' \
         -d '{ \"choice\": \"bgpv4\" }'"
@@ -229,7 +227,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 5. Fetch BGP prefix announcements - TODO this doesn't show the actual announcements
 
     ```Shell
-    curl -sk "${OTG_HOST}/results/states" \
+    curl -sk "${OTG_HOST}/monitor/states" \
         -X POST \
         -H  'Content-Type: application/json' \
         -d '{ "choice": "bgp_prefixes" }'
@@ -246,7 +244,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 7. Fetch flow metrics (stop with `Ctrl-c`)
 
     ```Shell
-    watch -n 1 "curl -sk \"${OTG_HOST}/results/metrics\" \
+    watch -n 1 "curl -sk \"${OTG_HOST}/monitor/metrics\" \
         -X POST \
         -H  'Content-Type: application/json' \
         -d '{ \"choice\": \"flow\" }'"
@@ -255,7 +253,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 8. Fetch port metrics
 
     ```Shell
-    curl -sk "${OTG_HOST}/results/metrics" \
+    curl -sk "${OTG_HOST}/monitor/metrics" \
         -X POST \
         -H  'Content-Type: application/json' \
         -d '{ "choice": "port" }'

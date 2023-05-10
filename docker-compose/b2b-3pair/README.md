@@ -22,9 +22,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 2. Install `otgen`
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.3.0/otgen_0.3.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-    sudo mv otgen /usr/local/bin/otgen
-    sudo chmod +x /usr/local/bin/otgen
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
     ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -73,7 +71,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 
     ```Shell
     cd otg-examples/docker-compose/b2b-3pair
-    sudo -E docker-compose up -d 
+    sudo -E docker-compose up -d
     sudo ip link set veth0 mtu 9500
     sudo ip link set veth1 mtu 9500
     sudo ip link set veth2 mtu 9500
@@ -89,7 +87,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
     ```
 
     The result should look like this
-  
+
     ```Shell
     CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS     NAMES
     6f3b3f0f4104   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_1_1

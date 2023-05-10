@@ -59,19 +59,19 @@ cp.port_names = [p1.name, p2.name]
 requests = [
         DNS(
             id=0,
-            rd=1, 
-            qr=0, 
+            rd=1,
+            qr=0,
             qd=DNSQR(
-                qtype="A", 
+                qtype="A",
                 qname="example.com"
             )
         ),
         DNS(
             id=1,
-            rd=1, 
-            qr=0, 
+            rd=1,
+            qr=0,
             qd=DNSQR(
-                qtype="AAAA", 
+                qtype="AAAA",
                 qname="example.com"
             )
         ),
@@ -80,14 +80,14 @@ responses = [
         DNS(
             id=requests[0][DNS].id,
             qd=requests[0][DNS].qd,
-            rd=1, 
-            qr=1, 
-            ra=1, 
-            qdcount=1, 
+            rd=1,
+            qr=1,
+            ra=1,
+            qdcount=1,
             ancount=1,
             ar=DNSRR(
-                type="A", 
-                rrname="example.com", 
+                type="A",
+                rrname="example.com",
                 ttl=600,
                 rdata="1.1.1.1"
             )
@@ -95,14 +95,14 @@ responses = [
         DNS(
             id=requests[1][DNS].id,
             qd=requests[1][DNS].qd,
-            rd=1, 
-            qr=1, 
-            ra=1, 
-            qdcount=1, 
+            rd=1,
+            qr=1,
+            ra=1,
+            qdcount=1,
             ancount=1,
             ar=DNSRR(
-                type="AAAA", 
-                rrname="example.com", 
+                type="AAAA",
+                rrname="example.com",
                 ttl=600,
                 rdata="1111:2222:3333:444::5555"
             )
@@ -110,7 +110,7 @@ responses = [
     ]
 
 # send 10 packets per each flow
-packet_count = 10 
+packet_count = 10
 
 # flows for requests
 for i in range(len(requests)):
@@ -167,14 +167,15 @@ print(cfg)
 api.set_config(cfg)
 
 # start packet capture on configured ports
-cs = api.capture_state()
-cs.state = cs.START
-api.set_capture_state(cs)
+cs = api.control_state()
+cs.port.capture.state = cs.port.capture.START
+cs.port.capture.port_names = cp.port_names
+api.set_control_state(cs)
 
 # start transmitting configured flows
-ts = api.transmit_state()
-ts.state = ts.START
-api.set_transmit_state(ts)
+ts = api.control_state()
+ts.traffic.flow_transmit.state = ts.traffic.flow_transmit.START
+api.set_control_state(ts)
 
 # create a metrics request
 req = api.metrics_request()

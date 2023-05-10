@@ -143,9 +143,9 @@ def main():
     api.set_config(cfg)
 
     # start transmitting configured flows
-    ts = api.transmit_state()
-    ts.state = ts.START
-    api.set_transmit_state(ts)
+    ts = api.control_state()
+    ts.traffic.flow_transmit.state = snappi.StateTrafficFlowTransmit.START
+    api.set_control_state(ts)
 
     # Check if the file argument is provided
     if args.metric == 'port':
