@@ -7,29 +7,52 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Prerequisites
 
-* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
-* Linux host or VM with sudo permissions and Docker support
+* Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) license and images. Read more in [KENG.md](../../KENG.md)
+
+* Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 or higher
+
+* Linux host or VM with sudo permissions and Docker support. Here is an example of deploying an Ubuntu VM `otg` using [multipass](https://multipass.run/):
+
+    ```Shell
+    multipass launch 22.04 -n otg -c4 -m8G -d32G
+    multipass shell otg
+    ```
+
 * [Docker](https://docs.docker.com/engine/install/)
-* Python3.9
-* Keysight/Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.2 or higher
-* `envsubst` command
+
+    ```Shell
+    sudo apt update && sudo apt install docker.io -y
+    sudo usermod -aG docker $USER
+    ```
+
+* Python3 (version 3.9 or higher), PIP and VirtualEnv
+
+    ```Shell
+    sudo apt install python3 python3-pip python3.10-venv -y
+    ```
+* [Go](https://go.dev/dl/) version 1.19 or later
+
+    ```Shell
+    sudo snap install go --channel=1.19/stable --classic
+    ```
+
+* `git` and `envsubst` commands (typically installed by default)
+
+    ```Shell
+    sudo apt install git gettext-base -y
+    ```
 
 ## Install components
 
 1. Install `docker-compose`
 
     ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
+    -o /usr/local/bin/docker-compose && \
     sudo chmod +x /usr/local/bin/docker-compose
     ```
 
-2. Install `otgen`
-
-    ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.4.2
-    ```
-
-3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
 
     ```Shell
     cmd=docker-compose
@@ -41,11 +64,11 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     fi
     ```
 
-4. Clone this repository
+3. Clone this repository
 
     ```Shell
-    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
-    cd otg-examples/docker-compose/b2b
+    git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
+    cd otg-examples/hw/ixhw-b2b
     ```
 
 ## Deploy Keysight Elastic Network Generator
@@ -56,11 +79,16 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     sudo -E docker-compose up -d
     ```
 
-2. Make sure you have two containers running: `ixhw-b2b_ixia-c-controller_1` and `ixhw-b2b_ixia-c-ixhw-server_1`
+2. To make sure all the containers are running, use
 
     ```Shell
     sudo docker ps
     ```
+
+    the list of containers should include:
+
+    * `ixhw-b2b_ixia-c-controller_1`
+    * `ixhw-b2b_ixia-c-ixhw-server_1`
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
@@ -69,31 +97,11 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
     ```
 
-
-## Run OTG traffic flows with `otgen` tool
-
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in table format
+    For example, if IxOS management IP is `10.10.10.10` and you need to use ports `14` and `15` in the slot number `2`:
 
     ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
-    ```
-
-2. The same, but with flow metrics
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
-    ```
-
-3. The same, but with byte instead of frame count (only receive stats are reported)
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
-    ```
-
-4. Now report packet per second rate, as a line chart (end with `Crtl-c`)
-
-    ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    export OTG_LOCATION_P1="10.10.10.10;2;14"
+    export OTG_LOCATION_P2="10.10.10.10;2;15"
     ```
 
 ## Run OTG traffic flows with Python `snappi` library
@@ -101,7 +109,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 1. Setup virtualenv for Python
 
     ```Shell
-    python3.9 -m venv venv
+    python3 -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
     ```
@@ -118,10 +126,107 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     ./snappi/otg-flows.py -m flow
     ```
 
-## Destroy the Keysight Elastic Network Generator deployment
+## Cleanup
 
 To stop the deployment, run:
 
 ```Shell
 sudo docker-compose down
+```
+
+# OpenConfig Feature Profiles B2B test
+
+## Deploy Keysight Elastic Network Generator
+
+1. Create an environment file `.env` by using `dotenv` as a template and providing an IP-address or hostname of the Keysight Licensing Server you deployed as part of prerequisite steps in place of `licensing_server_ip_address`.
+
+    ```Shell
+    LICENSE_SERVERS=licensing_server_ip_address
+    cat dotenv | sed "s/lic-serv-ip1.*/${LICENSE_SERVERS}/g" > .env
+    ```
+
+2. Launch the deployment
+
+    ```Shell
+    sudo -E docker-compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
+    ```
+
+3. To make sure all the containers are running, use
+
+    ```Shell
+    sudo docker ps
+    ```
+
+    the list of containers should include:
+
+    * `ixhw-b2b_ixia-c-controller_1`
+    * `ixhw-b2b_ixia-c-ixhw-server_1`
+    * `ixhw-b2b_ixia-c-gnmi-server_1`
+
+
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+
+    ```Shell
+    export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
+    export OTG_LOCATION_P2="ixos_ip_address;slot_number_2;port_number_2"
+    ```
+
+    For example, if IxOS management IP is `10.10.10.10` and you need to use ports `14` and `15` in the slot number `2`:
+
+    ```Shell
+    export OTG_LOCATION_P1="10.10.10.10;2;14"
+    export OTG_LOCATION_P2="10.10.10.10;2;15"
+    ```
+
+5. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
+
+    ```Shell
+    cat otgb2b.template | envsubst > otgb2b.binding
+    export OTGB2B_BINDING="$(pwd)/otgb2b.binding"
+    ```
+
+### Run FeatureProfiles OTG HW back-2-back test
+
+1. Clone [FeatureProfiles fork](https://github.com/open-traffic-generator/featureprofiles/tree/static) from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
+
+    ```Shell
+    git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git fp-static
+    ```
+
+2. Run FeatureProfiles OTG HW B2B test
+
+    ```Shell
+    cd fp-static/feature/experimental/otg_only
+    go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "${OTGB2B_BINDING}"
+    cd ../../../..
+    ```
+
+### Multi-seat deployment
+
+If you need to support multiple concurrent seats (simultaneous tests) on the same VM, it is possible to launch several parallel instances of Keysight Elastic Network Generator.
+
+1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
+
+    ```Shell
+    sudo -E docker-compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
+    ```
+
+2. Now create a second ONDATRA binding file, for example `otgb2b.binding2`:
+
+    ```Shell
+    cp otgb2b.binding otgb2b.binding2
+    # change TCP ports for both otg and gnmi targets
+    # change port name strings to use different IxHW ports
+    vi otgb2b.binding2
+    export OTGB2B_BINDING="$(pwd)/otgb2b.binding2"
+    ```
+
+Now you're ready to run the two parallel tests via the same VM using two different binding files.
+
+## Cleanup
+
+To stop the deployment, run:
+
+```Shell
+sudo -E docker-compose --file fp.compose.yml down
 ```

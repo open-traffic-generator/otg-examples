@@ -4,9 +4,6 @@ services:
   ixia-c-controller:
     image: ixia-c-controller:0.0.1-4364
     restart: always
-    ports:
-      - "8443:8443"
-      - "40051:40051"
     depends_on:
       ixia-c-ixhw-server:
         condition: service_started
@@ -15,6 +12,8 @@ services:
       - "--debug"
       - "--ixia-c-ixhw-server"
       - "ixia-c-ixhw-server:5001"
+      - "--license-servers"
+      - "${LICENSE_SERVERS}"
   ixia-c-ixhw-server:
     image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
     restart: always
@@ -24,10 +23,13 @@ services:
       - "--trace"
       - "--log-level"
       - "trace"
-      - "--grpc-trace-collector"
-      - "jaeger:4317"
-  jaeger:
-    image: jaegertracing/all-in-one:latest
+  ixia-c-gnmi-server:
+    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.13
     restart: always
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
+    depends_on:
+      ixia-c-controller:
+        condition: service_started
+    command:
+      - "-http-server"
+      - "https://ixia-c-controller:8443"
+      - "--debug"
