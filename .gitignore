@@ -143,5 +143,5 @@ clab/srl-oper-group/opergroup-lab/
 *.dtmp
 *.pcapng
 hybrid/fp-b2b/featureprofiles/
-hw/ixhw-b2b/otgb2b.binding
+hw/ixhw-b2b/otgb2b.binding*
 hw/ixhw-b2b/fp-static/

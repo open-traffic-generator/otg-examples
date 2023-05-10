@@ -148,7 +148,7 @@ sudo docker-compose down
 2. Launch the deployment
 
     ```Shell
-    sudo -E docker-compose --file fp.compose.yml up -d
+    sudo -E docker-compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
 3. To make sure all the containers are running, use
@@ -162,8 +162,6 @@ sudo docker-compose down
     * `ixhw-b2b_ixia-c-controller_1`
     * `ixhw-b2b_ixia-c-ixhw-server_1`
     * `ixhw-b2b_ixia-c-gnmi-server_1`
-    * `ixhw-b2b_jaeger_1`
-
 
 
 4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
@@ -202,6 +200,28 @@ sudo docker-compose down
     go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "${OTGB2B_BINDING}"
     cd ../../../..
     ```
+
+### Multi-seat deployment
+
+If you need to support multiple concurrent seats (simultaneous tests) on the same VM, it is possible to launch several parallel instances of Keysight Elastic Network Generator.
+
+1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.override2.yml](fp.compose.override2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
+
+    ```Shell
+    sudo -E docker-compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
+    ```
+
+2. Now create a second ONDATRA binding file, for example `otgb2b.binding2`:
+
+    ```Shell
+    cp otgb2b.binding otgb2b.binding2
+    # change TCP ports for both otg and gnmi targets
+    # change port name strings to use different IxHW ports
+    vi otgb2b.binding2
+    export OTGB2B_BINDING="$(pwd)/otgb2b.binding2"
+    ```
+
+Now you're ready to run the two parallel tests via the same VM using two different binding files.
 
 ## Cleanup
 
