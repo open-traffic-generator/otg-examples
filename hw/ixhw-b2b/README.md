@@ -205,7 +205,7 @@ sudo docker-compose down
 
 If you need to support multiple concurrent seats (simultaneous tests) on the same VM, it is possible to launch several parallel instances of Keysight Elastic Network Generator.
 
-1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.override2.yml](fp.compose.override2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
+1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
 
     ```Shell
     sudo -E docker-compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
