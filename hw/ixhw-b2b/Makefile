@@ -37,7 +37,8 @@ install-clean:
 deploy: deploy-lab
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
+	sleep 5
 
 remove-lab:
 	sudo docker-compose down
@@ -47,7 +48,7 @@ remove-lab:
 ###############################
 
 .PHONY: run
-run: otgen-run-as-table-port #otgen-run-as-table-flow otgen-run-as-table-flow-bytes
+run: otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes
 
 otgen-run-as-table-port:
 	cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
