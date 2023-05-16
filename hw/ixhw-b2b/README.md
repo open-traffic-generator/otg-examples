@@ -71,6 +71,18 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     cd otg-examples/hw/ixhw-b2b
     ```
 
+## Diagnostics
+
+To collect diagnostics logs from all the components of the lab, run:
+
+```Shell
+../../utils/collect-ixia-c-hw-logs.sh
+```
+
+It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
+
+> TIP. Use `make logs` if you have `make` on your system
+
 ## Deploy Keysight Elastic Network Generator
 
 1. Launch the deployment
@@ -215,16 +227,6 @@ If you need to support multiple concurrent seats (simultaneous tests) on the sam
     ```
 
 Now you're ready to run the two parallel tests via the same VM using two different binding files.
-
-## Diagnostics
-
-To collect diagnostics logs from all the components of the lab, run the following command:
-
-```Shell
-../../utils/collect-ixia-c-hw-logs.sh
-```
-
-It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
 
 ## Cleanup
 
