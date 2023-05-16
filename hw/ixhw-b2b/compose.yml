@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ixia-c-controller:0.0.1-4364
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4013
     restart: always
     ports:
       - "8443:8443"

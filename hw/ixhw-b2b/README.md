@@ -7,7 +7,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Prerequisites
 
-* Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) license and images. Read more in [KENG.md](../../KENG.md)
+* Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 
 * Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 or higher
 
@@ -70,6 +70,18 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
     ```
+
+## Diagnostics
+
+To collect diagnostics logs from all the components of the lab, run:
+
+```Shell
+../../utils/collect-ixia-c-hw-logs.sh
+```
+
+It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
+
+> TIP. Use `make logs` if you have `make` on your system
 
 ## Deploy Keysight Elastic Network Generator
 
@@ -138,20 +150,13 @@ sudo docker-compose down
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Create an environment file `.env` by using `dotenv` as a template and providing an IP-address or hostname of the Keysight Licensing Server you deployed as part of prerequisite steps in place of `licensing_server_ip_address`.
-
-    ```Shell
-    LICENSE_SERVERS=licensing_server_ip_address
-    cat dotenv | sed "s/lic-serv-ip1.*/${LICENSE_SERVERS}/g" > .env
-    ```
-
-2. Launch the deployment
+1. Launch the deployment
 
     ```Shell
     sudo -E docker-compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
-3. To make sure all the containers are running, use
+2. To make sure all the containers are running, use
 
     ```Shell
     sudo docker ps
@@ -164,7 +169,7 @@ sudo docker-compose down
     * `ixhw-b2b_ixia-c-gnmi-server_1`
 
 
-4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
@@ -178,7 +183,7 @@ sudo docker-compose down
     export OTG_LOCATION_P2="10.10.10.10;2;15"
     ```
 
-5. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
+4. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
 
     ```Shell
     cat otgb2b.template | envsubst > otgb2b.binding
@@ -228,5 +233,6 @@ Now you're ready to run the two parallel tests via the same VM using two differe
 To stop the deployment, run:
 
 ```Shell
-sudo -E docker-compose --file fp.compose.yml down
+sudo docker-compose -p keng1 --file fp.compose.yml down
+sudo docker-compose -p keng2 --file fp.compose.yml down
 ```

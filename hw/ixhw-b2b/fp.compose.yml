@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ixia-c-controller:0.0.1-4364
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4013
     restart: always
     depends_on:
       ixia-c-ixhw-server:
@@ -12,8 +12,6 @@ services:
       - "--debug"
       - "--ixia-c-ixhw-server"
       - "ixia-c-ixhw-server:5001"
-      - "--license-servers"
-      - "${LICENSE_SERVERS}"
   ixia-c-ixhw-server:
     image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
     restart: always
