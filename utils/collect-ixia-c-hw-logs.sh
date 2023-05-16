@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONTAINERS=$(docker ps --filter "name=ixia-c" --format "{{.Names}}")
-NOW=$(date +"%Y-%m-%d_%H%M%S")
+NOW="logs-"$(date +"%Y-%m-%d_%H%M%S")
 mkdir -p $NOW
 for CONTAINER in $CONTAINERS
 do

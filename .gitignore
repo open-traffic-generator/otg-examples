@@ -148,3 +148,4 @@ hw/ixhw-b2b/fp-static/
 
 # diagnostics 
 utils/*.tar.gz
+utils/logs-*
