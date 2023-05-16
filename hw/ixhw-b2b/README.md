@@ -216,6 +216,16 @@ If you need to support multiple concurrent seats (simultaneous tests) on the sam
 
 Now you're ready to run the two parallel tests via the same VM using two different binding files.
 
+## Diagnostics
+
+To collect diagnostics logs from all the components of the lab, run the following command:
+
+```Shell
+../../utils/collect-ixia-c-hw-logs.sh
+```
+
+It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
+
 ## Cleanup
 
 To stop the deployment, run:
