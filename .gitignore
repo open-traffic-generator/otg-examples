@@ -142,10 +142,11 @@ clab/srl-oper-group/opergroup-lab/
 *.bkp
 *.dtmp
 *.pcapng
+
+# local featureprofile artifacts
 hybrid/fp-b2b/featureprofiles/
 hw/ixhw-b2b/otgb2b.binding*
 hw/ixhw-b2b/fp-static/
 
-# diagnostics 
-utils/*.tar.gz
-utils/logs-*
+# diagnostics
+logs-*
