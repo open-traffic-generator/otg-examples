@@ -145,3 +145,6 @@ clab/srl-oper-group/opergroup-lab/
 hybrid/fp-b2b/featureprofiles/
 hw/ixhw-b2b/otgb2b.binding*
 hw/ixhw-b2b/fp-static/
+
+# diagnostics 
+utils/*.tar.gz

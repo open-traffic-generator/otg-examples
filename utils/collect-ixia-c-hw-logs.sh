@@ -19,4 +19,6 @@ do
 	fi
 	echo ""
 done
-
+echo "Compressing the logs folder"
+tar -zcvf "$NOW.tar.gz" $NOW
+rm -rf $NOW
