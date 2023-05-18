@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/open-traffic-generator/otg-examples/actions/workflows/ci.yml)
 
-## Overview 
+## Overview
 
 [OTG examples](https://github.com/open-traffic-generator/otg-examples) repository is a great way to get started with [Open Traffic Generator API](https://otg.dev). It features a collection of software-only network labs ranging from very simple to more complex. To setup network labs in software we use containerized or virtualized NOS images.
 
@@ -14,6 +14,7 @@ There are several implementations of OTG API. Each example uses one of the follo
 * [Ixia-c-one](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/deployments.md#deploy-ixia-c-one-using-containerlab): a single-container package of Ixia-c Traffic Engine for Containerlab
 * [KENG TE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic Engine
 * [KENG TE+PE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic and Protocol Engines
+* [KENG IxHW](https://otg.dev/implementations/#ixhw): Keysight Elastic Network Generator with [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html)
 
 ## Device Under Test
 
@@ -27,16 +28,17 @@ A job of an OTG Client is to communicating with a Traffic Generator via the OTG 
 
 * [`curl`](https://otg.dev/clients/curl/) - The most basic utility for any kind of REST API calls, including OTG
 * [`otgen`](https://otg.dev/clients/otgen/) - This command-line utility comes as part of OTG toolkit. It is capable of manipulating a wide range of OTG features while hiding a lot of complexity from a user
-* [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API. 
+* [`snappi`](https://otg.dev/clients/snappi/) - Test scripts written in `snappi`, an auto-generated Python module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
 * [`gosnappi`](https://otg.dev/clients/gosnappi/) - Similar to `snappi`, test scripts written in `gosnappi`, an auto-generated Go module, can be executed against any traffic generator conforming to the Open Traffic Generator API.
 * [`ondatra`](https://github.com/openconfig/ondatra) – Ondatra is a framework for writing and running tests against both real and containerized network devices. When executing a test via the Open Traffic Generator API, it uses `gosnappi` client library internally.
 
 ## Infrastructure
 
-To manage deployment of the example labs, we use one of the following declarative tools:
+To manage deployment of the example labs, we use one of the following tools:
 
 * [Docker Compose](https://docs.docker.com/compose/) - general-purpose tool for defining and running multi-container Docker applications
 * [Containerlab](https://containerlab.dev/) - simple yet powerful specialized tool for orchestrating and managing container-based networking labs
+* [Ixia-c Operator](https://github.com/open-traffic-generator/ixia-c-operator) – Ixia-c deployment orchestration engine compatible with K8s/KNE as well as Docker for Hybrid mode
 
 ## CI with Github Actions
 
@@ -44,17 +46,19 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 
 ## Reference
 
-| Lab                                                                                                                          | OTG Tool    | DUT  | Client             | Infrastructure | CI  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | ------------------ | -------------- | --- |
-| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen`            | Compose        | yes |
-| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`            | Containerlab   | yes  |
-| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`            | Compose        | yes |
-| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`         | Compose        | yes |
-| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`   | Compose & Clab | yes |
-| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one  | B2B  | `snappi`           | Containerlab   | yes |
-| [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi` | Containerlab   | yes |
-| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`         | Containerlab   | yes |
-| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`          | KENG Hybrid    | yes |
+| Lab                                                                                                                          | OTG Tool    | DUT  | Client               | Infrastructure  | CI  |
+| ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | -------------------- | --------------  | --- |
+| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen` & `snappi`   | Compose         | yes |
+| [Static B2B LAG](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b-lag)                       | Ixia-c TE   | B2B  | `otgen`              | Containerlab    | yes |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`              | Containerlab    | yes |
+| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`              | Compose         | yes |
+| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`           | Compose         | yes |
+| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`     | Compose & Clab  | yes |
+| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one  | B2B  | `snappi`             | Containerlab    | yes |
+| [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi`   | Containerlab    | yes |
+| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`           | Containerlab    | yes |
+| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`            | Ixia-c Operator | yes |
+| [B2B Ixia Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | KENG IxHW   | B2B  | `snappi` & `ondatra` | Compose         | no  |
 
 
 ## Lab Descriptions
@@ -62,6 +66,10 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 ### [B2B Ixia-c Traffic](docker-compose/b2b)
 
 Ixia-c traffic engine back-to-back setup with Docker Compose. Fast and easy way to get started using [`otgen`](https://github.com/open-traffic-generator/otgen) CLI tool.
+
+### [Static B2B LAG](clab/ixia-c-b2b-lag)
+
+Two Ixia-c Traffic Engines connected back-2-back in a Containerlab environment over two pairs of ports in a LAG. The goal is to demonstrate how to create a static Link Aggregation Group (LAG) consisting of two ports and run traffic over the LAG interface.
 
 ### [FRR Ixia-c Traffic](clab/ixia-c-te-frr)
 
@@ -79,11 +87,11 @@ KENG back-to-back BGP and traffic setup with Docker Compose. This is an extended
 
 KENG ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. The lab has two alternative deployment methods: Compose as well as Containerlab.
 
-### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b) 
+### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b)
 
 Basics of creating a Python program to control Ixia-c-one node, all packaged in a Containerlab topology.
 
-### [Dear snappi, please meet Scapy!](clab/ixia-c-b2b/SCAPY.md) 
+### [Dear snappi, please meet Scapy!](clab/ixia-c-b2b/SCAPY.md)
 
 Joint use of Scapy packet crafting Python module with snappi, to generate custom DNS flows via Ixia-c-one node.
 
@@ -94,3 +102,7 @@ Remote Triggered Black Hole (RTBH) is a common DDoS mitigation technique which u
 ### [FeatureProfiles in Hybrid mode](hybrid/fp-b2b)
 
 An introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites built with the [Open Traffic Generator API](https://otg.dev).
+
+### [OTG with Ixia L23 Hardware: back-to-back setup](hw/ixhw-b2b)
+
+ Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html), including an example of running [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites.

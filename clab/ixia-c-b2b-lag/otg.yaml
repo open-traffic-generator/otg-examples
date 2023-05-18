@@ -1,0 +1,101 @@
+flows:
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: f1
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: "00:00:01:01:01:02"
+      src:
+        choice: value
+        value: "00:00:01:01:01:01"
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 1.1.1.2
+      src:
+        choice: value
+        value: 1.1.1.1
+  - choice: udp
+    udp:
+      dst_port:
+        choice: value
+        value: 6000
+      src_port:
+        choice: value
+        value: 5000
+  rate:
+    choice: pps
+    pps: "50"
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: port
+    port:
+      rx_name: l2
+      tx_name: l1
+lags:
+- min_links: 1
+  name: l1
+  ports:
+  - ethernet:
+      mac: "00:00:00:00:00:01"
+      mtu: 1500
+      name: l1p1
+    port_name: p1
+  - ethernet:
+      mac: "00:00:00:00:00:02"
+      mtu: 1500
+      name: l1p2
+    port_name: p2
+  protocol:
+    choice: static
+    static:
+      lag_id: 1
+- min_links: 1
+  name: l2
+  ports:
+  - ethernet:
+      mac: "00:00:00:00:00:04"
+      mtu: 1500
+      name: l2p3
+    port_name: p3
+  - ethernet:
+      mac: "00:00:00:00:00:05"
+      mtu: 1500
+      name: l2p4
+    port_name: p4
+  protocol:
+    choice: static
+    static:
+      lag_id: 1
+layer1:
+- mtu: 1500
+  name: ly
+  port_names:
+  - p1
+  - p2
+  - p3
+  - p4
+  promiscuous: true
+  speed: speed_1_gbps
+ports:
+- location: te1:5555
+  name: p1
+- location: te1:5555
+  name: p2
+- location: te2:5555
+  name: p3
+- location: te2:5555
+  name: p4

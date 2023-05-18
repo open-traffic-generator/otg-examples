@@ -1,0 +1,58 @@
+flows:
+- name: p1-p2
+  duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 1000
+  rate:
+    choice: pps
+    pps: 100
+  size:
+    choice: fixed
+    fixed: 512
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  packet:
+  - choice: ethernet
+    ethernet:
+      dst:
+        choice: value
+        value: 00:00:00:00:00:bb
+      src:
+        choice: value
+        value: 00:00:00:00:00:aa
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 192.0.2.1
+      src:
+        choice: increment
+        increment:
+          start: 1.1.1.1
+          step: 0.1.2.3
+          count: 100
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 80
+      src_port:
+        choice: increment
+        increment:
+          start: 23250
+          step: 7
+          count: 100
+  tx_rx:
+    choice: port
+    port:
+      tx_name: p1
+      rx_name: p2
+ports:
+- location: ${OTG_LOCATION_P1}
+  name: p1
+- location: ${OTG_LOCATION_P2}
+  name: p2

@@ -31,10 +31,6 @@ def wait_for(func, timeout=15, interval=0.2):
 
 api = snappi.api(location='https://clab-ixcb2b-ixia-c:8443', verify=False)
 cfg = api.config()
-# this pushes object of type `snappi.Config` to controller
-api.set_config(cfg)
-# this retrieves back object of type `snappi.Config` from controller
-cfg = api.get_config()
 
 # config has an attribute called `ports` which holds an iterator of type
 # `snappi.PortIter`, where each item is of type `snappi.Port` (p1 and p2)
@@ -95,14 +91,15 @@ print(cfg)
 api.set_config(cfg)
 
 # start packet capture on configured ports
-cs = api.capture_state()
-cs.state = cs.START
-api.set_capture_state(cs)
+cs = api.control_state()
+cs.port.capture.state = cs.port.capture.START
+cs.port.capture.port_names = cp.port_names
+api.set_control_state(cs)
 
 # start transmitting configured flows
-ts = api.transmit_state()
-ts.state = ts.START
-api.set_transmit_state(ts)
+ts = api.control_state()
+ts.traffic.flow_transmit.state = ts.traffic.flow_transmit.START
+api.set_control_state(ts)
 
 # create a port metrics request and filter based on port names
 req = api.metrics_request()

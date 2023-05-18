@@ -1,0 +1,363 @@
+devices:
+- ethernets:
+  - connection:
+      choice: port_name
+      port_name: p1
+    ipv4_addresses:
+    - address: 1.1.1.1
+      gateway: 1.1.1.2
+      name: dtx_ip
+      prefix: 24
+    ipv6_addresses:
+    - address: 1100::1
+      gateway: 1100::2
+      name: dtxv6_ip
+      prefix: 64
+    mac: 00:00:01:01:01:01
+    mtu: 1500
+    name: dtx_eth
+  isis:
+    advanced:
+      area_addresses:
+      - '490001'
+      csnp_interval: 10000
+      enable_attached_bit: false
+      enable_hello_padding: true
+      lsp_lifetime: 1200
+      lsp_mgroup_min_trans_interval: 5000
+      lsp_refresh_rate: 900
+      max_area_addresses: 3
+      max_lsp_size: 1492
+      psnp_interval: 2000
+    basic:
+      enable_wide_metric: true
+      hostname: dtx_isis
+      ipv4_te_router_id: 1.1.1.1
+      learned_lsp_filter: true
+    interfaces:
+    - advanced:
+        auto_adjust_area: true
+        auto_adjust_mtu: true
+        auto_adjust_supported_protocols: true
+        enable_3way_handshake: true
+        p2p_hellos_to_unicast_mac: false
+      eth_name: dtx_eth
+      l2_settings:
+        dead_interval: 30
+        hello_interval: 10
+        priority: 0
+      level_type: level_1_2
+      metric: 10
+      name: dtx_isis_int
+      network_type: point_to_point
+    name: dtx_isis
+    system_id: '640000000001'
+    v4_routes:
+    - addresses:
+      - address: 10.10.10.1
+        count: 1
+        prefix: 32
+        step: 1
+      link_metric: 10
+      n_flag: false
+      name: dtx_isis_rr4
+      origin_type: internal
+      prefix_attr_enabled: false
+      r_flag: false
+      redistribution_type: up
+      x_flag: false
+    v6_routes:
+    - addresses:
+      - address: ::10:10:10:01
+        count: 1
+        prefix: 32
+        step: 1
+      link_metric: 0
+      n_flag: false
+      name: dtx_isis_rr6
+      origin_type: internal
+      prefix_attr_enabled: false
+      r_flag: false
+      redistribution_type: up
+      x_flag: false
+  name: dtx
+- ethernets:
+  - connection:
+      choice: port_name
+      port_name: p2
+    ipv4_addresses:
+    - address: 1.1.1.2
+      gateway: 1.1.1.1
+      name: drx_ip
+      prefix: 24
+    ipv6_addresses:
+    - address: 1100::2
+      gateway: 1100::1
+      name: drxv6_ip
+      prefix: 64
+    mac: 00:00:01:01:01:02
+    mtu: 1500
+    name: drx_eth
+  isis:
+    advanced:
+      area_addresses:
+      - '490001'
+      csnp_interval: 10000
+      enable_attached_bit: false
+      enable_hello_padding: true
+      lsp_lifetime: 1200
+      lsp_mgroup_min_trans_interval: 5000
+      lsp_refresh_rate: 900
+      max_area_addresses: 3
+      max_lsp_size: 1492
+      psnp_interval: 2000
+    basic:
+      enable_wide_metric: true
+      hostname: rx_isis
+      ipv4_te_router_id: 1.1.1.2
+      learned_lsp_filter: true
+    interfaces:
+    - advanced:
+        auto_adjust_area: true
+        auto_adjust_mtu: true
+        auto_adjust_supported_protocols: true
+        enable_3way_handshake: true
+        p2p_hellos_to_unicast_mac: false
+      eth_name: drx_eth
+      l2_settings:
+        dead_interval: 30
+        hello_interval: 10
+        priority: 0
+      level_type: level_1_2
+      metric: 10
+      name: drx_isis_int
+      network_type: point_to_point
+    name: rx_isis
+    system_id: '650000000001'
+    v4_routes:
+    - addresses:
+      - address: 20.20.20.1
+        count: 1
+        prefix: 32
+        step: 1
+      link_metric: 10
+      n_flag: false
+      name: drx_isis_rr4
+      origin_type: internal
+      prefix_attr_enabled: false
+      r_flag: false
+      redistribution_type: up
+      x_flag: false
+    v6_routes:
+    - addresses:
+      - address: ::20:20:20:01
+        count: 1
+        prefix: 32
+        step: 1
+      link_metric: 0
+      n_flag: false
+      name: drx_isis_rr6
+      origin_type: internal
+      prefix_attr_enabled: false
+      r_flag: false
+      redistribution_type: up
+      x_flag: false
+  name: drx
+flows:
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: ftx_v4
+  packet:
+  - choice: ethernet
+    ethernet:
+      src:
+        choice: value
+        value: 00:00:01:01:01:01
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 20.20.20.1
+      src:
+        choice: value
+        value: 10.10.10.1
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 6000
+      src_port:
+        choice: value
+        value: 5000
+  rate:
+    choice: pps
+    pps: '50'
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: device
+    device:
+      mode: mesh
+      rx_names:
+      - drx_isis_rr4
+      tx_names:
+      - dtx_isis_rr4
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: ftx_v6
+  packet:
+  - choice: ethernet
+    ethernet:
+      src:
+        choice: value
+        value: 00:00:01:01:01:01
+  - choice: ipv6
+    ipv6:
+      dst:
+        choice: value
+        value: ::20:20:20:01
+      src:
+        choice: value
+        value: ::10:10:10:01
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 6000
+      src_port:
+        choice: value
+        value: 5000
+  rate:
+    choice: pps
+    pps: '50'
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: device
+    device:
+      mode: mesh
+      rx_names:
+      - drx_isis_rr6
+      tx_names:
+      - dtx_isis_rr6
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: frx_v4
+  packet:
+  - choice: ethernet
+    ethernet:
+      src:
+        choice: value
+        value: 00:00:01:01:01:02
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 10.10.10.1
+      src:
+        choice: value
+        value: 20.20.20.1
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 6000
+      src_port:
+        choice: value
+        value: 5000
+  rate:
+    choice: pps
+    pps: '50'
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: device
+    device:
+      mode: mesh
+      rx_names:
+      - dtx_isis_rr4
+      tx_names:
+      - drx_isis_rr4
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: frx_v6
+  packet:
+  - choice: ethernet
+    ethernet:
+      src:
+        choice: value
+        value: 00:00:01:01:01:02
+  - choice: ipv6
+    ipv6:
+      dst:
+        choice: value
+        value: ::10:10:10:01
+      src:
+        choice: value
+        value: ::20:20:20:01
+  - choice: tcp
+    tcp:
+      dst_port:
+        choice: value
+        value: 6000
+      src_port:
+        choice: value
+        value: 5000
+  rate:
+    choice: pps
+    pps: '50'
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: device
+    device:
+      mode: mesh
+      rx_names:
+      - dtx_isis_rr6
+      tx_names:
+      - drx_isis_rr6
+layer1:
+- mtu: 1500
+  name: ly
+  port_names:
+  - p1
+  - p2
+  promiscuous: true
+  speed: speed_10_gbps
+ports:
+- location: ${OTG_LOCATION_P1}
+  name: p1
+- location: ${OTG_LOCATION_P2}
+  name: p2

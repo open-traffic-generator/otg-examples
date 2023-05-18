@@ -1,0 +1,79 @@
+devices:
+- ethernets:
+  - connection:
+      choice: port_name
+      port_name: p1
+    ipv4_addresses:
+    - address: 1.1.1.1
+      gateway: 1.1.1.2
+      name: dtx_ip
+      prefix: 24
+    mac: 00:00:01:01:01:01
+    mtu: 1500
+    name: dtx_eth
+  name: dtx
+- ethernets:
+  - connection:
+      choice: port_name
+      port_name: p2
+    ipv4_addresses:
+    - address: 1.1.1.2
+      gateway: 1.1.1.1
+      name: drx_ip
+      prefix: 24
+    mac: 00:00:01:01:01:02
+    mtu: 1500
+    name: drx_eth
+  name: drx
+flows:
+- duration:
+    choice: fixed_packets
+    fixed_packets:
+      gap: 12
+      packets: 100
+  metrics:
+    enable: true
+    loss: false
+    timestamps: false
+  name: ftx_v4
+  packet:
+  - choice: ethernet
+    ethernet:
+      src:
+        choice: value
+        value: 00:00:01:01:01:01
+  - choice: ipv4
+    ipv4:
+      dst:
+        choice: value
+        value: 1.1.1.2
+      src:
+        choice: value
+        value: 1.1.1.1
+  rate:
+    choice: pps
+    pps: '50'
+  size:
+    choice: fixed
+    fixed: 128
+  tx_rx:
+    choice: device
+    device:
+      mode: mesh
+      rx_names:
+      - drx_ip
+      tx_names:
+      - dtx_ip
+layer1:
+- mtu: 1500
+  name: ly
+  port_names:
+  - p1
+  - p2
+  promiscuous: true
+  speed: speed_10_gbps
+ports:
+- location: ${OTG_LOCATION_P1}
+  name: p1
+- location: ${OTG_LOCATION_P2}
+  name: p2

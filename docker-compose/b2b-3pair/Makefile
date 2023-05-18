@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: clean
 clean: lab-clean network-clean
@@ -20,12 +20,10 @@ install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
-	
+
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -40,7 +38,7 @@ pull: pull-public pull-private
 
 pull-public:
 	sudo -E docker-compose pull traffic_engine_1
-	
+
 pull-private:
 	sudo -E docker-compose pull controller
 
@@ -49,7 +47,7 @@ pull-private:
 ###############################
 
 .PHONY: deploy
-deploy: deploy-net deploy-lab 
+deploy: deploy-net deploy-lab
 
 deploy-net:veth0 veth2 veth4
 
@@ -79,7 +77,7 @@ veth4: /sys/class/net/veth4
 
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 	sudo ip link set veth0 mtu 9500
 	sudo ip link set veth1 mtu 9500
 	sudo ip link set veth2 mtu 9500
@@ -87,7 +85,7 @@ deploy-lab:
 	sudo ip link set veth4 mtu 9500
 	sudo ip link set veth5 mtu 9500
 
-deploy: deploy-net deploy-lab 
+deploy: deploy-net deploy-lab
 
 lab-clean:
 	sudo docker-compose down
@@ -109,7 +107,7 @@ veth4-clean:
 ###############################
 
 .PHONY: run
-run: otgen-run otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
+run: otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
 
 otgen-run:
 	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml

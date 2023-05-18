@@ -1,10 +1,10 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install pull deploy run
+all: install deploy run
 
 .PHONY: all-clab
-all-clab: install pull deploy-clab run-otgen
+all-clab: install deploy-clab run-otgen
 
 .PHONY: clean
 clean: remove-lab remove-clab
@@ -30,9 +30,7 @@ install-clab: /usr/bin/containerlab
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0-rc1/otgen_0.4.0-rc1_$$(uname -s)_$$(uname -m).tar.gz" | tar xzv otgen
-	sudo mv otgen /usr/local/bin/otgen
-	sudo chmod +x /usr/local/bin/otgen
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -49,7 +47,7 @@ pull: pull-private
 pull-public:
 	sudo -E docker-compose pull traffic_engine_1
 	sudo -E docker-compose pull frr
-	
+
 pull-private:
 	sudo -E docker-compose pull controller protocol_engine_1
 
@@ -61,7 +59,7 @@ pull-private:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo docker-compose up -d
+	sudo -E docker-compose up -d
 
 deploy-net:
 	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
@@ -71,10 +69,10 @@ deploy-clab:
 	sudo -E containerlab deploy --reconfigure
 
 remove-lab:
-	sudo docker-compose down
+	-sudo docker-compose down
 
 remove-clab:
-	sudo containerlab destroy --cleanup
+	-sudo containerlab destroy --cleanup
 
 ###############################
 # Run tests
@@ -83,7 +81,7 @@ remove-clab:
 .PHONY: run
 run: otg-set-config otg-start-protocols otg-fetch-arp otg-fetch-bgp otg-trasmit otg-metrics-flow otg-metrics-port
 
-OTG_HOST="https://localhost:8443"
+OTG_HOST=https://localhost:8443
 
 otg-set-config:
 	@echo "############################################"
@@ -111,7 +109,7 @@ otg-fetch-arp:
 	@echo "# Fetch ARP table"
 	@echo
 	sleep 2 # pause for ARP to complete
-	curl -sk "$(OTG_HOST)/results/states" \
+	curl -sk "$(OTG_HOST)/monitor/states" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "ipv4_neighbors" }' | tee curl.out
@@ -123,7 +121,7 @@ otg-fetch-bgp:
 	@echo "# Fetch BGP metrics"
 	@echo
 	sleep 5 # pause for BGP to converge
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "bgpv4" }' | tee curl.out
@@ -150,7 +148,7 @@ otg-metrics-flow:
 	@echo "# Fetch flow metrics"
 	@echo
 	sleep 10 # pause for traffic to finish
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "flow" }' | tee curl.out
@@ -165,7 +163,7 @@ otg-metrics-port:
 	@echo "############################################"
 	@echo "# Fetch port metrics"
 	@echo
-	curl -sk "$(OTG_HOST)/results/metrics" \
+	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
 		-d '{ "choice": "port" }' | tee curl.out
@@ -175,7 +173,7 @@ otg-metrics-port:
 
 .PHONY: run-otgen
 
-export OTG_API="https://localhost:8443"
+export OTG_API=https://localhost:8443
 
 run-otgen:
 	sleep 5 # pause for all components to initialize

@@ -142,8 +142,15 @@ clab/srl-oper-group/opergroup-lab/
 *.bkp
 *.dtmp
 *.pcapng
+
+# local featureprofile artifacts
 hybrid/fp-b2b/featureprofiles/
 kne/fp-lemming/kne/
 kne/fp-lemming/featureprofiles/
 kne/fp-lemming/lemming/
 kne/fp-lemming/featureprofiles-static/
+hw/ixhw-b2b/otgb2b.binding*
+hw/ixhw-b2b/fp-static/
+
+# diagnostics
+logs-*

@@ -9,6 +9,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
+* Python3.9 for `snappi` part
 
 ## Install components
 
@@ -22,9 +23,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 2. Install `otgen`
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.2.0/otgen_0.2.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-    sudo mv otgen /usr/local/bin/otgen
-    sudo chmod +x /usr/local/bin/otgen
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
     ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -39,7 +38,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     fi
     ```
 
-4. Clone this repository (optional, only needed to use `make all` to run all the steps automatically)
+4. Clone this repository
 
     ```Shell
     git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
@@ -58,87 +57,94 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
     sudo sysctl net.ipv6.conf.veth1.disable_ipv6=1
     ```
 
-2. Create YAML file for Docker Compose with veth interfaces assigned to `ixia-c-traffic-engine` containers
+2. Launch the deployment and adjust MTUs on the veth pair
 
     ```Shell
-    cat > compose.yml << EOF
-    services:
-      controller:
-        image: ixiacom/ixia-c-controller:0.0.1-3724
-        command: --accept-eula --http-port 8443
-        network_mode: "host"
-        restart: always
-      traffic_engine_1:
-        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
-        network_mode: "host"
-        restart: always
-        privileged: true
-        environment:
-        - OPT_LISTEN_PORT=5555
-        - ARG_IFACE_LIST=virtual@af_packet,veth0
-        - OPT_NO_HUGEPAGES=Yes
-      traffic_engine_2:
-        image: ixiacom/ixia-c-traffic-engine:1.6.0.24
-        network_mode: "host"
-        restart: always
-        privileged: true
-        environment:
-        - OPT_LISTEN_PORT=5556
-        - ARG_IFACE_LIST=virtual@af_packet,veth1
-        - OPT_NO_HUGEPAGES=Yes
-    EOF
-    ```
-
-3. Launch the deployment and adjust MTUs on the veth pair
-
-    ```Shell
-    sudo docker-compose up -d 
+    sudo docker-compose up -d
     sudo ip link set veth0 mtu 9500
     sudo ip link set veth1 mtu 9500
     ```
 
-4. Make sure you have all three containers running:
+3. Make sure you have all three containers running:
 
     ```Shell
     sudo docker ps
     ```
 
-## Run OTG traffic flows
+## Run OTG traffic flows with `otgen` tool
 
-1. Download an example of OTG traffic flow configuration file:
-
-    ```Shell
-    wget https://raw.githubusercontent.com/open-traffic-generator/otg-examples/main/docker-compose/b2b/otg.yml
-    ```
-
-2. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
+1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
 
     ```Shell
     cat otg.yml | otgen run -k -a https://localhost:8443
     ```
 
-3. You can now repeat this exercise, but transform output to a table
+2. You can now repeat this exercise, but transform output to a table
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 2>/dev/null | otgen transform -m port | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
     ```
 
-4. The same, but with flow metrics
+3. The same, but with flow metrics
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
     ```
 
-5. The same, but with byte instead of frame count (only receive stats are reported)
+4. The same, but with byte instead of frame count (only receive stats are reported)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c bytes | otgen display -m table
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
     ```
 
-6. Now report packet per second rate, as a line chart (end with `Crtl-c`)
+5. Now report packet per second rate, as a line chart (end with `Crtl-c`)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow 2>/dev/null | otgen transform -m flow -c pps | otgen display -m chart
+    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    ```
+
+## Run OTG traffic flows with Python `snappi` library
+
+If you have issues with setting up Python virtual environment, see an alternative way to run `snappi` scripts from inside a Docker container [below](#running-snappi-scripts-from-a-docker-container).
+
+1. Setup virtualenv for Python
+
+    ```Shell
+    python3.9 -m venv venv
+    source venv/bin/activate
+    pip install -r snappi/requirements.txt
+    ```
+
+2. Run flows via snappi script, reporting port metrics
+
+    ```Shell
+    ./snappi/otg-flows.py -m port
+    ```
+
+3. Run flows via snappi script, reporting port flow
+
+    ```Shell
+    ./snappi/otg-flows.py -m flow
+    ```
+
+### Running snappi scripts from a Docker container
+
+1. Build a Docker image with `snappi` library
+
+    ```Shell
+    sudo docker build -t snappi:local snappi
+    ```
+
+2. Run flows via snappi script in a container, reporting port metrics
+
+    ```Shell
+    sudo docker run --rm -t --net host -v $(pwd)/snappi:/snappi --name snappi snappi:local bash -c "python otg-flows.py -m port"
+    ```
+
+3. Run flows via snappi script in a container, reporting port flow
+
+    ```Shell
+    sudo docker run --rm -t --net host -v $(pwd)/snappi:/snappi --name snappi snappi:local bash -c "python otg-flows.py -m flow"
     ```
 
 ## Destroy the lab
@@ -150,6 +156,3 @@ docker-compose down
 sudo ip link del name veth0 type veth peer name veth1
 ```
 
-## Credits
-
-* [Diana Galan](https://github.com/dgalan-xxia) is an author of `compose.yml` example.

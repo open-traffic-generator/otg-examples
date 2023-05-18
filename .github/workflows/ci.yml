@@ -19,6 +19,9 @@ on:
       - 'clab/ixia-c-b2b/**'
       - '!clab/ixia-c-b2b/**.md'
       - '!clab/ixia-c-b2b/**.png'
+      - 'clab/ixia-c-b2b-lag/**'
+      - '!clab/ixia-c-b2b-lag/**.md'
+      - '!clab/ixia-c-b2b-lag/**.png'
       - 'clab/ixia-c-te-frr/**'
       - '!clab/ixia-c-te-frr/**.md'
       - '!clab/ixia-c-te-frr/**.png'
@@ -46,6 +49,9 @@ on:
       - 'clab/ixia-c-b2b/**'
       - '!clab/ixia-c-b2b/**.md'
       - '!clab/ixia-c-b2b/**.png'
+      - 'clab/ixia-c-b2b-lag/**'
+      - '!clab/ixia-c-b2b-lag/**.md'
+      - '!clab/ixia-c-b2b-lag/**.png'
       - 'clab/ixia-c-te-frr/**'
       - '!clab/ixia-c-te-frr/**.md'
       - '!clab/ixia-c-te-frr/**.png'
@@ -68,6 +74,7 @@ jobs:
       docker-compose-cpdp-frr: ${{ steps.changes.outputs.docker-compose-cpdp-frr }}
       clab-cpdp-frr: ${{ steps.changes.outputs.clab-cpdp-frr }}
       clab-ixia-c-b2b: ${{ steps.changes.outputs.clab-ixia-c-b2b }}
+      clab-ixia-c-b2b-lag: ${{ steps.changes.outputs.clab-ixia-c-b2b-lag }}
       clab-ixia-c-te-frr: ${{ steps.changes.outputs.clab-ixia-c-te-frr }}
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
       hybrid-fp-b2b: ${{ steps.changes.outputs.hybrid-fp-b2b }}
@@ -91,6 +98,8 @@ jobs:
             - 'docker-compose/cpdp-frr/**'
             clab-ixia-c-b2b:
             - 'clab/ixia-c-b2b/**'
+            clab-ixia-c-b2b-lag:
+            - 'clab/ixia-c-b2b-lag/**'
             clab-ixia-c-te-frr:
             - 'clab/ixia-c-te-frr/**'
             clab-rtbh:
@@ -115,6 +124,9 @@ jobs:
       - name: clab ixia-c-b2b
         if: steps.changes.outputs.clab-ixia-c-b2b == 'true'
         run: echo "Run Clab ixia-c-b2b CI"
+      - name: clab ixia-c-b2b-lag
+        if: steps.changes.outputs.clab-ixia-c-b2b-lag == 'true'
+        run: echo "Run Clab ixia-c-b2b-lag CI"
       - name: clab ixia-c-te-frr
         if: steps.changes.outputs.clab-ixia-c-te-frr == 'true'
         run: echo "Run Clab ixia-c-te-frr CI"
@@ -232,6 +244,20 @@ jobs:
           submodules: 'true'
       - name: Run all
         run:  make all
+  clab-ixia-c-b2b-lag:
+    name: Run Clab ixia-c-b2b-lag CI
+    runs-on: ubuntu-20.04
+    needs: paths-filter
+    defaults:
+      run:
+        working-directory: ./clab/ixia-c-b2b-lag
+    if: needs.paths-filter.outputs.clab-ixia-c-b2b-lag == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Run all
+        run:  make all
   clab-ixia-c-te-frr:
     name: Run Clab ixia-c-te-frr CI
     runs-on: ubuntu-20.04
@@ -279,8 +305,8 @@ jobs:
           username: ${{ secrets.ENV_GITHUB_USER }}
           password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
-          go-version: 1.18
+          go-version: 1.19
       - name: Run all
         run:  make all

@@ -40,9 +40,7 @@ Otherwise, follow step-by-step instructions below.
 * [otgen](https://github.com/open-traffic-generator/otgen)
 
     ```Shell
-    curl -L "https://github.com/open-traffic-generator/otgen/releases/download/v0.4.0/otgen_0.4.0_$(uname -s)_$(uname -m).tar.gz" | tar xzv otgen
-    sudo mv otgen /usr/local/bin/otgen
-    sudo chmod +x /usr/local/bin/otgen
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
     ```
 
 * Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)

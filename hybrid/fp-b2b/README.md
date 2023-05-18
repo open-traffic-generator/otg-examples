@@ -38,7 +38,7 @@ Although original intent of `static binding` is to describe a connection between
 2. Clone this repository
 
     ```Shell
-    git clone -b hybrid https://github.com/open-traffic-generator/otg-examples.git
+    git clone https://github.com/open-traffic-generator/otg-examples.git
     OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
     ```
 
@@ -46,10 +46,10 @@ Although original intent of `static binding` is to describe a connection between
 
     ```Shell
     sudo -E docker-compose --project-directory "${OTGLABDIR}" pull operator
-    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3724
-    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.6
-    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.24
-    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.256
+    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3841
+    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.19
+    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.279
     ```
 
 4. Start and configure Ixia-c operator

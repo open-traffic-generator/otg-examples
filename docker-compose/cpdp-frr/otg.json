@@ -13,7 +13,10 @@
     {
       "ethernets":  [
         {
-          "port_name":  "p1",
+          "connection":  {
+            "choice":  "port_name",
+            "port_name":  "p1"
+          },
           "ipv4_addresses":  [
             {
               "gateway":  "192.0.2.2",
@@ -65,7 +68,10 @@
     {
       "ethernets":  [
         {
-          "port_name":  "p2",
+          "connection":  {
+            "choice":  "port_name",
+            "port_name":  "p2"
+          },
           "ipv4_addresses":  [
             {
               "gateway":  "192.0.2.6",

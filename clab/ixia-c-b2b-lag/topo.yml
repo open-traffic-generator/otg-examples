@@ -1,0 +1,32 @@
+name: b2blag
+topology:
+  nodes:
+    ixc:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3889
+      cmd: --accept-eula --http-port 8443
+      ports:
+        - 8443:8443
+    te1:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth1 virtual@af_packet,eth3
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+    te2:
+      kind: linux
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      env:
+        OPT_LISTEN_PORT: 5555
+        ARG_IFACE_LIST: virtual@af_packet,eth2 virtual@af_packet,eth4
+        OPT_NO_HUGEPAGES: Yes
+        OPT_NO_PINNING: Yes
+        WAIT_FOR_IFACE: Yes
+
+
+  links:
+    - endpoints: ["te1:eth1","te2:eth2"]
+    - endpoints: ["te1:eth3","te2:eth4"]
