@@ -6,5 +6,6 @@ RUN apk add --no-cache \
   curl \
   tar \
   openssl \
+  jq \
   && rm -rf /var/cache/apk/* \
   && bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v $version
