@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
-IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3889"
-IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.5"
+IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4064"
+IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.13"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35"
-IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.290"
+IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.02.21.17"
 
 cEOSLab = "ceos:latest"
 
