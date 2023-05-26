@@ -1,0 +1,30 @@
+# kind-bridge.yaml cluster config file sets up a kind cluster where default PTP CNI plugin
+# is swapped with the Bridge CNI plugin.
+# Bridge CNI plugin is required by some Network OSes to operate.
+cluster:
+  kind: Kind
+  spec:
+    name: kne
+    recycle: True
+    version: v0.17.0
+    image: kindest/node:v1.26.0
+    config: ./kne/kind/kind-no-cni.yaml
+    additionalManifests:
+      - ./kne/manifests/kind/kind-bridge.yaml
+ingress:
+  kind: MetalLB
+  spec:
+    manifest: ./kne/manifests/metallb/manifest.yaml
+    ip_count: 100
+cni:
+  kind: Meshnet
+  spec:
+    manifest: kne/manifests/meshnet/grpc/manifest.yaml
+controllers:
+  - kind: IxiaTG
+    spec:
+      operator: ./manifests/keysight/ixiatg-operator.yaml
+      configMap: ./manifests/keysight/ixiatg-configmap.yaml
+  - kind: CEOSLab
+    spec:
+      operator: ./kne/manifests/controllers/ceoslab/manifest.yaml

@@ -12,8 +12,8 @@ There are several implementations of OTG API. Each example uses one of the follo
 
 * [Ixia-c TE](https://otg.dev/implementations/#ixia-c): Ixia-c Traffic Engine
 * [Ixia-c-one](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/deployments.md#deploy-ixia-c-one-using-containerlab): a single-container package of Ixia-c Traffic Engine for Containerlab
-* [KENG TE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic Engine
-* [KENG TE+PE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator – Traffic and Protocol Engines
+* [KENG TE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator with Ixia-c Traffic Engine
+* [KENG TE+PE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator with Ixia-c Traffic and Protocol Engines
 * [KENG IxHW](https://otg.dev/implementations/#ixhw): Keysight Elastic Network Generator with [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html)
 
 ## Device Under Test
@@ -39,6 +39,7 @@ To manage deployment of the example labs, we use one of the following tools:
 * [Docker Compose](https://docs.docker.com/compose/) - general-purpose tool for defining and running multi-container Docker applications
 * [Containerlab](https://containerlab.dev/) - simple yet powerful specialized tool for orchestrating and managing container-based networking labs
 * [Ixia-c Operator](https://github.com/open-traffic-generator/ixia-c-operator) – Ixia-c deployment orchestration engine compatible with K8s/KNE as well as Docker for Hybrid mode
+* [OpenConfig KNE](https://github.com/openconfig/kne) – Kubernetes Network Emulation, which is a Google initiative to develop tooling for quickly setting up topologies of containers running various device OSes.
 
 ## CI with Github Actions
 
@@ -59,6 +60,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`           | Containerlab    | yes |
 | [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`            | Ixia-c Operator | yes |
 | [B2B Ixia Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | KENG IxHW   | B2B  | `snappi` & `ondatra` | Compose         | no  |
+| [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | KENG PE+TE  | cEOS | `otgen`              | KNE             | no  |
 
 
 ## Lab Descriptions
@@ -105,4 +107,8 @@ An introduction to [OpenConfig](https://openconfig.net/) [FeatureProfiles](https
 
 ### [OTG with Ixia L23 Hardware: back-to-back setup](hw/ixhw-b2b)
 
- Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html), including an example of running [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites.
+Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html), including an example of running [OpenConfig](https://openconfig.net/) [FeatureProfiles](https://github.com/openconfig/featureprofiles) test suites.
+
+### [KNE Lab with BGP and traffic via Arista cEOSLab as a DUT](kne/bgp-ceos)
+
+Validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used with Ixia-c Traffic and Protocol Engine ports. To run the lab, [OpenConfig KNE](https://github.com/openconfig/kne) is used on top of a KIND cluster – K8s environment running inside a single Docker container.

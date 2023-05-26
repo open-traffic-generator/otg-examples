@@ -1,0 +1,71 @@
+name: "keng-ceos"
+nodes: {
+    name: "keng"
+    vendor: KEYSIGHT
+    version: "0.0.1-4064"
+    services: {
+        key: 8443
+        value: {
+            name: "https"
+            inside: 8443
+        }
+    }
+    services: {
+        key: 40051
+        value: {
+            name: "grpc"
+            inside: 40051
+        }
+    }
+    services: {
+        key: 50051
+        value: {
+            name: "gnmi"
+            inside: 50051
+        }
+    }
+}
+nodes: {
+    name: "r1"
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config: {
+        config_path: "/mnt/flash"
+        config_file: "startup-config"
+        file: "configs/r1-config"
+        cert: {
+            self_signed: {
+                cert_name: "gnmiCert.pem",
+                key_name: "gnmiCertKey.pem",
+                key_size: 4096,
+            }
+        }
+    }
+    services:{
+        key: 22
+        value: {
+            name: "ssh"
+            inside: 22
+        }
+    }
+    services:{
+        key: 6030
+        value: {
+            name: "gnmi"
+            inside: 6030
+        }
+    }
+}
+links: {
+    a_node: "keng"
+    a_int: "eth1"
+    z_node: "r1"
+    z_int: "eth1"
+}
+links: {
+    a_node: "keng"
+    a_int: "eth2"
+    z_node: "r1"
+    z_int: "eth2"
+}
