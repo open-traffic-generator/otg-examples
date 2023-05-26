@@ -28,17 +28,22 @@ The lab uses OTG configuration created by `otgen` with the following properties:
 
 ![OTG Diagram](./otg-diagram.png)
 
+## Prerequisites
+
+* Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
+* Arista cEOSLab Docker image. You can register on Arista support website as a Guest to download the image
+* Linux host or VM with sudo permissions and Docker support. See possible deployment options [here](#virtual-machine-setup-examples)
+
 ## Quick start
 
 1. Clone this repository
 
     ```Shell
-    git clone -b kne --depth 1 https://github.com/open-traffic-generator/otg-examples.git
+    git clone --depth 1 https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/kne/bgp-ceos
-    LABDIR=$PWD
     ```
 
-2. To run all the steps nessesary to prepare the KNE environment and start the lab, execute:
+2. To run all the steps necessary to prepare the KNE environment and start the lab, execute:
 
     ```Shell
     make prereqs deploy start
