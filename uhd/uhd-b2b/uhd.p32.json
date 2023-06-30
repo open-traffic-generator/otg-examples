@@ -1,0 +1,15 @@
+{
+    "ports": [
+      {
+        "port_number": 32,
+        "enabled": true,
+        "settings": {
+          "speed": "speed_10_gbps",
+          "fec_mode": "none",
+          "negotiation": {
+              "choice": "manual"
+          }
+        }
+      }
+    ]
+  }

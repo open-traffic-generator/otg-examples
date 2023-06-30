@@ -35,9 +35,24 @@ TODO
     cd otg-examples/uhd/uhd-b2b
     ```
 
-## Deploy Ixia-c lab
+## Deploy the lab
 
-1. Create virtual wiring interfaces for UHD front panel ports. In the example below, replace `eno2` with a name of the interface connected to UHD:
+1. Initialize `env:UHD_HOST` with IP address or hostname of the UHD device
+
+    ```Shell
+    UHD_HOST=ip_address_or_name
+    ```
+
+2. Configure UHD port 32 speed to match NIC speed of the server. In this example, we assume the port on the server has 10GE speed. Change in [uhd.p32.json](uhd.p32.json) if needed.
+
+    ```Shell
+    curl -sk "https://${UHD_HOST}/port/api/v1/config" \
+        -X PATCH \
+        -H "Content-Type: application/json" \
+        -d @uhd.p32.config
+    ```
+
+3. Create virtual wiring interfaces for UHD front panel ports. In the example below, replace `eno2` with a name of the interface connected to UHD:
 
     ```Shell
     # name of the interface directly connected to UHD
@@ -52,13 +67,13 @@ TODO
     sudo ip link set uhd.2 up
     ```
 
-2. Launch the deployment and adjust MTUs on the veth pair
+4. Launch the Keysight Elastic Network Generator instance:
 
     ```Shell
     docker-compose up -d
     ```
 
-3. Make sure you have all three containers running:
+5. Make sure you have all three containers running:
 
     ```Shell
     sudo docker ps
