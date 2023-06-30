@@ -41,9 +41,9 @@ flows:
       tx_name: p1
       rx_name: p2
 ports:
-- location: uhd://10.36.237.75:7531;1
+- location: uhd://${UHD_HOST}:7531;1
   name: p1
-- location: uhd://10.36.237.75:7531;2
+- location: uhd://${UHD_HOST}:7531;2
   name: p2
 layer1:
 - port_names:

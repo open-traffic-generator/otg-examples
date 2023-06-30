@@ -12,7 +12,6 @@ TODO
     ```Shell
     sudo usermod -aG docker $USER
     ```
-
 ## Install components
 
 1. Install `docker-compose`
@@ -28,7 +27,13 @@ TODO
     bash -c "$(curl -sL https://get.otgcdn.net/otgen)"
     ```
 
-3. Clone this repository
+3. `git` and `envsubst` commands (typically installed by default)
+
+    ```Shell
+    sudo apt install git gettext-base -y
+    ```
+
+4. Clone this repository
 
     ```Shell
     git clone --recursive --branch uhd400 https://github.com/open-traffic-generator/otg-examples.git
@@ -40,7 +45,7 @@ TODO
 1. Initialize `env:UHD_HOST` with IP address or hostname of the UHD device
 
     ```Shell
-    UHD_HOST=ip_address_or_name
+    export UHD_HOST=ip_address_or_name
     ```
 
 2. Configure UHD port 32 speed to match NIC speed of the server. In this example, we assume the port on the server has 10GE speed. Change in [uhd.p32.json](uhd.p32.json) if needed.
@@ -49,7 +54,7 @@ TODO
     curl -sk "https://${UHD_HOST}/port/api/v1/config" \
         -X PATCH \
         -H "Content-Type: application/json" \
-        -d @uhd.p32.config
+        -d @uhd.p32.json
     ```
 
 3. Create virtual wiring interfaces for UHD front panel ports. In the example below, replace `eno2` with a name of the interface connected to UHD:
@@ -84,31 +89,31 @@ TODO
 1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443
     ```
 
 2. You can now repeat this exercise, but transform output to a table
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
     ```
 
 3. The same, but with flow metrics
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow | otgen display -m table
     ```
 
 4. The same, but with byte instead of frame count (only receive stats are reported)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c bytes | otgen display -m table
     ```
 
 5. Now report packet per second rate, as a line chart (end with `Crtl-c`)
 
     ```Shell
-    cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
     ```
 
 ## Destroy the lab
