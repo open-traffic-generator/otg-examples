@@ -43,7 +43,7 @@ TODO
 
     ```Shell
     git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
-    cd otg-examples/uhd/b2b
+    cd otg-examples/uhd/uhd-b2b
     ```
 
 ## Deploy Ixia-c lab
@@ -66,7 +66,7 @@ TODO
 2. Launch the deployment and adjust MTUs on the veth pair
 
     ```Shell
-    sudo docker-compose up -d
+    sudo -E docker-compose up -d
     ```
 
 3. Make sure you have all three containers running:

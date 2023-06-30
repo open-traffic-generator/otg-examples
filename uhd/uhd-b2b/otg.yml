@@ -6,11 +6,11 @@ flows:
       gap: 12
       packets: 1000
   rate:
-    choice: pps
-    pps: 100
+    choice: percent
+    percent: 100
   size:
     choice: fixed
-    fixed: 512
+    fixed: 128
   metrics:
     enable: true
     loss: false
