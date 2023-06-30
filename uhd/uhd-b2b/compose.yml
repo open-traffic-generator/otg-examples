@@ -1,0 +1,8 @@
+services:
+  controller:
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
+    command: --accept-eula --http-port 8443
+    restart: always
+    ports:
+      - "8443:8443"
+      - "40051:40051"
