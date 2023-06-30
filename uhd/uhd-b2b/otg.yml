@@ -4,7 +4,7 @@ flows:
     choice: fixed_packets
     fixed_packets:
       gap: 12
-      packets: 1000
+      packets: 1000000000
   rate:
     choice: percentage
     percentage: 100
