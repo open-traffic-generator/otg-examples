@@ -1,12 +1,13 @@
-# Ixia-c traffic engine back-to-back setup with Docker Compose
+# Keysight UHD400T back-to-back setup
 
 ## Overview
 TODO
 
 ## Prerequisites
 
-* Linux host or VM with sudo permissions and Docker support
-* [Docker](https://docs.docker.com/engine/install/)
+* Keysight UHD400T Traffic Generator with ports 1 and 2 connected back-to-back
+* Linux server directly connected to UHD400T port 32 with Ethernet cable using NIC with 10GE or higher speed
+* [Docker](https://docs.docker.com/engine/install/). After installing, add yourself to `docker` group:
 
     ```Shell
     sudo usermod -aG docker $USER
@@ -27,31 +28,19 @@ TODO
     bash -c "$(curl -sL https://get.otgcdn.net/otgen)"
     ```
 
-3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
+3. Clone this repository
 
     ```Shell
-    cmd=docker-compose
-    dir=/usr/local/bin
-    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
-      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
-      PATH="/usr/local/bin:${PATH}"
-      echo $PATH
-    fi
-    ```
-
-4. Clone this repository
-
-    ```Shell
-    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive --branch uhd400 https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/uhd/uhd-b2b
     ```
 
 ## Deploy Ixia-c lab
 
-1. Create virtual wiring interfaces for UHD front panel ports
+1. Create virtual wiring interfaces for UHD front panel ports. In the example below, replace `eno2` with a name of the interface connected to UHD:
 
     ```Shell
-    # create subinterfaces for virtual wiring
+    # name of the interface directly connected to UHD
     TRUNK=eno2
     # uhd.1
     sudo ip link add link "$TRUNK" name uhd.1 type vlan id 136
@@ -66,7 +55,7 @@ TODO
 2. Launch the deployment and adjust MTUs on the veth pair
 
     ```Shell
-    sudo -E docker-compose up -d
+    docker-compose up -d
     ```
 
 3. Make sure you have all three containers running:
@@ -113,6 +102,7 @@ To destroy the lab, including veth pair, use:
 
 ```Shell
 docker-compose down
-sudo ip link del name veth0 type veth peer name veth1
+sudo ip link del name uhd.1
+sudo ip link del name uhd.2
 ```
 
