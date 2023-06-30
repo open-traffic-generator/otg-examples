@@ -6,8 +6,8 @@ flows:
       gap: 12
       packets: 1000
   rate:
-    choice: percent
-    percent: 100
+    choice: percentage
+    percentage: 100
   size:
     choice: fixed
     fixed: 128
