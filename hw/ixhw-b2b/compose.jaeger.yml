@@ -4,6 +4,9 @@ services:
   ixia-c-controller:
     image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
     restart: always
+    ports:
+      - "8443:8443"
+      - "40051:40051"
     depends_on:
       ixia-c-ixhw-server:
         condition: service_started
@@ -27,25 +30,22 @@ services:
       - "--trace"
       - "--log-level"
       - "trace"
+      - "--grpc-trace-collector"
+      - "jaeger:4317"
     logging:
       driver: "local"
       options:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
-  ixia-c-gnmi-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.16
+  jaeger:
+    image: jaegertracing/all-in-one:latest
     restart: always
-    depends_on:
-      ixia-c-controller:
-        condition: service_started
-    command:
-      - "-http-server"
-      - "https://ixia-c-controller:8443"
-      - "--debug"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
     logging:
       driver: "local"
       options:
-        max-size: "100m"
+        max-size: "250m"
         max-file: "10"
         mode: "non-blocking"

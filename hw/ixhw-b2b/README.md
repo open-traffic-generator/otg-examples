@@ -18,10 +18,13 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     multipass shell otg
     ```
 
-* [Docker](https://docs.docker.com/engine/install/)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+
+    Follow official instruction [here](https://docs.docker.com/engine/install/ubuntu/). 
+
+    After docker is installed, add current user to the docker group.
 
     ```Shell
-    sudo apt update && sudo apt install docker.io -y
     sudo usermod -aG docker $USER
     ```
 
@@ -44,32 +47,9 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Install components
 
-1. Install `docker-compose`
-
-    ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose && \
-    sudo chmod +x /usr/local/bin/docker-compose
-    ```
-
-2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
-
-    ```Shell
-    cmd=docker-compose
-    dir=/usr/local/bin
-    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
-      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
-      PATH="/usr/local/bin:${PATH}"
-      echo $PATH
-    fi
-    ```
-
-3. Clone this repository
-
-    ```Shell
     git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
-    ```
+    
 
 ## Diagnostics
 
@@ -88,7 +68,7 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker-compose up -d
+    sudo -E docker compose up -d
     ```
 
 2. To make sure all the containers are running, use
@@ -99,8 +79,8 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 
     the list of containers should include:
 
-    * `ixhw-b2b_ixia-c-controller_1`
-    * `ixhw-b2b_ixia-c-ixhw-server_1`
+    * `ixhw-b2b-ixia-c-controller-1`
+    * `ixhw-b2b-ixia-c-ixhw-server-1`
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
@@ -143,7 +123,7 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 To stop the deployment, run:
 
 ```Shell
-sudo docker-compose down
+sudo docker compose down
 ```
 
 # OpenConfig Feature Profiles B2B test
@@ -153,7 +133,7 @@ sudo docker-compose down
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker-compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
+    sudo -E docker compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
 2. To make sure all the containers are running, use
@@ -164,9 +144,9 @@ sudo docker-compose down
 
     the list of containers should include:
 
-    * `ixhw-b2b_ixia-c-controller_1`
-    * `ixhw-b2b_ixia-c-ixhw-server_1`
-    * `ixhw-b2b_ixia-c-gnmi-server_1`
+    * `ixhw-b2b-ixia-c-controller-1`
+    * `ixhw-b2b-ixia-c-ixhw-server-1`
+    * `ixhw-b2b-ixia-c-gnmi-server-1`
 
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
@@ -213,7 +193,7 @@ If you need to support multiple concurrent seats (simultaneous tests) on the sam
 1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
 
     ```Shell
-    sudo -E docker-compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
+    sudo -E docker compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
     ```
 
 2. Now create a second ONDATRA binding file, for example `otgb2b.binding2`:
@@ -233,6 +213,6 @@ Now you're ready to run the two parallel tests via the same VM using two differe
 To stop the deployment, run:
 
 ```Shell
-sudo docker-compose -p keng1 --file fp.compose.yml down
-sudo docker-compose -p keng2 --file fp.compose.yml down
+sudo docker compose -p keng1 --file fp.compose.yml down
+sudo docker compose -p keng2 --file fp.compose.yml down
 ```
