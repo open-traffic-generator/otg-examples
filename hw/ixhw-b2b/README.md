@@ -70,13 +70,13 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker compose up -d
+    docker compose up -d
     ```
 
 2. To make sure all the containers are running, use
 
     ```Shell
-    sudo docker ps
+    docker ps
     ```
 
     the list of containers should include:
@@ -125,7 +125,7 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 To stop the deployment, run:
 
 ```Shell
-sudo docker compose down
+docker compose down
 ```
 
 # OpenConfig Feature Profiles B2B test
@@ -135,13 +135,13 @@ sudo docker compose down
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
+    docker compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
 2. To make sure all the containers are running, use
 
     ```Shell
-    sudo docker ps
+    docker ps
     ```
 
     the list of containers should include:
@@ -195,7 +195,7 @@ If you need to support multiple concurrent seats (simultaneous tests) on the sam
 1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
 
     ```Shell
-    sudo -E docker compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
+    docker compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
     ```
 
 2. Now create a second ONDATRA binding file, for example `otgb2b.binding2`:
@@ -215,8 +215,8 @@ Now you're ready to run the two parallel tests via the same VM using two differe
 To stop the deployment, run:
 
 ```Shell
-sudo docker compose -p keng1 --file fp.compose.yml down
-sudo docker compose -p keng2 --file fp.compose.yml down
+docker compose -p keng1 --file fp.compose.yml down
+docker compose -p keng2 --file fp.compose.yml down
 ```
 
 ## Notable changes
