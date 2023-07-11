@@ -18,9 +18,11 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     multipass shell otg
     ```
 
-* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/). Follow official instruction for
 
-    Follow official instruction [here](https://docs.docker.com/engine/install/ubuntu/). 
+    - [Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+    - [Debian](https://docs.docker.com/engine/install/debian/)
+    - [CentOS](https://docs.docker.com/engine/install/centos/)
 
     After docker is installed, add current user to the docker group.
 
@@ -49,7 +51,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
     git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
-    
+
 
 ## Diagnostics
 
@@ -216,3 +218,7 @@ To stop the deployment, run:
 sudo docker compose -p keng1 --file fp.compose.yml down
 sudo docker compose -p keng2 --file fp.compose.yml down
 ```
+
+## Notable changes
+
+This example was updated to use built-in `docker compose` utility instead of standalone but outdated `docker-compose`. As far as we tested, both worked with this example at the time of the change on July 11, 2023. Moving forward, only compatibility with `docker compose` will be tested.
