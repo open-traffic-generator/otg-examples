@@ -9,7 +9,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 * Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 
-* Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 or higher
+* Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 Patch 4 or higher. **NOTE:** Currently, only Linux-based IxOS platforms are tested with KENG.
 
 * Linux host or VM with sudo permissions and Docker support. Here is an example of deploying an Ubuntu VM `otg` using [multipass](https://multipass.run/):
 
@@ -18,10 +18,15 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     multipass shell otg
     ```
 
-* [Docker](https://docs.docker.com/engine/install/)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/). Follow official instruction for
+
+    - [Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+    - [Debian](https://docs.docker.com/engine/install/debian/)
+    - [CentOS](https://docs.docker.com/engine/install/centos/)
+
+    After docker is installed, add current user to the docker group.
 
     ```Shell
-    sudo apt update && sudo apt install docker.io -y
     sudo usermod -aG docker $USER
     ```
 
@@ -44,32 +49,9 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Install components
 
-1. Install `docker-compose`
-
-    ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose && \
-    sudo chmod +x /usr/local/bin/docker-compose
-    ```
-
-2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
-
-    ```Shell
-    cmd=docker-compose
-    dir=/usr/local/bin
-    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
-      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
-      PATH="/usr/local/bin:${PATH}"
-      echo $PATH
-    fi
-    ```
-
-3. Clone this repository
-
-    ```Shell
     git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
-    ```
+
 
 ## Diagnostics
 
@@ -88,19 +70,19 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker-compose up -d
+    docker compose up -d
     ```
 
 2. To make sure all the containers are running, use
 
     ```Shell
-    sudo docker ps
+    docker ps
     ```
 
     the list of containers should include:
 
-    * `ixhw-b2b_ixia-c-controller_1`
-    * `ixhw-b2b_ixia-c-ixhw-server_1`
+    * `ixhw-b2b-ixia-c-controller-1`
+    * `ixhw-b2b-ixia-c-ixhw-server-1`
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
@@ -143,7 +125,7 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 To stop the deployment, run:
 
 ```Shell
-sudo docker-compose down
+docker compose down
 ```
 
 # OpenConfig Feature Profiles B2B test
@@ -153,20 +135,20 @@ sudo docker-compose down
 1. Launch the deployment
 
     ```Shell
-    sudo -E docker-compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
+    docker compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
 2. To make sure all the containers are running, use
 
     ```Shell
-    sudo docker ps
+    docker ps
     ```
 
     the list of containers should include:
 
-    * `ixhw-b2b_ixia-c-controller_1`
-    * `ixhw-b2b_ixia-c-ixhw-server_1`
-    * `ixhw-b2b_ixia-c-gnmi-server_1`
+    * `ixhw-b2b-ixia-c-controller-1`
+    * `ixhw-b2b-ixia-c-ixhw-server-1`
+    * `ixhw-b2b-ixia-c-gnmi-server-1`
 
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
@@ -213,7 +195,7 @@ If you need to support multiple concurrent seats (simultaneous tests) on the sam
 1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
 
     ```Shell
-    sudo -E docker-compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
+    docker compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
     ```
 
 2. Now create a second ONDATRA binding file, for example `otgb2b.binding2`:
@@ -233,6 +215,10 @@ Now you're ready to run the two parallel tests via the same VM using two differe
 To stop the deployment, run:
 
 ```Shell
-sudo docker-compose -p keng1 --file fp.compose.yml down
-sudo docker-compose -p keng2 --file fp.compose.yml down
+docker compose -p keng1 --file fp.compose.yml down
+docker compose -p keng2 --file fp.compose.yml down
 ```
+
+## Notable changes
+
+This example was updated to use built-in `docker compose` utility instead of standalone but outdated `docker-compose`. As far as we tested, both worked with this example at the time of the change on July 11, 2023. Moving forward, only compatibility with `docker compose` will be tested.

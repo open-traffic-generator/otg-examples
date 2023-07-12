@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4013
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
     restart: always
     ports:
       - "8443:8443"
@@ -15,19 +15,24 @@ services:
       - "--debug"
       - "--ixia-c-ixhw-server"
       - "ixia-c-ixhw-server:5001"
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        mode: "non-blocking"
   ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
+    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-2
     restart: always
     command:
       - "dotnet"
       - "otg-ixhw.dll"
       - "--trace"
       - "--log-level"
-      - "trace"
-      - "--grpc-trace-collector"
-      - "jaeger:4317"
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    restart: always
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
+      - "trace"      
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        mode: "non-blocking"

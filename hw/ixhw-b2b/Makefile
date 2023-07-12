@@ -14,19 +14,13 @@ clean-all: clean logs-clean install-clean
 ###############################
 
 .PHONY: install
-install: install-docker-compose install-otgen
-
-install-docker-compose: /usr/local/bin/docker-compose
-/usr/local/bin/docker-compose:
-	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
+install: install-otgen
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
 	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
 
 install-clean:
-	-sudo rm -f `command -v docker-compose`
 	-sudo rm -f `command -v otgen`
 
 ###############################
@@ -37,11 +31,11 @@ install-clean:
 deploy: deploy-lab
 
 deploy-lab:
-	sudo -E docker-compose up -d
+	sudo -E docker compose up -d
 	sleep 5
 
 remove-lab:
-	sudo docker-compose down
+	sudo docker compose down
 
 ###############################
 # Run tests

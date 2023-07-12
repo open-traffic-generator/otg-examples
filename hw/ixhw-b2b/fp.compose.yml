@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4013
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
     restart: always
     depends_on:
       ixia-c-ixhw-server:
@@ -12,8 +12,14 @@ services:
       - "--debug"
       - "--ixia-c-ixhw-server"
       - "ixia-c-ixhw-server:5001"
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        mode: "non-blocking"
   ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.8-8
+    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-2
     restart: always
     command:
       - "dotnet"
@@ -21,8 +27,14 @@ services:
       - "--trace"
       - "--log-level"
       - "trace"
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        mode: "non-blocking"
   ixia-c-gnmi-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.13
+    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.16
     restart: always
     depends_on:
       ixia-c-controller:
@@ -31,3 +43,9 @@ services:
       - "-http-server"
       - "https://ixia-c-controller:8443"
       - "--debug"
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        mode: "non-blocking"
