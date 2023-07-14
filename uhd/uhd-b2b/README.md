@@ -92,10 +92,10 @@ TODO
     cat otg.yml | envsubst | otgen run -k -a https://localhost:8443
     ```
 
-2. You can now repeat this exercise, but transform output to a table
+2. You can now repeat this exercise, but transform output to a table to show throughput in Gbps
 
     ```Shell
-    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port | otgen display -m table
+    cat otg.yml | envsubst | otgen run -k -a https://localhost:8443 | otgen transform -m port -c Gbps | otgen display -m table
     ```
 
 3. The same, but with flow metrics
