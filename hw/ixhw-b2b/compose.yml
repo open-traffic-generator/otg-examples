@@ -2,7 +2,7 @@ version: "2"
 
 services:
   ixia-c-controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
+    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4167
     restart: always
     ports:
       - "8443:8443"
@@ -22,14 +22,14 @@ services:
         max-file: "10"
         mode: "non-blocking"
   ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-2
+    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-13
     restart: always
     command:
       - "dotnet"
       - "otg-ixhw.dll"
       - "--trace"
       - "--log-level"
-      - "trace"      
+      - "trace"
     logging:
       driver: "local"
       options:
