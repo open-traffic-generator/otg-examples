@@ -2,6 +2,10 @@ services:
   ixia-c-controller:
     ports:
       - "40052:40051"
+  ixia-c-ixhw-server:
+    ports:
+      - "5002:5000"
+      - "5003:5001"
   ixia-c-gnmi-server:
     ports:
       - "50052:50051"
