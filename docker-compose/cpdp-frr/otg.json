@@ -156,7 +156,7 @@
               "choice":  "increment",
               "increment" : {
                 "start":  "198.51.100.1",
-                "count": "253",
+                "count": 253,
                 "step": "0.0.0.1"
               }
             },
@@ -164,7 +164,7 @@
               "choice":  "increment",
               "increment" : {
                 "start":  "203.0.113.1",
-                "count": "253",
+                "count": 253,
                 "step": "0.0.0.1"
               }
             }
