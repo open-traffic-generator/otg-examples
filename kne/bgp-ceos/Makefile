@@ -1,16 +1,16 @@
 SHELL = /bin/bash
 
-IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4064"
-IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.13"
+IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4306"
+IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.17"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35"
-IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.02.21.17"
+IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.318"
 
 cEOSLab = "ceos:latest"
 
-otgen_version = 0.5.0-rc1
+otgen_version = 0.5.1
 otgen_image = otgen:$(otgen_version)
 
-kne_version = v0.1.11
+kne_version = v0.1.14
 
 .PHONY: prereqs
 prereqs: install build pull
