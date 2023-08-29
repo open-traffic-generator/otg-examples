@@ -7,7 +7,7 @@ IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.
 
 cEOSLab = "ceos:latest"
 
-otgen_version = 0.5.1
+otgen_version = 0.5.2
 otgen_image = otgen:$(otgen_version)
 
 kne_version = v0.1.14
