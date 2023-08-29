@@ -39,7 +39,7 @@ The lab uses OTG configuration created by `otgen` with the following properties:
 1. Clone this repository
 
     ```Shell
-    git clone --depth 1 https://github.com/open-traffic-generator/otg-examples.git
+    git clone https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/kne/bgp-ceos
     ```
 
