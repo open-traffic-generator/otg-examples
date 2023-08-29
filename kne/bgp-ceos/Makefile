@@ -10,7 +10,7 @@ cEOSLab = "ceos:latest"
 otgen_version = 0.5.1
 otgen_image = otgen:$(otgen_version)
 
-kne_version = v0.1.11
+kne_version = v0.1.14
 
 .PHONY: prereqs
 prereqs: install build pull
