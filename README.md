@@ -112,3 +112,5 @@ Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Netwo
 ### [KNE Lab with BGP and traffic via Arista cEOSLab as a DUT](kne/bgp-ceos)
 
 Validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used with Ixia-c Traffic and Protocol Engine ports. To run the lab, [OpenConfig KNE](https://github.com/openconfig/kne) is used on top of a KIND cluster – K8s environment running inside a single Docker container.
+
+123
