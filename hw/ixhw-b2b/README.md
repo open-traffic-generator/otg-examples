@@ -49,7 +49,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Install components
 
-    git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
 
 
@@ -81,8 +81,8 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 
     the list of containers should include:
 
-    * `ixhw-b2b-ixia-c-controller-1`
-    * `ixhw-b2b-ixia-c-ixhw-server-1`
+    * `ixhw-b2b-controller-1`
+    * `ixhw-b2b-layer23-hw-server-1`
 
 3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 

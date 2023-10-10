@@ -140,7 +140,12 @@ def main():
     print(cfg)
 
     # push configuration to controller
-    api.set_config(cfg)
+    try:
+        api.set_config(cfg)
+    except Exception as e:
+        print("[ERROR] In response to OTG SetConfig")
+        print(e)
+        return 1
 
     # start transmitting configured flows
     ts = api.control_state()

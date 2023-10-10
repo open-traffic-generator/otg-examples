@@ -1,35 +1,35 @@
 version: "2"
 
 services:
-  ixia-c-controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
+  controller:
+    image: ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308
     restart: always
     ports:
       - "8443:8443"
       - "40051:40051"
     depends_on:
-      ixia-c-ixhw-server:
+      layer23-hw-server:
         condition: service_started
     command:
       - "--accept-eula"
       - "--debug"
-      - "--ixia-c-ixhw-server"
-      - "ixia-c-ixhw-server:5001"
+      - "--keng-layer23-hw-server"
+      - "layer23-hw-server:5001"
     logging:
       driver: "local"
       options:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
-  ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-2
+  layer23-hw-server:
+    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:0.12.5-1
     restart: always
     command:
       - "dotnet"
       - "otg-ixhw.dll"
       - "--trace"
       - "--log-level"
-      - "trace"      
+      - "trace"
     logging:
       driver: "local"
       options:
