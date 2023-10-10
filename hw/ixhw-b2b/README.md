@@ -67,9 +67,10 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment
+1. Launch the deployment with passing a hostname/IP address of the Keysight License Server as an environment variable `KENG_LICENSE_SERVERS`. Replace `license_server_name` with the actual hostname/IP address of your license server.
 
     ```Shell
+    export KENG_LICENSE_SERVERS="license_server_name"
     docker compose up -d
     ```
 
