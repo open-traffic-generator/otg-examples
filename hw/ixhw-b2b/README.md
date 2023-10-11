@@ -55,14 +55,19 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment with passing a hostname/IP address of the Keysight License Server as an environment variable `LICENSE_SERVERS`. Replace `license_server_name` with the actual hostname/IP address of your license server.
+1. Initialize an environment variable `LICENSE_SERVERS` with a hostname/IP address of the [Keysight License Server](../../KENG.md). Replace `license_server_name` with the actual hostname/IP address of your license server.
 
     ```Shell
     export LICENSE_SERVERS="license_server_name"
+    ```
+
+2. Launch the deployment
+
+    ```Shell
     docker compose up -d
     ```
 
-2. To make sure all the containers are running, use
+3. To make sure all the containers are running, use
 
     ```Shell
     docker ps
@@ -73,7 +78,7 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     * `ixhw-b2b-controller-1`
     * `ixhw-b2b-layer23-hw-server-1`
 
-3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
@@ -249,7 +254,3 @@ To collect diagnostics logs from all the components of the lab, run:
 It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
 
 > TIP. Use `make logs` if you have `make` on your system
-
-## Notable changes
-
-This example was updated to use built-in `docker compose` utility instead of standalone but outdated `docker-compose`. As far as we tested, both worked with this example at the time of the change on July 11, 2023. Moving forward, only compatibility with `docker compose` will be tested.
