@@ -18,7 +18,7 @@ install: install-otgen
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.1
 
 install-clean:
 	-sudo rm -f `command -v otgen`

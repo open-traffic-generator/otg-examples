@@ -11,7 +11,7 @@ services:
       layer23-hw-server:
         condition: service_started
     environment:
-      - LICENSE_SERVERS=${KENG_LICENSE_SERVERS}
+      - LICENSE_SERVERS=${LICENSE_SERVERS}
     command:
       - "--accept-eula"
       - "--debug"

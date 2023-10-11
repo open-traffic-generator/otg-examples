@@ -1,7 +1,7 @@
 # OTG with Ixia L23 Hardware: back-to-back setup
 
 ## Overview
-This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) `ixia-c-controller` that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `ixia-c-ixhw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
+This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) `keng-controller` that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `keng-layer23-hw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
 
 ![Diagram](./diagram.drawio.svg)
 
@@ -53,24 +53,12 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
     cd otg-examples/hw/ixhw-b2b
 
 
-## Diagnostics
-
-To collect diagnostics logs from all the components of the lab, run:
-
-```Shell
-../../utils/collect-ixia-c-hw-logs.sh
-```
-
-It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
-
-> TIP. Use `make logs` if you have `make` on your system
-
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment with passing a hostname/IP address of the Keysight License Server as an environment variable `KENG_LICENSE_SERVERS`. Replace `license_server_name` with the actual hostname/IP address of your license server.
+1. Launch the deployment with passing a hostname/IP address of the Keysight License Server as an environment variable `LICENSE_SERVERS`. Replace `license_server_name` with the actual hostname/IP address of your license server.
 
     ```Shell
-    export KENG_LICENSE_SERVERS="license_server_name"
+    export LICENSE_SERVERS="license_server_name"
     docker compose up -d
     ```
 
@@ -219,6 +207,18 @@ To stop the deployment, run:
 docker compose -p keng1 --file fp.compose.yml down
 docker compose -p keng2 --file fp.compose.yml down
 ```
+
+## Diagnostics
+
+To collect diagnostics logs from all the components of the lab, run:
+
+```Shell
+../../utils/collect-ixia-c-hw-logs.sh
+```
+
+It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
+
+> TIP. Use `make logs` if you have `make` on your system
 
 ## Notable changes
 

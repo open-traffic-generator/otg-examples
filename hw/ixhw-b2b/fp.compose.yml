@@ -1,25 +1,27 @@
 version: "2"
 
 services:
-  ixia-c-controller:
-    image: ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4139
+  controller:
+    image: ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308
     restart: always
     depends_on:
-      ixia-c-ixhw-server:
+      layer23-hw-server:
         condition: service_started
     command:
       - "--accept-eula"
       - "--debug"
-      - "--ixia-c-ixhw-server"
-      - "ixia-c-ixhw-server:5001"
+      - "--keng-layer23-hw-server"
+      - "layer23-hw-server:5001"
+    environment:
+      - LICENSE_SERVERS=${LICENSE_SERVERS}
     logging:
       driver: "local"
       options:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
-  ixia-c-ixhw-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-ixhw-server:0.11.10-2
+  layer23-hw-server:
+    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:0.12.5-1
     restart: always
     command:
       - "dotnet"
@@ -33,15 +35,15 @@ services:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
-  ixia-c-gnmi-server:
-    image: ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.16
+  gnmi-server:
+    image: ghcr.io/open-traffic-generator/otg-gnmi-server:1.12.8
     restart: always
     depends_on:
-      ixia-c-controller:
+      controller:
         condition: service_started
     command:
       - "-http-server"
-      - "https://ixia-c-controller:8443"
+      - "https://controller:8443"
       - "--debug"
     logging:
       driver: "local"
