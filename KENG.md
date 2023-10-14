@@ -33,7 +33,7 @@ Keysight uses a license server to manage floating or network shared licenses for
 
 In order to use capabilities of Elastic Network Generator that require a valid license, you need to deploy a Keysight License Server. The License Server is a virtual machine and it is distributed as OVA and QCOW2 images (you only need one of them depending on your hypervisor).
 
-* [QCOW2 image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-4.2.0-208.qcow2), ~6GB
+* [QCOW2 image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-4.2.0-208.2.qcow2), ~6GB
 
 To make a decision where to deploy the License Server VM, take into the account the following requirements:
 
@@ -52,6 +52,17 @@ Network connectivity requirements for the License Server VM
 Here is an example of how different components communicate with the License Server:
 
 ![License Server Connectivity](./images/license-server.drawio.svg)
+
+## Configuring a static IP address
+
+If your network doesn't provide DHCP, you can configure a static IP address for the License Server VM. Access the VM console and go through two-step login process:
+* first prompt: `console` (no password)
+* second promt: `admin`/`admin`. Run the following commands to configure a static IP address, where `x.x.x.x` is the IP address, `yy` is the prefix length, `z.z.z.z` is the default gateway, `a.a.a.a` and `b.b.b.b` are DNS servers:
+
+```Shell
+kcos networking ip set mgmt0 x.x.x.x/yy z.z.z.z
+kcos networking dns-servers add a.a.a.a b.b.b.b
+```
 
 ## License Activation
 
