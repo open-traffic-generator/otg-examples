@@ -14,7 +14,7 @@ The following License Editions are available for Keysight Elastic Network Genera
   | Works with UHD400T Hardware         |  N                   |  N                   |  Y                             | Y                                   |
   | Works with IxOS Hardware            |  N                   |  N                   |  N                             | Y                                   |
 
- The **Ixia-c Traffic Port Capacity** is determined as a sum of the configured Ixia-c test port speeds with the possible values of: 100GE, 50GE, 40GE, 25GE, 10GE, and 1GE. The Maximum data plane performance of an Ixia-c port may be less than the configured port speed, depending on the capabilities of the underlying hardware and software drivers.
+ The **Ixia-c Traffic Port Capacity** is determined as a sum of the configured Ixia-c software test port speeds with the possible values of: 100GE, 50GE, 40GE, 25GE, 10GE, and 1GE. The Maximum data plane performance of an Ixia-c port may be less than the configured port speed, depending on the capabilities of the underlying hardware and software drivers. Doesn't apply to the UHD400T and IxOS hardware.
 
  The **Test seat concurrency** applies to a number of controller instances that are running with a configuration that exceeds the capabilities of the Community Edition.
 
