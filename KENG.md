@@ -70,6 +70,8 @@ You will now be able to activate licenses and use the License Server on your Ela
 
 If you have an activation code, to perform an online activation, click "Activate Licenses", enter the code and click "Activate". For offline mode, choose "Offline Operations" instead.
 
+You can also use a command-line session, via console or SSH, to perform license operations. Run `kcos licensing --help` to see the list of available commands.
+
 ## Connecting Elastic Network Generator to the License Server
 
 To connect the Elastic Network Generator controller instance to the License Server, use `--license-servers="server1 server2 server3 server4"` argument when launching the controller. An alternative way is to use an environment variable `LICENSE_SERVERS`. The argument accepts a space-separated list of hostnames or IP addresses of the License Servers, up to four. The controller will try to connect to the License Servers in the order they are specified in the list. If the first License Server is not available, or doesn't have enough available licenses to run the test, the controller will try to connect to the next one in the list.
