@@ -33,13 +33,15 @@ Keysight uses a license server to manage floating or network shared licenses for
 
 In order to use capabilities of Elastic Network Generator that require a valid license, you need to deploy a Keysight License Server. The License Server is a virtual machine and it is distributed as OVA and QCOW2 images (you only need one of them depending on your hypervisor).
 
-* [QCOW2 image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-4.2.0-208.2.qcow2), ~6GB
+* [OVA image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-4.2.0-208.ova), 5.8GB
+* [QCOW2 image](https://storage.googleapis.com/kt-nas-images-cloud-ist/slum-4.2.0-208.2.qcow2), 6GB
 
 To make a decision where to deploy the License Server VM, take into the account the following requirements:
 
+* For VMware ESXi, use the OVA image
 * For Linux-based QEMU or KVM, use the QCOW2 image
 * 2 vCPU cores
-* 4GB of RAM
+* 8GB RAM for ESXi, 4GB RAM for QEMU/KVM
 * 100GB storage
 * 1 vNIC for network connectivity. Note that DHCP is the preferred option, and this is also how the VM is configured to obtain its IP address.
 
