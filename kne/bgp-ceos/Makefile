@@ -1,16 +1,16 @@
 SHELL = /bin/bash
 
-IxiaC_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4306"
-IxiaC_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.11.17"
-IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35"
-IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.318"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.12.8"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331"
 
 cEOSLab = "ceos:latest"
 
-otgen_version = 0.5.2
+otgen_version = 0.6.1
 otgen_image = otgen:$(otgen_version)
 
-kne_version = v0.1.14
+kne_version = v0.1.15
 
 .PHONY: prereqs
 prereqs: install build pull
@@ -84,31 +84,31 @@ clean-build:
 .PHONY: pull
 
 pull: pull-keng
-pull-keng: pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
+pull-keng: pull-keng-controller pull-otg-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
 clean-pull: remove-keng
-remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
+remove-keng: remove-keng-controller remove-otg-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
-pull-ixia-c-controller:
-ifeq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	-docker pull $(IxiaC_Controller)
-	docker tag $(IxiaC_Controller) ixia-c-controller:latest
+pull-keng-controller:
+ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
+	-docker pull $(KENG_Controller)
+	docker tag $(KENG_Controller) keng-controller:latest
 endif
 
-remove-ixia-c-controller:
-ifneq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	docker rmi `docker images -q ixia-c-controller:latest 2> /dev/null` --force
+remove-keng-controller:
+ifneq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
+	docker rmi `docker images -q keng-controller:latest 2> /dev/null` --force
 endif
 
-pull-ixia-c-gnmi-server:
-ifeq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	-docker pull $(IxiaC_gNMI)
-	docker tag $(IxiaC_gNMI) ixia-c-gnmi-server:latest
+pull-otg-gnmi-server:
+ifeq ($(shell sudo docker images -q otg-gnmi-server:latest 2> /dev/null),)
+	-docker pull $(OTG_gNMI)
+	docker tag $(OTG_gNMI) otg-gnmi-server:latest
 endif
 
-remove-ixia-c-gnmi-server:
-ifneq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	docker rmi `docker images -q ixia-c-gnmi-server:latest 2> /dev/null` --force
+remove-otg-gnmi-server:
+ifneq ($(shell sudo docker images -q otg-gnmi-server:latest 2> /dev/null),)
+	docker rmi `docker images -q otg-gnmi-server:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-traffic-engine:
@@ -145,8 +145,8 @@ deploy-cluster:
 	kne deploy kind-bridge.yaml
 
 load-images:
-	kind load docker-image $(IxiaC_Controller) --name=kne
-	kind load docker-image $(IxiaC_gNMI) --name=kne
+	kind load docker-image $(KENG_Controller) --name=kne
+	kind load docker-image $(OTG_gNMI) --name=kne
 	kind load docker-image $(IxiaC_TE) --name=kne
 	kind load docker-image $(IxiaC_PE) --name=kne
 	kind load docker-image $(cEOSLab) --name=kne

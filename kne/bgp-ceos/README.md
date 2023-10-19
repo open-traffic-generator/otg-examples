@@ -16,7 +16,7 @@ OTG test logic is executed using `otgen` CLI client running in a dedicated K8s P
 
 ### Diagram
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ### Layer 3 topology and generated traffic flows
 
