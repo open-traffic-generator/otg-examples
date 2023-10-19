@@ -142,7 +142,10 @@ deploy: deploy-cluster load-images
 undeploy: remove-cluster
 
 deploy-cluster:
-	kne deploy kind-bridge.yaml
+	kne deploy ./kne/manifests/kind/kind-bridge.yaml
+	kubectl apply -f ./manifests/keysight/ixiatg-operator.yaml
+	kubectl apply -f ./manifests/keysight/ixiatg-configmap.yaml
+	kubectl apply -f ./kne/manifests/controllers/ceoslab/manifest.yaml
 
 load-images:
 	kind load docker-image $(KENG_Controller) --name=kne
