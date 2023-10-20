@@ -19,17 +19,17 @@ Each method has its own benefits. With `curl`, you can try each individual OTG A
 
 ### Diagram
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ### Layer 3 topology and generated traffic flows
 
-![IP Diagram](./ip-diagram.png)
+![IP Diagram](./ip-diagram.drawio.svg)
 
 ### OTG
 
 The lab uses [`otg.json`](otg.json) configuration file with the following properties:
 
-![OTG Diagram](./otg-diagram.png)
+![OTG Diagram](./otg-diagram.drawio.svg)
 
 To request KENG to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
 
@@ -153,13 +153,13 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 2. Make sure you have all five containers running. The result should look like this
 
     ```Shell
-    CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
-    22c439d4f632   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_1_1
-    3d4bc47b027d   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_2_1
-    11314fa39cd1   frrouting/frr:v8.2.2                                                        "/sbin/tini -- /usr/…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_frr_1
-    4ede5943c0b5   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3587        "./bin/controller --…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_controller_1
-    3e31f665741c   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19               "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-frr_traffic_engine_2_1
-    b0dcff8f14be   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19               "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-frr_traffic_engine_1_1
+    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
+    262ed53e6489   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_2_1
+    c00b4bc4d9bc   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_1_1
+    ed310302006e   quay.io/frrouting/frr:8.4.2                                        "/sbin/tini -- /usr/…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_frr_1
+    b545043f91f9   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-frr_traffic_engine_1_1
+    dc588a64d57d   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-frr_traffic_engine_2_1
+    f7ab7ffe3179   ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308          "./bin/controller --…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_controller_1
     ```
 
 3. Interconnect traffic engine containers via a veth pair
