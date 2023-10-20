@@ -201,9 +201,9 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 2. Start protocols
 
     ```Shell
-    curl -k "${OTG_HOST}/control/protocols" \
+    curl -k "${OTG_HOST}/control/state" \
         -H  "Content-Type: application/json" \
-        -d '{"state": "start"}'
+        -d '{"choice": "protocol","protocol": {"choice": "all","all": {"state": "start"}}}'
     ```
 
 3. Fetch ARP table
@@ -236,9 +236,9 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 6. Start transmitting flows
 
     ```Shell
-    curl -sk "${OTG_HOST}/control/transmit" \
+    curl -sk "${OTG_HOST}/control/state" \
         -H  "Content-Type: application/json" \
-        -d '{"state": "start"}'
+        -d '{"choice": "traffic", "traffic": {"choice": "flow_transmit", "flow_transmit": {"state": "start"}}}'
     ```
 
 7. Fetch flow metrics (stop with `Ctrl-c`)

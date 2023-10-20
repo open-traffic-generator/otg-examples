@@ -98,9 +98,9 @@ otg-start-protocols:
 	@echo "############################################"
 	@echo "# Start protocols"
 	@echo
-	curl -sk "$(OTG_HOST)/control/protocols" \
+	curl -sk "$(OTG_HOST)/control/state" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}' | tee curl.out
+		-d '{"choice": "protocol","protocol": {"choice": "all","all": {"state": "start"}}}' | tee curl.out
 	@echo
 	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
@@ -128,18 +128,18 @@ otg-fetch-bgp:
 	@echo
 	cat curl.out | jq -e "if (.bgpv4_metrics | length) == 2 and \
 		.bgpv4_metrics[0].session_state == \"up\" and \
-		.bgpv4_metrics[0].routes_received == 2 and \
+		.bgpv4_metrics[0].routes_received == \"2\" and \
 		.bgpv4_metrics[1].session_state == \"up\" and \
-		.bgpv4_metrics[1].routes_received == 2 \
+		.bgpv4_metrics[1].routes_received == \"2\" \
 		then true else false end"
 
 otg-trasmit:
 	@echo "############################################"
 	@echo "# Start transmitting flows"
 	@echo
-	curl -sk "$(OTG_HOST)/control/transmit" \
+	curl -sk "$(OTG_HOST)/control/state" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}' | tee curl.out
+		-d '{"choice": "traffic", "traffic": {"choice": "flow_transmit", "flow_transmit": {"state": "start"}}}' | tee curl.out
 	@echo
 	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
