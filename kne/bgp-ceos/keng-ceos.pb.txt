@@ -2,7 +2,7 @@ name: "keng-ceos"
 nodes: {
     name: "keng"
     vendor: KEYSIGHT
-    version: "0.0.1-5308"
+    version: "v0.1"
     services: {
         key: 8443
         value: {
