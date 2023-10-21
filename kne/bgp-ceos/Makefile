@@ -1,16 +1,18 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308"
-OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.12.8"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-3"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.13.0"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
-IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337"
 
 cEOSLab = "ceos:latest"
 
 otgen_version = 0.6.1
 otgen_image = otgen:$(otgen_version)
 
-kne_version = v0.1.15
+#kne_repo = "https://github.com/openconfig/kne.git"
+kne_repo = "https://github.com/open-traffic-generator/kne.git"
+kne_version = "dev-keng-operator"
 
 .PHONY: prereqs
 prereqs: install build pull
@@ -43,7 +45,7 @@ install-kubectl: /usr/local/bin/kubectl
 
 install-kind: /usr/local/bin/kind
 /usr/local/bin/kind:
-	go install sigs.k8s.io/kind@v0.17.0
+	go install sigs.k8s.io/kind@v0.19.0
 	sudo install -o root -g root -m 0755 $(HOME)/go/bin/kind /usr/local/bin/kind
 
 uninstall:
@@ -62,7 +64,7 @@ build: build-kne build-otgen
 
 build-kne: /usr/local/bin/kne
 /usr/local/bin/kne:
-	git clone --depth 1 --branch $(kne_version) https://github.com/openconfig/kne.git
+	git clone --branch $(kne_version) $(kne_repo)
 	cd kne && make build
 	sudo install -o root -g root -m 0755 kne/kne /usr/local/bin/kne
 
@@ -142,7 +144,7 @@ deploy: deploy-cluster load-images
 undeploy: remove-cluster
 
 deploy-cluster:
-	kne deploy kind-bridge.yaml
+	kne deploy kne/deploy/kne/kind-bridge.yaml
 
 load-images:
 	kind load docker-image $(KENG_Controller) --name=kne
