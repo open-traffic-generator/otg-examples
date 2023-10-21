@@ -33,9 +33,12 @@ clean-all: clean clean-pull clean-build uninstall
 .PHONY: install
 install: install-go install-kubectl install-kind
 
-install-go: /snap/bin/go
-/snap/bin/go:
-	sudo snap install go --classic
+install-go: /usr/local/go/bin/go
+/usr/local/go/bin/go:
+	curl -sLO https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
+	sudo tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz
+	sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
+	rm go1.21.3.linux-amd64.tar.gz
 
 install-kubectl: /usr/local/bin/kubectl
 /usr/local/bin/kubectl:
@@ -52,7 +55,7 @@ uninstall:
 	-sudo rm -f `command -v kind`
 	-sudo rm -f `command -v kubectl`
 	-sudo apt remove docker.io
-	-sudo snap remove go
+	-sudo rm -rf /usr/local/go
 
 ###############################
 # Build components
@@ -64,6 +67,7 @@ build: build-kne build-otgen
 
 build-kne: /usr/local/bin/kne
 /usr/local/bin/kne:
+	rm -rf ./kne
 	git clone --branch $(kne_version) $(kne_repo)
 	cd kne && make build
 	sudo install -o root -g root -m 0755 kne/kne /usr/local/bin/kne

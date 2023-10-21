@@ -32,7 +32,11 @@ The lab uses OTG configuration created by `otgen` with the following properties:
 
 * Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 * Arista cEOSLab Docker image. You can register on Arista support website as a Guest to download the image
-* Linux host or VM with sudo permissions and Docker support. See possible deployment options [here](#virtual-machine-setup-examples)
+* Linux host or VM with sudo permissions. See possible deployment options [here](#virtual-machine-setup-examples)
+    * `build-essential` package
+    * `curl` utility
+    * `git` utility
+    * Docker
 
 ## Quick start
 
@@ -102,7 +106,7 @@ multipass launch 20.04 -n knevm -c8 -m16G -d64G
 multipass shell knevm
 sudo apt update && sudo apt upgrade -y
 sudo apt install build-essential -y
-sudo apt install docker.io -y
+sudo apt install docker.io curl git -y
 sudo usermod -aG docker $USER
 logout
 ```
