@@ -22,7 +22,7 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
 2. Install `otgen`
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
     ```
 
 3. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)

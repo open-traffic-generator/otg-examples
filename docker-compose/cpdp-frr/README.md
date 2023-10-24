@@ -116,10 +116,10 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
     bash -c "$(curl -sL https://get.containerlab.dev)"
     ```
 
-3. Install `otgen` tool, version `0.6.1` or later.
+3. Install `otgen` tool, version `0.6.2` or later.
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.1
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
     ```
 
 4. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)

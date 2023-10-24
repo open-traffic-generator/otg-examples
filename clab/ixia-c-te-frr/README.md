@@ -40,7 +40,7 @@ Otherwise, follow step-by-step instructions below.
 * [otgen](https://github.com/open-traffic-generator/otgen)
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
     ```
 
 * Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)

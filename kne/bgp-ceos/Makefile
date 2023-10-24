@@ -7,7 +7,7 @@ IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337"
 
 cEOSLab = "ceos:latest"
 
-otgen_version = 0.6.1
+otgen_version = 0.6.2
 otgen_image = otgen:$(otgen_version)
 
 #kne_repo = "https://github.com/openconfig/kne.git"
