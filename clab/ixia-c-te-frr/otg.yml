@@ -53,7 +53,8 @@ flows:
     choice: port
     port:
       tx_name: p1
-      rx_name: p2
+      rx_names:
+        - p2
 - name: p2>p1
   duration:
     choice: fixed_packets
@@ -108,7 +109,8 @@ flows:
     choice: port
     port:
       tx_name: p2
-      rx_name: p1
+      rx_names:
+        - p1
 ports:
 - location: te1:5555
   name: p1

@@ -87,7 +87,7 @@ otg-set-config:
 	@echo "############################################"
 	@echo "# Apply OTG configuration"
 	@echo
-	sleep 5 # pause for ixia-c-controller to detect newly created interfaces
+	sleep 5 # pause for keng-controller to detect newly created interfaces
 	curl -sk "$(OTG_HOST)/config" \
 		-H "Content-Type: application/json" \
 		-d @otg.json | tee curl.out

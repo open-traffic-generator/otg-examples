@@ -5,7 +5,7 @@ In this setup, we demonstrate how to deploy Ixia-c Traffic Engine nodes in Conta
 
 ### Diagram
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ### Layer 3 topology and generated traffic flows
 
