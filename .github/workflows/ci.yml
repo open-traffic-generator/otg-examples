@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "**" ]
+    branches: [ "main" ]
     paths:
       - 'docker-compose/b2b/**'
       - '!docker-compose/b2b/**.md'

@@ -2,7 +2,7 @@ version: "2"
 
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308
+    image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
     restart: always
     ports:
       - "8443:8443"
@@ -24,7 +24,7 @@ services:
         max-file: "10"
         mode: "non-blocking"
   layer23-hw-server:
-    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:0.12.5-1
+    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:0.13.0-2
     restart: always
     command:
       - "dotnet"
