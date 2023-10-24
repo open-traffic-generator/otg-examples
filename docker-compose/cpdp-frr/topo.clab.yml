@@ -3,7 +3,7 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/keng-controller:0.0.1-5308
+      image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
       network-mode: host
       cmd: --accept-eula --http-port 8443
       ports:
@@ -22,7 +22,7 @@ topology:
         WAIT_FOR_IFACE: Yes
     pe1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337
       network-mode: container:te1
       startup-delay: 5
       env:
@@ -48,7 +48,7 @@ topology:
         WAIT_FOR_IFACE: Yes
     pe2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.331
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337
       network-mode: container:te2
       startup-delay: 5
       env:
