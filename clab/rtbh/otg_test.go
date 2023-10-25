@@ -168,7 +168,7 @@ func runTraffic(api gosnappi.GosnappiApi, config gosnappi.Config, t *testing.T) 
 				flowMetricsMutex.Lock()
 				for _, fm := range flowMetrics.FlowMetrics().Items() {
 					if fm.Name() == f.Name() {
-						bar.IncrInt64(fm.FramesRx() - bar.Current())
+						bar.IncrInt64(int64(fm.FramesRx()) - bar.Current())
 						checkOTGError(api, err, t)
 						checkResponse(api, res)
 						if fm.Transmit() == gosnappi.FlowMetricTransmit.STOPPED {
@@ -206,8 +206,8 @@ func updateConfigFlows(config gosnappi.Config, profiles flowProfiles) gosnappi.C
 	for _, f := range config.Flows().Items() {
 		p, isProfileExist := profiles[f.Name()]
 		if isProfileExist {
-			count := p.pktCount
-			pps := p.ratePPS
+			count := uint32(p.pktCount)
+			pps := uint64(p.ratePPS)
 			if count > 0 { // if provided via profile, otherwise use value from the imported OTG config
 				f.Duration().FixedPackets().SetPackets(count)
 			}
@@ -235,7 +235,7 @@ func calculateTrafficETA(config gosnappi.Config) time.Duration {
 		ratePPSFlow := f.Rate().Pps()
 		// Calculate ETA it will take to transmit the flow
 		if ratePPSFlow > 0 {
-			flowETA = time.Duration(float64(int64(pktCountFlow)/ratePPSFlow)) * time.Second
+			flowETA = time.Duration(float64(uint64(pktCountFlow)/ratePPSFlow)) * time.Second
 		}
 		if flowETA > trafficETA {
 			trafficETA = flowETA // The longest flow to finish

@@ -49,7 +49,8 @@ flows:
   tx_rx:
     choice: port
     port:
-      rx_name: p2
+      rx_names:
+        - p2
       tx_name: p1
 - name: Attackers-2-Victim
   duration:
@@ -101,7 +102,8 @@ flows:
   tx_rx:
     choice: port
     port:
-      rx_name: p2
+      rx_names:
+        - p2
       tx_name: p1
 - name: Users-2-Bystander
   duration:
@@ -153,7 +155,8 @@ flows:
   tx_rx:
     choice: port
     port:
-      rx_name: p2
+      rx_names:
+        - p2
       tx_name: p1
 ports:
 - location: eth1
