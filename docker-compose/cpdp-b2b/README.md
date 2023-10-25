@@ -45,19 +45,19 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-b2b
-    sudo -E docker-compose up -d 
+    sudo -E docker-compose up -d
     sudo docker ps
     ```
 
 2. Make sure you have all five containers running. The result should look like this
-  
+
     ```Shell
-    CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED          STATUS         PORTS                                                                                      NAMES
-    4a9d84784c46   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   8 seconds ago    Up 7 seconds                                                                                              cpdp-b2b_protocol_engine_1_1
-    13119efaea26   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.205   "/docker_im/opt/Ixia…"   8 seconds ago    Up 7 seconds                                                                                              cpdp-b2b_protocol_engine_2_1
-    0bf9781a133a   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        11 seconds ago   Up 8 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
-    1604ef2956ab   ixiacom/ixia-c-traffic-engine:1.4.1.29                                      "./entrypoint.sh"        11 seconds ago   Up 8 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
-    45798f6d3c59   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3002        "./bin/controller --…"   11 seconds ago   Up 9 seconds                                                                                              cpdp-b2b_controller_1
+    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS                                                                                      NAMES
+    dab2f9d29434   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   4 seconds ago   Up 3 seconds                                                                                              cpdp-b2b_protocol_engine_2_1
+    8873ac870684   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   4 seconds ago   Up 3 seconds                                                                                              cpdp-b2b_protocol_engine_1_1
+    233b263b4326   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
+    4ae7a8fb0db6   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
+    d9d546ef3b89   ghcr.io/open-traffic-generator/keng-controller:0.1.0-3             "./bin/controller --…"   4 seconds ago   Up 4 seconds                                                                                              cpdp-b2b_controller_1
     ```
 
 3. Interconnect traffic engine containers via a veth pair

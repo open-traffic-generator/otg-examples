@@ -1,7 +1,7 @@
 # KENG three back-to-back pairs setup with Docker Compose
 
 ## Overview
-This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Free version](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/faq.md#Ixia-c-free-version) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c – [Keysight Elastic Traffic Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) - should be used. In this setup, we're using an evaluation copy of the Keysight Elastic Traffic Generator controller. Read more about access to the evaluation copy in [KENG.md](/KENG.md).
+This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Community Edition](../../KENG.md) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c should be used. In this example, the testbed has 3 pairs of Ixia-c ports, and thus requires a valid license to work.
 
 ![Diagram](./diagram.png)
 
@@ -89,46 +89,28 @@ This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setu
     The result should look like this
 
     ```Shell
-    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS     NAMES
-    6f3b3f0f4104   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_1_1
-    2815f742922a   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 6 seconds             b2b_traffic_engine_6_1
-    7bafb0bc3bbc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_3_1
-    e205740a0f0d   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_4_1
-    539f386b5e7e   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_5_1
-    2ec23b5623dc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.9       "./entrypoint.sh"        7 seconds ago   Up 5 seconds             b2b_traffic_engine_2_1
-    16cfd8d59224   ghcr.io/open-traffic-generator/keng-commercial-sep-30:0.0.1-3113   "./bin/controller --…"   7 seconds ago   Up 5 seconds             b2b_controller_1
+    CONTAINER ID   IMAGE                                                           COMMAND                  CREATED         STATUS         PORTS     NAMES
+    c28385dc0225   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_1_1
+    5c46871913bb   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_4_1
+    c22280a15ae5   ghcr.io/open-traffic-generator/keng-controller:0.1.0-3          "./bin/controller --…"   3 seconds ago   Up 2 seconds             b2b-3pair_controller_1
+    0297de3fbe49   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_2_1
+    bc533d7cc650   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_3_1
+    412896aca3a8   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_5_1
+    1f82918b1f13   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85   "./entrypoint.sh"        3 seconds ago   Up 2 seconds             b2b-3pair_traffic_engine_6_1
     ```
 
 ## Run OTG traffic flows
 
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.3pairs.yml`. If successful, the result will come as OTG port metrics in JSON format
+1. Start with running traffic flows only between two pairs of ports using `otg.2pairs.yml` configuration. This is within the limits of Community Edition and should work:
 
     ```Shell
-    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml
+    otgen run -k -f otg.2pairs.yml -m flow | otgen transform -m flow | otgen display -m table
     ```
 
-2. You can now repeat this exercise, but transform output to a table
+2. Now run traffic flows defined in `otg.3pairs.yml`, which has 6 ports in total. Without a license, the following error message will be returned: `ERRO[0000] the configuration has 6 port(s) of type Ixia-c, maximum 4 ports of type Ixia-c is supported in community edition`
 
     ```Shell
-    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
-    ```
-
-3. The same, but with flow metrics
-
-    ```Shell
-    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow | otgen display -m table
-    ```
-
-4. The same, but with byte instead of frame count (only receive stats are reported)
-
-    ```Shell
-    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
-    ```
-
-5. Now report packet per second rate, as a line chart (end with `Ctrl-c`)
-
-    ```Shell
-    otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    otgen run -k -f otg.3pairs.yml | otgen transform -m flow | otgen display -m table
     ```
 
 ## Destroy the lab

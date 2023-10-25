@@ -20,7 +20,7 @@ install-docker-compose: /usr/local/bin/docker-compose
 /usr/local/bin/docker-compose:
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
-	
+
 install-clean:
 	-sudo rm -f `command -v docker-compose`
 
@@ -33,7 +33,7 @@ pull: pull-public pull-private
 
 pull-public:
 	sudo -E docker-compose pull traffic_engine_1
-	
+
 pull-private:
 	sudo -E docker-compose pull controller protocol_engine_1
 
@@ -48,7 +48,7 @@ deploy-lab:
 	sudo -E docker-compose up -d
 
 deploy-net:
-	sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
+	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
 
 remove-lab:
 	sudo docker-compose down
@@ -60,7 +60,7 @@ remove-lab:
 .PHONY: run
 run: prerun gotest-run
 
-# pause for ixia-c-controller to detect newly created interfaces
+# pause for keng-controller to detect newly created interfaces
 prerun:
 	sleep 3
 	sudo docker ps

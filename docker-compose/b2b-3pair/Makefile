@@ -107,16 +107,10 @@ veth4-clean:
 ###############################
 
 .PHONY: run
-run: otgen-run-display-table-port otgen-run-display-table-port otgen-run-display-table-flow-bytes
+run: otgen-run-2pairs otgen-run-3pairs
 
-otgen-run:
-	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml
+otgen-run-2pairs:
+	otgen run -k -f otg.2pairs.yml -m flow | otgen transform -m flow | otgen display -m table
 
-otgen-run-display-table-port:
-	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m port | otgen display -m table
-
-otgen-run-display-table-flow:
-	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml | otgen transform -m flow | otgen display -m table
-
-otgen-run-display-table-flow-bytes:
-	otgen run -a https://localhost:8443 -k -f otg.3pairs.yml -m flow | otgen transform -m flow -c bytes | otgen display -m table
+otgen-run-3pairs:
+	otgen run -k -f otg.3pairs.yml -m flow && /bin/false || /bin/true
