@@ -34,25 +34,32 @@ def main():
     api = otg.OtgApi()
     c = ebgp_route_prefix_config(api, test_const)
 
+    print(f"Applying OTG configuration:\n{c}")
     api.set_config(c)
 
+    print("Starting protocols: ", end="")
     api.start_protocols()
 
     api.wait_for(
         fn=lambda: bgp_metrics_ok(api, test_const),
         fn_name="wait_for_bgp_metrics",
     )
+    print(" BGP is up. Waiting for BGP prefix propagation: ", end="")
 
     api.wait_for(
         fn=lambda: bgp_prefixes_ok(api, test_const),
         fn_name="wait_for_bgp_prefixes",
     )
+    print(" complete.")
 
+    print("Starting traffic. ", end="")
     api.start_transmit()
 
+    print("Traffic is running ", end="")
     api.wait_for(
         fn=lambda: flow_metrics_ok(api, test_const), fn_name="wait_for_flow_metrics"
     )
+    print(" Flows transmission is complete.")
 
 
 def ebgp_route_prefix_config(api, tc):
@@ -287,11 +294,13 @@ def bgp_metrics_ok(api, tc):
             or m.routes_advertised != 2 * tc["txRouteCount"]
             or m.routes_received != 2 * tc["rxRouteCount"]
         ):
+            print(".", end="", flush=True)
             return False
     return True
 
 
 def bgp_prefixes_ok(api, tc):
+    print(".", end="", flush=True)
     prefix_count = 0
     for m in api.get_bgp_prefixes():
         for p in m.ipv4_unicast_prefixes:
@@ -319,6 +328,7 @@ def flow_metrics_ok(api, tc):
             or m.frames_tx != tc["pktCount"]
             or m.frames_rx != tc["pktCount"]
         ):
+            print(".", end="", flush=True)
             return False
     return True
 
