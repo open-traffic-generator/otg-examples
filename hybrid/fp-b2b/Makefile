@@ -37,10 +37,10 @@ uninstall:
 
 .PHONY: pull
 
-pull: pull-keng
+pull: pull-keng pull-feature-profiles
 pull-keng: pull-keng-controller pull-otg-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-clean-pull: remove-keng
+clean-pull: remove-keng remove-feature-profiles
 remove-keng: remove-keng-controller remove-otg-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-operator:
