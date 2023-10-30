@@ -14,25 +14,6 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
 ## Install components
 
-1. Install `docker-compose`
-
-    ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    ```
-
-2. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
-
-    ```Shell
-    cmd=docker-compose
-    dir=/usr/local/bin
-    if ! command -v ${cmd} &> /dev/null && [ -x ${dir}/${cmd} ]; then
-      echo "${cmd} exists in ${dir} but not in the PATH, updating PATH to:"
-      PATH="/usr/local/bin:${PATH}"
-      echo $PATH
-    fi
-    ```
-
 1. Clone this repository
 
     ```Shell
@@ -45,50 +26,60 @@ This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md
 
     ```Shell
     cd otg-examples/docker-compose/cpdp-b2b
-    sudo -E docker-compose up -d
+    sudo docker compose up -d
     sudo docker ps
     ```
 
 2. Make sure you have all five containers running. The result should look like this
 
     ```Shell
-    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS                                                                                      NAMES
-    dab2f9d29434   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   4 seconds ago   Up 3 seconds                                                                                              cpdp-b2b_protocol_engine_2_1
-    8873ac870684   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   4 seconds ago   Up 3 seconds                                                                                              cpdp-b2b_protocol_engine_1_1
-    233b263b4326   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b_traffic_engine_1_1
-    4ae7a8fb0db6   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b_traffic_engine_2_1
-    d9d546ef3b89   ghcr.io/open-traffic-generator/keng-controller:0.1.0-3             "./bin/controller --…"   4 seconds ago   Up 4 seconds                                                                                              cpdp-b2b_controller_1
+    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS          PORTS                                                                                      NAMES
+    7168dfa86bc3   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   6 minutes ago   Up 6 minutes                                                                                               cpdp-b2b-protocol_engine_2-1
+    dc798be3cdd6   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   6 minutes ago   Up 6 minutes                                                                                               cpdp-b2b-protocol_engine_1-1
+    1cf8508108db   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        6 minutes ago   Up 42 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-b2b-traffic_engine_1-1
+    7dbb2f28375a   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        6 minutes ago   Up 42 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-b2b-traffic_engine_2-1
+    b62dd5ccc6f8   ghcr.io/open-traffic-generator/keng-controller:0.1.0-3             "./bin/controller --…"   6 minutes ago   Up 6 minutes                                                                                               cpdp-b2b-controller-1
     ```
 
 3. Interconnect traffic engine containers via a veth pair
 
     ```Shell
-    sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
+    sudo bash ../../utils/connect_containers_veth.sh cpdp-b2b-traffic_engine_1-1 cpdp-b2b-traffic_engine_2-1 veth0 veth1
     ```
 
 4. Check traffic and protocol engine logs to see if they picked up veth interfaces
 
     ```Shell
-    sudo docker logs cpdp-b2b_traffic_engine_1_1
-    sudo docker logs cpdp-b2b_traffic_engine_2_1
-    sudo docker logs cpdp-b2b_protocol_engine_1_1
-    sudo docker logs cpdp-b2b_protocol_engine_2_1
+    sudo docker logs cpdp-b2b-traffic_engine_1-1
+    sudo docker logs cpdp-b2b-traffic_engine_2-1
+    sudo docker logs cpdp-b2b-protocol_engine_1-1
+    sudo docker logs cpdp-b2b-protocol_engine_2-1
     ```
 
-## Run test package
+## Run OTG traffic flows with Python `snappi` library
 
-```Shell
-cd tests
-go test -run TestIPv4BGPRouteInstall
-cd ..
-```
+1. Setup virtualenv for Python
+
+    ```Shell
+    mkdir -p $HOME/.venv
+    python3.9 -m venv $HOME/.venv/snappi
+    source $HOME/.venv/snappi/bin/activate
+    pip install -r snappi/requirements.txt
+    pip install -r snappi/conformance/requirements.txt
+    ```
+
+2. Run BGP B2B test
+
+    ```Shell
+    python ./snappi/otg_bgp_b2b.py
+    ```
 
 ## Destroy the lab
 
 To destroy the lab, including veth pair, use:
 
 ```Shell
-docker-compose down
+sudo docker compose down
 ```
 
 ## Credits
