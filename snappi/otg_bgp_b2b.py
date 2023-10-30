@@ -37,20 +37,20 @@ def main():
     print(f"Applying OTG configuration:\n{c}")
     api.set_config(c)
 
-    print("Starting protocols: ", end="")
+    print("Starting protocols ", end="")
     api.start_protocols()
 
     api.wait_for(
         fn=lambda: bgp_metrics_ok(api, test_const),
         fn_name="wait_for_bgp_metrics",
     )
-    print(" BGP is up. Waiting for BGP prefix propagation: ", end="")
+    print(" BGP is up. Checking propagated prefixes ", end="")
 
     api.wait_for(
         fn=lambda: bgp_prefixes_ok(api, test_const),
         fn_name="wait_for_bgp_prefixes",
     )
-    print(" complete.")
+    print(" prefixes are OK.")
 
     print("Starting traffic. ", end="")
     api.start_transmit()
@@ -59,7 +59,7 @@ def main():
     api.wait_for(
         fn=lambda: flow_metrics_ok(api, test_const), fn_name="wait_for_flow_metrics"
     )
-    print(" Flows transmission is complete.")
+    print(" transmission complete.")
 
 
 def ebgp_route_prefix_config(api, tc):
