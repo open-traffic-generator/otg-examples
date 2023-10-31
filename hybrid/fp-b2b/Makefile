@@ -37,10 +37,10 @@ uninstall:
 
 .PHONY: pull
 
-pull: pull-keng pull-feature-profiles
+pull: pull-keng
 pull-keng: pull-keng-controller pull-otg-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-clean-pull: remove-keng remove-feature-profiles
+clean-pull: remove-keng
 remove-keng: remove-keng-controller remove-otg-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-operator:
@@ -90,13 +90,6 @@ ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null)
 	docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
 
-pull-feature-profiles: ./featureprofiles
-./featureprofiles:
-	git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
-
-remove-feature-profiles:
-	-rm -r ./featureprofiles
-
 ###############################
 # Deploy operator
 ###############################
@@ -145,10 +138,7 @@ stop-ixia-c:
 
 .PHONY: run
 
-run: clear-cache run-fp-otg-b2b
-
-clear-cache:
-	sudo rm -rf $$HOME/.cache
+run: run-fp-otg-b2b
 
 run-fp-otg-b2b:
 	cd featureprofiles/feature/experimental/otg_only && \
