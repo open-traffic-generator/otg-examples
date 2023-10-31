@@ -32,7 +32,7 @@ runcmd:
   - modprobe igb_uio
   - sudo -H -u ${UserName} bash -c 'git clone https://github.com/DPDK/dpdk.git $HOME/dpdk'
   - /home/${UserName}/dpdk/usertools/dpdk-devbind.py -b igb_uio $AgentEth1LogicalName -s --force
-  - chmod +x /home/${UserName}/${GitRepoName}/*.sh
+  - chmod +x /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/*.sh
   - chmod +x /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
   - /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
   - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml up -d'
