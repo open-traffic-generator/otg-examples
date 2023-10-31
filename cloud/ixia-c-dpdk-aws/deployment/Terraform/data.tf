@@ -27,6 +27,7 @@ data "cloudinit_config" "init_cli" {
 			Agent2Eth1PrivateIpAddresses: local.Agent2Eth1PrivateIpAddresses
 			AwsMetadataServerUrl: local.AwsMetadataServerUrl
 			GitRepoConfigPath: local.GitRepoConfigPath
+			GitRepoExecPath: local.GitRepoExecPath
 			GitRepoName: local.GitRepoName
 			UserName: local.AppTag
 		})

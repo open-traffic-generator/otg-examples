@@ -24,7 +24,7 @@ runcmd:
   - python3 --version
   - pip3 --version
   - sudo -H -u ${UserName} bash -c 'python3 -m venv $HOME/venv'
-  - sudo -H -u ${UserName} bash -c 'source $HOME/venv/bin/activate; pip install -r $HOME/${GitRepoName}/py/requirements.txt; deactivate'
+  - sudo -H -u ${UserName} bash -c 'source $HOME/venv/bin/activate; pip install -r $HOME/${GitRepoName}/${GitRepoExecPath}/py/requirements.txt; deactivate'
   - AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
   - AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
   - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
