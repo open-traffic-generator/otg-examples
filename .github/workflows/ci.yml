@@ -284,5 +284,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: 1.19
+          cache-dependency-path: |
+             hybrid/fp-b2b/featureprofiles/go.sum
       - name: Run all
         run:  make all
