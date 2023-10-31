@@ -143,11 +143,13 @@ stop-ixia-c:
 # Run tests
 ###############################
 
-.PHONY: clear-cache run
+.PHONY: run
+
+run: clear-cache run-fp-otg-b2b
 
 clear-cache:
 	sudo rm -rf $$HOME/.cache
 
-run:
+run-fp-otg-b2b:
 	cd featureprofiles/feature/experimental/otg_only && \
 	go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "../../../../otgb2b.binding"
