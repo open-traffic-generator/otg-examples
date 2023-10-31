@@ -1,0 +1,8 @@
+py/__pycache__
+py/.pytest_cache
+py/utils/__pycache__/
+throughput_results_rfc2544_n_flows.json
+**/.terraform
+*.tfstate*
+*.lock.hcl
+terraform.auto.tfvars
