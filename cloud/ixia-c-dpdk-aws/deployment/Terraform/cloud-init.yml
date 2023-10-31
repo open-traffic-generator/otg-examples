@@ -27,16 +27,16 @@ runcmd:
   - sudo -H -u ${UserName} bash -c 'source $HOME/venv/bin/activate; pip install -r $HOME/${GitRepoName}/py/requirements.txt; deactivate'
   - AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
   - AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
-  - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/deployment/docker-compose.yaml
+  - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
   - modprobe uio
   - modprobe igb_uio
   - sudo -H -u ${UserName} bash -c 'git clone https://github.com/DPDK/dpdk.git $HOME/dpdk'
   - /home/${UserName}/dpdk/usertools/dpdk-devbind.py -b igb_uio $AgentEth1LogicalName -s --force
   - chmod +x /home/${UserName}/${GitRepoName}/*.sh
-  - chmod +x /home/${UserName}/${GitRepoName}/deployment/setup.sh
-  - /home/${UserName}/${GitRepoName}/deployment/setup.sh
-  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/deployment/docker-compose.yaml up -d'
-  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/deployment/docker-compose.yaml ps'
+  - chmod +x /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
+  - /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
+  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml up -d'
+  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml ps'
 merge_how:
  - name: list
    settings: [append]
