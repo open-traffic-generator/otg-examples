@@ -1,7 +1,7 @@
-# KENG ARP, BGP and traffic with FRR as a DUT
+# Ixia-c ARP, BGP and traffic with FRR as a DUT
 
 ## Overview
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used.
+This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, Ixia-c Traffic and Protocol Engine are used.
 
 The same setup can be brought up using one of two methods:
 
@@ -31,7 +31,7 @@ The lab uses [`otg.json`](otg.json) configuration file with the following proper
 
 ![OTG Diagram](./otg-diagram.drawio.svg)
 
-To request KENG to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
+To request Ixia-c to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
 
 ```JSON
   "flows":  [
@@ -83,7 +83,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
     make clean
     ```
 
-3. To use Containerlan option, run:
+3. To use Containerlab option, run:
 
     ```Shell
     make all-clab
@@ -92,7 +92,6 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 
 ## Prerequisites
 
-* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * `curl` command

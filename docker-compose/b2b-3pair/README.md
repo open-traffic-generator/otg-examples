@@ -1,4 +1,4 @@
-# KENG three back-to-back pairs setup with Docker Compose
+# Ixia-c three back-to-back pairs setup with Docker Compose
 
 ## Overview
 This lab is an extension of [Ixia-c back-to-back](README.md) traffic engine setup. [Community Edition](../../KENG.md) of Ixia-c supports up to 4 traffic engine ports. If the number of ports you need exceeds four, a commercial subscription to Ixia-c should be used. In this example, the testbed has 3 pairs of Ixia-c ports, and thus requires a valid license to work.
