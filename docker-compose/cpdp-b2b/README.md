@@ -3,7 +3,7 @@
 ## Overview
 This is an extended version of a basic [Ixia-c back-2-back lab](../b2b/README.md) with Ixia-c Protocol Engine added to emulate L2-3 protocols like BGP. In this lab, [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected back-2-back using a veth pair. In addition, two protocol engines share network namespaces with respective traffic ports. The lab is defined via Docker Compose YAML file. Once the lab is up, a test Go package is used to request Ixia-c to bring up a BGP session between two ports, generate traffic and report statistics.
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ## Prerequisites
 
