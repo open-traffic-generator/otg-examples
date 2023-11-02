@@ -17,9 +17,6 @@ clean: stop undeploy
 .PHONY: clean-all
 clean-all: clean pull-clean uninstall
 
-create-go-cache:
-	mkdir -p $$HOME/.cache/go-build
-
 ###############################
 # Install components
 ###############################
