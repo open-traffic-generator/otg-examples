@@ -1,3 +1,9 @@
 [submodule "submodules/otgen"]
 	path = submodules/otgen
 	url = https://github.com/open-traffic-generator/otgen.git
+[submodule "snappi/conformance"]
+	path = snappi/conformance
+	url = https://github.com/open-traffic-generator/conformance.git
+[submodule "hybrid/fp-b2b/featureprofiles"]
+	path = hybrid/fp-b2b/featureprofiles
+	url = https://github.com/open-traffic-generator/featureprofiles.git

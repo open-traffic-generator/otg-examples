@@ -1,41 +1,30 @@
 SHELL = /bin/bash
 
 .PHONY: all
-all: install deploy run
+all: build deploy run
 
 .PHONY: clean
 clean: remove-lab
 
 .PHONY: clean-all
-clean-all: clean install-clean
+clean-all: clean build-clean
 
 ###############################
-# Install components
+# Build components
 ###############################
 
-.PHONY: install
-install: install-docker-compose
+.PHONY: build
+build: build-snappi
 
-install-docker-compose: /usr/local/bin/docker-compose
-/usr/local/bin/docker-compose:
-	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
-	
-install-clean:
-	-sudo rm -f `command -v docker-compose`
+build-snappi:
+ifeq ($(shell docker images -q snappi:local 2> /dev/null),)
+	sudo docker build -t snappi:local snappi
+endif
 
-###############################
-# Pull images
-###############################
-
-.PHONY: pull
-pull: pull-public pull-private
-
-pull-public:
-	sudo -E docker-compose pull traffic_engine_1
-	
-pull-private:
-	sudo -E docker-compose pull controller protocol_engine_1
+build-clean:
+ifneq ($(shell docker images -q snappi:local 2> /dev/null),)
+	docker rmi `docker images -q snappi:local 2> /dev/null` --force
+endif
 
 ###############################
 # Deploy lab
@@ -45,25 +34,28 @@ pull-private:
 deploy: deploy-lab deploy-net
 
 deploy-lab:
-	sudo -E docker-compose up -d
+	sudo -E docker compose up -d
 
 deploy-net:
-	sudo ../../utils/connect_containers_veth.sh cpdp-b2b_traffic_engine_1_1 cpdp-b2b_traffic_engine_2_1 veth0 veth1
+	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-b2b-traffic_engine_1-1 cpdp-b2b-traffic_engine_2-1 veth0 veth1
 
 remove-lab:
-	sudo docker-compose down
+	sudo docker compose down
 
 ###############################
 # Run tests
 ###############################
 
 .PHONY: run
-run: prerun gotest-run
+run: prerun snappi-run
 
-# pause for ixia-c-controller to detect newly created interfaces
+# pause for keng-controller to detect newly created interfaces
 prerun:
-	sleep 3
+	sleep 5
 	sudo docker ps
+
+snappi-run:
+	sudo docker run --rm -t --net host -v $$(pwd)/snappi:/snappi -v $$(pwd)/test-config.yaml:/snappi/test-config.yaml --name snappi snappi:local  bash -c "python otg_bgp_b2b.py"
 
 gotest-run:
 	cd tests; go test -run TestIPv4BGPRouteInstall

@@ -63,7 +63,8 @@ flows:
     choice: port
     port:
       tx_name: p1
-      rx_name: p2
+      rx_names:
+        - p2
 - name: p3>p4
   duration:
     choice: fixed_packets
@@ -115,7 +116,8 @@ flows:
     choice: port
     port:
       tx_name: p3
-      rx_name: p4
+      rx_names:
+        - p4
 - name: p5>p6
   duration:
     choice: fixed_packets
@@ -167,4 +169,5 @@ flows:
     choice: port
     port:
       tx_name: p5
-      rx_name: p6
+      rx_names:
+        - p6

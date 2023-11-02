@@ -20,7 +20,6 @@ Although original intent of `static binding` is to describe a connection between
 
 ## Prerequisites
 
-* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * [Go](https://go.dev/dl/) version 1.18 or later
@@ -62,7 +61,7 @@ Although original intent of `static binding` is to describe a connection between
 
 ### Create Ixia-c B2B deployment
 
-1. Create a back-2-back connection using `veth` pair. 
+1. Create a back-2-back connection using `veth` pair.
 
     ```Shell
     export OTG_PORT1="veth0"
@@ -71,7 +70,7 @@ Although original intent of `static binding` is to describe a connection between
     sudo ip link set dev ${OTG_PORT1} up
     sudo ip link set dev ${OTG_PORT2} up
     ```
-    
+
     Instead of `veth` pair, you could also use one of the following methods. In such case, please initialize `OTG_PORT1` and `OTG_PORT2` env vars with correct interface names.
 
     * a physical cable between two network interface cards

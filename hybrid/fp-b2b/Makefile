@@ -1,5 +1,10 @@
 SHELL = /bin/bash
 
+KENG_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4555"
+OTG_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.12.7"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
+IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.331"
+
 export OTG_PORT1 = veth0
 export OTG_PORT2 = veth1
 
@@ -17,19 +22,13 @@ clean-all: clean pull-clean uninstall
 ###############################
 
 .PHONY: install
-install: install-docker-compose install-envsubst
-
-install-docker-compose: /usr/local/bin/docker-compose
-/usr/local/bin/docker-compose:
-	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
+install: install-envsubst
 
 install-envsubst: /usr/bin/envsubst
 /usr/bin/envsubst:
 	sudo apt install gettext-base -y
 
 uninstall:
-	-sudo rm -f `command -v docker-compose`
 	-sudo apt remove gettext-base -y
 
 ###############################
@@ -39,64 +38,57 @@ uninstall:
 .PHONY: pull
 
 pull: pull-keng
-pull-keng: pull-ixia-c-operator pull-ixia-c-controller pull-ixia-c-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine pull-feature-profiles
+pull-keng: pull-keng-controller pull-otg-gnmi-server pull-ixia-c-traffic-engine pull-ixia-c-protocol-engine
 
-pull-clean: remove-keng
-remove-keng: remove-ixia-c-controller remove-ixia-c-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine remove-feature-profiles
+clean-pull: remove-keng
+remove-keng: remove-keng-controller remove-otg-gnmi-server remove-ixia-c-traffic-engine remove-ixia-c-protocol-engine
 
 pull-ixia-c-operator:
-	sudo -E docker-compose pull operator
+	sudo -E docker compose pull operator
 
-pull-ixia-c-controller:
-ifeq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	-sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3841
-	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3841 ixia-c-controller:latest
+pull-keng-controller:
+ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
+	-docker pull $(KENG_Controller)
+	docker tag $(KENG_Controller) keng-controller:latest
 endif
 
-remove-ixia-c-controller:
-ifneq ($(shell sudo docker images -q ixia-c-controller:latest 2> /dev/null),)
-	sudo -E docker rmi `docker images -q ixia-c-controller:latest 2> /dev/null` --force
+remove-keng-controller:
+ifneq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
+	docker rmi `docker images -q keng-controller:latest 2> /dev/null` --force
 endif
 
-pull-ixia-c-gnmi-server:
-ifeq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	-sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.19
-	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.19 ixia-c-gnmi-server:latest
+pull-otg-gnmi-server:
+ifeq ($(shell sudo docker images -q otg-gnmi-server:latest 2> /dev/null),)
+	-docker pull $(OTG_gNMI)
+	docker tag $(OTG_gNMI) otg-gnmi-server:latest
 endif
 
-remove-ixia-c-gnmi-server:
-ifneq ($(shell sudo docker images -q ixia-c-gnmi-server:latest 2> /dev/null),)
-	sudo -E docker rmi `docker images -q ixia-c-gnmi-server:latest 2> /dev/null` --force
+remove-otg-gnmi-server:
+ifneq ($(shell sudo docker images -q otg-gnmi-server:latest 2> /dev/null),)
+	docker rmi `docker images -q otg-gnmi-server:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-traffic-engine:
 ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	-sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
-	sudo -E docker tag ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35 ixia-c-traffic-engine:latest
+	-docker pull $(IxiaC_TE)
+	docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
 endif
 
 remove-ixia-c-traffic-engine:
 ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	sudo -E docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
+	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-protocol-engine:
 ifeq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
-	-sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.279
-	sudo -E docker tag ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.279 ixia-c-protocol-engine:latest
+	-docker pull $(IxiaC_PE)
+	docker tag $(IxiaC_PE) ixia-c-protocol-engine:latest
 endif
 
 remove-ixia-c-protocol-engine:
 ifneq ($(shell sudo docker images -q ixia-c-protocol-engine:latest 2> /dev/null),)
-	sudo -E docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
+	docker rmi `docker images -q ixia-c-protocol-engine:latest 2> /dev/null` --force
 endif
-
-pull-feature-profiles: ./featureprofiles
-./featureprofiles:
-	git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
-
-remove-feature-profiles:
-	-rm -r ./featureprofiles
 
 ###############################
 # Deploy operator
@@ -104,15 +96,15 @@ remove-feature-profiles:
 
 .PHONY: deploy
 deploy: deploy-operator
-undeploy: remove-operator 
+undeploy: remove-operator
 
 deploy-operator:
-	sudo -E docker-compose up -d
+	sudo -E docker compose up -d
 	sleep 10
 	curl --data-binary @"ixiatg-configmap.yml" http://localhost:35000/config
 
 remove-operator:
-	sudo -E docker-compose down
+	sudo -E docker compose down
 
 ###############################
 # Start lab
@@ -145,6 +137,9 @@ stop-ixia-c:
 ###############################
 
 .PHONY: run
-run:
+
+run: run-fp-otg-b2b
+
+run-fp-otg-b2b:
 	cd featureprofiles/feature/experimental/otg_only && \
 	go test -v otgb2b_test.go -testbed otgb2b.testbed -binding "../../../../otgb2b.binding"
