@@ -73,7 +73,7 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
 ## Run OTG traffic flows with `otgen` tool
 
-1. Start with using `otgen` to request Ixia-c to run traffic flows defined in `otg.yml`. If successful, the result will come as OTG port metrics in JSON format
+1. Start with using `otgen` to request Ixia-c to run traffic flows defined in [`otg.yml`](otg.yml). This configuration specifies one flow with `100000` packets to be transmitted at the rate of `100` packets per second. If successful, the result will come as OTG port metrics in JSON format
 
     ```Shell
     cat otg.yml | otgen run -k -a https://localhost:8443
@@ -101,6 +101,14 @@ This is a basic lab where [Ixia-c](https://github.com/open-traffic-generator/ixi
 
     ```Shell
     cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c pps | otgen display -m chart
+    ```
+
+## Use a configuration with traffic throughput specified
+
+1. To illustrate how you can specify a desired traffic throughput instead of packet rate, use the configuration from [`otg.bps.yml`](otg.bps.yml). Note that although the configuration uses `100` megabits per second (`100 mbps`), the reported metrics are in bytes per second.
+
+    ```Shell
+    cat otg.bps.yml | otgen run -k -a https://localhost:8443 | otgen transform -m port -c tput | otgen display -m table
     ```
 
 ## Run OTG traffic flows with Python `snappi` library
