@@ -85,7 +85,7 @@ veth0-clean:
 .PHONY: run
 run: network-mtu run-otgen run-snappi
 
-run-otgen: otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-flow-bytes otgen-run-bps-as-table-port-rate
+run-otgen: otgen-run-as-table-port otgen-run-as-table-flow otgen-run-as-table-port-bytes otgen-run-as-table-flow-bytes otgen-run-as-table-port-rate otgen-run-bps-as-table-port-rate otgen-run-as-table-flow-rate otgen-run-bps-flow-rate
 run-snappi: run-snappi-port run-snappi-flow
 
 otgen-run:
@@ -101,15 +101,35 @@ otgen-run-as-table-flow:
 	@echo "│ Flow  │  FramesTx │  FramesRx │"
 	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFramesTable.tmpl
 
+otgen-run-as-table-port-bytes:
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortBytesTable.tmpl"
+	@echo "│Port│   BytesTx │   BytesRx │Port│   BytesTx │   BytesRx │"
+	@cat otg.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortBytesTable.tmpl
+
 otgen-run-as-table-flow-bytes:
 	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl"
 	@echo "│ Flow  │   BytesTx │   BytesRx │"
 	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowBytesTable.tmpl
 
+otgen-run-as-table-port-rate:
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortRateTable.tmpl"
+	@echo "│Port│   BytesTx │   BytesRx │Port│   BytesTx │   BytesRx │"
+	@cat otg.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortBytesTable.tmpl
+
+otgen-run-as-table-flow-rate:
+	@echo "cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFrameRateTable.tmpl"
+	@echo "│ Flow  │FrameRateTx│FrameRateRx│"
+	@cat otg.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -f ../../submodules/otgen/templates/transformFlowFrameRateTable.tmpl
+
 otgen-run-bps-as-table-port-rate:
-	@echo "cat otg.bps.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortByteRateTable.tmpl"
-	@echo "│Port│BytesTxRate│BytesRxRate│Port│BytesTxRate│BytesRxRate│"
-	@cat otg.bps.yml | otgen run -k -a https://localhost:8443 | otgen transform -f ../../submodules/otgen/templates/transformPortByteRateTable.tmpl
+	@echo "cat otg.bps.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortFrameRateTable.tmpl"
+	@echo "│Port│FrameRateTx│FrameRateRx│Port│FrameRateTx│FrameRateRx│"
+	@cat otg.bps.yml | otgen run -k -a https://localhost:8443 -m port | otgen transform -f ../../submodules/otgen/templates/transformPortFrameRateTable.tmpl
+
+otgen-run-bps-flow-rate:
+	@echo "cat otg.bps.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c tput"
+	@echo "│Flow│BytesTxRate│BytesRxRate│"
+	@cat otg.bps.yml | otgen run -k -a https://localhost:8443 -m flow | otgen transform -m flow -c tput || true
 
 run-snappi-port:
 	sudo docker run --rm -t --net host -v $$(pwd)/snappi:/snappi --name snappi snappi:local  bash -c "python otg-flows.py -m port"
