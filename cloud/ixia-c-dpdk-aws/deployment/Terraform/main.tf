@@ -1,5 +1,6 @@
 module "Agent1" {
 	source = "armdupre/module-ubuntu-linux-agent/aws"
+	version = "0.1.1"
 	Eth0SecurityGroupId = module.Vpc.PublicSecurityGroup.id
 	Eth0SubnetId = module.Vpc.PublicSubnet.id
 	Eth1PrivateIpAddresses = local.Agent1Eth1PrivateIpAddresses
@@ -23,6 +24,7 @@ module "Agent1" {
 
 module "Agent2" {
 	source = "armdupre/module-ubuntu-linux-agent/aws"
+	version = "0.1.1"
 	Eth0PrivateIpAddress = local.Agent2Eth0PrivateIpAddress
 	Eth0SecurityGroupId = module.Vpc.PublicSecurityGroup.id
 	Eth0SubnetId = module.Vpc.PublicSubnet.id
