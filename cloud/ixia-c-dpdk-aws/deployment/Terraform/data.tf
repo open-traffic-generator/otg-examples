@@ -18,7 +18,7 @@ data "cloudinit_config" "init_cli" {
 			KengTrafficEngineImage: local.KengTrafficEngineImage
 			UserName: local.AppTag
 		})
-	}	
+	}
 	part {
 		filename = "script-001"
 		content_type = "text/cloud-config"

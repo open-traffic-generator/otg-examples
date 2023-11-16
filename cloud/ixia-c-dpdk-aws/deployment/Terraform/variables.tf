@@ -49,16 +49,6 @@ variable "InboundIPv4CidrBlocks" {
 	type = list(string)
 }
 
-variable "KengControllerImage" {
-	default = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-3"
-	type = string
-}
-
-variable "KengTrafficEngineImage" {
-	default = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
-	type = string
-}
-
 variable "PrivateSubnetAvailabilityZone" {
 	default = "us-east-1a"
 	type = string
@@ -84,6 +74,7 @@ variable "UserEmailTag" {
 }
 
 variable "UserLoginTag" {
+	default = "terraform"
 	description = "Login ID tag of user creating the deployment"
 	type = string
 	validation {
