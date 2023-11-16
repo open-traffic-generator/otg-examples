@@ -40,6 +40,7 @@ variable "GitRepoName" {
 }
 
 variable "GitRepoUrl" {
+	default = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 	sensitive = true
 	type = string
 }
