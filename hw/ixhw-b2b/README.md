@@ -1,13 +1,13 @@
 # OTG with Ixia L23 Hardware: back-to-back setup
 
 ## Overview
-This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) `ixia-c-controller` that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `ixia-c-ixhw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
+This example demonstrates how the OTG API can be used to control [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html). The same [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) `keng-controller` that serves as the OTG API Endpoint for [Ixia-c software test ports](https://github.com/open-traffic-generator/otg-examples/tree/main/docker-compose/cpdp-b2b) can be used with the hardware test ports. Such deployment model requires to use `keng-layer23-hw-server` container image that provides an interface between the controller and the hardware test ports. See the diagram below that illustrates the components of such setup:
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ## Prerequisites
 
-* Access to [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
+* System License Edition for [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](../../KENG.md)
 
 * Keysight Ixia Novus or AresOne [Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html) with [IxOS](https://support.ixiacom.com/ixos-software-downloads-documentation) 9.20 Patch 4 or higher. **NOTE:** Currently, only Linux-based IxOS platforms are tested with KENG.
 
@@ -49,31 +49,25 @@ This example demonstrates how the OTG API can be used to control [Keysight/Ixia 
 
 ## Install components
 
-    git clone -b keng-eval --recursive https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     cd otg-examples/hw/ixhw-b2b
 
 
-## Diagnostics
-
-To collect diagnostics logs from all the components of the lab, run:
-
-```Shell
-../../utils/collect-ixia-c-hw-logs.sh
-```
-
-It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
-
-> TIP. Use `make logs` if you have `make` on your system
-
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment
+1. Initialize an environment variable `LICENSE_SERVERS` with a hostname/IP address of the [Keysight License Server](../../KENG.md). Replace `license_server_name` with the actual hostname/IP address of your license server.
+
+    ```Shell
+    export LICENSE_SERVERS="license_server_name"
+    ```
+
+2. Launch the deployment
 
     ```Shell
     docker compose up -d
     ```
 
-2. To make sure all the containers are running, use
+3. To make sure all the containers are running, use
 
     ```Shell
     docker ps
@@ -81,10 +75,10 @@ It will create a `logs-DATE.tar.gz` file you can share with Keysight for trouble
 
     the list of containers should include:
 
-    * `ixhw-b2b-ixia-c-controller-1`
-    * `ixhw-b2b-ixia-c-ixhw-server-1`
+    * `ixhw-b2b-controller-1`
+    * `ixhw-b2b-layer23-hw-server-1`
 
-3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
@@ -132,13 +126,19 @@ docker compose down
 
 ## Deploy Keysight Elastic Network Generator
 
-1. Launch the deployment
+1. Initialize an environment variable `LICENSE_SERVERS` with a hostname/IP address of the [Keysight License Server](../../KENG.md). Replace `license_server_name` with the actual hostname/IP address of your license server.
+
+    ```Shell
+    export LICENSE_SERVERS="license_server_name"
+    ```
+
+2. Launch the deployment
 
     ```Shell
     docker compose -p keng1 --file fp.compose.yml --file fp.compose.ports.yml up -d
     ```
 
-2. To make sure all the containers are running, use
+3. To make sure all the containers are running, use
 
     ```Shell
     docker ps
@@ -146,12 +146,12 @@ docker compose down
 
     the list of containers should include:
 
-    * `ixhw-b2b-ixia-c-controller-1`
-    * `ixhw-b2b-ixia-c-ixhw-server-1`
-    * `ixhw-b2b-ixia-c-gnmi-server-1`
+    * `keng1-gnmi-server-1`
+    * `keng1-controller-1`
+    * `keng1-layer23-hw-server-1`
 
 
-3. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
+4. Initialize environment variables with locations of Ixia L23 hardware ports. Replace `ixos_ip_address`, `slot_number_X`, `port_number_X` with values matching your equipment.
 
     ```Shell
     export OTG_LOCATION_P1="ixos_ip_address;slot_number_1;port_number_1"
@@ -165,7 +165,7 @@ docker compose down
     export OTG_LOCATION_P2="10.10.10.10;2;15"
     ```
 
-4. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
+5. Create an [ONDATRA](https://github.com/openconfig/ondatra) binding file `otgb2b.binding` by using `otgb2b.template` as a template and substituting OTG port locations using the environmental variables initialized in the previous step.
 
     ```Shell
     cat otgb2b.template | envsubst > otgb2b.binding
@@ -192,7 +192,7 @@ docker compose down
 
 If you need to support multiple concurrent seats (simultaneous tests) on the same VM, it is possible to launch several parallel instances of Keysight Elastic Network Generator.
 
-1. What you need for that is to choose a set of different TCP ports that `ixia-c-controller` and `ixia-c-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
+1. What you need for that is to choose a set of different TCP ports that `keng-controller` and `otg-gnmi-server` would be mapped to on the host. As an example, see the file [fp.compose.ports2.yml](fp.compose.ports2.yml). You would also need start the deployment using a non-default project name, so that the second set of containers would run over a dedicated network.
 
     ```Shell
     docker compose -p keng2 --file fp.compose.yml --file fp.compose.ports2.yml up -d
@@ -219,6 +219,38 @@ docker compose -p keng1 --file fp.compose.yml down
 docker compose -p keng2 --file fp.compose.yml down
 ```
 
-## Notable changes
+# Troubleshooting
 
-This example was updated to use built-in `docker compose` utility instead of standalone but outdated `docker-compose`. As far as we tested, both worked with this example at the time of the change on July 11, 2023. Moving forward, only compatibility with `docker compose` will be tested.
+## Licensing Errors
+
+If you see the following error when running the featureprofiles test:
+
+```
+the configuration contains port of type Ixia-Hardware, which is not supported in community edition
+```
+
+it means that you either didn't provide the proper `LICENSE_SERVERS` environment variable, or the license server is not reachable from the controller container. To further check if the received the list of License Servers, run:
+
+```Shell
+docker logs keng1-controller-1 | grep -i LicenseServers
+```
+
+The list should not be empty.
+
+If the list is not empty, check if the controller can reach the License Server by looking for `Session successfully created with license server` message in the logs:
+
+```Shell
+docker logs keng1-controller-1 | grep -i licensing
+```
+
+## Diagnostics
+
+To collect diagnostics logs from all the components of the lab, run:
+
+```Shell
+../../utils/collect-ixia-c-hw-logs.sh
+```
+
+It will create a `logs-DATE.tar.gz` file you can share with Keysight for troubleshooting.
+
+> TIP. Use `make logs` if you have `make` on your system

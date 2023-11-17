@@ -8,13 +8,11 @@
 
 ## OTG Tools
 
-There are several implementations of OTG API. Each example uses one of the following:
+There are several [implementations](https://otg.dev/implementations/) of OTG API. All the labs in this repository use [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) with different types of test ports:
 
-* [Ixia-c TE](https://otg.dev/implementations/#ixia-c): Ixia-c Traffic Engine
-* [Ixia-c-one](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/deployments.md#deploy-ixia-c-one-using-containerlab): a single-container package of Ixia-c Traffic Engine for Containerlab
-* [KENG TE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator with Ixia-c Traffic Engine
-* [KENG TE+PE](https://otg.dev/implementations/#keng): Keysight Elastic Network Generator with Ixia-c Traffic and Protocol Engines
-* [KENG IxHW](https://otg.dev/implementations/#ixhw): Keysight Elastic Network Generator with [Keysight/Ixia L23 Network Test Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html)
+* [Ixia-c](https://otg.dev/implementations/#ixia-c): Ixia-c containerized software Traffic Engine (TE) and Protocol Engine (PE)
+* [Ixia-c-one](https://github.com/open-traffic-generator/ixia-c/blob/main/docs/deployments.md#deploy-ixia-c-one-using-containerlab): a single-container package of Ixia-c for Containerlab
+* [IxOS Hardware](https://www.keysight.com/us/en/products/network-test/network-test-hardware.html): Keysight Elastic Network Generator with Keysight/Ixia L23 Network Test Hardware
 
 ## Device Under Test
 
@@ -47,20 +45,20 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 
 ## Reference
 
-| Lab                                                                                                                          | OTG Tool    | DUT  | Client               | Infrastructure  | CI  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ----------- | ---- | -------------------- | --------------  | --- |
-| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE   | B2B  | `otgen` & `snappi`   | Compose         | yes |
-| [Static B2B LAG](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b-lag)                       | Ixia-c TE   | B2B  | `otgen`              | Containerlab    | yes |
-| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE   | FRR  | `otgen`              | Containerlab    | yes |
-| [3xB2B KENG Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)              | KENG TE     | B2B  | `otgen`              | Compose         | yes |
-| [B2B KENG BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)         | KENG PE+TE  | B2B  | `gosnappi`           | Compose         | yes |
-| [FRR KENG ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)    | KENG PE+TE  | FRR  | `curl` & `otgen`     | Compose & Clab  | yes |
-| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one  | B2B  | `snappi`             | Containerlab    | yes |
-| [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one  | B2B  | `scapy` & `snappi`   | Containerlab    | yes |
-| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one  | FRR  | `gosnappi`           | Containerlab    | yes |
-| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | KENG PE+TE  | B2B  | `ondatra`            | Ixia-c Operator | yes |
-| [B2B Ixia Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | KENG IxHW   | B2B  | `snappi` & `ondatra` | Compose         | no  |
-| [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | KENG PE+TE  | cEOS | `otgen`              | KNE             | no  |
+| Lab                                                                                                                          | OTG Tool     | DUT  | Client               | Infrastructure  | CI  |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------ | ---- | -------------------- | --------------  | --- |
+| [B2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b)                    | Ixia-c TE    | B2B  | `otgen` & `snappi`   | Compose         | yes |
+| [Static B2B LAG](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b-lag)                       | Ixia-c TE    | B2B  | `otgen`              | Containerlab    | yes |
+| [FRR Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-te-frr)                    | Ixia-c TE    | FRR  | `otgen`              | Containerlab    | yes |
+| [3xB2B Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/b2b-3pair)            | Ixia-c TE    | B2B  | `otgen`              | Compose         | yes |
+| [B2B Ixia-c BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-b2b)       | Ixia-c PE+TE | B2B  | `gosnappi`           | Compose         | yes |
+| [FRR Ixia-c ARP, BGP and traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/docker-compose/cpdp-frr)  | Ixia-c PE+TE | FRR  | `curl` & `otgen`     | Compose & Clab  | yes |
+| [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one   | B2B  | `snappi`             | Containerlab    | yes |
+| [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one   | B2B  | `scapy` & `snappi`   | Containerlab    | yes |
+| [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one   | FRR  | `gosnappi`           | Containerlab    | yes |
+| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | Ixia-c PE+TE | B2B  | `ondatra`            | Ixia-c Operator | yes |
+| [B2B IxOS Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | IxOS Hardware| B2B  | `snappi` & `ondatra` | Compose         | no  |
+| [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | Ixia-c PE+TE | cEOS | `otgen`              | KNE             | no  |
 
 
 ## Lab Descriptions
@@ -77,17 +75,17 @@ Two Ixia-c Traffic Engines connected back-2-back in a Containerlab environment o
 
 Ixia-c Traffic Engine and FRR. Demonstrates how to deploy Ixia-c Traffic Engine nodes in Containerlab. This setup has an FRR container as a Device Under Test.
 
-### [3xB2B KENG Traffic](docker-compose/b2b-3pair)
+### [3xB2B Ixia-c Traffic](docker-compose/b2b-3pair)
 
-KENG 3 back-to-back pairs setup with Docker Compose. This lab is an extension of [Ixia-c back-2-back lab](docker-compose/b2b/README.md) traffic engine setup with more port pairs that is allowed with free version of Ixia-c. Use this lab to validate Ixia-c commercial version – KENG for basic traffic operations.
+Ixia-c 3 back-to-back pairs setup with Docker Compose. This lab is an extension of [Ixia-c back-2-back lab](docker-compose/b2b/README.md) traffic engine setup with more port pairs that is allowed with free version of Ixia-c. Use this lab to validate Ixia-c commercial licensing for basic traffic operations.
 
-### [B2B KENG BGP and traffic](docker-compose/cpdp-b2b)
+### [B2B Ixia-c BGP and traffic](docker-compose/cpdp-b2b)
 
-KENG back-to-back BGP and traffic setup with Docker Compose. This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) components added to emulate L2-3 protocols like BGP.
+Ixia-c back-to-back BGP and traffic setup with Docker Compose. This is an extended version of a basic [Ixia-c back-2-back lab](docker-compose/b2b/README.md) with Ixia-c Protocol Engine added to emulate L2-3 protocols like BGP.
 
-### [FRR KENG ARP, BGP and traffic](docker-compose/cpdp-frr)
+### [Ixia-c KENG ARP, BGP and traffic](docker-compose/cpdp-frr)
 
-KENG ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. The lab has two alternative deployment methods: Compose as well as Containerlab.
+Ixia-c ARP, BGP and traffic with FRR as a DUT. This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. The lab has two alternative deployment methods: Compose as well as Containerlab.
 
 ### [Hello, snappi! Welcome to the Clab!](clab/ixia-c-b2b)
 
@@ -111,4 +109,4 @@ Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Netwo
 
 ### [KNE Lab with BGP and traffic via Arista cEOSLab as a DUT](kne/bgp-ceos)
 
-Validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used with Ixia-c Traffic and Protocol Engine ports. To run the lab, [OpenConfig KNE](https://github.com/openconfig/kne) is used on top of a KIND cluster – K8s environment running inside a single Docker container.
+Validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) Community Edition is used with Ixia-c Traffic and Protocol Engine ports. To run the lab, [OpenConfig KNE](https://github.com/openconfig/kne) is used on top of a KIND cluster – K8s environment running inside a single Docker container.

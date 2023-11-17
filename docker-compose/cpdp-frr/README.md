@@ -1,7 +1,7 @@
-# KENG ARP, BGP and traffic with FRR as a DUT
+# Ixia-c ARP, BGP and traffic with FRR as a DUT
 
 ## Overview
-This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) is used.
+This lab demonstrates validation of an FRR DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, Ixia-c Traffic and Protocol Engine are used.
 
 The same setup can be brought up using one of two methods:
 
@@ -19,19 +19,19 @@ Each method has its own benefits. With `curl`, you can try each individual OTG A
 
 ### Diagram
 
-![Diagram](./diagram.png)
+![Diagram](./diagram.drawio.svg)
 
 ### Layer 3 topology and generated traffic flows
 
-![IP Diagram](./ip-diagram.png)
+![IP Diagram](./ip-diagram.drawio.svg)
 
 ### OTG
 
 The lab uses [`otg.json`](otg.json) configuration file with the following properties:
 
-![OTG Diagram](./otg-diagram.png)
+![OTG Diagram](./otg-diagram.drawio.svg)
 
-To request KENG to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
+To request Ixia-c to use ARP to determine destination MAC address for a flow `f1`, the following flow properties are used. The `dst` parameter in the `packet` section uses `auto` mode. In addition, `tx_rx` section has to use names of emulated devices' IP interfaces, as in `"tx_names":  ["otg1.eth[0].ipv4[0]"]`.
 
 ```JSON
   "flows":  [
@@ -83,7 +83,7 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
     make clean
     ```
 
-3. To use Containerlan option, run:
+3. To use Containerlab option, run:
 
     ```Shell
     make all-clab
@@ -92,7 +92,6 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 
 ## Prerequisites
 
-* Licensed [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) images. Read more in [KENG.md](/KENG.md)
 * Linux host or VM with sudo permissions and Docker support
 * [Docker](https://docs.docker.com/engine/install/)
 * `curl` command
@@ -116,10 +115,10 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
     bash -c "$(curl -sL https://get.containerlab.dev)"
     ```
 
-3. Install `otgen` tool, version `0.5.0-rc1` or later.
+3. Install `otgen` tool, version `0.6.2` or later.
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
     ```
 
 4. Make sure `/usr/local/bin` is in your `$PATH` variable (by default this is not the case on CentOS 7)
@@ -153,13 +152,14 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 2. Make sure you have all five containers running. The result should look like this
 
     ```Shell
-    CONTAINER ID   IMAGE                                                                       COMMAND                  CREATED              STATUS              PORTS                                                                                      NAMES
-    22c439d4f632   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_1_1
-    3d4bc47b027d   ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.236   "/docker_im/opt/Ixia…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_protocol_engine_2_1
-    11314fa39cd1   frrouting/frr:v8.2.2                                                        "/sbin/tini -- /usr/…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_frr_1
-    4ede5943c0b5   ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3587        "./bin/controller --…"   About a minute ago   Up About a minute                                                                                              cpdp-frr_controller_1
-    3e31f665741c   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19               "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-frr_traffic_engine_2_1
-    b0dcff8f14be   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.19               "./entrypoint.sh"        About a minute ago   Up About a minute   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-frr_traffic_engine_1_1
+    CONTAINER ID   IMAGE                                                              COMMAND                  CREATED         STATUS         PORTS                                                                                      NAMES
+    0ea1e56720ac   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   3 seconds ago   Up 3 seconds                                                                                              cpdp-frr_protocol_engine_1_1
+    44f4c9fb8b3e   ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337   "/docker_im/opt/Ixia…"   3 seconds ago   Up 3 seconds                                                                                              cpdp-frr_protocol_engine_2_1
+    6e50d4cad6a6   ghcr.io/open-traffic-generator/keng-controller:0.1.0-3             "./bin/controller --…"   4 seconds ago   Up 4 seconds                                                                                              cpdp-frr_controller_1
+    7fe400f12196   quay.io/frrouting/frr:8.4.2                                        "/sbin/tini -- /usr/…"   4 seconds ago   Up 3 seconds                                                                                              cpdp-frr_frr_1
+    2a7e1c124cbd   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5556->5556/tcp, :::5556->5556/tcp, 0.0.0.0:50072->50071/tcp, :::50072->50071/tcp   cpdp-frr_traffic_engine_2_1
+    cbc0a64278cc   ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85      "./entrypoint.sh"        4 seconds ago   Up 3 seconds   0.0.0.0:5555->5555/tcp, :::5555->5555/tcp, 0.0.0.0:50071->50071/tcp, :::50071->50071/tcp   cpdp-frr_traffic_engine_1_1
+    p
     ```
 
 3. Interconnect traffic engine containers via a veth pair
@@ -201,9 +201,9 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 2. Start protocols
 
     ```Shell
-    curl -k "${OTG_HOST}/control/protocols" \
+    curl -k "${OTG_HOST}/control/state" \
         -H  "Content-Type: application/json" \
-        -d '{"state": "start"}'
+        -d '{"choice": "protocol","protocol": {"choice": "all","all": {"state": "start"}}}'
     ```
 
 3. Fetch ARP table
@@ -236,9 +236,9 @@ To request KENG to use ARP to determine destination MAC address for a flow `f1`,
 6. Start transmitting flows
 
     ```Shell
-    curl -sk "${OTG_HOST}/control/transmit" \
+    curl -sk "${OTG_HOST}/control/state" \
         -H  "Content-Type: application/json" \
-        -d '{"state": "start"}'
+        -d '{"choice": "traffic", "traffic": {"choice": "flow_transmit", "flow_transmit": {"state": "start"}}}'
     ```
 
 7. Fetch flow metrics (stop with `Ctrl-c`)

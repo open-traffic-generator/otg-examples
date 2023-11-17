@@ -98,8 +98,8 @@ def main():
     f1, f2 = cfg.flows.flow(name="flow p1->p2").flow(name="flow p2->p1")
 
     # and assign source and destination ports for each
-    f1.tx_rx.port.tx_name, f1.tx_rx.port.rx_name = p1.name, p2.name
-    f2.tx_rx.port.tx_name, f2.tx_rx.port.rx_name = p2.name, p1.name
+    f1.tx_rx.port.tx_name, f1.tx_rx.port.rx_names = p1.name, [p2.name]
+    f2.tx_rx.port.tx_name, f2.tx_rx.port.rx_names = p2.name, [p1.name]
 
     # configure packet size, rate and duration for both flows
     f1.size.fixed, f2.size.fixed = 128, 256
@@ -140,7 +140,12 @@ def main():
     print(cfg)
 
     # push configuration to controller
-    api.set_config(cfg)
+    try:
+        api.set_config(cfg)
+    except Exception as e:
+        print("[ERROR] In response to OTG SetConfig")
+        print(e)
+        return 1
 
     # start transmitting configured flows
     ts = api.control_state()

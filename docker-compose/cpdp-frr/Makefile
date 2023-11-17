@@ -26,11 +26,11 @@ install-docker-compose: /usr/local/bin/docker-compose
 
 install-clab: /usr/bin/containerlab
 /usr/bin/containerlab:
-	bash -c "$$(curl -sL https://get.containerlab.dev)"
+	bash -c "$$(curl -sL https://get.containerlab.dev)" -- -v 0.46.2
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.5.0-rc1
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
 
 install-clean:
 	-sudo rm -f `command -v docker-compose`
@@ -62,8 +62,8 @@ deploy-lab:
 	sudo -E docker-compose up -d
 
 deploy-net:
-	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
-	sudo ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
+	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
+	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
 
 deploy-clab:
 	sudo -E containerlab deploy --reconfigure
@@ -87,7 +87,7 @@ otg-set-config:
 	@echo "############################################"
 	@echo "# Apply OTG configuration"
 	@echo
-	sleep 5 # pause for ixia-c-controller to detect newly created interfaces
+	sleep 5 # pause for keng-controller to detect newly created interfaces
 	curl -sk "$(OTG_HOST)/config" \
 		-H "Content-Type: application/json" \
 		-d @otg.json | tee curl.out
@@ -98,9 +98,9 @@ otg-start-protocols:
 	@echo "############################################"
 	@echo "# Start protocols"
 	@echo
-	curl -sk "$(OTG_HOST)/control/protocols" \
+	curl -sk "$(OTG_HOST)/control/state" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}' | tee curl.out
+		-d '{"choice": "protocol","protocol": {"choice": "all","all": {"state": "start"}}}' | tee curl.out
 	@echo
 	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 
@@ -128,18 +128,18 @@ otg-fetch-bgp:
 	@echo
 	cat curl.out | jq -e "if (.bgpv4_metrics | length) == 2 and \
 		.bgpv4_metrics[0].session_state == \"up\" and \
-		.bgpv4_metrics[0].routes_received == 2 and \
+		.bgpv4_metrics[0].routes_received == \"2\" and \
 		.bgpv4_metrics[1].session_state == \"up\" and \
-		.bgpv4_metrics[1].routes_received == 2 \
+		.bgpv4_metrics[1].routes_received == \"2\" \
 		then true else false end"
 
 otg-trasmit:
 	@echo "############################################"
 	@echo "# Start transmitting flows"
 	@echo
-	curl -sk "$(OTG_HOST)/control/transmit" \
+	curl -sk "$(OTG_HOST)/control/state" \
 		-H  "Content-Type: application/json" \
-		-d '{"state": "start"}' | tee curl.out
+		-d '{"choice": "traffic", "traffic": {"choice": "flow_transmit", "flow_transmit": {"state": "start"}}}' | tee curl.out
 	@echo
 	cat curl.out | jq -e "if (.errors | length) > 0 then false else true end"
 

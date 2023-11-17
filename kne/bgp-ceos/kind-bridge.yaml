@@ -8,9 +8,9 @@ cluster:
     recycle: True
     version: v0.17.0
     image: kindest/node:v1.26.0
-    config: ./kne/kind/kind-no-cni.yaml
+    config: ./kne/manifests/kind/config.yaml
     additionalManifests:
-      - ./kne/manifests/kind/kind-bridge.yaml
+      - ./kne/manifests/kind/bridge.yaml
 ingress:
   kind: MetalLB
   spec:

@@ -3,7 +3,7 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-controller:0.0.1-3889
+      image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
       cmd: --accept-eula --http-port 8443
       ports:
         - 443:443
@@ -11,7 +11,7 @@ topology:
         graph-hide: yes
     te1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
       exec:
         - ip address add 192.0.2.1/30 dev eth1
         - ip route add 192.0.2.4/30 via 192.0.2.2
@@ -32,7 +32,7 @@ topology:
       - ./frr/vtysh.conf:/etc/frr/vtysh.conf
     te2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
       exec:
         - ip address add 192.0.2.5/30 dev eth1
         - ip route add 192.0.2.0/30 via 192.0.2.6
@@ -46,7 +46,7 @@ topology:
         graph-icon: server
     graphite:
       kind: linux
-      image: netreplica/graphite:head
+      image: netreplica/graphite:latest
       env:
         CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
       binds:

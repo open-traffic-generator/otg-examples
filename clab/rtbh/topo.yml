@@ -1,15 +1,15 @@
 name: rtbh
 mgmt:
   network: fixedips
-  ipv4_subnet: 172.100.100.0/24
-  ipv6_subnet: 2001:172:100:100::/80
+  ipv4-subnet: 172.100.100.0/24
+  ipv6-subnet: 2001:172:100:100::/80
 topology:
   nodes:
     pe-router:
       kind: linux
       image: frrouting/frr:v8.2.2
-      mgmt_ipv4: 172.100.100.2
-      mgmt_ipv6: 2001:172:100:100::2
+      mgmt-ipv4: 172.100.100.2
+      mgmt-ipv6: 2001:172:100:100::2
       binds:
       - ./pe-router/daemons:/etc/frr/daemons
       - ./pe-router/frr.conf:/etc/frr/frr.conf
@@ -19,8 +19,8 @@ topology:
     ce-router:
       kind: linux
       image: netreplica/frr-sflow:v8.2.2
-      mgmt_ipv4: 172.100.100.3
-      mgmt_ipv6: 2001:172:100:100::3
+      mgmt-ipv4: 172.100.100.3
+      mgmt-ipv6: 2001:172:100:100::3
       binds:
       - ./ce-router/daemons:/etc/frr/daemons
       - ./ce-router/frr.conf:/etc/frr/frr.conf
@@ -34,9 +34,9 @@ topology:
         graph-level: 1
     ixia:
       kind: keysight_ixia-c-one
-      image: ghcr.io/open-traffic-generator/ixia-c-one:0.0.1-3889
-      mgmt_ipv4: 172.100.100.10
-      mgmt_ipv6: 2001:172:100:100::10
+      image: ghcr.io/open-traffic-generator/ixia-c-one:0.1.0-3
+      mgmt-ipv4: 172.100.100.10
+      mgmt-ipv6: 2001:172:100:100::10
       exec:
         - sh -c './ifcfg add eth1 198.51.100.2 24 >/dev/null'
         - sh -c './ifcfg add eth2 192.0.2.2 24 >/dev/null'
@@ -49,8 +49,8 @@ topology:
     gosnappi:
       kind: linux
       image: gosnappi:local
-      mgmt_ipv4: 172.100.100.101
-      mgmt_ipv6: 2001:172:100:100::101
+      mgmt-ipv4: 172.100.100.101
+      mgmt-ipv6: 2001:172:100:100::101
       binds:
         - .:/otg
       labels:
@@ -58,8 +58,8 @@ topology:
     controller:
       kind: linux
       image: sflow/ddos-protect
-      mgmt_ipv4: 172.100.100.6
-      mgmt_ipv6: 2001:172:100:100::6
+      mgmt-ipv4: 172.100.100.6
+      mgmt-ipv6: 2001:172:100:100::6
       env:
         CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
         RTPROP: >
@@ -101,8 +101,8 @@ topology:
     graphite:
       kind: linux
       image: netreplica/graphite:latest
-      mgmt_ipv4: 172.100.100.102
-      mgmt_ipv6: 2001:172:100:100::102
+      mgmt-ipv4: 172.100.100.102
+      mgmt-ipv6: 2001:172:100:100::102
       env:
         CLAB_SSH_CONNECTION: ${SSH_CONNECTION}
       binds:

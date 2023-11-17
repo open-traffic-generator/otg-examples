@@ -144,9 +144,10 @@ clab/srl-oper-group/opergroup-lab/
 *.pcapng
 
 # local featureprofile artifacts
-hybrid/fp-b2b/featureprofiles/
 hw/ixhw-b2b/otgb2b.binding*
 hw/ixhw-b2b/fp-static/
+kne/bgp-ceos/kne/
+kne/bgp-ceos/featureprofiles/
 
 # diagnostics
 logs-*

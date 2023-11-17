@@ -1,0 +1,6 @@
+otg_host: https://localhost:8443
+otg_ports: ["localhost:5555+localhost:50071", "localhost:5556+localhost:50072"]
+otg_speed: speed_1_gbps
+otg_capture_check: false
+otg_iterations: 1
+otg_grpc_transport: false
