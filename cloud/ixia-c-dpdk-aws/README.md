@@ -71,7 +71,8 @@ source ./venv/bin/activate
 
 2. Run flows via snappi script, reporting flow metrics
 
-```Shell
+```
+cd ./keng-python/cloud/ixia-c-dpdk-aws/
 ./rfc2544_test_n_flows.sh -s 9000
 ```
 
