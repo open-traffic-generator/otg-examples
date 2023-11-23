@@ -1,6 +1,6 @@
 services:
   operator:
-    image: ghcr.io/open-traffic-generator/ixia-c-operator:0.3.3
+    image: ghcr.io/open-traffic-generator/keng-hybrid-operator:0.0.4
     command: --server-bind-address=:35000
     pid: "host"
     user: "root"
