@@ -56,7 +56,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [Hello, snappi! Welcome to the Clab!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b)      | Ixia-c-one   | B2B  | `snappi`             | Containerlab    | yes |
 | [Dear snappi, please meet Scapy!](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/ixia-c-b2b/SCAPY.md) | Ixia-c-one   | B2B  | `scapy` & `snappi`   | Containerlab    | yes |
 | [RTBH](https://github.com/open-traffic-generator/otg-examples/blob/main/clab/rtbh)                                           | Ixia-c-one   | FRR  | `gosnappi`           | Containerlab    | yes |
-| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | Ixia-c PE+TE | B2B  | `ondatra`            | Ixia-c Operator | yes |
+| [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | Ixia-c PE+TE | B2B  | `ondatra`            | KENG Operator   | yes |
 | [B2B IxOS Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | IxOS Hardware| B2B  | `snappi` & `ondatra` | Compose         | no  |
 | [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | Ixia-c PE+TE | cEOS | `otgen`              | KNE             | no  |
 

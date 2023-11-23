@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-4555"
-OTG_gNMI = "ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.12.7"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-53"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.13.0"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
-IxiaC_PE = "ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.331"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337"
 
 export OTG_PORT1 = veth0
 export OTG_PORT2 = veth1
@@ -15,7 +15,7 @@ all: install pull deploy start run
 clean: stop undeploy
 
 .PHONY: clean-all
-clean-all: clean pull-clean uninstall
+clean-all: clean clean-pull uninstall
 
 create-go-cache:
 	mkdir -p $$HOME/.cache/go-build
