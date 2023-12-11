@@ -52,13 +52,6 @@ flows:
       tx_name: p1
       rx_names:
         - p2
-layer1:
-- name: l1ports
-  port_names:
-    - p1
-    - p2
-  auto_negotiation:
-    rs_fec: true
 ports:
 - location: ${OTG_LOCATION_P1}
   name: p1
