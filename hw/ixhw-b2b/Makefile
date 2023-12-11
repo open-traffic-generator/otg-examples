@@ -35,7 +35,7 @@ deploy-lab:
 	sleep 5
 
 remove-lab:
-	sudo docker compose down
+	sudo -E docker compose down
 
 ###############################
 # Run tests
