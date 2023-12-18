@@ -10,7 +10,7 @@ NO_VALIDATION_STEPS        = 5
 TRIAL_RUN_TIME             = 5  # seconds
 FINAL_RUN_TIME             = 30 # seconds
 TEST_GAP_TIME              = 1  # seconds
-VALIDATION_DECREASE_LINE_PERCENTAGE = 0.01
+VALIDATION_DECREASE_LINE_PERCENTAGE = 2
 RESULTS_FILE_PATH          = "./throughput_results_rfc2544_n_flows.json"
 
 
@@ -225,7 +225,7 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
     for flow in cfg.flows:
         flows[flow.name] = find_location_by_name(cfg.ports, flow.tx_rx.port.tx_name) + \
                              " -> " + \
-                           find_location_by_name(cfg.ports, flow.tx_rx.port.rx_name)
+                           find_location_by_name(cfg.ports, flow.tx_rx.port.rx_names[0])
 
     results["test_settings"] = test_settings
     results["flows"] = flows

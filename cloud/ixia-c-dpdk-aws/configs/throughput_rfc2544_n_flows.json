@@ -26,7 +26,7 @@
                 "choice": "port",
                 "port": {
                     "tx_name": "VM1-TE1",
-                    "rx_name": "VM2-TE1"
+                    "rx_names": ["VM2-TE1"]
                 }
             },
             "metrics": {
