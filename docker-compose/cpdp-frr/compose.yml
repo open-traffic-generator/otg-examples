@@ -45,7 +45,7 @@ services:
     environment:
     - INTF_LIST=veth2
   frr:
-    image: quay.io/frrouting/frr:9.0.1
+    image: quay.io/frrouting/frr:9.1.0
     cap_add:
       - NET_ADMIN
       - NET_RAW
