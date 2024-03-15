@@ -10,6 +10,10 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 .PHONY: install
 install:
 	$(MAKE) -C Terraform deploy
+	
+.PHONY: connect
+connect:
+	$(MAKE) -C Terraform ssh-agent1
 
 .PHONY: clean
 clean:
