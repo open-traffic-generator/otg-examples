@@ -10,7 +10,7 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 .PHONY: install
 
 install:
-ifeq ($(shell dpkg -l | grep terraform -c 2> /dev/null),)
+ifeq ($(shell command -v terraform 2> /dev/null),)
 	wget -O- https://apt.releases.hashicorp.com/gpg | \
 	gpg --dearmor | \
 	sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
