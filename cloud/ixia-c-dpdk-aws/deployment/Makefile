@@ -81,4 +81,4 @@ docker-compose:
 
 run: run-rfc2544
 run-rfc2544:
-	docker run --rm -t --net host -v $(pwd):/snappi --name snappi snappi:local bash -c "./rfc2544_test_n_flows.sh -s 9000"
+	docker run --rm -t --net host -v $$(pwd):/snappi --name snappi snappi:local bash -c "./rfc2544_test_n_flows.sh -s 9000"
