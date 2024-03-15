@@ -1,4 +1,4 @@
-# KENG-on-AWS-1-App-2-Agents-1-VPC-1-Public-Subnet-1-Private-Subnet
+# KENG-on-AWS-2-Agents-1-VPC-1-Public-Subnet-1-Private-Subnet
 
 ## Description
 This deployment creates a topology with a single virtual private cloud having a single public facing subnet and a single private subnet.
@@ -21,6 +21,7 @@ You **MAY** uncomment one or more lines as needed in this file and replace value
 terraform init
 terraform apply -auto-approve
 terraform destroy -auto-approve
+terraform output SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" > SshKey.pem
 ```
 
 ## Optional Usage

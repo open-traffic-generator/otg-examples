@@ -29,9 +29,6 @@ output "AvailabilityZones" {
 output "SshKey" {
 	sensitive = true
 	value = {
-		"private_key_openssh" : replace(tls_private_key.SshKey.private_key_openssh, "/\\s\\s/", "")
 		"private_key_pem" : replace(tls_private_key.SshKey.private_key_pem, "  ", "")
-		"public_key_openssh" : replace(tls_private_key.SshKey.public_key_openssh, "/\\s\\s/", "")
-		"public_key_pem" : replace(tls_private_key.SshKey.public_key_pem, "/\\s\\s/", "")
 	}
 }
