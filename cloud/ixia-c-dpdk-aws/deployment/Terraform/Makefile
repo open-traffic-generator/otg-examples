@@ -10,7 +10,7 @@ destroy:
 	terraform destroy -auto-approve
 
 ssh-agent1:
-	sudo terraform output SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" > SshKey.pem
+	terraform output SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" | sudo tee SshKey.pem > /dev/null
 	export Agent1DnsName=$$(terraform output -json Agent1Eth0ElasticIp | jq -r .public_dns)
 	echo $$Agent1DnsName
 	sudo chmod 400 SshKey.pem
