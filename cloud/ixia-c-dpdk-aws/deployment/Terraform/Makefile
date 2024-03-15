@@ -2,6 +2,9 @@ deploy: init apply
 
 init:
 	terraform init
+	
+variables:
+	cat terraform.required.auto.tfvars | sed 's/# Inbound/Inbound/' | sed 's/# User/User/' | sed "s/1.1.1.1/$$(curl --silent ifconfig.me)/" > terraform.auto.tfvars
 
 apply:
 	terraform apply -auto-approve
