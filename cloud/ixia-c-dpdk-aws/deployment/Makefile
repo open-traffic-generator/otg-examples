@@ -16,7 +16,7 @@ build: build-snappi
 
 build-snappi:
 ifeq ($(shell sudo docker images -q snappi:local 2> /dev/null),)
-	docker build -t snappi:local /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/py
+	-docker build -t snappi:local /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/py
 endif
 
 ###############################
@@ -30,12 +30,12 @@ pull-keng: pull-keng-controller pull-ixia-c-traffic-engine
 
 pull-keng-controller:
 ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
-        -docker pull $(KENG_Controller)
-        docker tag $(KENG_Controller) keng-controller:latest
+	-docker pull $(KENG_Controller)
+	docker tag $(KENG_Controller) keng-controller:latest
 endif
 
 pull-ixia-c-traffic-engine:
 ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-        -docker pull $(IxiaC_TE)
-        docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
+	-docker pull $(IxiaC_TE)
+	docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
 endif
