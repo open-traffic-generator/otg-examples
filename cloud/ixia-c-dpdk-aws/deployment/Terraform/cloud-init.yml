@@ -4,6 +4,7 @@ packages:
   - docker.io
   - docker-compose
   - dpdk-kmods-dkms
+  - jq
 groups:
   - docker
 users:
