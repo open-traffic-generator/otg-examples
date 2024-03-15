@@ -5,4 +5,5 @@ throughput_results_rfc2544_n_flows.json
 **/.terraform
 *.tfstate*
 *.lock.hcl
+*.pem
 terraform.auto.tfvars
