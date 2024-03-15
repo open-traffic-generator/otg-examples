@@ -57,17 +57,17 @@ endif
 # Enable DPDK
 ###############################
 
-.PHONY dpdk
+.PHONY: dpdk
 
 dpdk:
-	chmod +x /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/*.sh	
-	/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/setup.sh
+	chmod +x /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/deployment/*.sh
+	/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/deployment/setup_dpdk.sh
 
 ###############################
 # Compose Docker
 ###############################
 
-.PHONY docker-compose
+.PHONY: docker-compose
 
 docker-compose:
 	sudo -H -u ubuntu bash -c 'docker-compose -f /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/deployment/docker-compose.yaml up -d'
