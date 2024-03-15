@@ -15,16 +15,8 @@ users:
     groups: docker
 runcmd:
   - sudo -H -u ${UserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
-  - docker pull ${KengControllerImage}
-  - docker pull ${KengTrafficEngineImage}
-  - docker images
-  - sudo -H -u ${UserName} bash -c 'echo "alias python=python3" >> $HOME/.bashrc'
-  - sudo -H -u ${UserName} bash -c 'echo "alias pip=pip3" >> $HOME/.bashrc'
-  - python3 -m pip install --upgrade pip
-  - python3 --version
-  - pip3 --version
-  - sudo -H -u ${UserName} bash -c 'python3 -m venv $HOME/venv'
-  - sudo -H -u ${UserName} bash -c 'source $HOME/venv/bin/activate; pip install -r $HOME/${GitRepoName}/${GitRepoExecPath}/py/requirements.txt; deactivate'
+  - make pull -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
+  - make build -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
   - AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
   - AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
   - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
