@@ -10,12 +10,8 @@ data "cloudinit_config" "init_cli" {
 	part {
 		content_type = "text/cloud-config"
 		content = templatefile("cloud-init.yml", {
-			GitRepoDeployPath: local.GitRepoDeployPath
-			GitRepoExecPath: local.GitRepoExecPath
 			GitRepoName: local.GitRepoName
 			GitRepoUrl: local.GitRepoUrl
-			KengControllerImage: local.KengControllerImage
-			KengTrafficEngineImage: local.KengTrafficEngineImage
 			UserName: local.AppTag
 		})
 	}
