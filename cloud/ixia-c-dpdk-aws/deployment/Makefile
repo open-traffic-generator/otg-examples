@@ -28,10 +28,18 @@ endif
 pull: pull-keng
 pull-keng: pull-keng-controller pull-ixia-c-traffic-engine
 
+clean-pull: remove-keng
+remove-keng: remove-keng-controller remove-ixia-c-traffic-engine
+
 pull-keng-controller:
 ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
 	-docker pull $(KENG_Controller)
 	docker tag $(KENG_Controller) keng-controller:latest
+endif
+
+remove-keng-controller:
+ifneq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
+	docker rmi `docker images -q keng-controller:latest 2> /dev/null` --force
 endif
 
 pull-ixia-c-traffic-engine:
@@ -39,3 +47,38 @@ ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
 	-docker pull $(IxiaC_TE)
 	docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
 endif
+
+remove-ixia-c-traffic-engine:
+ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
+	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
+endif
+
+###############################
+# Enable DPDK
+###############################
+
+.PHONY dpdk
+
+dpdk:
+	chmod +x /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/*.sh	
+	/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/setup.sh
+
+###############################
+# Compose Docker
+###############################
+
+.PHONY docker-compose
+
+docker-compose:
+	sudo -H -u ubuntu bash -c 'docker-compose -f /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/deployment/docker-compose.yaml up -d'
+	sudo -H -u ubuntu bash -c 'docker-compose -f /home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/deployment/docker-compose.yaml ps'
+
+###############################
+# Run tests
+###############################
+
+.PHONY: run
+
+run: run-rfc2544
+run-rfc2544:
+	docker run --rm -t --net host -v $(pwd):/snappi --name snappi snappi:local bash -c "./rfc2544_test_n_flows.sh -s 9000"

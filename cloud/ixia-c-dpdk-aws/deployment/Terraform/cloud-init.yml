@@ -4,9 +4,6 @@ packages:
   - docker.io
   - docker-compose
   - dpdk-kmods-dkms
-  - jq
-  - python3-pip
-  - python3.10-venv
 groups:
   - docker
 users:
@@ -17,18 +14,8 @@ runcmd:
   - sudo -H -u ${UserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
   - make pull -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
   - make build -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
-  - AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
-  - AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
-  - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
-  - modprobe uio
-  - modprobe igb_uio
-  - sudo -H -u ${UserName} bash -c 'git clone https://github.com/DPDK/dpdk.git $HOME/dpdk'
-  - /home/${UserName}/dpdk/usertools/dpdk-devbind.py -b igb_uio $AgentEth1LogicalName -s --force
-  - chmod +x /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/*.sh
-  - chmod +x /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
-  - /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
-  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml up -d'
-  - sudo -H -u ${UserName} bash -c 'docker-compose -f $HOME/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml ps'
+  - make dpdk -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
+  - make docker-compose -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}
 merge_how:
  - name: list
    settings: [append]
