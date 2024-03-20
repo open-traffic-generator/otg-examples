@@ -91,11 +91,11 @@ layer1:
   promiscuous: true
   speed: speed_1_gbps
 ports:
-- location: te1:5555
+- location: te1:5555;1
   name: p1
-- location: te1:5555
+- location: te1:5555;2
   name: p2
-- location: te2:5555
+- location: te2:5555;1
   name: p3
-- location: te2:5555
+- location: te2:5555;2
   name: p4
