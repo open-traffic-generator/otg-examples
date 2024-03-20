@@ -22,7 +22,7 @@ install-clab: /usr/bin/containerlab
 
 install-otgen: /usr/local/bin/otgen
 /usr/local/bin/otgen:
-	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
+	bash -c "$$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.3
 
 install-clean:
 	-sudo rm -f `command -v otgen`
