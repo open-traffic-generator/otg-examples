@@ -47,16 +47,17 @@ sudo -E containerlab deploy -t topo.yml
     ```Shell
     otgen run --insecure --file otg.yaml --yaml --metrics flow | otgen transform --metrics flow | otgen display -m table
     ```
-**Expectation** :   Tx frames/bytes should be equal to Rx frames/bytes
+
+    **Expectation** : Tx frames/bytes should be equal to Rx frames/bytes
 
 2. Individual port statistics showing packet distribution over the LAG members
 
     ```Shell
     otgen run --insecure --file otg.yaml --yaml --metrics port | otgen transform --metrics port | otgen display -m table
     ```
-**Expectation** :  On both Rx and Tx LAG, packets should be distributed equally between the two member ports of the LAG.
-              To achieve this , and to enable hashing of Tx packets between the two member ports , the destination address is varied by using 'values' with two distinct values, to allow two constituent flows to be created.
-              Similar hashing can be achieved by also varying other fields such as Source IPv4 address or Src/Dst UDP port numbers.
+
+    **Expectation** : On both Rx and Tx LAG, packets should be distributed equally between the two member ports of the LAG. To achieve this, and to enable hashing of Tx packets between the two member ports, the destination address is varied by using 'values' with two distinct values, to allow two constituent flows to be created. Similar hashing can be achieved by also varying other fields such as Source IPv4 address or Src/Dst UDP port numbers.
+
 ## Destroy the lab
 
 ```Shell
