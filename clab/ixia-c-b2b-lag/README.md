@@ -31,7 +31,7 @@ In this lab two Ixia-c Traffic Engines have a pairs of traffic ports each connec
 1. Install `otgen`
 
     ```Shell
-    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.2
+    bash -c "$(curl -sL https://get.otgcdn.net/otgen)" -- -v 0.6.3
     ```
 
 ## Deploy a lab
