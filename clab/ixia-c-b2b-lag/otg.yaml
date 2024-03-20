@@ -43,7 +43,7 @@ flows:
   tx_rx:
     choice: port
     port:
-      rx_name: l2
+      rx_names: [l2]
       tx_name: l1
 lags:
 - min_links: 1
