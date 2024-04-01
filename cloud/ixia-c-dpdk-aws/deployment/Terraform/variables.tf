@@ -56,6 +56,7 @@ variable "Region" {
 }
 
 variable "UserEmailTag" {
+	default = "terraform@example.com"
 	description = "Email address tag of user creating the deployment"
 	type = string
 	validation {
