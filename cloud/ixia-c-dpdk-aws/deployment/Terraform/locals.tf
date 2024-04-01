@@ -10,7 +10,6 @@ locals {
 	AwsMetadataServerUrl = var.AwsMetadataServerUrl
 	DockerComposeServices = yamldecode(file("../docker-compose.yaml"))["services"]
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
-	GitRepoDeployPath = "${local.GitRepoExecPath}/deployment/"
 	GitRepoExecPath = "cloud/ixia-c-dpdk-aws"
 	GitRepoName = var.GitRepoName
 	GitRepoUrl = var.GitRepoUrl
