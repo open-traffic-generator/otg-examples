@@ -7,33 +7,12 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 # Infrastructure deployment
 ###############################
 
-.PHONY: terraform-install
-terraform-install:
-ifeq ($(shell command -v terraform 2> /dev/null),)
-	sudo yum install -y yum-utils
-	sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-	sudo yum -y install terraform	
-endif
-
-.PHONY: terraform-variables
-terraform-variables:
-	$(MAKE) -C ./Terraform variables
-
-.PHONY: terraform-deploy
-terraform-deploy:
-	$(MAKE) -C ./Terraform deploy
-	
-.PHONY: terraform-connect
-terraform-connect:
-	$(MAKE) -C ./Terraform ssh-agent1
-
-.PHONY: terraform-clean
-terraform-clean:
-	$(MAKE) -C ./Terraform destroy
+.PHONY: aws
+aws:
+	$(MAKE) -C ./Terraform all
 
 .PHONY: prereqs
 prereqs: build pull
-
 
 ###############################
 # Build components
