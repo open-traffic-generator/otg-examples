@@ -3,7 +3,7 @@ all: install init variables apply connect
 clean: destroy
 
 install:
-ifeq ($(shell grep "^ID=" /etc/*elease | cut -d "=" -f 2), amzn)
+ifeq ($(shell grep "^ID=" /etc/*elease | cut -d "=" -f 2| sed -e 's/^"//' -e 's/"$$//'), amzn)
 	ifeq ($(shell command -v terraform 2> /dev/null),)
 		sudo yum install -y yum-utils
 		sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
