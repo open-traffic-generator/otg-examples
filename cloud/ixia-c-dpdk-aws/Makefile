@@ -17,19 +17,19 @@ endif
 
 .PHONY: terraform-variables
 terraform-variables:
-	$(MAKE) -C deployment/Terraform variables
+	$(MAKE) -C ./Terraform variables
 
 .PHONY: terraform-deploy
 terraform-deploy:
-	$(MAKE) -C deployment/Terraform deploy
+	$(MAKE) -C ./Terraform deploy
 	
 .PHONY: terraform-connect
 terraform-connect:
-	$(MAKE) -C deployment/Terraform ssh-agent1
+	$(MAKE) -C ./Terraform ssh-agent1
 
 .PHONY: terraform-clean
 terraform-clean:
-	$(MAKE) -C deployment/Terraform destroy
+	$(MAKE) -C ./Terraform destroy
 
 .PHONY: prereqs
 prereqs: build pull
