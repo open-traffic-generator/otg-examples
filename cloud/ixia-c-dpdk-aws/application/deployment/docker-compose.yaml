@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  controller:
+    image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
+    command: --accept-eula --http-port 8443
+    network_mode: "host"
+    restart: always
+
+  TE1-5551:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
+    network_mode: "host"
+    privileged: true
+    restart: "no"
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+    - OPT_LISTEN_PORT=5551
+    - ARG_IFACE_LIST=${AgentEth1BusInfo}
+    - ARG_CORE_LIST="0 1 2"
