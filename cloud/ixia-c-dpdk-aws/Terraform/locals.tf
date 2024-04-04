@@ -8,16 +8,11 @@ locals {
 	AppTag = "ubuntu"
 	AppVersion = "2204-lts"
 	AwsMetadataServerUrl = var.AwsMetadataServerUrl
-	DockerComposeServices = yamldecode(file("../docker-compose.yaml"))["services"]
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoExecPath = "cloud/ixia-c-dpdk-aws"
 	GitRepoName = var.GitRepoName
 	GitRepoUrl = var.GitRepoUrl
 	InboundIPv4CidrBlocks = var.InboundIPv4CidrBlocks
-	KengControllerImage = local.KengControllerService["image"]
-	KengControllerService = local.DockerComposeServices["controller"]
-	KengTrafficEngineImage = local.KengTrafficEngineService["image"]
-	KengTrafficEngineService = local.DockerComposeServices["TE1-5551"]
 	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
 	PlacementGroupStrategy = "cluster"
 	Preamble = "${local.UserLoginTag}-${local.UserProjectTag}-${local.AppTag}-${local.AppVersion}"
