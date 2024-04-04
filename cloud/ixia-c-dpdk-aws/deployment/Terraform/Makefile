@@ -1,4 +1,4 @@
-deploy: init apply
+aws: init apply
 
 init:
 	terraform init

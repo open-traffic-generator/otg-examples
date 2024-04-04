@@ -19,15 +19,15 @@ endif
 terraform-variables:
 	$(MAKE) -C deployment/Terraform variables
 
-.PHONY: deploy
+.PHONY: terraform-deploy
 terraform-deploy:
 	$(MAKE) -C deployment/Terraform deploy
 	
-.PHONY: connect
+.PHONY: terraform-connect
 terraform-connect:
 	$(MAKE) -C deployment/Terraform ssh-agent1
 
-.PHONY: clean
+.PHONY: terraform-clean
 terraform-clean:
 	$(MAKE) -C deployment/Terraform destroy
 
