@@ -13,10 +13,10 @@ users:
     groups: docker
 runcmd:
   - sudo -H -u ${UserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
-  - make pull -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}
-  - make build -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}
-  - make dpdk -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}
-  - make docker-compose -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}
+  - make pull -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/Docker
+  - make build -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/Python
+  - make dpdk -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/DPDK
+  - make docker-compose -C /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/Docker
 merge_how:
  - name: list
    settings: [append]

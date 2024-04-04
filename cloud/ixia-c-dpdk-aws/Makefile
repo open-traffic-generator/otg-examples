@@ -4,8 +4,8 @@
 
 .PHONY: aws
 aws:
-	$(MAKE) -C ./Terraform all
+	$(MAKE) -C ./deployment/Terraform all
 
 .PHONY: clean
 clean:
-	$(MAKE) -C ./Terraform clean
+	$(MAKE) -C ./deployment/Terraform clean

@@ -7,7 +7,7 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 # Pull images
 ###############################
 
-.PHONY: all
+.PHONY: pull
 all: pull-keng-controller pull-ixia-c-traffic-engine
 
 clean: remove-keng-controller remove-ixia-c-traffic-engine
@@ -41,6 +41,5 @@ endif
 ###############################
 
 .PHONY: docker-compose
-
 docker-compose:
 	$(MAKE) -C deployment docker-compose
