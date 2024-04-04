@@ -33,5 +33,14 @@ endif
 
 remove-ixia-c-traffic-engine:
 ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
-	docker rmi `docker images -q keng-controller:latest 2> /dev/null` --force
+	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
+
+###############################
+# Compose Docker
+###############################
+
+.PHONY: docker-compose
+
+docker-compose:
+	$(MAKE) -C deployment docker-compose
