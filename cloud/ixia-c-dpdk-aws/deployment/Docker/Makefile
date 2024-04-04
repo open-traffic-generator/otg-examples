@@ -23,7 +23,7 @@ ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
 	docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
 endif
 
-.PHONY clean
+.PHONY: clean
 clean: remove-keng-controller remove-ixia-c-traffic-engine
 
 remove-keng-controller:
