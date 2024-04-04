@@ -1,0 +1,30 @@
+{
+  "768": [
+    "12.448 Mpps",
+    "76479.0 Mbps",
+    "19.52 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1024": [
+    "9.579 Mpps",
+    "78473.0 Mbps",
+    "19.94 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1518": [
+    "6.763 Mpps",
+    "82124.0 Mbps",
+    "20.78 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "9000": [
+    "1.385 Mpps",
+    "99747.0 Mbps",
+    "25.0 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ]
+}

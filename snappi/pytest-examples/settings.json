@@ -1,0 +1,21 @@
+{
+  "username": "common",
+  "http_server": "https://localhost:8443",
+  "grpc_server": "localhost:40051",
+  "ports": [
+    "10.3.147.35:5551",
+    "10.3.147.36:5551"
+  ],
+  "soft_dut": "localhost:22",
+  "speed": "speed_100_gbps",
+  "line_rate": 100,
+  "mtu": 9000,
+  "promiscuous": true,
+  "timeout_seconds": 300,
+  "interval_seconds": 1,
+  "log_level": "info",
+  "http_transport": true,
+  "dynamic_stats_output": true,
+  "capture_validation": false,
+  "flow_metric_validation": false
+}

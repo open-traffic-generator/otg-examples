@@ -1,0 +1,46 @@
+{
+  "768": [
+    "12.401 Mpps",
+    "76194.0 Mbps",
+    "19.88 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1024": [
+    "9.8 Mpps",
+    "80282.0 Mbps",
+    "20.71 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1518": [
+    "6.7 Mpps",
+    "81362.0 Mbps",
+    "20.71 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "9000": [
+    "1.324 Mpps",
+    "95300.0 Mbps",
+    "24.62 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "test_settings": {
+    "THEORETICAL_MAX_LINK_SPEED": "100 Gbps",
+    "PACKET_LOSS_TOLERANCE": "0.0%",
+    "NO_DETERMINATION_STEPS": 6,
+    "NO_VALIDATION_STEPS": 5,
+    "TRIAL_RUN_TIME": "2s",
+    "FINAL_RUN_TIME": "5s",
+    "VALIDATION_DECREASE_LINE_PERCENTAGE": "4%",
+    "NUMBER_OF_FLOWS": "4 flows"
+  },
+  "flows": {
+    "f1 VM1-TE1 -> VM2-TE1": "10.3.147.35:5551 -> 10.3.147.36:5551",
+    "f2 VM1-TE2 -> VM2-TE2": "10.3.147.35:5552 -> 10.3.147.36:5552",
+    "f3 VM1-TE3 -> VM2-TE3": "10.3.147.35:5553 -> 10.3.147.36:5553",
+    "f4 VM1-TE4 -> VM2-TE4": "10.3.147.35:5554 -> 10.3.147.36:5554"
+  }
+}

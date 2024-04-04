@@ -1,0 +1,46 @@
+{
+  "768": [
+    "12.377 Mpps",
+    "76043.0 Mbps",
+    "19.76 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1024": [
+    "9.53 Mpps",
+    "78069.0 Mbps",
+    "20.14 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "1518": [
+    "6.507 Mpps",
+    "79023.0 Mbps",
+    "20.12 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "9000": [
+    "1.343 Mpps",
+    "96717.0 Mbps",
+    "24.99 % per flow",
+    "0 packets lost",
+    "0.0 % loss"
+  ],
+  "test_settings": {
+    "THEORETICAL_MAX_LINK_SPEED": "100 Gbps",
+    "PACKET_LOSS_TOLERANCE": "0.0%",
+    "NO_DETERMINATION_STEPS": 10,
+    "NO_VALIDATION_STEPS": 5,
+    "TRIAL_RUN_TIME": "5s",
+    "FINAL_RUN_TIME": "30s",
+    "VALIDATION_DECREASE_LINE_PERCENTAGE": "4%",
+    "NUMBER_OF_FLOWS": "4 flows"
+  },
+  "flows": {
+    "f1": "10.3.147.35:5551 -> 10.3.147.36:5551",
+    "f2": "10.3.147.35:5552 -> 10.3.147.36:5552",
+    "f3": "10.3.147.35:5553 -> 10.3.147.36:5553",
+    "f4": "10.3.147.35:5554 -> 10.3.147.36:5554"
+  }
+}
