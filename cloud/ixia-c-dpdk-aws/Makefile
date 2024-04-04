@@ -11,6 +11,9 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 aws:
 	$(MAKE) -C ./Terraform all
 
+clean:
+	$(MAKE) -C ./Terraform clean
+
 .PHONY: prereqs
 prereqs: build pull
 
