@@ -9,7 +9,7 @@ locals {
 	AppVersion = "2204-lts"
 	AwsMetadataServerUrl = var.AwsMetadataServerUrl
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
-	GitRepoExecPath = "cloud/ixia-c-dpdk-aws"
+	GitRepoExecPath = "cloud/ixia-c-dpdk-aws/application"
 	GitRepoName = var.GitRepoName
 	GitRepoUrl = var.GitRepoUrl
 	InboundIPv4CidrBlocks = var.InboundIPv4CidrBlocks
