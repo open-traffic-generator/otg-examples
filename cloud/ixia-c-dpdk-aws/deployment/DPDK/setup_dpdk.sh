@@ -1,7 +1,7 @@
 #!/bin/bash
 UserName="ubuntu"
 GitRepoName="keng-python"
-GitRepoDeployPath="cloud/ixia-c-dpdk-aws/deployment"
+GitRepoDeployPath="cloud/ixia-c-dpdk-aws/application/deployment"
 AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
 AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
 echo "AgentEth1BusInfo=$AgentEth1BusInfo" > /home/$UserName/$GitRepoName/$GitRepoDeployPath/.env
