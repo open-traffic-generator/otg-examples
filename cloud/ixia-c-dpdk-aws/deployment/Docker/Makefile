@@ -8,7 +8,7 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
 ###############################
 
 .PHONY: pull
-all: pull-keng-controller pull-ixia-c-traffic-engine
+pull: pull-keng-controller pull-ixia-c-traffic-engine
 
 clean: remove-keng-controller remove-ixia-c-traffic-engine
 
