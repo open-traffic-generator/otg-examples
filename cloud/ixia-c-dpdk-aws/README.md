@@ -40,6 +40,8 @@ terraform output Agent1Eth0ElasticIp
 
 4. Output the SSH key pair associated with the AWS instances and save the **private_key_pem** material to a file.
 
+5. Remove excess whitespace when copying key from output to avoid parse errors later on.
+
 ```
 terraform output SshKey
 nano ~/.ssh/SshKey.pem
@@ -47,13 +49,13 @@ nano ~/.ssh/SshKey.pem
 
 ![Ssh](./images/ssh.png)
 
-5. Connect to AWS instance using ssh client 
+6. Connect to AWS instance using ssh client 
 
 ```
 ssh -i ~/.ssh/SshKey.pem ec2-44-220-16-252.compute-1.amazonaws.com
 ```
 
-6. Make sure you have application and traffic containers running:
+7. Make sure you have application and traffic containers running:
 
 ```
 docker ps
