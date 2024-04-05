@@ -18,6 +18,7 @@ ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
 	docker tag $(KENG_Controller) keng-controller:latest
 endif
 
+pull-ixia-c-traffic-engine:
 ifeq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),)
 	-docker pull $(IxiaC_TE)
 	docker tag $(IxiaC_TE) ixia-c-traffic-engine:latest
