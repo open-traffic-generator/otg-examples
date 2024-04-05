@@ -4,4 +4,5 @@
 
 .PHONY: dpdk
 dpdk:
-	$(MAKE) -C deployment dpdk
+	chmod +x *.sh
+	./setup_dpdk.sh
