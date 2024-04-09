@@ -2,6 +2,7 @@ SHELL = /bin/bash
 
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-3"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
+GitRepoDeployPath = "/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/application/deployment"
 
 ###############################
 # Pull images
@@ -43,4 +44,5 @@ endif
 
 .PHONY: docker-compose
 docker-compose:
-	$(MAKE) -C deployment docker-compose
+	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml up -d'
+	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml ps'
