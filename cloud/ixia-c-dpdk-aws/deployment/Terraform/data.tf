@@ -21,6 +21,7 @@ data "cloudinit_config" "init_cli" {
 		content_type = "text/cloud-config"
 		content = templatefile("cloud-init.aws.yml", {
 			Agent1Eth1PrivateIpAddresses: local.Agent1Eth1PrivateIpAddresses
+			Agent2Eth0IpAddress: local.Agent2Eth0PrivateIpAddress
 			Agent2Eth1PrivateIpAddresses: local.Agent2Eth1PrivateIpAddresses
 			AwsMetadataServerUrl: local.AwsMetadataServerUrl
 			GitRepoConfigPath: local.GitRepoConfigPath
