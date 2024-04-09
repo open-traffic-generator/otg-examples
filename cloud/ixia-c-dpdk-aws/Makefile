@@ -9,3 +9,7 @@ aws:
 .PHONY: clean
 clean:
 	$(MAKE) -C ./deployment/Terraform clean
+
+.PHONY: run
+run:
+	$(MAKE) -C ./application run
