@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-GitRepoExecPath = "/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/application/
+GitRepoExecPath = "/home/ubuntu/keng-python/cloud/ixia-c-dpdk-aws/application/"
 
 ###############################
 # Run tests
