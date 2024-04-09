@@ -10,7 +10,7 @@ data "cloudinit_config" "init_cli" {
 	part {
 		content_type = "text/cloud-config"
 		content = templatefile("cloud-init.yml", {
-			GitRepoExecPath: local.GitRepoDeployPath
+			GitRepoDeployPath: local.GitRepoDeployPath
 			GitRepoName: local.GitRepoName
 			GitRepoUrl: local.GitRepoUrl
 			UserName: local.AppTag
