@@ -25,10 +25,3 @@ output "AvailabilityZones" {
 		"available.names" : data.aws_availability_zones.available.names
 	}
 }
-
-output "SshKey" {
-	sensitive = true
-	value = {
-		"private_key_pem" : replace(tls_private_key.SshKey.private_key_pem, "  ", "")
-	}
-}

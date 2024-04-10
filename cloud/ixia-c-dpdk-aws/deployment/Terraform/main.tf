@@ -10,7 +10,6 @@ module "Agent1" {
 	InstanceType = local.AgentInstanceType
 	PlacementGroupId = aws_placement_group.PlacementGroup.id
 	SleepDelay = local.SleepDelay
-	SshKeyName = aws_key_pair.SshKey.key_name 
 	UserEmailTag = local.UserEmailTag
 	UserLoginTag = local.UserLoginTag
 	UserProjectTag = local.UserProjectTag
@@ -36,7 +35,6 @@ module "Agent2" {
 	InstanceType = local.AgentInstanceType
 	PlacementGroupId = aws_placement_group.PlacementGroup.id
 	SleepDelay = local.SleepDelay
-	SshKeyName = aws_key_pair.SshKey.key_name 
 	UserEmailTag = local.UserEmailTag
 	UserLoginTag = local.UserLoginTag
 	UserProjectTag = local.UserProjectTag

@@ -11,12 +11,3 @@ module "Vpc" {
 	UserProjectTag = local.UserProjectTag
 	Version = local.AppVersion
 }
-
-resource "aws_security_group_rule" "PublicIngress22" {
-	type = "ingress"
-	security_group_id = module.Vpc.PublicSecurityGroup.id
-	protocol = "tcp"
-	from_port = 22
-	to_port = 22
-	cidr_blocks = local.InboundIPv4CidrBlocks
-}

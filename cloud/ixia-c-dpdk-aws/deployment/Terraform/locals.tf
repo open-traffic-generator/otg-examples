@@ -22,9 +22,6 @@ locals {
 	PublicSubnetAvailabilityZone = var.PublicSubnetAvailabilityZone
 	Region = data.aws_region.current.name
 	SleepDelay = "5m"
-	SshKeyAlgorithm = "RSA"
-	SshKeyName = "${local.Preamble}-ssh-key"
-	SshKeyRsaBits = "4096"
 	UserEmailTag = var.UserEmailTag
 	UserLoginTag = var.UserLoginTag
 	UserProjectTag = var.UserProjectTag
