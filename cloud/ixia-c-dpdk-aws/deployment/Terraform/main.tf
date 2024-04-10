@@ -16,7 +16,6 @@ module "Agent1" {
 	Version = local.AppVersion
 	init_cli = data.cloudinit_config.init_cli.rendered
 	depends_on = [
-		aws_key_pair.SshKey,
 		aws_placement_group.PlacementGroup,
 		module.Vpc
 	]
@@ -41,7 +40,6 @@ module "Agent2" {
 	Version = local.AppVersion
 	init_cli = data.cloudinit_config.init_cli.rendered
 	depends_on = [
-		aws_key_pair.SshKey,
 		aws_placement_group.PlacementGroup,
 		module.Vpc
 	]
