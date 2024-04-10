@@ -79,7 +79,7 @@ jobs:
       clab-rtbh: ${{ steps.changes.outputs.clab-rtbh }}
       hybrid-fp-b2b: ${{ steps.changes.outputs.hybrid-fp-b2b }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - uses: dorny/paths-filter@v2
@@ -145,7 +145,7 @@ jobs:
         working-directory: ./docker-compose/b2b
     if: needs.paths-filter.outputs.docker-compose-b2b == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -159,7 +159,7 @@ jobs:
         working-directory: ./docker-compose/b2b-3pair
     if: needs.paths-filter.outputs.docker-compose-b2b-3pair == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -173,7 +173,7 @@ jobs:
         working-directory: ./docker-compose/cpdp-b2b
     if: needs.paths-filter.outputs.docker-compose-cpdp-b2b == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -187,7 +187,7 @@ jobs:
         working-directory: ./docker-compose/cpdp-frr
     if: needs.paths-filter.outputs.docker-compose-cpdp-frr == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -201,7 +201,7 @@ jobs:
         working-directory: ./clab/cpdp-frr
     if: needs.paths-filter.outputs.clab-cpdp-frr == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all-clab
@@ -215,7 +215,7 @@ jobs:
         working-directory: ./clab/ixia-c-b2b
     if: needs.paths-filter.outputs.clab-ixia-c-b2b == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -229,7 +229,7 @@ jobs:
         working-directory: ./clab/ixia-c-b2b-lag
     if: needs.paths-filter.outputs.clab-ixia-c-b2b-lag == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -243,7 +243,7 @@ jobs:
         working-directory: ./clab/ixia-c-te-frr
     if: needs.paths-filter.outputs.clab-ixia-c-te-frr == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Run all
@@ -257,7 +257,7 @@ jobs:
         working-directory: ./clab/rtbh
     if: needs.paths-filter.outputs.clab-rtbh == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Set up Go
@@ -277,17 +277,11 @@ jobs:
         working-directory: ./hybrid/fp-b2b
     if: needs.paths-filter.outputs.hybrid-fp-b2b == 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Create GO cache
         run:  make create-go-cache
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ secrets.ENV_GITHUB_USER }}
-          password: ${{ secrets.ENV_GITHUB_PAT }}
       - name: Set up Go
         uses: actions/setup-go@v4
         with:

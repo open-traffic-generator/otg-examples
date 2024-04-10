@@ -27,34 +27,25 @@ Although original intent of `static binding` is to describe a connection between
 
 ## Initial setup
 
-1. Install `docker-compose`
+1. Clone this repository
 
     ```Shell
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    ```
-
-2. Clone this repository
-
-    ```Shell
-    git clone https://github.com/open-traffic-generator/otg-examples.git
+    git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
     OTGLABDIR="${PWD}/otg-examples/hybrid/fp-b2b"
+    cd "${OTGLABDIR}"
     ```
 
-3. Pull Docker images
+2. Pull Docker images (KENG Hybrid Operator currently requires Docker images to be present locally)
 
     ```Shell
-    sudo -E docker-compose --project-directory "${OTGLABDIR}" pull operator
-    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-controller:0.0.1-3841
-    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-gnmi-server:1.10.19
-    sudo -E docker pull ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.35
-    sudo -E docker pull ghcr.io/open-traffic-generator/licensed/ixia-c-protocol-engine:1.00.0.279
+    sudo docker compose --project-directory "${OTGLABDIR}" pull operator
+    make pull
     ```
 
-4. Start and configure Ixia-c operator
+4. Start and configure KENG Hybrid Operator
 
     ```Shell
-    sudo -E docker-compose --project-directory "${OTGLABDIR}" up -d
+    sudo docker compose --project-directory "${OTGLABDIR}" up -d
     sleep 2
     curl --data-binary @"${OTGLABDIR}/ixiatg-configmap.yml" http://localhost:35000/config
     ```
@@ -85,13 +76,7 @@ Although original intent of `static binding` is to describe a connection between
 
 ### Run FeatureProfiles OTG back-2-back test
 
-1. Clone FeatureProfiles fork from Open Traffic Generator org. The back-2-back test we're going to use is published under the `static` branch we need to clone:
-
-    ```Shell
-    git clone -b static --depth 1 https://github.com/open-traffic-generator/featureprofiles.git
-    ```
-
-2. Run FeatureProfiles OTG B2B test
+1. Run FeatureProfiles OTG B2B test
 
     ```Shell
     cd featureprofiles/feature/experimental/otg_only
@@ -105,5 +90,6 @@ To remove all the components we created, run:
 ```Shell
 cat "${OTGLABDIR}/ixia-c-hybrid.yml" | envsubst | curl -d @- http://localhost:35000/delete
 sudo ip link del name ${OTG_PORT1}
-sudo -E docker-compose --project-directory "${OTGLABDIR}" down
+sudo docker compose --project-directory "${OTGLABDIR}" down
+cd "${OTGLABDIR}"
 ```
