@@ -10,7 +10,7 @@ Once the lab is up, a Python script is used to request Ixia-c to generate traffi
 
 ## Prerequisites
 
-* [Terraform](https://www.terraform.io/)
+* [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)
 
 ## Deploy Ixia-c lab
 
