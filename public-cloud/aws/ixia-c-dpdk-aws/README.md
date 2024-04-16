@@ -16,13 +16,23 @@ Once the lab is up, a Python script is used to request Ixia-c to generate traffi
 
 1. Create Terraform deployment.
 
-2. Execute Python test case to generate traffic between AWS instances.
+2. Wait approximately 6 minutes for infrastructure to be deployed.
+
+3. Execute Python test case to generate traffic between AWS instances.
 
 ```
 make all
 ```
 
 ![Results](./images/results.png)
+
+## Execute Traffic Test additional times as needed
+
+1. Execute Python test case to generate traffic between AWS instances.
+
+```
+make run
+```
 
 ## Destroy the lab
 
