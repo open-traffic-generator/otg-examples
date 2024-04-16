@@ -8,7 +8,7 @@ locals {
 	AppTag = "ubuntu"
 	AppVersion = "2204-lts"
 	AwsMetadataServerUrl = var.AwsMetadataServerUrl
-	GitRepoBasePath = "cloud/ixia-c-dpdk-aws"
+	GitRepoBasePath = "public-cloud/aws/ixia-c-dpdk-aws"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
