@@ -11,5 +11,5 @@ modprobe uio
 modprobe igb_uio
 sudo -H -u $UserName bash -c 'git clone https://github.com/DPDK/dpdk.git $HOME/dpdk'
 /home/$UserName/dpdk/usertools/dpdk-devbind.py -b igb_uio $AgentEth1LogicalName -s --force
-chmod +x /home/$GitRepoDeployPath/setup.sh
-/home/$GitRepoDeployPath/setup.sh
+chmod +x $GitRepoDeployPath/setup.sh
+$GitRepoDeployPath/setup.sh
