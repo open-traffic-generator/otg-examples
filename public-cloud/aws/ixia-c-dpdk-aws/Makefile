@@ -19,3 +19,8 @@ run:
 .PHONY: connect
 connect:
 	$(MAKE) -C ./deployment/CloudShell connect
+
+.PHONY: connect-agent2
+connect-agent2:
+	$(MAKE) -C ./deployment/CloudShell connect-agent2
+
