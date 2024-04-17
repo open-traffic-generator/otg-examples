@@ -35,11 +35,6 @@ variable "GitRepoUrl" {
 	type = string
 }
 
-variable "InboundIPv4CidrBlocks" {
-	description = "List of IP Addresses /32 or IP CIDR ranges connecting inbound to App"
-	type = list(string)
-}
-
 variable "PrivateSubnetAvailabilityZone" {
 	default = "us-east-1a"
 	type = string
@@ -52,21 +47,5 @@ variable "PublicSubnetAvailabilityZone" {
 
 variable "Region" {
 	default = "us-east-1"
-	type = string
-}
-
-variable "UserEmailTag" {
-	default = "terraform@example.com"
-	description = "Email address tag of user creating the deployment"
-	type = string
-	validation {
-		condition = length(var.UserEmailTag) >= 14
-		error_message = "UserEmailTag minimum length must be >= 14."
-	}
-}
-
-variable "UserProjectTag" {
-	default = "cloud-ist"
-	description = "Project tag of user creating the deployment"
 	type = string
 }

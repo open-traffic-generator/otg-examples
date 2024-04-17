@@ -14,7 +14,7 @@ locals {
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
 	GitRepoName = var.GitRepoName
 	GitRepoUrl = var.GitRepoUrl
-	InboundIPv4CidrBlocks = var.InboundIPv4CidrBlocks
+	InboundIPv4CidrBlocks = [ "${data.http.ip.response_body}/32" ]
 	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
 	PlacementGroupStrategy = "cluster"
 	Preamble = "${local.UserLoginTag}-${local.UserProjectTag}-${local.AppTag}-${local.AppVersion}"
@@ -22,7 +22,7 @@ locals {
 	PublicSubnetAvailabilityZone = var.PublicSubnetAvailabilityZone
 	Region = data.aws_region.current.name
 	SleepDelay = "5m"
-	UserEmailTag = var.UserEmailTag
-	UserLoginTag = random_id.RandomId.dec
-	UserProjectTag = var.UserProjectTag
+	UserLoginTag = "terraform"
+	UserEmailTag = data.aws_caller_identity.current.user_id
+	UserProjectTag = random_id.RandomId.id
 }
