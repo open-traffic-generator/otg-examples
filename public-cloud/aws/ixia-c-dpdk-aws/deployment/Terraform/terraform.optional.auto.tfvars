@@ -1,11 +1,5 @@
 # AgentInstanceType = "c5.4xlarge"
 # ApiMaxRetries = 1
-# AwsMetadataServerUrl = "http://169.254.169.254/latest/meta-data"
-# GitRepoName = "keng-python"
-# GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 # PrivateSubnetAvailabilityZone = "us-east-1a"
 # PublicSubnetAvailabilityZone = "us-east-1a"
 # Region = "us-east-1"
-# UserEmailTag = "terraform@example.com"
-# UserLoginTag = "terraform"
-# UserProjectTag = "cloud-ist"

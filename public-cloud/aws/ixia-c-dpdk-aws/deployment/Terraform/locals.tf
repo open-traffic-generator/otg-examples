@@ -7,13 +7,13 @@ locals {
 	Agent2InstanceId = "agent2"
 	AppTag = "ubuntu"
 	AppVersion = "2204-lts"
-	AwsMetadataServerUrl = var.AwsMetadataServerUrl
+	AwsMetadataServerUrl = "http://169.254.169.254/latest/meta-data"
 	GitRepoBasePath = "public-cloud/aws/ixia-c-dpdk-aws"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
-	GitRepoName = var.GitRepoName
-	GitRepoUrl = var.GitRepoUrl
+	GitRepoName = "keng-python"
+	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 	InboundIPv4CidrBlocks = [ "${data.http.ip.response_body}/32" ]
 	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
 	PlacementGroupStrategy = "cluster"

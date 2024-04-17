@@ -19,22 +19,6 @@ variable "ApiMaxRetries" {
 	type = number
 }
 
-variable "AwsMetadataServerUrl" {
-	default = "http://169.254.169.254/latest/meta-data"
-	type = string
-}
-
-variable "GitRepoName" {
-	default = "keng-python"
-	type = string
-}
-
-variable "GitRepoUrl" {
-	default = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
-	sensitive = true
-	type = string
-}
-
 variable "PrivateSubnetAvailabilityZone" {
 	default = "us-east-1a"
 	type = string
