@@ -23,6 +23,6 @@ locals {
 	Region = data.aws_region.current.name
 	SleepDelay = "5m"
 	UserEmailTag = var.UserEmailTag
-	UserLoginTag = var.UserLoginTag
+	UserLoginTag = random_id.RandomId.dec
 	UserProjectTag = var.UserProjectTag
 }

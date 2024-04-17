@@ -49,3 +49,7 @@ resource "aws_placement_group" "PlacementGroup" {
 	name = local.PlacementGroupName
 	strategy = local.PlacementGroupStrategy
 }
+
+resource "random_id" "RandomId" {
+	byte_length = 4
+}

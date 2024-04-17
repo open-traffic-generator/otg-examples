@@ -65,16 +65,6 @@ variable "UserEmailTag" {
 	}
 }
 
-variable "UserLoginTag" {
-	default = "terraform"
-	description = "Login ID tag of user creating the deployment"
-	type = string
-	validation {
-		condition = length(var.UserLoginTag) >= 4
-		error_message = "UserLoginTag minimum length must be >= 4."
-	}
-}
-
 variable "UserProjectTag" {
 	default = "cloud-ist"
 	description = "Project tag of user creating the deployment"
