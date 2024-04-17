@@ -15,3 +15,7 @@ clean:
 .PHONY: run
 run:
 	$(MAKE) -C ./deployment/CloudShell run
+
+.PHONY: connect
+connect:
+	$(MAKE) -C ./deployment/CloudShell connect

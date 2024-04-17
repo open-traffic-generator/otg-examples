@@ -28,6 +28,7 @@ data "cloudinit_config" "init_cli" {
 			GitRepoExecPath: local.GitRepoExecPath
 			GitRepoName: local.GitRepoName
 			UserName: local.AppTag
+			VpcId: module.Vpc.Vpc.id
 		})
 	}	
 }
