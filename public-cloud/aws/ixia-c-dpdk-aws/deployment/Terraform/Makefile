@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-all: install init variables apply
+all: install init apply
 
 clean: destroy
 
@@ -15,9 +15,6 @@ endif
 
 init:
 	terraform init
-
-variables:
-	cat terraform.required.auto.tfvars | sed 's/# //g' | sed "s/1.1.1.1/$$(curl --silent ifconfig.me)/" > terraform.auto.tfvars
 
 apply:
 	time terraform apply -auto-approve
