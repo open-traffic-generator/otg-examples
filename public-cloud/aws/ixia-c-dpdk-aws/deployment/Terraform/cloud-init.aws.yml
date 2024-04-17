@@ -15,8 +15,8 @@ runcmd:
   - AgentInstanceType=$(curl -s ${AwsMetadataServerUrl}/instance-type)
   - AgentRegion=$(curl -s ${AwsMetadataServerUrl}/placement/region)
   - aws configure set region $AgentRegion
-  - Agent1Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent1Eth1PrivateIpAddresses[0]} --filters Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
-  - Agent2Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent2Eth1PrivateIpAddresses[0]} --filters Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
+  - Agent1Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent1Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
+  - Agent2Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent2Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
   - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
   - Agent1Eth1IpAddress=${Agent1Eth1PrivateIpAddresses[0]}
