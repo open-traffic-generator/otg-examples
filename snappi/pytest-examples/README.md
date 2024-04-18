@@ -1,11 +1,10 @@
 ## Document version  
 Make sure you have the latest version of this readme file by executing:
 ```
-cd /home/ixia/keng-tests
-git pull
+git pull  # in the otg-examples repository, origin: https://github.com/open-traffic-generator/otg-examples.git
 ```
 ## Description
-The goal of this Repo is to help you setup, deploy and run test using Keysight KENG product.
+The goal of this repository is to help you setup, deploy and run test using Keysight Elastic Network Generator.
 Will convert a Linux server into test ports. 
 Keysight Elastic Network Generator is a key component of a new end-to-end network test platform based on open standards
 that enables testing and validation of network products, network designs, and network configurations in an emulated replica of a data center network.
