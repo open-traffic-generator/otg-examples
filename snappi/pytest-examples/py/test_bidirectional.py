@@ -9,8 +9,6 @@ def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
     """
     cfg = utils.load_test_config(
         api, 'bidirectional.json', apply_settings=True
-        #api, 'bidirectional2TEs.json', apply_settings=True
-        #api, 'bidirectional4TEs.json', apply_settings=True
     )
 
     assert len(cfg.flows) % 2 == 0,  \

@@ -8,8 +8,6 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
     Configure a single unidirectional flow
     """
     cfg = utils.load_test_config(
-        #api, 'unidirectional4TEs.json', apply_settings=True
-        #api, 'unidirectional2TEs.json', apply_settings=True
         api, 'unidirectional.json', apply_settings=True
     )
 
