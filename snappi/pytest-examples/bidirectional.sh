@@ -1,12 +1,12 @@
 #!/bin/bash
 
-help()
-{
-    echo "Usage:"
-    echo " $0 [-s <frame_size>] [-t <test_time>] [-l <line_rate_per_flow>]"
-    echo "   -s <frame_size>          --- int - bytes, e.g. 9000"
-    echo "   -t <test_time>           --- int - seconds, e.g. 10"
-    echo "   -l <line_rate_per_flow>  --- float - percentage, e.g. 23.5"
+help() {
+    echo "Usage: $0 [options]"
+    echo
+    echo "Options:"
+    echo "  -s <frame_size>          Set the frame size in bytes (e.g., 9000)"
+    echo "  -t <test_time>           Specify the test duration in seconds (e.g., 10)"
+    echo "  -l <line_rate_per_flow>  Set the line rate per flow as a percentage (e.g., 100)"
 }
 
 while getopts "hs:t:l:" option; do
@@ -54,7 +54,7 @@ echo "Running test: python3 -m pytest ./py/test_bidirectional.py \
  --duration $duration \test_bidirectional
  --line_rate_per_flow $line_rate_per_flow"
 
-python3 -m pytest ./py/test_bidirectional.py \
+python3 -m pytest -q ./py/test_bidirectional.py \
  --frame_size $frame_size \
  --duration $duration \
  --line_rate_per_flow $line_rate_per_flow

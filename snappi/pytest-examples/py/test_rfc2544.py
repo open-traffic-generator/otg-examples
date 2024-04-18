@@ -12,6 +12,7 @@ TEST_GAP_TIME              = 1  # seconds
 VALIDATION_DECREASE_LINE_PERCENTAGE = 2
 RESULTS_FILE_PATH          = "./throughput_results_rfc2544_n_flows.json"
 
+custom_round = lambda value: value if value < 0.001 else round(value, 3)
 
 def find_location_by_name(ports, name):
     for port in ports:
@@ -24,21 +25,23 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
     """
     RFC-2544 Throughput determination test
     """
-    cfg = utils.load_test_config(api, 'throughput_rfc2544_n_flows.json')
+    cfg = utils.load_test_config(api, 'unidirectional.json', apply_settings=True)
 
     THEORETICAL_MAX_LINK_SPEED = utils.get_current_speed_g() # 200    #  Gbps
     packet_sizes = [int(frame_size) for frame_size in frame_sizes.split(',')]
 
     for frame_size in packet_sizes:
         if frame_size < 64 or frame_size > 9000:
-            print("Frame size: {} is out of supported interval: [64, 9000]. " \
-                "Resetting frame size array.".format(frame_size))
+            print("Frame size: {} is out of supported interval: [64, 9000]. \n" \
+                "Resetting frame size array!".format(frame_size))
             packet_sizes = [768, 1024, 1518, 9000]
+            break
+
     results = {}
     
     expected_runtime = len(packet_sizes) * ((NO_DETERMINATION_STEPS-1) * TEST_GAP_TIME + FINAL_RUN_TIME + 2 * TEST_GAP_TIME)
     print("\n" +"-" * 50)
-    print("This is a throughput test (based on RFC-2544 procedure.")#. The expected runtime is minimum {}s.".format(expected_runtime))
+    print("This is a throughput test (based on RFC-2544 procedure). The expected runtime is minimum {}s.".format(expected_runtime))
     print("Frame sizes in the test: " + str(packet_sizes))
     print("Packet loss tolerance: " + str(PACKET_LOSS_TOLERANCE))
     print("Number of flows: " + str(len(cfg.flows)))
@@ -68,7 +71,7 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
         
 
     for size in packet_sizes:
-        print("\n\n--- Determining throughput for {} B packets --- ".format(size))
+        print("\n\n--- Calculating throughput for {} B packets --- ".format(size))
 
         for flow in cfg.flows:
             flow.size.fixed = size
@@ -106,15 +109,15 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
             utils.stop_traffic(api, cfg)
 
             _, flow_results = utils.get_all_stats(api, None, None, False)
-            rcv_pkts = sum([f.frames_rx for f in flow_results]) # flow_results[0].frames_rx
-            sent_pkts = sum([f.frames_tx for f in flow_results]) # flow_results[0].frames_tx
+            rcv_pkts = sum([f.frames_rx for f in flow_results])
+            sent_pkts = sum([f.frames_tx for f in flow_results])
 
             print("sent_pkts {}M; rcv_pkts {}M; Lost packets {}".format(round(sent_pkts / 1000000, 3), round(rcv_pkts / 1000000, 3), sent_pkts - rcv_pkts))
             print("Total actual sent throughput: {} Gbps".format(round(sent_pkts * size * 8 / 1000000000 / TRIAL_RUN_TIME, 3)))
             print("Total actual received throughput: {} Gbps".format(round(rcv_pkts * size * 8 / 1000000000 / TRIAL_RUN_TIME, 3)))
             packet_loss_p = (sent_pkts - rcv_pkts) * 100 / sent_pkts
             print("Current number of packets lost = {}".format(sent_pkts - rcv_pkts))
-            print("Current packet loss percentage = " + str(round(packet_loss_p, 6)) + " %")
+            print("Current packet loss percentage = " + str(custom_round(packet_loss_p)) + " %")
             # Binary search approach to determine packet loss
             if rcv_pkts > max_packets_received:
                 max_packets_received = rcv_pkts
@@ -131,14 +134,13 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
             step += 1
             time.sleep(TEST_GAP_TIME)
 
-
         max_mpps = round(max_packets_received / TRIAL_RUN_TIME / 1000000, 3)
         max_mbps = round(max_packets_received / TRIAL_RUN_TIME * size * 8 / 1000000, 0)
 
         max_mpps_str = str(max_mpps) + " Mpps"
         max_mbps_str = str(max_mbps) + " Mbps"
 
-        print("- Determined Total max RX rate for {}B packets is {}. Equivalent to {}.\n"
+        print("--> Determined Total max RX rate for {}B packets is {}. Equivalent to {}.\n"
               .format(size, max_mpps_str, max_mbps_str))
 
         time.sleep(TEST_GAP_TIME)
@@ -185,7 +187,7 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
 
                 max_mbps = round(rcv_pkts * len(cfg.flows) * size * 8 / 1000000, 0)
                 print("### {}s test result for {}B frame size: sent_pkts {}M; rcv_pkts  {}M; lost_pkts = {}; packet_loss_percentage = {} %"
-                .format(FINAL_RUN_TIME, size, round(sent_pkts / 1000000, 3), round(rcv_pkts / 1000000, 3), sent_pkts - rcv_pkts, round(packet_loss_percentage, 5)))
+                .format(FINAL_RUN_TIME, size, round(sent_pkts / 1000000, 3), round(rcv_pkts / 1000000, 3), sent_pkts - rcv_pkts, custom_round(packet_loss_percentage)))
 
                 if packet_loss_percentage <= PACKET_LOSS_TOLERANCE:
                     print("The {}s test with {}% per flow per flow PASSED".format(FINAL_RUN_TIME, round(max_line_percentage, 3)))
@@ -212,7 +214,7 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
         max_mpps_str = str(max_mpps) + " Mpps"
         max_mbps_str = str(max_mbps) + " Mbps"
 
-        test_pkt_loss_p_str = str(round(packet_loss_percentage, 5)) + " % loss"
+        test_pkt_loss_p_str = str(custom_round(packet_loss_percentage)) + " % loss"
         nr_packets_lost_str = str(sent_pkts - rcv_pkts) + " packets lost"
         max_line_percentage_str = str(round(max_line_percentage, 2)) + " % per flow" 
         results[str(size)] = [max_mpps_str, max_mbps_str, max_line_percentage_str, nr_packets_lost_str, test_pkt_loss_p_str]
@@ -221,11 +223,6 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
         time.sleep(TEST_GAP_TIME)
 
     flows = {}
-
-    # for flow in cfg.flows:
-    #     flows[flow.name] = find_location_by_name(cfg.ports, flow.tx_rx.port.tx_name) + \
-    #                          " -> " + \
-    #                        find_location_by_name(cfg.ports, flow.tx_rx.port.rx_names[0])
 
     results["test_settings"] = test_settings
     results["flows"] = flows

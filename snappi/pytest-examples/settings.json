@@ -3,11 +3,11 @@
   "http_server": "https://localhost:8443",
   "grpc_server": "localhost:40051",
   "ports": [
-    "10.3.147.35:5551",
-    "10.3.147.36:5551"
+    "10.38.163.161:5551",
+    "10.38.163.162:5551"
   ],
   "soft_dut": "localhost:22",
-  "speed": "speed_100_gbps",
+  "speed": "speed_200_gbps",
   "line_rate": 100,
   "mtu": 9000,
   "promiscuous": true,

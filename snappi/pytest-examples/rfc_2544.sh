@@ -1,11 +1,11 @@
 #!/bin/bash
 
-help()
-{
-    echo "Usage:"
-    echo " $0 [-s <frame_sizes>] [-d <direction>]"
-    echo "   -s <frame_sizes>    --- list of frame_sizes in bytes, e.g. \"768,1024,1518,9000\""
-    echo "   -d <direction>      --- string - upstream or downstream"
+help() {
+    echo "Usage: $0 [options]"
+    echo
+    echo "Options:"
+    echo "  -s <frame_size_list>          Set the list of frame_sizes in bytes (e.g., \"768,1024,1518,9000\")"
+    echo "  -d <direction>                Specify the data direction (upstream or downstream)"
 }
 
 while getopts "hs:d:" option; do
@@ -41,18 +41,11 @@ fi
 echo "frame_sizes=$frame_sizes"
 echo "direction=$direction"
 
-# echo "" > throughput_results_rfc2544_n_flows.json  # clean old results
-
 
 echo "Running test: python3 -m pytest ./py/test_rfc2544.py \
  --frame_sizes $frame_sizes \
  --direction $direction"
 
-python3 -m pytest ./py/test_rfc2544.py \
+python3 -m pytest -q ./py/test_rfc2544.py \
  --frame_sizes $frame_sizes \
  --direction $direction
-
-# cat throughput_results_rfc2544_n_flows.json  | jq
-# cat throughput_results_rfc2544_n_flows.json  | jq > tmp.json
-# cat tmp.json > throughput_results_rfc2544_n_flows.json
-# rm tmp.json

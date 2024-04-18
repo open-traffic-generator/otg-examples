@@ -1,6 +1,4 @@
 import utils
-import pytest
-import dpkt
 import time
 
 custom_round = lambda value: value if value < 0.001 else round(value, 3)
@@ -10,7 +8,9 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
     Configure a single unidirectional flow
     """
     cfg = utils.load_test_config(
-        api, 'throughput_rfc2544_n_flows.json', apply_settings=True
+        #api, 'unidirectional4TEs.json', apply_settings=True
+        #api, 'unidirectional2TEs.json', apply_settings=True
+        api, 'unidirectional.json', apply_settings=True
     )
 
     if direction == "downstream":
@@ -18,14 +18,11 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
         for flow in cfg.flows:
             flow.tx_rx.port.rx_names[0], flow.tx_rx.port.tx_name = flow.tx_rx.port.tx_name, flow.tx_rx.port.rx_names[0]
             flow.packet[0].dst.value, flow.packet[0].src.value = flow.packet[0].src.value, flow.packet[0].dst.value 
-            #print(flow.packet[0])
 
     TIMEOUT = 5
 
     MAX_FRAME_SIZE = 9000
     MIN_FRAME_SIZE = 64
-
-    CURRENT_SET_SPEED = utils.get_current_speed_g()
     
     MAX_LINE_RATE_PER_FLOW = 100
 
@@ -64,7 +61,6 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
         flow.rate.percentage = line_rate_per_flow
 
     sizes = []
-    
     size = cfg.flows[0].size.fixed
 
     utils.start_traffic(api, cfg)
@@ -73,7 +69,7 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
         'stats to be as expected',
         timeout_seconds=duration + TIMEOUT
     )
-    utils.stop_traffic(api, cfg)
+    utils.stop_traffic(api, cfg)   
 
     _, flow_results = utils.get_all_stats(api)
     flows_total_tx = sum([flow_res.frames_tx for flow_res in flow_results])
@@ -83,6 +79,8 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
     print("Line rate per flow: {}%".format(line_rate_per_flow))
     print("Average total TX L2 rate {} Gbps".format(round(flows_total_tx * size * 8 / duration / 1000000000, 3)))
     print("Average total RX L2 rate {} Gbps".format(round(flows_total_rx * size * 8 / duration / 1000000000, 3)))
+    print("Average total TX packet rate: {} Mpps".format(round(flows_total_tx / duration / 1000000, 3)))
+    print("Average total RX packet rate: {} Mpps".format(round(flows_total_rx / duration / 1000000, 3)))
     print("Total lost packets {}".format(flows_total_tx - flows_total_rx))
     print("Average loss percentage {} %".format(custom_round((flows_total_tx - flows_total_rx) * 100 / flows_total_tx)))
 
@@ -95,7 +93,7 @@ def results_ok(api, size, csv_dir=None):
         utils.print_csv(csv_dir, port_results, flow_results)
     port_tx = sum([p.frames_tx for p in port_results])
     port_rx = sum([p.frames_rx for p in port_results if p.name == 'rx'])
-    ok = True # port_tx == packets # and port_rx >= packets
+    ok = True
     print('-' * 22)
     for flow_res in flow_results:
         print(flow_res.name + " " + str(size) + "B:")
@@ -109,9 +107,6 @@ def results_ok(api, size, csv_dir=None):
         flow_tx_bytes = sum([f.bytes_tx for f in flow_results])
         flow_rx = sum([f.frames_rx for f in flow_results])
         flow_rx_bytes = sum([f.bytes_rx for f in flow_results])
-        # ok = ok and flow_rx == packets and flow_tx == packets
-        # ok = ok and flow_tx_bytes >= packets * (size - 4)
-        # ok = ok and flow_rx_bytes == packets * size
 
     return ok and all(
         [f.transmit == 'stopped' for f in flow_results]

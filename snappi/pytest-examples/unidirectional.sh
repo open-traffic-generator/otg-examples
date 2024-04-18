@@ -1,13 +1,13 @@
 #!/bin/bash
 
-help()
-{
-    echo "Usage:"
-    echo " $0 [-s <frame_size>] [-t <test_time>] [-l <line_rate_per_flow>] [-d direction]"
-    echo "   -s <frame_size>          --- int - bytes, e.g. 9000"
-    echo "   -t <test_time>           --- int - seconds, e.g. 10"
-    echo "   -l <line_rate_per_flow>  --- float - percentage, e.g. 23.5"
-    echo "   -d <direction>           --- string - upstream or downstream"
+help() {
+    echo "Usage: $0 [options]"
+    echo
+    echo "Options:"
+    echo "  -s <frame_size>          Set the frame size in bytes (e.g., 9000)"
+    echo "  -t <test_time>           Specify the test duration in seconds (e.g., 10)"
+    echo "  -l <line_rate_per_flow>  Set the line rate per flow as a percentage (e.g., 100)"
+    echo "  -d <direction>           Specify the data direction (upstream or downstream)"
 }
 
 while getopts "hs:t:l:d:" option; do
@@ -66,7 +66,7 @@ echo "Running test: python3 -m pytest ./py/test_unidirectional.py \
  --line_rate_per_flow $line_rate_per_flow \
  --direction $direction"
 
-python3 -m pytest ./py/test_unidirectional.py \
+python3 -m pytest -q ./py/test_unidirectional.py \
  --frame_size $frame_size \
  --duration $duration \
  --line_rate_per_flow $line_rate_per_flow \

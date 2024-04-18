@@ -2,11 +2,11 @@
     "ports": [
         {
             "name": "VM1-TE1",
-            "location": "10.0.10.11:5551"
+            "location": ""
         },
         {
             "name": "VM2-TE1",
-            "location": "10.0.10.12:5551"
+            "location": ""
         }
     ],
     "layer1": [
@@ -16,7 +16,7 @@
                 "VM1-TE1",
                 "VM2-TE1"
             ],
-            "speed": "speed_10_gbps"
+            "speed": "speed_200_gbps"
         }
     ],
     "flows": [
@@ -38,7 +38,7 @@
             },
             "rate": {
                 "choice": "percentage",
-                "percentage": 50
+                "percentage": 100
             },
             "duration": {
                 "choice": "fixed_seconds",
@@ -52,37 +52,11 @@
                     "ethernet": {
                         "dst": {
                             "choice": "value",
-                            "value": "Agent2Eth1MacAddress"
+                            "value": "00:0c:29:16:b4:61"
                         },
                         "src": {
                             "choice": "value",
-                            "value": "Agent1Eth1MacAddress"
-                        }
-                    }
-                },
-                {
-                    "choice": "ipv4",
-                    "ipv4": {
-                        "dst": {
-                            "choice": "value",
-                            "value": "Agent2Eth1IpAddress"
-                        },
-                        "src": {
-                            "choice": "value",
-                            "value": "Agent1Eth1IpAddress"
-                        }
-                    }
-                },
-                {
-                    "choice": "tcp",
-                    "tcp": {
-                        "src_port": {
-                            "choice": "value",
-                            "value": 643
-                        },
-                        "dst_port": {
-                            "choice": "value",
-                            "value": 543
+                            "value": "00:0c:29:23:20:e1"
                         }
                     }
                 }

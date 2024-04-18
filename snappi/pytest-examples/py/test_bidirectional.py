@@ -1,14 +1,16 @@
 import utils
-import pytest
-import dpkt
 import time
+
+custom_round = lambda value: value if value < 0.001 else round(value, 3)
 
 def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
     """
     Configure a single bidirectional IPV4 flow
     """
     cfg = utils.load_test_config(
-        api, 'tcp_bidir_2TEs.json', apply_settings=True
+        api, 'bidirectional.json', apply_settings=True
+        #api, 'bidirectional2TEs.json', apply_settings=True
+        #api, 'bidirectional4TEs.json', apply_settings=True
     )
 
     assert len(cfg.flows) % 2 == 0,  \
@@ -20,7 +22,6 @@ def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
 
     MAX_FRAME_SIZE = 9000
     MIN_FRAME_SIZE = 64
-
     MAX_LINE_RATE_PER_FLOW = 100 # / len(cfg.flows) 
 
     MIN_DURATION = 1
@@ -55,8 +56,6 @@ def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
         flow.duration.fixed_seconds.seconds = duration
         flow.size.fixed = frame_size
         flow.rate.percentage = line_rate_per_flow
-
-    sizes = []
     
     size = cfg.flows[0].size.fixed
 
@@ -73,17 +72,6 @@ def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
     middle_index = (int) (len(flow_results) / 2)
     s1_flows_results = flow_results[:middle_index]
     s2_flows_results = flow_results[middle_index:]
-    
-    # for flow_res in s1_flows_results:
-    #     print(flow_res.name)
-    #     print(flow_res.frames_tx)
-    #     print(flow_res.frames_rx)
-
-    # print('')
-    # for flow_res in s2_flows_results:
-    #     print(flow_res.name)
-    #     print(flow_res.frames_tx)
-    #     print(flow_res.frames_rx)
 
     frames_s1_to_s2_tx = sum([flow_res.frames_tx for flow_res in s1_flows_results])
     frames_s2_to_s1_tx = sum([flow_res.frames_tx for flow_res in s2_flows_results])
@@ -106,6 +94,9 @@ def test_ipv4_bidirectional(api, duration, frame_size, line_rate_per_flow):
     print("-" * ROW_SIZE)
     print("Average total TX L2 rate {} Gbps".format(round(flows_total_tx * size * 8 / duration / 1000000000, 3)))
     print("Average total RX L2 rate {} Gbps".format(round(flows_total_rx * size * 8 / duration / 1000000000, 3)))
+    print("Average total TX packet rate: {} Mpps".format(round(flows_total_tx / duration / 1000000, 3)))
+    print("Average total RX packet rate: {} Mpps".format(round(flows_total_rx / duration / 1000000, 3)))
+
     print("Total lost packets {}".format(flows_total_tx - flows_total_rx))
     print("Average loss percentage {} %".format(round((flows_total_tx - flows_total_rx) * 100 / flows_total_tx, 3)))
 
@@ -118,7 +109,7 @@ def results_ok(api, size, csv_dir=None):
         utils.print_csv(csv_dir, port_results, flow_results)
     port_tx = sum([p.frames_tx for p in port_results])
     port_rx = sum([p.frames_rx for p in port_results if p.name == 'rx'])
-    ok = True # port_tx == packets # and port_rx >= packets
+    ok = True
     print('-' * 22)
     for flow_res in flow_results:
         print(flow_res.name + " " + str(size) + "B:")
@@ -132,9 +123,6 @@ def results_ok(api, size, csv_dir=None):
         flow_tx_bytes = sum([f.bytes_tx for f in flow_results])
         flow_rx = sum([f.frames_rx for f in flow_results])
         flow_rx_bytes = sum([f.bytes_rx for f in flow_results])
-        # ok = ok and flow_rx == packets and flow_tx == packets
-        # ok = ok and flow_tx_bytes >= packets * (size - 4)
-        # ok = ok and flow_rx_bytes == packets * size
 
     return ok and all(
         [f.transmit == 'stopped' for f in flow_results]
