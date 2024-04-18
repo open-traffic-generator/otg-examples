@@ -22,7 +22,7 @@ locals {
 	PublicSubnetAvailabilityZone = var.PublicSubnetAvailabilityZone
 	Region = data.aws_region.current.name
 	SleepDelay = "5m"
-	UserLoginTag = "terraform"
 	UserEmailTag = data.aws_caller_identity.current.user_id
+	UserLoginTag = "terraform"
 	UserProjectTag = random_id.RandomId.id
 }
