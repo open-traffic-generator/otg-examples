@@ -19,12 +19,12 @@ locals {
 	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
 	ResourceGroupLocation = var.ResourceGroupLocation
-	ResourceGroupName = var.ResourceGroupName
+	ResourceGroupName = "${UserLoginTag}-${UserProjectTag}-ixia-c-dpdk-azure-mana"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
 	SubscriptionId = var.SubscriptionId
-	UserEmailTag = var.UserEmailTag
+	UserEmailTag = "terraform@example.com"
 	UserLoginTag = "terraform"
 	UserProjectTag = random_id.RandomId.id
 }
