@@ -19,7 +19,7 @@ locals {
 	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
 	ResourceGroupLocation = var.ResourceGroupLocation
-	ResourceGroupName = "${UserLoginTag}-${UserProjectTag}-ixia-c-dpdk-azure-mana"
+	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-ixia-c-dpdk-azure-mana"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
