@@ -11,7 +11,7 @@ data "cloudinit_config" "init_cli" {
 			GitRepoDeployPath: local.GitRepoDeployPath
 			GitRepoName: local.GitRepoName
 			GitRepoUrl: local.GitRepoUrl
-			UserName: local.AppTag
+			UserName: local.AgentUserName
 		})
 	}
 	part {
@@ -25,7 +25,7 @@ data "cloudinit_config" "init_cli" {
 			Agent2Eth2PrivateIpAddresses: local.Agent2Eth2IpAddresses
 			GitRepoName: local.GitRepoName
 			ResourceGroupName: local.ResourceGroupName
-			UserName: local.AppTag
+			UserName: local.AgentUserName
 		})
 	}	
 }

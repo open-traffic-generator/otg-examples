@@ -10,7 +10,7 @@ locals {
 	Agent2InstanceId = "agent2"
 	AppTag = "azure"
 	AppVersion = "mana"
-	GitRepoBasePath = "public-cloud/aws/ixia-c-dpdk-aws"
+	GitRepoBasePath = "public-cloud/azure/ixia-c-dpdk-azure-mana"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
