@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Run this script with elevated privileges
+
 TRAFFIC_ENGINE_VERSION="1.6.0.109"
 CONTROLLER_VERSION="1.1.0-21"
+LICENSE_SERVER_VERSION="latest"
 
 LICENSE_SERVER_IP=localhost
 
@@ -31,8 +34,8 @@ if ((num_cpus < minimum_cpu_count)); then
 fi
 
 # Allocate 2MB hugepages: 
-NR_OF_HUGEPAGES=$((1024 * $#)) 
-echo $NR_OF_HUGEPAGES | tee /sys/devices/system/node/node*/hugepages/hugepages-2048kB/nr_hugepages 
+nr_hugepages=$((1024 * $#))
+echo $nr_hugepages | tee /sys/devices/system/node/node*/hugepages/hugepages-2048kB/nr_hugepages
 
 interfaces=()
 bus_infos=()
@@ -94,7 +97,7 @@ EOF
 
 cat <<EOF >> "$docker_file_name"
   KENG-License-Server:
-    image: ghcr.io/open-traffic-generator/keng-license-server:latest
+    image: ghcr.io/open-traffic-generator/keng-license-server:$LICENSE_SERVER_VERSION
     container_name: keng-license-server
     restart: always
     ports:
