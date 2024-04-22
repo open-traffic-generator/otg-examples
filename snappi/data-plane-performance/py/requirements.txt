@@ -1,6 +1,6 @@
 flake8 == 3.8.4
 dpkt == 1.9.4
-snappi == 0.13.0
+snappi == 1.3.0
 numpy == 1.22.1
 scapy[basic]
 deepdiff
