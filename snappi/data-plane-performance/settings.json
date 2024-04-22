@@ -3,8 +3,8 @@
   "http_server": "https://localhost:8443",
   "grpc_server": "localhost:40051",
   "ports": [
-    "10.38.163.161:5551",
-    "10.38.163.162:5551"
+    "TE1_IP:5551",
+    "TE2_IP:5551"
   ],
   "soft_dut": "localhost:22",
   "speed": "speed_200_gbps",

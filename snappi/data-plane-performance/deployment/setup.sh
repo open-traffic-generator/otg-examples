@@ -96,18 +96,9 @@ services:
 EOF
 
 cat <<EOF >> "$docker_file_name"
-  KENG-License-Server:
-    image: ghcr.io/open-traffic-generator/keng-license-server:$LICENSE_SERVER_VERSION
-    container_name: keng-license-server
-    restart: always
-    ports:
-      - "7443:7443"
-      - "9443:9443"
-    command: --accept-eula
-
   controller:
     image: ghcr.io/open-traffic-generator/keng-controller:$CONTROLLER_VERSION
-    command: --accept-eula --http-port 8443 --license-servers="$LICENSE_SERVER_IP"
+    command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
 EOF
