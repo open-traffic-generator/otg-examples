@@ -23,6 +23,8 @@ data "cloudinit_config" "init_cli" {
 			Agent2Eth0IpAddress: local.Agent2Eth0IpAddress
 			Agent2Eth1PrivateIpAddresses: local.Agent2Eth1IpAddresses
 			Agent2Eth2PrivateIpAddresses: local.Agent2Eth2IpAddresses
+			GitRepoConfigPath: local.GitRepoConfigPath
+			GitRepoDeployPath: local.GitRepoDeployPath
 			GitRepoName: local.GitRepoName
 			ResourceGroupName: local.ResourceGroupName
 			UserName: local.AgentUserName
