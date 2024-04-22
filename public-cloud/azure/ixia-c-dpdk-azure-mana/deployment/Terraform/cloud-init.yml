@@ -4,6 +4,7 @@ packages:
   - docker.io
   - docker-compose
   - jq
+  - make
 groups:
   - docker
 users:

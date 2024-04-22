@@ -9,4 +9,5 @@ do
 done
 
 chmod 400 $SshKey
+ssh-keygen -R $PublicIp
 ssh -i $SshKey ubuntu@$PublicIp

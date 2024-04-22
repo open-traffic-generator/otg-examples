@@ -13,6 +13,7 @@ locals {
 	GitRepoBasePath = "public-cloud/azure/ixia-c-dpdk-azure-mana"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
+	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
 	GitRepoName = "keng-python"
 	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
@@ -20,6 +21,7 @@ locals {
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
 	ResourceGroupLocation = var.ResourceGroupLocation
 	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-ixia-c-dpdk-azure-mana"
+	SleepDelay = "5m"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"

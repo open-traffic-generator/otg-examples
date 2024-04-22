@@ -30,18 +30,18 @@ runcmd:
   - modprobe mana_ib
   - AgentEth1MacAddress=$(cat /sys/class/net/eth1/address)
   - AgentEth2MacAddress=$(cat /sys/class/net/eth2/address)
-  - sed -i "s/mac@eth1/$AgentEth1MacAddress/g" /home/${UserName}/${GitRepoName}${GitRepoDeployPath}/docker-compose.yaml
-  - sed -i "s/mac@eth2/$AgentEth2MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
+  - sed -i "s/mac@eth1/$AgentEth1MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
+  - sed -i "s/mac@eth2/$AgentEth2MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
   - AgentBusInfoList=$(lshw -C network -json | jq '.[] | select( .businfo != null)' | jq -r .businfo)
   - AgentEth1BusInfo=$(echo $AgentBusInfoList | awk '{print $1}')
   - AgentEth2BusInfo=$(echo $AgentBusInfoList | awk '{print $2}')
-  - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
-  - sed -i "s/pci@eth2/$AgentEth2BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
+  - sed -i "s/pci@eth1/$AgentEth1BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
+  - sed -i "s/pci@eth2/$AgentEth2BusInfo/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
   - AgentEth1VmBus=$(readlink /sys/class/net/eth1/device | xargs basename)
   - AgentEth2VmBus=$(readlink /sys/class/net/eth2/device | xargs basename)
-  - sed -i "s/vmbus@eth1/$AgentEth1VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
-  - sed -i "s/vmbus@eth2/$AgentEth2VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/docker-compose.yaml
-  - /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/setup.sh
+  - sed -i "s/vmbus@eth1/$AgentEth1VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
+  - sed -i "s/vmbus@eth2/$AgentEth2VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
+  - /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/setup.sh
   - make docker-compose -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/Docker
 merge_how:
  - name: list

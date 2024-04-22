@@ -8,6 +8,7 @@ module "Agent1" {
 	InstanceId = local.Agent1InstanceId
 	ResourceGroupLocation = azurerm_resource_group.ResourceGroup.location
 	ResourceGroupName = azurerm_resource_group.ResourceGroup.name
+	SleepDelay = local.SleepDelay
 	SshKeyName = azurerm_ssh_public_key.SshKey.name
 	Tag = local.AppTag
 	UserEmailTag = local.UserEmailTag
@@ -33,6 +34,7 @@ module "Agent2" {
 	InstanceId = local.Agent2InstanceId
 	ResourceGroupLocation = azurerm_resource_group.ResourceGroup.location
 	ResourceGroupName = azurerm_resource_group.ResourceGroup.name
+	SleepDelay = local.SleepDelay
 	SshKeyName = azurerm_ssh_public_key.SshKey.name
 	Tag = local.AppTag
 	UserEmailTag = local.UserEmailTag
