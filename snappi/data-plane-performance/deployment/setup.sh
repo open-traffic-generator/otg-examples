@@ -4,9 +4,6 @@
 
 TRAFFIC_ENGINE_VERSION="1.6.0.167"
 CONTROLLER_VERSION="1.3.0-2"
-LICENSE_SERVER_VERSION="latest"
-
-LICENSE_SERVER_IP=localhost
 
 help() {
     echo "Usage: sudo $0 <interface1> [interface2 interface3 interface4]"
