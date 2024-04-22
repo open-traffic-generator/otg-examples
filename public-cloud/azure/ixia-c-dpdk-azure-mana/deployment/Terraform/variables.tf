@@ -18,8 +18,3 @@ variable "ResourceGroupLocation" {
 	default = "South Central US"
 	type = string
 }
-
-variable "SubscriptionId" {
-	sensitive = true
-	type = string
-}
