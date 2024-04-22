@@ -5,7 +5,7 @@
 all: azure run
 
 .PHONY: azure
-aws:
+azure:
 	$(MAKE) -C ./deployment/Terraform all
 
 .PHONY: clean
