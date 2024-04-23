@@ -7,12 +7,6 @@ packages:
   - iperf3
   - net-tools
 runcmd:
-  - printf "\nexport PUBLIC_HOSTNAME=\$(curl -s ${AwsMetadataServerUrl}/public-hostname)\n" >> /home/${UserName}/.profile
-  - printf "export PUBLIC_IPV4=\$(curl -s ${AwsMetadataServerUrl}/public-ipv4)\n" >> /home/${UserName}/.profile
-  - printf "echo \"env(PUBLIC_HOSTNAME) = \$PUBLIC_HOSTNAME\"\n" >> /home/${UserName}/.profile
-  - printf "echo \"env(PUBLIC_IPV4) = \$PUBLIC_IPV4\"\n" >> /home/${UserName}/.profile
-  - systemctl status snap.amazon-ssm-agent.amazon-ssm-agent.service
-  - AgentInstanceType=$(curl -s ${AwsMetadataServerUrl}/instance-type)
   - AgentRegion=$(curl -s ${AwsMetadataServerUrl}/placement/region)
   - aws configure set region $AgentRegion
   - Agent1Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent1Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
@@ -24,11 +18,6 @@ runcmd:
   - Agent2Eth1IpAddress=${Agent2Eth1PrivateIpAddresses[0]}
   - sed -i "s/Agent1Eth1IpAddress/$Agent1Eth1IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json   
   - sed -i "s/Agent2Eth1IpAddress/$Agent2Eth1IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - AgentInstanceTypeSpeed=$(aws ec2 describe-instance-types --filters "Name=instance-type,Values=$AgentInstanceType" --query "InstanceTypes[].[InstanceType, NetworkInfo.NetworkPerformance]" | jq .[0][1] | tr -dc '0-9')
-  - sed -i "s/speed_10_gbps/speed_AgentInstanceTypeSpeed_gbps/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - sed -i "s/AgentInstanceTypeSpeed/$AgentInstanceTypeSpeed/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - sed -i "s/speed_10_gbps/speed_AgentInstanceTypeSpeed_gbps/g" /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/*.json
-  - sed -i "s/AgentInstanceTypeSpeed/$AgentInstanceTypeSpeed/g" /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/*.json
   - sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/settings.json
 merge_how:
  - name: list
