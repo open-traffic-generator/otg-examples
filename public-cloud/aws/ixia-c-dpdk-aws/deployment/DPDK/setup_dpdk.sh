@@ -1,8 +1,8 @@
 #!/bin/bash
 UserName="ubuntu"
 GitRepoBasePath="/home/$UserName/keng-python"
-GitRepoDeployPath="$GitRepoExecPath/deployment"
 GitRepoExecPath="$GitRepoBasePath/snappi/data-plane-performance"
+GitRepoDeployPath="$GitRepoExecPath/deployment"
 AgentEth1LogicalName=$(lshw -C network -json | jq .[1].logicalname --raw-output)
 AgentEth1BusInfo=$(lshw -C network -json | jq .[1].businfo --raw-output)
 echo "AgentEth1BusInfo=$AgentEth1BusInfo" > $GitRepoDeployPath/.env
