@@ -1,0 +1,66 @@
+{
+    "ports": [
+        {
+            "name": "VM1-TE1",
+            "location": ""
+        },
+        {
+            "name": "VM2-TE1",
+            "location": ""
+        }
+    ],
+    "layer1": [
+        {
+            "name": "l1",
+            "port_names": [
+                "VM1-TE1",
+                "VM2-TE1"
+            ],
+            "speed": "speed_200_gbps"
+        }
+    ],
+    "flows": [
+        {
+            "name": "f1",
+            "tx_rx": {
+                "choice": "port",
+                "port": {
+                    "tx_name": "VM1-TE1",
+                    "rx_names": ["VM2-TE1"]
+                }
+            },
+            "metrics": {
+                "enable": true
+            },
+            "size": {
+                "choice": "fixed",
+                "fixed": 1500
+            },
+            "rate": {
+                "choice": "percentage",
+                "percentage": 100
+            },
+            "duration": {
+                "choice": "fixed_seconds",
+                "fixed_seconds": {
+                    "seconds": 30
+                }
+            },
+            "packet": [
+                {
+                    "choice": "ethernet",
+                    "ethernet": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "00:0c:29:16:b4:61"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "00:0c:29:23:20:e1"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
