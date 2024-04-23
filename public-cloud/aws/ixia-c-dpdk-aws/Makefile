@@ -14,11 +14,14 @@ clean:
 
 .PHONY: run
 run:
-	$(MAKE) -C ./deployment/CloudShell run
+	$(MAKE) -C ./deployment/Docker run
 
 .PHONY: connect
-connect:
-	$(MAKE) -C ./deployment/CloudShell connect
+connect: connect-agent1
+
+.PHONY: connect-agent1
+connect-agent1:
+	$(MAKE) -C ./deployment/CloudShell connect-agent1
 
 .PHONY: connect-agent2
 connect-agent2:
