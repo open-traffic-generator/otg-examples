@@ -1,5 +1,5 @@
 locals {
-	AgentInstanceType = var.AgentInstanceType
+	AgentInstanceType = "c5.4xlarge"
 	Agent1InstanceId = "agent1"
 	Agent1Eth1PrivateIpAddresses = [ "10.0.2.12", "10.0.2.13" ]
 	Agent2Eth0PrivateIpAddress = "10.0.10.12"
@@ -18,8 +18,8 @@ locals {
 	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
 	PlacementGroupStrategy = "cluster"
 	Preamble = "${local.UserLoginTag}-${local.UserProjectTag}-${local.AppTag}-${local.AppVersion}"
-	PrivateSubnetAvailabilityZone = var.PrivateSubnetAvailabilityZone
-	PublicSubnetAvailabilityZone = var.PublicSubnetAvailabilityZone
+	PrivateSubnetAvailabilityZone = data.aws_availability_zones.available.names[0]
+	PublicSubnetAvailabilityZone = data.aws_availability_zones.available.names[0]
 	Region = data.aws_region.current.name
 	SleepDelay = "5m"
 	UserEmailTag = data.aws_caller_identity.current.user_id
