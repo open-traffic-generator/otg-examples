@@ -15,7 +15,7 @@ data "cloudinit_config" "init_cli" {
 			GitRepoDeployPath: local.GitRepoDeployPath
 			GitRepoName: local.GitRepoName
 			GitRepoUrl: local.GitRepoUrl
-			UserName: local.AppTag
+			AgentUserName: local.AgentUserName
 		})
 	}
 	part {
@@ -28,8 +28,6 @@ data "cloudinit_config" "init_cli" {
 			AwsMetadataServerUrl: local.AwsMetadataServerUrl
 			GitRepoConfigPath: local.GitRepoConfigPath
 			GitRepoExecPath: local.GitRepoExecPath
-			GitRepoName: local.GitRepoName
-			UserName: local.AppTag
 			VpcId: module.Vpc.Vpc.id
 		})
 	}	

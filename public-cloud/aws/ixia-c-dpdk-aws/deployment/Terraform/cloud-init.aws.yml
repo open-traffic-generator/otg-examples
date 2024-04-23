@@ -11,14 +11,11 @@ runcmd:
   - aws configure set region $AgentRegion
   - Agent1Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent1Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
   - Agent2Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent2Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
-  - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - Agent1Eth1IpAddress=${Agent1Eth1PrivateIpAddresses[0]}
-  - Agent2Eth0IpAddress=${Agent2Eth0IpAddress}
-  - Agent2Eth1IpAddress=${Agent2Eth1PrivateIpAddresses[0]}
-  - sed -i "s/Agent1Eth1IpAddress/$Agent1Eth1IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json   
-  - sed -i "s/Agent2Eth1IpAddress/$Agent2Eth1IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" /home/${UserName}/${GitRepoName}/${GitRepoExecPath}/settings.json
+  - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json   
+  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoExecPath}/settings.json
 merge_how:
  - name: list
    settings: [append]

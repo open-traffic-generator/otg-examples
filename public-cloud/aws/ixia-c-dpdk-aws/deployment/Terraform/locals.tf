@@ -1,5 +1,6 @@
 locals {
 	AgentInstanceType = "c5.4xlarge"
+	AgentUserName = local.AppTag
 	Agent1InstanceId = "agent1"
 	Agent1Eth1PrivateIpAddresses = [ "10.0.2.12", "10.0.2.13" ]
 	Agent2Eth0PrivateIpAddress = "10.0.10.12"
@@ -8,10 +9,10 @@ locals {
 	AppTag = "ubuntu"
 	AppVersion = "2204-lts"
 	AwsMetadataServerUrl = "http://169.254.169.254/latest/meta-data"
-	GitRepoBasePath = "public-cloud/aws/ixia-c-dpdk-aws"
+	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
-	GitRepoExecPath = "${local.GitRepoBasePath}/application"
+	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
 	GitRepoName = "keng-python"
 	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 	InboundIPv4CidrBlocks = [ "${data.http.ip.response_body}/32" ]
