@@ -1,10 +1,10 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-3"
-IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
-GitRepoBasePath = "/home/ubuntu/keng-python/public-cloud/aws/ixia-c-dpdk-aws"
-GitRepoExecPath = "$(GitRepoBasePath)/application"
-GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
+GitRepoBasePath = "/home/ubuntu/keng-python"
+GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/aws/ixia-c-dpdk-aws/deployment"
 
 ###############################
 # Pull images
@@ -48,3 +48,14 @@ endif
 docker-compose:
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml up -d'
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml ps'
+
+###############################
+# Run tests
+###############################
+
+.PHONY: run
+run: run-rfc2544
+
+run-rfc2544:
+	chmod +x $(GitRepoExecPath)/rfc_2544.sh
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 9000"
