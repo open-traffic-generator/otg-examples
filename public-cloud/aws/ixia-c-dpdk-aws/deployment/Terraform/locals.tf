@@ -13,7 +13,7 @@ locals {
 	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/application"
 	GitRepoName = "keng-python"
-	GitRepoUrl = "-b cloud-pull https://github.com/open-traffic-generator/otg-examples.git"
+	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 	InboundIPv4CidrBlocks = [ "${data.http.ip.response_body}/32" ]
 	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
 	PlacementGroupStrategy = "cluster"
