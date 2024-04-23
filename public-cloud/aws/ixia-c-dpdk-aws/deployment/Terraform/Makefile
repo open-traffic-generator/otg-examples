@@ -2,7 +2,7 @@ SHELL := /bin/bash
 
 all: install init apply
 
-clean: destroy
+clean: install destroy
 
 install:
 ifeq ($(shell grep "^ID=" /etc/*elease | cut -d "=" -f 2| sed -e 's/^"//' -e 's/"$$//' 2> /dev/null), amzn)
