@@ -14,7 +14,10 @@ endif
 endif
 
 init:
-	terraform init
+	time terraform init
+	
+plan:
+	time terraform plan
 
 apply:
 	time terraform apply -auto-approve

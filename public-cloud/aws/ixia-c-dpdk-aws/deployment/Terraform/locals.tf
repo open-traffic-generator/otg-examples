@@ -11,7 +11,7 @@ locals {
 	AwsMetadataServerUrl = "http://169.254.169.254/latest/meta-data"
 	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
 	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
-	GitRepoDeployPath = "${local.GitRepoBasePath}/deployment"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/aws/ixia-c-dpdk-aws/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
 	GitRepoName = "keng-python"
 	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
