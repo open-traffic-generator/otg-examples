@@ -16,7 +16,7 @@
                 "VM1-TE1",
                 "VM2-TE1"
             ],
-            "speed": "speed_200_gbps"
+            "speed": "speed_10_gbps"
         }
     ],
     "flows": [
@@ -34,7 +34,7 @@
             },
             "size": {
                 "choice": "fixed",
-                "fixed": 1500
+                "fixed": 9000
             },
             "rate": {
                 "choice": "percentage",
@@ -52,11 +52,37 @@
                     "ethernet": {
                         "dst": {
                             "choice": "value",
-                            "value": "00:0c:29:16:b4:61"
+                            "value": "Agent2Eth1MacAddress"
                         },
                         "src": {
                             "choice": "value",
-                            "value": "00:0c:29:23:20:e1"
+                            "value": "Agent1Eth1MacAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "ipv4",
+                    "ipv4": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth1IpAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth1IpAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "tcp",
+                    "tcp": {
+                        "src_port": {
+                            "choice": "value",
+                            "value": 643
+                        },
+                        "dst_port": {
+                            "choice": "value",
+                            "value": 543
                         }
                     }
                 }
