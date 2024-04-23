@@ -41,7 +41,7 @@ runcmd:
   - AgentEth2VmBus=$(readlink /sys/class/net/eth2/device | xargs basename)
   - sed -i "s/vmbus@eth1/$AgentEth1VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
   - sed -i "s/vmbus@eth2/$AgentEth2VmBus/g" /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/docker-compose.yaml
-  - /home/${UserName}/${GitRepoName}/${GitRepoExecDeployPath}/setup.sh
+  - make dpdk -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/DPDK
   - make docker-compose -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/Docker
 merge_how:
  - name: list

@@ -15,7 +15,6 @@ runcmd:
   - sudo -H -u ${UserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
   - make pull -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/Docker
   - make build -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/Python
-  - make dpdk -C /home/${UserName}/${GitRepoName}/${GitRepoDeployPath}/DPDK
 merge_how:
  - name: list
    settings: [append]
