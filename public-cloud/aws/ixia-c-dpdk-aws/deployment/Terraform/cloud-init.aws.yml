@@ -14,8 +14,8 @@ runcmd:
   - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json   
-  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoExecPath}/settings.json
+  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoExecPath}/settings.json
 merge_how:
  - name: list
    settings: [append]
