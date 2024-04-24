@@ -2,11 +2,21 @@ locals {
 	AgentUserName = "ubuntu"
 	AgentVmSize = "Experimental_Boost192"
 	Agent1InstanceId = "agent1"
-	Agent1Eth1IpAddresses = [ "10.0.2.12", "10.0.2.13" ]
-	Agent1Eth2IpAddresses = [ "10.0.2.112", "10.0.2.113" ]
+	Agent1Eth1IpAddresses = [ "10.0.2.11" ]
+	Agent1Eth2IpAddresses = [ "10.0.2.12" ]
+	Agent1Eth3IpAddresses = [ "10.0.2.13" ]
+	Agent1Eth4IpAddresses = [ "10.0.2.14" ]
+	Agent1Eth5IpAddresses = [ "10.0.2.15" ]
+	Agent1Eth6IpAddresses = [ "10.0.2.16" ]
+	Agent1Eth7IpAddresses = [ "10.0.2.17" ]
 	Agent2Eth0IpAddress = "10.0.10.12"
-	Agent2Eth1IpAddresses = [ "10.0.2.22", "10.0.2.23" ]
-	Agent2Eth2IpAddresses = [ "10.0.2.122", "10.0.2.123" ]
+	Agent2Eth1IpAddresses = [ "10.0.2.21" ]
+	Agent2Eth2IpAddresses = [ "10.0.2.22" ]
+	Agent2Eth3IpAddresses = [ "10.0.2.23" ]
+	Agent2Eth4IpAddresses = [ "10.0.2.24" ]
+	Agent2Eth5IpAddresses = [ "10.0.2.25" ]
+	Agent2Eth6IpAddresses = [ "10.0.2.26" ]
+	Agent2Eth7IpAddresses = [ "10.0.2.27" ]
 	Agent2InstanceId = "agent2"
 	AppTag = "azure"
 	AppVersion = "mana"
@@ -25,7 +35,7 @@ locals {
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
-	UserEmailTag = "terraform@example.com"
+	UserEmailTag = data.azuread_user.current.user_principal_name
 	UserLoginTag = "terraform"
 	UserProjectTag = random_id.RandomId.id
 }

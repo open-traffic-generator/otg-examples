@@ -31,7 +31,12 @@ resource "azurerm_linux_virtual_machine" "Instance" {
 	network_interface_ids = [
 		azurerm_network_interface.Eth0.id,
 		azurerm_network_interface.Eth1.id,
-		azurerm_network_interface.Eth2.id
+		azurerm_network_interface.Eth2.id,
+		azurerm_network_interface.Eth3.id,
+		azurerm_network_interface.Eth4.id,
+		azurerm_network_interface.Eth5.id,
+		azurerm_network_interface.Eth6.id,
+		azurerm_network_interface.Eth7.id
 	]
 	boot_diagnostics {}
 	identity {
@@ -40,7 +45,12 @@ resource "azurerm_linux_virtual_machine" "Instance" {
 	depends_on = [
 		azurerm_network_interface.Eth0,
 		azurerm_network_interface.Eth1,
-		azurerm_network_interface.Eth2
+		azurerm_network_interface.Eth2,
+		azurerm_network_interface.Eth3,
+		azurerm_network_interface.Eth4,
+		azurerm_network_interface.Eth5,
+		azurerm_network_interface.Eth6,
+		azurerm_network_interface.Eth7
 	]
 	timeouts {
 		create = "5m"
@@ -126,6 +136,141 @@ resource "azurerm_network_interface" "Eth2" {
 	}
 	dns_servers = []
 	enable_accelerated_networking = local.Eth2EnableAcceleratedNetworking
+	enable_ip_forwarding = local.EnableIpForwarding
+}
+
+resource "azurerm_network_interface" "Eth3" {
+	name = local.Eth3Name
+	location = local.ResourceGroupLocation
+	resource_group_name = local.ResourceGroupName
+	tags = {
+		Owner = local.UserEmailTag
+		Project = local.UserProjectTag
+		ResourceGroup = local.ResourceGroupName
+		Location = local.ResourceGroupLocation
+	}
+	dynamic "ip_configuration" {
+		for_each = range(length(local.Eth3IpAddresses))
+		iterator = index
+		content {
+			name = "ipconfig${index.value}"
+			private_ip_address = local.Eth3IpAddresses[index.value]
+			private_ip_address_allocation = "Static"
+			subnet_id = local.Eth3SubnetId
+			primary = index.value == 0 ? true : false
+			private_ip_address_version = "IPv4"
+		}
+	}
+	dns_servers = []
+	enable_accelerated_networking = local.Eth3EnableAcceleratedNetworking
+	enable_ip_forwarding = local.EnableIpForwarding
+}
+
+resource "azurerm_network_interface" "Eth4" {
+	name = local.Eth4Name
+	location = local.ResourceGroupLocation
+	resource_group_name = local.ResourceGroupName
+	tags = {
+		Owner = local.UserEmailTag
+		Project = local.UserProjectTag
+		ResourceGroup = local.ResourceGroupName
+		Location = local.ResourceGroupLocation
+	}
+	dynamic "ip_configuration" {
+		for_each = range(length(local.Eth4IpAddresses))
+		iterator = index
+		content {
+			name = "ipconfig${index.value}"
+			private_ip_address = local.Eth4IpAddresses[index.value]
+			private_ip_address_allocation = "Static"
+			subnet_id = local.Eth4SubnetId
+			primary = index.value == 0 ? true : false
+			private_ip_address_version = "IPv4"
+		}
+	}
+	dns_servers = []
+	enable_accelerated_networking = local.Eth4EnableAcceleratedNetworking
+	enable_ip_forwarding = local.EnableIpForwarding
+}
+
+resource "azurerm_network_interface" "Eth5" {
+	name = local.Eth5Name
+	location = local.ResourceGroupLocation
+	resource_group_name = local.ResourceGroupName
+	tags = {
+		Owner = local.UserEmailTag
+		Project = local.UserProjectTag
+		ResourceGroup = local.ResourceGroupName
+		Location = local.ResourceGroupLocation
+	}
+	dynamic "ip_configuration" {
+		for_each = range(length(local.Eth5IpAddresses))
+		iterator = index
+		content {
+			name = "ipconfig${index.value}"
+			private_ip_address = local.Eth5IpAddresses[index.value]
+			private_ip_address_allocation = "Static"
+			subnet_id = local.Eth5SubnetId
+			primary = index.value == 0 ? true : false
+			private_ip_address_version = "IPv4"
+		}
+	}
+	dns_servers = []
+	enable_accelerated_networking = local.Eth2EnableAcceleratedNetworking
+	enable_ip_forwarding = local.EnableIpForwarding
+}
+
+resource "azurerm_network_interface" "Eth6" {
+	name = local.Eth6Name
+	location = local.ResourceGroupLocation
+	resource_group_name = local.ResourceGroupName
+	tags = {
+		Owner = local.UserEmailTag
+		Project = local.UserProjectTag
+		ResourceGroup = local.ResourceGroupName
+		Location = local.ResourceGroupLocation
+	}
+	dynamic "ip_configuration" {
+		for_each = range(length(local.Eth6IpAddresses))
+		iterator = index
+		content {
+			name = "ipconfig${index.value}"
+			private_ip_address = local.Eth6IpAddresses[index.value]
+			private_ip_address_allocation = "Static"
+			subnet_id = local.Eth6SubnetId
+			primary = index.value == 0 ? true : false
+			private_ip_address_version = "IPv4"
+		}
+	}
+	dns_servers = []
+	enable_accelerated_networking = local.Eth6EnableAcceleratedNetworking
+	enable_ip_forwarding = local.EnableIpForwarding
+}
+
+resource "azurerm_network_interface" "Eth7" {
+	name = local.Eth7Name
+	location = local.ResourceGroupLocation
+	resource_group_name = local.ResourceGroupName
+	tags = {
+		Owner = local.UserEmailTag
+		Project = local.UserProjectTag
+		ResourceGroup = local.ResourceGroupName
+		Location = local.ResourceGroupLocation
+	}
+	dynamic "ip_configuration" {
+		for_each = range(length(local.Eth7IpAddresses))
+		iterator = index
+		content {
+			name = "ipconfig${index.value}"
+			private_ip_address = local.Eth7IpAddresses[index.value]
+			private_ip_address_allocation = "Static"
+			subnet_id = local.Eth7SubnetId
+			primary = index.value == 0 ? true : false
+			private_ip_address_version = "IPv4"
+		}
+	}
+	dns_servers = []
+	enable_accelerated_networking = local.Eth7EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
