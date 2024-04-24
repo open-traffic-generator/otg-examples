@@ -35,7 +35,7 @@ locals {
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
-	UserEmailTag = data.azuread_user.current.user_principal_name
+	UserEmailTag = "terraform@example.com"
 	UserLoginTag = "terraform"
 	UserProjectTag = random_id.RandomId.id
 }
