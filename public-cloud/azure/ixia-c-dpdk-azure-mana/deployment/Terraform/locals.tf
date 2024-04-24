@@ -1,6 +1,6 @@
 locals {
 	AgentUserName = "ubuntu"
-	AgentVmSize = var.AgentVmSize
+	AgentVmSize = "Experimental_Boost192"
 	Agent1InstanceId = "agent1"
 	Agent1Eth1IpAddresses = [ "10.0.2.12", "10.0.2.13" ]
 	Agent1Eth2IpAddresses = [ "10.0.2.112", "10.0.2.113" ]
