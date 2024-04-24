@@ -1,0 +1,31 @@
+locals {
+	AgentUserName = "ubuntu"
+	AgentVmSize = var.AgentVmSize
+	Agent1InstanceId = "agent1"
+	Agent1Eth1IpAddresses = [ "10.0.2.12", "10.0.2.13" ]
+	Agent1Eth2IpAddresses = [ "10.0.2.112", "10.0.2.113" ]
+	Agent2Eth0IpAddress = "10.0.10.12"
+	Agent2Eth1IpAddresses = [ "10.0.2.22", "10.0.2.23" ]
+	Agent2Eth2IpAddresses = [ "10.0.2.122", "10.0.2.123" ]
+	Agent2InstanceId = "agent2"
+	AppTag = "azure"
+	AppVersion = "mana"
+	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
+	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment"
+	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
+	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
+	GitRepoName = "keng-python"
+	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
+	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
+	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
+	ResourceGroupLocation = var.ResourceGroupLocation
+	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-ixia-c-dpdk-azure-mana"
+	SleepDelay = "5m"
+	SshKeyAlgorithm = "RSA"
+	SshKeyName = "${local.Preamble}-ssh-key"
+	SshKeyRsaBits = "4096"
+	UserEmailTag = "terraform@example.com"
+	UserLoginTag = "terraform"
+	UserProjectTag = random_id.RandomId.id
+}
