@@ -41,6 +41,7 @@ fi
 echo "frame_sizes=$frame_sizes"
 echo "direction=$direction"
 
+echo "" > throughput_results_rfc2544_n_flows.json  # clean old results
 
 echo "Running test: python3 -m pytest ./py/test_rfc2544.py \
  --frame_sizes $frame_sizes \
@@ -49,3 +50,8 @@ echo "Running test: python3 -m pytest ./py/test_rfc2544.py \
 python3 -m pytest -q ./py/test_rfc2544.py \
  --frame_sizes $frame_sizes \
  --direction $direction
+
+cat throughput_results_rfc2544_n_flows.json  | jq
+cat throughput_results_rfc2544_n_flows.json  | jq > tmp.json
+cat tmp.json > throughput_results_rfc2544_n_flows.json
+rm tmp.json
