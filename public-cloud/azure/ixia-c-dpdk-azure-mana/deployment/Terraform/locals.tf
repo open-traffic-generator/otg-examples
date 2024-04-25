@@ -21,7 +21,7 @@ locals {
 	AppTag = "azure"
 	AppVersion = "mana"
 	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
-	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
+	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment"
 	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
