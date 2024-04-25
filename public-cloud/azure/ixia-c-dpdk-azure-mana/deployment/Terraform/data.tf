@@ -2,12 +2,6 @@ data "azurerm_subscription" "current" {}
 
 data "azurerm_subscriptions" "available" {}
 
-data "azurerm_client_config" "current" {}
-
-data "azuread_user" "current" {
-	object_id = data.azurerm_client_config.current.object_id
-}
-
 data "cloudinit_config" "init_cli" {
 	gzip = false
 	base64_encode = false
