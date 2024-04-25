@@ -14,19 +14,14 @@ runcmd:
   - Agent2Eth1MacAddress=$(az network nic list --resource-group "${ResourceGroupName}" --query "[].{Name:name, IP:ipConfigurations[0].privateIPAddress, MAC:macAddress}[?IP=='${Agent2Eth1PrivateIpAddresses[0]}']" --output json | jq .[0].MAC --raw-output | tr '-' ':')
   - Agent2Eth2MacAddress=$(az network nic list --resource-group "${ResourceGroupName}" --query "[].{Name:name, IP:ipConfigurations[0].privateIPAddress, MAC:macAddress}[?IP=='${Agent2Eth2PrivateIpAddresses[0]}']" --output json | jq .[0].MAC --raw-output | tr '-' ':')
   - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth2MacAddress/$Agent1Eth2MacAddress/g" ${GitRepoConfigPath}/*.json    
+  - sed -i "s/Agent1Eth2MacAddress/$Agent1Eth2MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth2MacAddress/$Agent2Eth2MacAddress/g" ${GitRepoConfigPath}/*.json
-  - Agent1Eth1IpAddress=${Agent1Eth1PrivateIpAddresses[0]}
-  - Agent1Eth2IpAddress=${Agent1Eth2PrivateIpAddresses[0]}
-  - Agent2Eth0IpAddress=${Agent2Eth0IpAddress}
-  - Agent2Eth1IpAddress=${Agent2Eth1PrivateIpAddresses[0]}
-  - Agent2Eth2IpAddress=${Agent2Eth2PrivateIpAddresses[0]}
-  - sed -i "s/Agent1Eth1IpAddress/$Agent1Eth1IpAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth2IpAddress/$Agent1Eth2IpAddress/g" ${GitRepoConfigPath}/*.json    
-  - sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth1IpAddress/$Agent2Eth1IpAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth2IpAddress/$Agent2Eth2IpAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth2IpAddress/${Agent1Eth2PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth2IpAddress/${Agent2Eth2PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoExecPath}/settings.json
   - modprobe mana_ib
   - AgentEth1MacAddress=$(cat /sys/class/net/eth1/address)
   - AgentEth2MacAddress=$(cat /sys/class/net/eth2/address)
