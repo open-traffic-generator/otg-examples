@@ -32,9 +32,9 @@ cd otg-examples/public-cloud/aws/ixia-c-dpdk-aws/
 
 3. Execute Python test case to generate traffic between AWS instances.
 
-```
-make all
-```
+    ```
+    make all
+    ```
 
 ![Results](./images/results.png)
 
@@ -42,14 +42,14 @@ make all
 
 1. Execute Python test case to generate traffic between AWS instances.
 
-```
-make run
-```
+    ```
+    make run
+    ```
 
 ## Destroy the lab
 
 1. Destroy the Terraform deployment
 
-```
-make clean
-```
+    ```
+    make clean
+    ```
