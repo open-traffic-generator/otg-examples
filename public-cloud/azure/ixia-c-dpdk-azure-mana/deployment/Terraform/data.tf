@@ -35,6 +35,7 @@ data "cloudinit_config" "init_cli" {
 			Agent2Eth7PrivateIpAddresses: local.Agent2Eth7IpAddresses
 			GitRepoConfigPath: local.GitRepoConfigPath
 			GitRepoDeployPath: local.GitRepoDeployPath
+			GitRepoExecPath: local.GitRepoExecPath
 			GitRepoExecDeployPath: local.GitRepoExecDeployPath
 			ResourceGroupName: local.ResourceGroupName
 		})
