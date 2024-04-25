@@ -1,0 +1,23 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - awscli
+  - emacs
+  - iperf
+  - iperf3
+  - net-tools
+runcmd:
+  - AgentRegion=$(curl -s ${AwsMetadataServerUrl}/placement/region)
+  - aws configure set region $AgentRegion
+  - Agent1Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent1Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
+  - Agent2Eth1MacAddress=$(aws ec2 describe-network-interfaces --filters Name=addresses.private-ip-address,Values=${Agent2Eth1PrivateIpAddresses[0]} Name=vpc-id,Values=${VpcId} | jq .NetworkInterfaces[0].MacAddress --raw-output)
+  - sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json   
+  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoExecPath}/settings.json
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]

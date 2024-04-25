@@ -1,0 +1,29 @@
+locals {
+	AgentInstanceType = "c5.4xlarge"
+	AgentUserName = local.AppTag
+	Agent1InstanceId = "agent1"
+	Agent1Eth1PrivateIpAddresses = [ "10.0.2.12", "10.0.2.13" ]
+	Agent2Eth0PrivateIpAddress = "10.0.10.12"
+	Agent2Eth1PrivateIpAddresses = [ "10.0.2.22", "10.0.2.23" ]
+	Agent2InstanceId = "agent2"
+	AppTag = "ubuntu"
+	AppVersion = "2204-lts"
+	AwsMetadataServerUrl = "http://169.254.169.254/latest/meta-data"
+	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
+	GitRepoConfigPath = "${local.GitRepoExecPath}/configs"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/aws/ixia-c-dpdk-aws/deployment"
+	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
+	GitRepoName = "keng-python"
+	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
+	InboundIPv4CidrBlocks = [ "${data.http.ip.response_body}/32" ]
+	PlacementGroupName = "${local.Preamble}-placement-group-${local.Region}"
+	PlacementGroupStrategy = "cluster"
+	Preamble = "${local.UserLoginTag}-${local.UserProjectTag}-${local.AppTag}-${local.AppVersion}"
+	PrivateSubnetAvailabilityZone = data.aws_availability_zones.available.names[0]
+	PublicSubnetAvailabilityZone = data.aws_availability_zones.available.names[0]
+	Region = data.aws_region.current.name
+	SleepDelay = "5m"
+	UserEmailTag = data.aws_caller_identity.current.user_id
+	UserLoginTag = "terraform"
+	UserProjectTag = random_id.RandomId.id
+}

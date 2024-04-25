@@ -19,5 +19,5 @@ services:
       - /dev:/dev
     environment:
       - OPT_LISTEN_PORT=5551
-      - ARG_IFACE_LIST=pci@0000:03:00.0
+      - ARG_IFACE_LIST=${AgentEth1BusInfo}
       - ARG_CORE_LIST="0 1 2"

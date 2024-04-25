@@ -1,0 +1,24 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - docker.io
+  - docker-compose
+  - dpdk-kmods-dkms
+  - jq
+groups:
+  - docker
+users:
+  - default
+  - name: ${AgentUserName}
+    groups: docker
+runcmd:
+  - sudo -H -u ${AgentUserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
+  - make pull -C ${GitRepoDeployPath}/Docker
+  - make build -C ${GitRepoDeployPath}/Python
+  - make dpdk -C ${GitRepoDeployPath}/DPDK
+  - make docker-compose -C ${GitRepoDeployPath}/Docker
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
