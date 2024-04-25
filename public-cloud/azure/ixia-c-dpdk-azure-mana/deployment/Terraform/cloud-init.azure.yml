@@ -32,25 +32,25 @@ runcmd:
   - sed -i "s/Agent1Eth7MacAddress/$Agent1Eth7MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth2MacAddress/$Agent2Eth2MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth3MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth4MacAddress/$Agent2Eth2MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth5MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth6MacAddress/$Agent2Eth2MacAddress/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth7MacAddress/$Agent2Eth1MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth3MacAddress/$Agent2Eth3MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth4MacAddress/$Agent2Eth4MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth5MacAddress/$Agent2Eth5MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth6MacAddress/$Agent2Eth6MacAddress/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth7MacAddress/$Agent2Eth7MacAddress/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent1Eth2IpAddress/${Agent1Eth2PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth3PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth2IpAddress/${Agent1Eth4PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth5PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth2IpAddress/${Agent1Eth6PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent1Eth1IpAddress/${Agent1Eth7PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth3IpAddress/${Agent1Eth3PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth4IpAddress/${Agent1Eth4PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth5IpAddress/${Agent1Eth5PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth6IpAddress/${Agent1Eth6PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent1Eth7IpAddress/${Agent1Eth7PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth1PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth2IpAddress/${Agent2Eth2PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth3PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth2IpAddress/${Agent2Eth4PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth5PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth2IpAddress/${Agent2Eth6PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth1IpAddress/${Agent2Eth7PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth3IpAddress/${Agent2Eth3PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth4IpAddress/${Agent2Eth4PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth5IpAddress/${Agent2Eth5PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth6IpAddress/${Agent2Eth6PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
+  - sed -i "s/Agent2Eth7IpAddress/${Agent2Eth7PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoExecPath}/settings.json
   - modprobe mana_ib
   - AgentEth1MacAddress=$(cat /sys/class/net/eth1/address)
