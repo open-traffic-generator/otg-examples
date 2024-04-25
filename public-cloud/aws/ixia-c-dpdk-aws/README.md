@@ -10,7 +10,19 @@ Once the lab is up, a Python script is used to request Ixia-c to generate traffi
 
 ## Prerequisites
 
-* [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)
+* This lab requires the commands below to be executed from within [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html).
+
+## Clone the repository
+
+```
+git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
+```
+
+## Navigate to the lab subdirectory within the repository
+
+```
+cd otg-examples/public-cloud/aws/ixia-c-dpdk-aws/
+```
 
 ## Deploy Ixia-c lab
 
