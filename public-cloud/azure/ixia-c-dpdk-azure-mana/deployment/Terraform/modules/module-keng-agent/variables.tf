@@ -243,7 +243,7 @@ variable "Version" {
 }
 
 variable "VmSize" {
-	default = "Standard_F8s_v2"
+	default = "Standard_F32s_v2"
 	description = "Category, series and instance specifications associated with the VM"
 	type = string
 	validation {
