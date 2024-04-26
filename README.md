@@ -59,6 +59,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | Ixia-c PE+TE | B2B  | `ondatra`            | KENG Operator   | yes |
 | [B2B IxOS Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | IxOS Hardware| B2B  | `snappi` & `ondatra` | Compose         | no  |
 | [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | Ixia-c PE+TE | cEOS | `otgen`              | KNE             | no  |
+| [B2B Ixia-c Traffic]( https://github.com/open-traffic-generator/otg-examples/blob/main/public-cloud/aws/ixia-c-dpdk-aws)     | Ixia-c TE    | B2B  | `snappi`             | AWS Cloud       | no  |
 
 
 ## Lab Descriptions
