@@ -3,7 +3,7 @@ UserName="ubuntu"
 GitRepoBasePath="/home/$UserName/keng-python"
 GitRepoExecPath="$GitRepoBasePath/snappi/data-plane-performance"
 # GitRepoDeployPath="$GitRepoExecPath/deployment"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
+GitRepoDeployPath="$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs"
 AgentEth1MacAddress=$(cat /sys/class/net/eth1/address)
 AgentEth2MacAddress=$(cat /sys/class/net/eth2/address)
 AgentEth3MacAddress=$(cat /sys/class/net/eth3/address)
@@ -47,6 +47,5 @@ echo "AgentEth4VmBus=$AgentEth4VmBus" > $GitRepoDeployPath/.env
 echo "AgentEth5VmBus=$AgentEth5VmBus" > $GitRepoDeployPath/.env
 echo "AgentEth6VmBus=$AgentEth6VmBus" > $GitRepoDeployPath/.env
 echo "AgentEth7VmBus=$AgentEth7VmBus" > $GitRepoDeployPath/.env
-modprobe mana_ib
 chmod +x $GitRepoDeployPath/setup.sh
 $GitRepoDeployPath/setup.sh
