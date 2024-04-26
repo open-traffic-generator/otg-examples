@@ -23,3 +23,111 @@ services:
       - MAC_LIST=${AgentEth1MacAddress}
       - VMBUS_LIST=${AgentEth1VmBus}
       - ARG_CORE_LIST="0 1 2"
+
+  TE1-5552:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5552
+      - ARG_IFACE_LIST=${AgentEth2BusInfo}
+      - MAC_LIST=${AgentEth2MacAddress}
+      - VMBUS_LIST=${AgentEth2VmBus}
+      - ARG_CORE_LIST="3 4 5"
+
+  TE1-5553:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5553
+      - ARG_IFACE_LIST=${AgentEth3BusInfo}
+      - MAC_LIST=${AgentEth3MacAddress}
+      - VMBUS_LIST=${AgentEth3VmBus}
+      - ARG_CORE_LIST="6 7 8"
+
+  TE1-5554:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5554
+      - ARG_IFACE_LIST=${AgentEth4BusInfo}
+      - MAC_LIST=${AgentEth4MacAddress}
+      - VMBUS_LIST=${AgentEth4VmBus}
+      - ARG_CORE_LIST="9 10 11"
+
+  TE1-5555:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5555
+      - ARG_IFACE_LIST=${AgentEth5BusInfo}
+      - MAC_LIST=${AgentEth5MacAddress}
+      - VMBUS_LIST=${AgentEth5VmBus}
+      - ARG_CORE_LIST="12 13 14"
+
+  TE1-5556:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5556
+      - ARG_IFACE_LIST=${AgentEth6BusInfo}
+      - MAC_LIST=${AgentEth6MacAddress}
+      - VMBUS_LIST=${AgentEth6VmBus}
+      - ARG_CORE_LIST="15 16 17"
+
+  TE1-5557:
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
+    # command: sleep infinity
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /mnt/huge:/mnt/huge
+      - /sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages
+      - /sys/bus/pci/drivers:/sys/bus/pci/drivers
+      - /sys/devices/system/node:/sys/devices/system/node
+      - /dev:/dev
+    environment:
+      - OPT_LISTEN_PORT=5557
+      - ARG_IFACE_LIST=${AgentEth7BusInfo}
+      - MAC_LIST=${AgentEth7MacAddress}
+      - VMBUS_LIST=${AgentEth7VmBus}
+      - ARG_CORE_LIST="18 19 20"
