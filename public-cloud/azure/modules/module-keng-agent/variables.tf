@@ -252,8 +252,8 @@ variable "VmSize" {
 							], var.VmSize)
 		error_message = <<EOF
 VmSize must be one of the following sizes:
-	Standard_F4s_v2, Standard_F8s_v2, Standard_F16s_v2,
-	Experimental_Boost4, Experimental_Boost8, Experimental_Boost32, Experimental_Boost64, Experimental_Boost192
+	Standard_F32s_v2,
+	Experimental_Boost32, Experimental_Boost64, Experimental_Boost192
 		EOF
 	}
 }
