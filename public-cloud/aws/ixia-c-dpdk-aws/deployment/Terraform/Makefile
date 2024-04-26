@@ -11,11 +11,13 @@ ifeq ($(shell command -v terraform 2> /dev/null),)
 	sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 	sudo yum -y install terraform
 endif
+else
+	$(error "ERROR: This lab requires the commands to be executed from within [AWS CloudShell]")
 endif
 
 init:
 	time terraform init
-	
+
 plan:
 	time terraform plan
 
