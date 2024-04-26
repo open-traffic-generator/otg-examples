@@ -1,7 +1,7 @@
 locals {
 	AdminUserName = var.AdminUserName
 	DisablePasswordAuthentication = var.DisablePasswordAuthentication
-	DnsLabel = "${local.InstanceId}-dns"
+	DnsLabel = "${local.UserProjectTag}-${local.InstanceId}-dns"
 	EnableIpForwarding = var.EnableIpForwarding
 	Eth0EnableAcceleratedNetworking = var.Eth0EnableAcceleratedNetworking
 	Eth0IpAddress = var.Eth0IpAddress
