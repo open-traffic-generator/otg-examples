@@ -3,7 +3,8 @@ SHELL = /bin/bash
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/keng-python"
-GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
+# GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 
 ###############################
