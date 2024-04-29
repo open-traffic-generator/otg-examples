@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 GitRepoBasePath = "/home/ubuntu/keng-python"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/aws/ixia-c-dpdk-azure-mana/deployment"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 
 ###############################

@@ -55,7 +55,7 @@
         {
             "name": "VM2-TE7",
             "location": ""
-        },
+        }
     ],
     "layer1": [
         {
@@ -69,12 +69,12 @@
                 "VM1-TE6",
                 "VM1-TE7",
                 "VM2-TE1",
-                "VM2-TE2"
+                "VM2-TE2",
                 "VM2-TE3",
                 "VM2-TE4",
                 "VM2-TE5",
                 "VM2-TE6",
-                "VM2-TE7",
+                "VM2-TE7"
             ],
             "speed": "speed_200_gbps"
         }
