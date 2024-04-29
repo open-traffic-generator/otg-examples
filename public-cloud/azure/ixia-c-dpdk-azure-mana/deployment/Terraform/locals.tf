@@ -21,8 +21,8 @@ locals {
 	AppTag = "azure"
 	AppVersion = "mana"
 	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
-	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
-	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment"
+	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/ixia-c-dpdk-${local.AppTag}-${local.AppVersion}/configs"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/ixia-c-dpdk-${local.AppTag}-${local.AppVersion}/deployment"
 	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
 	GitRepoName = "keng-python"
@@ -30,7 +30,7 @@ locals {
 	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
 	ResourceGroupLocation = var.ResourceGroupLocation
-	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-ixia-c-dpdk-azure-mana"
+	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-ixia-c-dpdk-${local.AppTag}-${local.AppVersion}"
 	SleepDelay = "5m"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
