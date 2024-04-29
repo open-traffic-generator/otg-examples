@@ -51,7 +51,7 @@ runcmd:
   - sed -i "s/Agent2Eth5IpAddress/${Agent2Eth5PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth6IpAddress/${Agent2Eth6PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
   - sed -i "s/Agent2Eth7IpAddress/${Agent2Eth7PrivateIpAddresses[0]}/g" ${GitRepoConfigPath}/*.json
-  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoExecPath}/settings.json
+  - sed -i "s/Agent2Eth0IpAddress/${Agent2Eth0IpAddress}/g" ${GitRepoConfigPath}/settings.json
   - make dpdk -C ${GitRepoDeployPath}/DPDK
   - make docker-compose -C ${GitRepoDeployPath}/Docker
 merge_how:
