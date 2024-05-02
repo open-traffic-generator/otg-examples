@@ -14,8 +14,6 @@ GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 .PHONY: pull
 pull: pull-keng-controller pull-ixia-c-traffic-engine
 
-clean: remove-keng-controller remove-ixia-c-traffic-engine
-
 pull-keng-controller:
 ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
 	-docker pull $(KENG_Controller)
