@@ -59,6 +59,7 @@ Most of the lab examples include Github Action workflow for executing OTG tests 
 | [FeatureProfiles in Hybrid mode](https://github.com/open-traffic-generator/otg-examples/blob/main/hybrid/fp-b2b)             | Ixia-c PE+TE | B2B  | `ondatra`            | KENG Operator   | yes |
 | [B2B IxOS Hardware](https://github.com/open-traffic-generator/otg-examples/blob/main/hw/ixhw-b2b)                            | IxOS Hardware| B2B  | `snappi` & `ondatra` | Compose         | no  |
 | [cEOS BGP and Traffic in KNE](https://github.com/open-traffic-generator/otg-examples/blob/main/kne/bgp-ceos)                 | Ixia-c PE+TE | cEOS | `otgen`              | KNE             | no  |
+| [AWS DPDK Ixia-c Traffic](https://github.com/open-traffic-generator/otg-examples/blob/main/public-cloud/aws/ixia-c-dpdk-aws) | Ixia-c TE    | EC2  | `snappi`             | Terraform & Compose | no  |
 
 
 ## Lab Descriptions
@@ -110,3 +111,7 @@ Demonstration of how the OTG API can be used to control [Keysight/Ixia L23 Netwo
 ### [KNE Lab with BGP and traffic via Arista cEOSLab as a DUT](kne/bgp-ceos)
 
 Validation of Arista cEOSLab DUT for basic BGP peering, prefix announcements and passing of traffic between announced subnets. To run OTG protocols and flows, [Keysight Elastic Network Generator](https://www.keysight.com/us/en/products/network-test/protocol-load-test/keysight-elastic-network-generator.html) Community Edition is used with Ixia-c Traffic and Protocol Engine ports. To run the lab, [OpenConfig KNE](https://github.com/openconfig/kne) is used on top of a KIND cluster – K8s environment running inside a single Docker container.
+
+### [Ixia-c traffic engine deployment on Amazon Web Services with DPDK](public-cloud/aws/ixia-c-dpdk-aws)
+
+An AWS deployment where [Ixia-c](https://ixia-c.dev) has two traffic ports connected within a single VPC subnet. Performance improvements are enabled through [DPDK](https://www.dpdk.org/) support.
