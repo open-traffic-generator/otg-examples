@@ -15,4 +15,4 @@ IP=$(terraform output -state ../Terraform/terraform.tfstate -json Agent1Eth0Publ
 ssh -i SshKey.pem ubuntu@$IP cp /home/ubuntu/keng-python/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/Docker/Makefile /home/ubuntu/.
 
 # Execute the tests
-ssh -i SshKey.pem ubuntu@$IP make run # -C /home/ubuntu/keng-python/public-cloud/aws/ixia-c-dpdk-aws/deployment/Docker
+ssh -i SshKey.pem ubuntu@$IP make run
