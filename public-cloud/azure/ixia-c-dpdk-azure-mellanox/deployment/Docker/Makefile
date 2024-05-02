@@ -55,7 +55,7 @@ docker-compose:
 ###############################
 
 .PHONY: run
-run: run-rfc2544
+run: docker-compose run-rfc2544
 
 run-rfc2544:
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
