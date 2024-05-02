@@ -39,6 +39,15 @@ ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),
 	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
 
+
+###############################
+# set config files
+###############################
+.PHONY: set-config
+set-config:
+	cp $(GitRepoDeployPath)/unidirectional.json  $(GitRepoExecPath)/configs/.
+	cp $(GitRepoDeployPath)/settings.json $(GitRepoExecPath)/.
+
 ###############################
 # Compose Docker
 ###############################
@@ -52,14 +61,14 @@ docker-compose:
 # Run tests
 ###############################
 .PHONY: run
-run: run-unidirectional
+run: run-unidirectional 
 
 .PHONY: run-unidirectional
-run-unidirectional: docker-compose 
+run-unidirectional: set-config docker-compose 
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
 
 .PHONY: run-rfc2544
-run-rfc2544: docker-compose 
+run-rfc2544: set-config docker-compose 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
