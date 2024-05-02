@@ -51,10 +51,15 @@ docker-compose:
 ###############################
 # Run tests
 ###############################
-
 .PHONY: run
-run: docker-compose run-rfc2544
+run: docker-compose run-unidirectional
 
+.PHONY: run-unidirectional
+run-unidirectional:
+	chmod +x $(GitRepoExecPath)/unidirectional.sh
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
+
+.PHONY: run-rfc2544
 run-rfc2544:
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
