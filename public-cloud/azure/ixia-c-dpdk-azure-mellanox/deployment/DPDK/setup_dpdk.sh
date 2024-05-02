@@ -1,6 +1,6 @@
 #!/bin/bash
 UserName="ubuntu"
-GitRepoBasePath="/home/$UserName/keng-python"
+GitRepoBasePath="/home/$UserName/otg-examples"
 GitRepoExecPath="$GitRepoBasePath/snappi/data-plane-performance"
 # GitRepoDeployPath="$GitRepoExecPath/deployment"
 GitRepoDeployPath="$GitRepoBasePath/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs"
