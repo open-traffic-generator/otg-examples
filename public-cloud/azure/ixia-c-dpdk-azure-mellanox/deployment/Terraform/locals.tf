@@ -25,7 +25,7 @@ locals {
 	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/ixia-c-dpdk-${local.AppTag}-${local.AppVersion}/deployment"
 	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
 	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
-	GitRepoName = "keng-python"
+	GitRepoName = "otg-examples"
 	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
 	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
