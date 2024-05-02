@@ -55,6 +55,7 @@ set-config:
 .PHONY: docker-compose
 docker-compose:
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml up -d'
+	sleep 5
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml ps'
 
 ###############################
