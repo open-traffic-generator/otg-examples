@@ -16,6 +16,7 @@ runcmd:
   - make pull -C ${GitRepoDeployPath}/Docker
   - make build -C ${GitRepoDeployPath}/Python
   - make docker-compose -C ${GitRepoDeployPath}/Docker
+  - cp ${GitRepoDeployPath}/Docker/Makefile $HOME/.
 merge_how:
  - name: list
    settings: [append]
