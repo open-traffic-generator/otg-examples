@@ -1,13 +1,5 @@
 version: '3'
 services:
-  KENG-License-Server:
-    image: ghcr.io/salsous/keng-license-server:latest
-    container_name: keng-license-server
-    restart: always
-    ports:
-      - "7443:7443"
-      - "9443:9443"
-    command: --accept-eula
  
   controller:
     image: ghcr.io/open-traffic-generator/keng-controller:1.3.0-2
