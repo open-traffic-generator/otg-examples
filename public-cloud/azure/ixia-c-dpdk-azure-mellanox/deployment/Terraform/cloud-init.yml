@@ -15,6 +15,7 @@ runcmd:
   - sudo -H -u ${AgentUserName} bash -c 'git clone ${GitRepoUrl} $HOME/${GitRepoName}'
   - make pull -C ${GitRepoDeployPath}/Docker
   - make build -C ${GitRepoDeployPath}/Python
+  - make docker-compose -C ${GitRepoDeployPath}/Docker
 merge_how:
  - name: list
    settings: [append]
