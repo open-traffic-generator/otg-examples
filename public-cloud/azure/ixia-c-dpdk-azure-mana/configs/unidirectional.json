@@ -494,8 +494,8 @@
             "tx_rx": {
                 "choice": "port",
                 "port": {
-                    "tx_name": "VM1-TE2",
-                    "rx_names": ["VM2-TE2"]
+                    "tx_name": "VM1-TE7",
+                    "rx_names": ["VM2-TE7"]
                 }
             },
             "metrics": {
