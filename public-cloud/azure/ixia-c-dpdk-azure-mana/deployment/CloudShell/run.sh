@@ -7,12 +7,12 @@ do
     esac
 done
 
-aws ec2 describe-instances \
-	--filters "Name=instance-state-name,Values=running" "Name=network-interface.association.public-ip,Values=$PublicIp" \
-	--query "Reservations[].Instances[].[InstanceId,Tags[?Key=='Name'].Value|[0]]" \
-	--output table
-AgentId=$(aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" "Name=network-interface.association.public-ip,Values=$PublicIp" --query "Reservations[].Instances[].[InstanceId,Tags[?Key=='Name'].Value|[0]]" --output json | jq .[0][0] --raw-output)
-aws ssm start-session \
-	--document-name 'AWS-StartInteractiveCommand' \
-	--parameters '{"command": ["sudo make run -C /home/ubuntu/keng-python/public-cloud/aws/ixia-c-dpdk-aws/deployment/Docker"]}' \
-	--target $AgentId
+# Copy the Makefile to the agent home directory (to be able to quickly run tests after make connect)
+rm -f SshKey.pem
+terraform output -state ../Terraform/terraform.tfstate SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" | tee SshKey.pem > /dev/null
+chmod 400 SshKey.pem
+IP=$(terraform output -state ../Terraform/terraform.tfstate -json Agent1Eth0PublicIpAddress | jq -r .fqdn)
+ssh -i SshKey.pem ubuntu@$IP cp /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/Docker/Makefile /home/ubuntu/.
+
+# Execute the tests
+ssh -i SshKey.pem ubuntu@$IP make run
