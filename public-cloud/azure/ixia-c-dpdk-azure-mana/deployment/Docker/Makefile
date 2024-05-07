@@ -2,9 +2,9 @@ SHELL = /bin/bash
 
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
-GitRepoBasePath = "/home/ubuntu/keng-python"
+GitRepoBasePath = "/home/ubuntu/otg-examples"
 # GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 
 ###############################
@@ -13,8 +13,6 @@ GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 
 .PHONY: pull
 pull: pull-keng-controller pull-ixia-c-traffic-engine
-
-clean: remove-keng-controller remove-ixia-c-traffic-engine
 
 pull-keng-controller:
 ifeq ($(shell sudo docker images -q keng-controller:latest 2> /dev/null),)
@@ -41,6 +39,15 @@ ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),
 	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
 
+
+###############################
+# set config files
+###############################
+.PHONY: set-config
+set-config:
+	cp $(GitRepoDeployPath)/unidirectional.json  $(GitRepoExecPath)/configs/.
+	cp $(GitRepoDeployPath)/settings.json $(GitRepoExecPath)/.
+
 ###############################
 # Compose Docker
 ###############################
@@ -48,15 +55,21 @@ endif
 .PHONY: docker-compose
 docker-compose:
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml up -d'
+	sleep 5
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml ps'
 
 ###############################
 # Run tests
 ###############################
-
 .PHONY: run
-run: run-rfc2544
+run: run-unidirectional 
 
-run-rfc2544:
+.PHONY: run-unidirectional
+run-unidirectional: set-config docker-compose 
+	chmod +x $(GitRepoExecPath)/unidirectional.sh
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
+
+.PHONY: run-rfc2544
+run-rfc2544: set-config docker-compose 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 9000"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
