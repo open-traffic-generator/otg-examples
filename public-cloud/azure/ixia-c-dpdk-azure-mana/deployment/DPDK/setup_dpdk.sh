@@ -34,6 +34,14 @@ echo "AgentEth5BusInfo=$AgentEth5BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth6BusInfo=$AgentEth6BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth7BusInfo=$AgentEth7BusInfo" >> $GitRepoDeployPath/.env
 
+echo "AgentEth1MacAddress=$Eth1_mac" > $GitRepoDeployPath/.env
+echo "AgentEth2MacAddress=$Eth2_mac" >> $GitRepoDeployPath/.env
+echo "AgentEth3MacAddress=$Eth3_mac" >> $GitRepoDeployPath/.env
+echo "AgentEth4MacAddress=$Eth4_mac" >> $GitRepoDeployPath/.env
+echo "AgentEth5MacAddress=$Eth5_mac" >> $GitRepoDeployPath/.env
+echo "AgentEth6MacAddress=$Eth6_mac" >> $GitRepoDeployPath/.env
+echo "AgentEth7MacAddress=$Eth7_mac" >> $GitRepoDeployPath/.env
+
 # Set vmbus addresses
 AgentEth1VmBus=$(readlink /sys/class/net/eth1/device | xargs basename)
 AgentEth2VmBus=$(readlink /sys/class/net/eth2/device | xargs basename)
