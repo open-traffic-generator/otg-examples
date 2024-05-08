@@ -34,7 +34,7 @@ echo "AgentEth5BusInfo=$AgentEth5BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth6BusInfo=$AgentEth6BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth7BusInfo=$AgentEth7BusInfo" >> $GitRepoDeployPath/.env
 
-echo "AgentEth1MacAddress=$Eth1_mac" > $GitRepoDeployPath/.env
+echo "AgentEth1MacAddress=$Eth1_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth2MacAddress=$Eth2_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth3MacAddress=$Eth3_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth4MacAddress=$Eth4_mac" >> $GitRepoDeployPath/.env
