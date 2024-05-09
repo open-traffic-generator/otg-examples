@@ -16,6 +16,16 @@ Eth5_mac=$(echo $NetworkHardwareList | jq '.[] | select(.logicalname == "eth5")'
 Eth6_mac=$(echo $NetworkHardwareList | jq '.[] | select(.logicalname == "eth6")' | jq -r '.serial')
 Eth7_mac=$(echo $NetworkHardwareList | jq '.[] | select(.logicalname == "eth7")' | jq -r '.serial')
 
+# Get the ip adresses for eth0, eth1, eth2, ..., eth7
+Eth0_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth0")' | jq -r '.configuration.ip')
+Eth1_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth1")' | jq -r '.configuration.ip')
+Eth2_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth2")' | jq -r '.configuration.ip')
+Eth3_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth3")' | jq -r '.configuration.ip')
+Eth4_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth4")' | jq -r '.configuration.ip')
+Eth5_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth5")' | jq -r '.configuration.ip')
+Eth6_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth6")' | jq -r '.configuration.ip')
+Eth7_ip=$(lshw -C network -json | jq '.[] | select(.logicalname == "eth7")' | jq -r '.configuration.ip')
+
 # Get the bus infos adresses for eth1, eth2, ..., eth7
 AgentEth1BusInfo=$(echo $NetworkHardwareList | jq ".[] | select(.serial == \"$Eth1_mac\" and .businfo != null)" | jq -r .businfo)
 AgentEth2BusInfo=$(echo $NetworkHardwareList | jq ".[] | select(.serial == \"$Eth2_mac\" and .businfo != null)" | jq -r .businfo)
