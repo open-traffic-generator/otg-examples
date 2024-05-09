@@ -67,9 +67,9 @@ run: run-unidirectional
 .PHONY: run-unidirectional
 run-unidirectional: set-config docker-compose 
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500 -d downstream"
 
 .PHONY: run-rfc2544
 run-rfc2544: set-config docker-compose 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
