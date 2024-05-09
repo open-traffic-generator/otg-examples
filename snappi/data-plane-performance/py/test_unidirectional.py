@@ -20,7 +20,7 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
 
     TIMEOUT = 5
 
-    MAX_FRAME_SIZE = 9000
+    MAX_FRAME_SIZE = 4100
     MIN_FRAME_SIZE = 64
     
     MAX_LINE_RATE_PER_FLOW = 100
