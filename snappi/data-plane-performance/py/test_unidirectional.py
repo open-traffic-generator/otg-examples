@@ -16,6 +16,7 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
         for flow in cfg.flows:
             flow.tx_rx.port.rx_names[0], flow.tx_rx.port.tx_name = flow.tx_rx.port.tx_name, flow.tx_rx.port.rx_names[0]
             flow.packet[0].dst.value, flow.packet[0].src.value = flow.packet[0].src.value, flow.packet[0].dst.value 
+            flow.packet[1].dst.value, flow.packet[1].src.value = flow.packet[1].src.value, flow.packet[1].dst.value 
 
     TIMEOUT = 5
 
