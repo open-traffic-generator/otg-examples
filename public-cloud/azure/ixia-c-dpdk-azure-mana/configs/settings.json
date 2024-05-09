@@ -21,7 +21,7 @@
   "soft_dut": "localhost:22",
   "speed": "speed_200_gbps",
   "line_rate": 100,
-  "mtu": 4100,
+  "mtu": 1500,
   "promiscuous": true,
   "timeout_seconds": 300,
   "interval_seconds": 1,
