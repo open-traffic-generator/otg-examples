@@ -39,6 +39,8 @@ Agent2Eth5IpAddress=$(cat .agent2 | grep "AgentEth5IpAddress" | cut -d '=' -f 2)
 Agent2Eth6IpAddress=$(cat .agent2 | grep "AgentEth6IpAddress" | cut -d '=' -f 2)
 Agent2Eth7IpAddress=$(cat .agent2 | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
 
+
+# Replace placeholder values from config files
 sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth2MacAddress/$Agent1Eth2MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth3MacAddress/$Agent1Eth3MacAddress/g" ${config_files_path}/*.json
