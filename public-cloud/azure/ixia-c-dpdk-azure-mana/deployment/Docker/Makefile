@@ -6,7 +6,7 @@ GitRepoBasePath = "/home/ubuntu/otg-examples"
 # GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
 GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
-GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK
+GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK"
 
 ###############################
 # Pull images
