@@ -12,6 +12,8 @@ plan:
 
 apply:
 	time terraform apply -auto-approve
+	terraform output -state deployment/Terraform/terraform.tfstate SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" > .sshkey.pem
+	
 
 destroy:
 	time terraform destroy -auto-approve
