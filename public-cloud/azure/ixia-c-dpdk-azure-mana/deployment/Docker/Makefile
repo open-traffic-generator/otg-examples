@@ -44,8 +44,8 @@ endif
 ###############################
 # set config files
 ###############################
-.PHONY: set-config
-set-config:
+.PHONY: config
+config:
 	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env $(GitRepoDPDK)/.agent2
         cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env > $(GitRepoDPDK)/.agent1
 	chmod +x $(GitRepoDPDK)/set_config.sh
@@ -68,11 +68,11 @@ docker-compose:
 run: run-unidirectional 
 
 .PHONY: run-unidirectional
-run-unidirectional: set-config docker-compose 
+run-unidirectional: config docker-compose 
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500 -d downstream"
 
 .PHONY: run-rfc2544
-run-rfc2544: set-config docker-compose 
+run-rfc2544: config docker-compose 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
