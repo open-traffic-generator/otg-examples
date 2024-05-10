@@ -1,6 +1,7 @@
 #!/bin/bash
 UserName="ubuntu"
 GitRepoBasePath="/home/$UserName/otg-examples"
+SshKeyPath="/home/$UserName/.sshkey.pem"
 GitRepoExecPath="$GitRepoBasePath/snappi/data-plane-performance"
 # GitRepoDeployPath="$GitRepoExecPath/deployment"
 GitRepoDeployPath="$GitRepoBasePath/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
@@ -79,6 +80,9 @@ echo "AgentEth5VmBus=$AgentEth5VmBus" >> $GitRepoDeployPath/.env
 echo "AgentEth6VmBus=$AgentEth6VmBus" >> $GitRepoDeployPath/.env
 echo "AgentEth7VmBus=$AgentEth7VmBus" >> $GitRepoDeployPath/.env
 
+if [ "$Eth0_ip" = "10.0.10.12" ]; then
+  scp -o StrictHostKeyChecking=no -i $SshKeyPath .env ubuntu@10.0.10.11:.agent2env
+fi
 
 modprobe mana_ib
 chmod +x $GitRepoDeployPath/setup.sh
