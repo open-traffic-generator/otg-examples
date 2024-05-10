@@ -7,6 +7,10 @@ GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community/configs"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 
+
+/home/ubuntu/otg-examples/snappi/data-plane-performance
+
+
 ###############################
 # Pull images
 ###############################
@@ -80,4 +84,4 @@ run-bidirectional: docker-compose config
 .PHONY: run-rfc2544
 run-rfc2544: docker-compose config 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
