@@ -1,13 +1,12 @@
 #!/bin/bash
 
-config_files_path=/home/ubuntu/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/
+config_files_path=/home/ubuntu/public-cloud/azure/community/configs/
 
-Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent1
-Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent2
+Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/community/deployment/DPDK/.agent1
+Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/community/deployment/DPDK/.agent2
 
 # get MACs
 Agent1Eth1MacAddress=$(cat $Agent1_file | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
-
 Agent2Eth1MacAddress=$(cat $Agent2_file | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
 
 # get IPs
