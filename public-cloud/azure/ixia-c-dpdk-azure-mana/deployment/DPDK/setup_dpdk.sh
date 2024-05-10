@@ -44,6 +44,7 @@ echo "AgentEth5BusInfo=$AgentEth5BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth6BusInfo=$AgentEth6BusInfo" >> $GitRepoDeployPath/.env
 echo "AgentEth7BusInfo=$AgentEth7BusInfo" >> $GitRepoDeployPath/.env
 
+# Set mac addresses
 echo "AgentEth1MacAddress=$Eth1_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth2MacAddress=$Eth2_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth3MacAddress=$Eth3_mac" >> $GitRepoDeployPath/.env
@@ -51,6 +52,16 @@ echo "AgentEth4MacAddress=$Eth4_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth5MacAddress=$Eth5_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth6MacAddress=$Eth6_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth7MacAddress=$Eth7_mac" >> $GitRepoDeployPath/.env
+
+#Set ip addresses
+echo "AgentEth0IpAddress=$Eth0_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth1IpAddress=$Eth1_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth2IpAddress=$Eth2_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth3IpAddress=$Eth3_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth4IpAddress=$Eth4_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth5IpAddress=$Eth5_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth6IpAddress=$Eth6_ip" >> $GitRepoDeployPath/.env
+echo "AgentEth7IpAddress=$Eth7_ip" >> $GitRepoDeployPath/.env
 
 # Set vmbus addresses
 AgentEth1VmBus=$(readlink /sys/class/net/eth1/device | xargs basename)
@@ -67,6 +78,8 @@ echo "AgentEth4VmBus=$AgentEth4VmBus" >> $GitRepoDeployPath/.env
 echo "AgentEth5VmBus=$AgentEth5VmBus" >> $GitRepoDeployPath/.env
 echo "AgentEth6VmBus=$AgentEth6VmBus" >> $GitRepoDeployPath/.env
 echo "AgentEth7VmBus=$AgentEth7VmBus" >> $GitRepoDeployPath/.env
+
+
 modprobe mana_ib
 chmod +x $GitRepoDeployPath/setup.sh
 $GitRepoDeployPath/setup.sh
