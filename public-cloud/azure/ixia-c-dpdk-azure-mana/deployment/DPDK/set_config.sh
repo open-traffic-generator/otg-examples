@@ -41,6 +41,7 @@ Agent2Eth7IpAddress=$(cat .agent2 | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
 
 
 # Replace placeholder values from config files
+# Agent1 MAC addresses
 sed -i "s/Agent1Eth1MacAddress/$Agent1Eth1MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth2MacAddress/$Agent1Eth2MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth3MacAddress/$Agent1Eth3MacAddress/g" ${config_files_path}/*.json
@@ -49,6 +50,7 @@ sed -i "s/Agent1Eth5MacAddress/$Agent1Eth5MacAddress/g" ${config_files_path}/*.j
 sed -i "s/Agent1Eth6MacAddress/$Agent1Eth6MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth7MacAddress/$Agent1Eth7MacAddress/g" ${config_files_path}/*.json
 
+# Agent2 MAC addresses
 sed -i "s/Agent2Eth1MacAddress/$Agent2Eth1MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth2MacAddress/$Agent2Eth2MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth3MacAddress/$Agent2Eth3MacAddress/g" ${config_files_path}/*.json
@@ -57,6 +59,7 @@ sed -i "s/Agent2Eth5MacAddress/$Agent2Eth5MacAddress/g" ${config_files_path}/*.j
 sed -i "s/Agent2Eth6MacAddress/$Agent2Eth6MacAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth7MacAddress/$Agent2Eth7MacAddress/g" ${config_files_path}/*.json
 
+# Agent1 IP addresses
 sed -i "s/Agent1Eth0IpAddress/$Agent1Eth0IpAddress/g" ${settings_path}/*.json
 sed -i "s/Agent1Eth1IpAddress/$Agent1Eth1IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth2IpAddress/$Agent1Eth2IpAddress/g" ${config_files_path}/*.json
@@ -66,6 +69,7 @@ sed -i "s/Agent1Eth5IpAddress/$Agent1Eth5IpAddress/g" ${config_files_path}/*.jso
 sed -i "s/Agent1Eth6IpAddress/$Agent1Eth6IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth7IpAddress/$Agent1Eth7IpAddress/g" ${config_files_path}/*.json
 
+# Agent2 IP addresses
 sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" ${settings_path}/*.json
 sed -i "s/Agent2Eth1IpAddress/$Agent2Eth1IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth2IpAddress/$Agent2Eth2IpAddress/g" ${config_files_path}/*.json
