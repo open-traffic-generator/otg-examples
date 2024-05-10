@@ -48,10 +48,22 @@ cd otg-examples/public-cloud/azure/community
 
 ## Execute Traffic Test additional times as needed
 
-1. Execute Python test case to generate traffic between Azure instances.
+1. Execute unidirectional test case to generate traffic between Azure instances.
 
     ```
     ubuntu@agent1$ make run
+    ```
+
+2. Execute bidirectional test case to generate traffic between Azure instances.
+
+    ```
+    ubuntu@agent1$ make run-bidirectional
+    ```
+
+3. Execute rfc2544 test case to generate traffic between Azure instances.
+
+    ```
+    ubuntu@agent1$ make run-rfc2544
     ```
 
 ## Destroy the lab
