@@ -1,5 +1,5 @@
 module "Agent1" {
-	source = "../../../modules/module-keng-agent"
+	source = "../../../modules/community"
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent1Eth1IpAddresses
 	Eth1SubnetId = module.Vnet.PrivateSubnet.id
@@ -22,7 +22,7 @@ module "Agent1" {
 }
 
 module "Agent2" {
-	source = "../../../modules/module-keng-agent"
+	source = "../../../modules/community"
 	Eth0IpAddress = local.Agent2Eth0IpAddress
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent2Eth1IpAddresses
