@@ -1,6 +1,6 @@
 #!/bin/bash
 
-config_files_path=/home/ubuntu/public-cloud/azure/community/configs/
+config_files_path=/home/ubuntu/otg-examples/public-cloud/azure/community/configs/
 
 Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/community/deployment/DPDK/.agent1
 Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/community/deployment/DPDK/.agent2
