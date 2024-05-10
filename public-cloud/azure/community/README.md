@@ -43,17 +43,15 @@ cd otg-examples/public-cloud/azure/community
 5. Set config files.
 
     ```
-    make config
+    ubuntu@agent1$ make config
     ```
-
-![Results](./images/results.png)
 
 ## Execute Traffic Test additional times as needed
 
 1. Execute Python test case to generate traffic between Azure instances.
 
     ```
-    make run
+    ubuntu@agent1$ make run
     ```
 
 ## Destroy the lab
@@ -61,5 +59,6 @@ cd otg-examples/public-cloud/azure/community
 1. Destroy the Terraform deployment
 
     ```
+    ubuntu@agent1$ exit
     make clean
     ```
