@@ -1,7 +1,6 @@
 #!/bin/bash
 
-config_files_path=/home/ubuntu/otg-examples/snappi/data-plane-performance/configs/
-settings_path=/home/ubuntu/otg-examples/snappi/data-plane-performance/
+config_files_path=/home/ubuntu/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/
 
 Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent1
 Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent2
@@ -63,7 +62,7 @@ sed -i "s/Agent2Eth6MacAddress/$Agent2Eth6MacAddress/g" ${config_files_path}/*.j
 sed -i "s/Agent2Eth7MacAddress/$Agent2Eth7MacAddress/g" ${config_files_path}/*.json
 
 # Agent1 IP addresses
-sed -i "s/Agent1Eth0IpAddress/$Agent1Eth0IpAddress/g" ${settings_path}/*.json
+sed -i "s/Agent1Eth0IpAddress/$Agent1Eth0IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth1IpAddress/$Agent1Eth1IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth2IpAddress/$Agent1Eth2IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent1Eth3IpAddress/$Agent1Eth3IpAddress/g" ${config_files_path}/*.json
@@ -73,7 +72,7 @@ sed -i "s/Agent1Eth6IpAddress/$Agent1Eth6IpAddress/g" ${config_files_path}/*.jso
 sed -i "s/Agent1Eth7IpAddress/$Agent1Eth7IpAddress/g" ${config_files_path}/*.json
 
 # Agent2 IP addresses
-sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" ${settings_path}/*.json
+sed -i "s/Agent2Eth0IpAddress/$Agent2Eth0IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth1IpAddress/$Agent2Eth1IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth2IpAddress/$Agent2Eth2IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth3IpAddress/$Agent2Eth3IpAddress/g" ${config_files_path}/*.json
@@ -81,3 +80,8 @@ sed -i "s/Agent2Eth4IpAddress/$Agent2Eth4IpAddress/g" ${config_files_path}/*.jso
 sed -i "s/Agent2Eth5IpAddress/$Agent2Eth5IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth6IpAddress/$Agent2Eth6IpAddress/g" ${config_files_path}/*.json
 sed -i "s/Agent2Eth7IpAddress/$Agent2Eth7IpAddress/g" ${config_files_path}/*.json
+
+
+cp ${config_files_path}/unidirectional.json /home/ubuntu/otg-examples/snappi/data-plane-performance/configs/.
+cp ${config_files_path}/bidirectional.json /home/ubuntu/otg-examples/snappi/data-plane-performance/configs/.
+cp ${config_files_path}/settings.json /home/ubuntu/otg-examples/snappi/data-plane-performance/.

@@ -24,6 +24,8 @@ services:
       - MAC_LIST=${AgentEth1MacAddress}
       - VMBUS_LIST=${AgentEth1VmBus}
       - ARG_CORE_LIST="0 1 2"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5552:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -42,6 +44,8 @@ services:
       - MAC_LIST=${AgentEth2MacAddress}
       - VMBUS_LIST=${AgentEth2VmBus}
       - ARG_CORE_LIST="3 4 5"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5553:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -60,6 +64,8 @@ services:
       - MAC_LIST=${AgentEth3MacAddress}
       - VMBUS_LIST=${AgentEth3VmBus}
       - ARG_CORE_LIST="6 7 8"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5554:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -78,6 +84,8 @@ services:
       - MAC_LIST=${AgentEth4MacAddress}
       - VMBUS_LIST=${AgentEth4VmBus}
       - ARG_CORE_LIST="9 10 11"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5555:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -96,6 +104,8 @@ services:
       - MAC_LIST=${AgentEth5MacAddress}
       - VMBUS_LIST=${AgentEth5VmBus}
       - ARG_CORE_LIST="12 13 14"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5556:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -114,6 +124,8 @@ services:
       - MAC_LIST=${AgentEth6MacAddress}
       - VMBUS_LIST=${AgentEth6VmBus}
       - ARG_CORE_LIST="15 16 17"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
 
   TE1-5557:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
@@ -132,3 +144,5 @@ services:
       - MAC_LIST=${AgentEth7MacAddress}
       - VMBUS_LIST=${AgentEth7VmBus}
       - ARG_CORE_LIST="18 19 20"
+      #- OPT_DISABLE_L4_CHECKSUM=""
+      #- DBG_PRINT_DPDK_STATS=""
