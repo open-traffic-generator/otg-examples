@@ -138,11 +138,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 641
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 541
                         }
                     }
                 }
@@ -206,11 +206,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 642
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 542
                         }
                     }
                 }
@@ -343,11 +343,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 644
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 544
                         }
                     }
                 }
@@ -411,11 +411,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 645
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 545
                         }
                     }
                 }
@@ -479,11 +479,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 646
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 546
                         }
                     }
                 }
@@ -547,11 +547,11 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
-                            "value": 643
+                            "value": 647
                         },
                         "dst_port": {
                             "choice": "value",
-                            "value": 543
+                            "value": 547
                         }
                     }
                 }
