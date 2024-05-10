@@ -12,6 +12,7 @@ plan:
 
 apply:
 	time terraform apply -auto-approve
+	rm .sshkey.pem
 	terraform output -state deployment/Terraform/terraform.tfstate SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" > .sshkey.pem
 	chmod 400 .sshkey.pem
 	
