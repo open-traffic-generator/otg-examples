@@ -3,41 +3,44 @@
 config_files_path=/home/ubuntu/otg-examples/snappi/data-plane-performance/configs/
 settings_path=/home/ubuntu/otg-examples/snappi/data-plane-performance/
 
-# get MACs
-Agent1Eth1MacAddress=$(cat .agent1 | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
-Agent1Eth2MacAddress=$(cat .agent1 | grep "AgentEth2MacAddress" | cut -d '=' -f 2)
-Agent1Eth3MacAddress=$(cat .agent1 | grep "AgentEth3MacAddress" | cut -d '=' -f 2)
-Agent1Eth4MacAddress=$(cat .agent1 | grep "AgentEth4MacAddress" | cut -d '=' -f 2)
-Agent1Eth5MacAddress=$(cat .agent1 | grep "AgentEth5MacAddress" | cut -d '=' -f 2)
-Agent1Eth6MacAddress=$(cat .agent1 | grep "AgentEth6MacAddress" | cut -d '=' -f 2)
-Agent1Eth7MacAddress=$(cat .agent1 | grep "AgentEth7MacAddress" | cut -d '=' -f 2)
+Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent1
+Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent2
 
-Agent2Eth1MacAddress=$(cat .agent2 | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
-Agent2Eth2MacAddress=$(cat .agent2 | grep "AgentEth2MacAddress" | cut -d '=' -f 2)
-Agent2Eth3MacAddress=$(cat .agent2 | grep "AgentEth3MacAddress" | cut -d '=' -f 2)
-Agent2Eth4MacAddress=$(cat .agent2 | grep "AgentEth4MacAddress" | cut -d '=' -f 2)
-Agent2Eth5MacAddress=$(cat .agent2 | grep "AgentEth5MacAddress" | cut -d '=' -f 2)
-Agent2Eth6MacAddress=$(cat .agent2 | grep "AgentEth6MacAddress" | cut -d '=' -f 2)
-Agent2Eth7MacAddress=$(cat .agent2 | grep "AgentEth7MacAddress" | cut -d '=' -f 2)
+# get MACs
+Agent1Eth1MacAddress=$(cat $Agent1_file | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
+Agent1Eth2MacAddress=$(cat $Agent1_file | grep "AgentEth2MacAddress" | cut -d '=' -f 2)
+Agent1Eth3MacAddress=$(cat $Agent1_file | grep "AgentEth3MacAddress" | cut -d '=' -f 2)
+Agent1Eth4MacAddress=$(cat $Agent1_file | grep "AgentEth4MacAddress" | cut -d '=' -f 2)
+Agent1Eth5MacAddress=$(cat $Agent1_file | grep "AgentEth5MacAddress" | cut -d '=' -f 2)
+Agent1Eth6MacAddress=$(cat $Agent1_file | grep "AgentEth6MacAddress" | cut -d '=' -f 2)
+Agent1Eth7MacAddress=$(cat $Agent1_file | grep "AgentEth7MacAddress" | cut -d '=' -f 2)
+
+Agent2Eth1MacAddress=$(cat $Agent2_file | grep "AgentEth1MacAddress" | cut -d '=' -f 2)
+Agent2Eth2MacAddress=$(cat $Agent2_file | grep "AgentEth2MacAddress" | cut -d '=' -f 2)
+Agent2Eth3MacAddress=$(cat $Agent2_file | grep "AgentEth3MacAddress" | cut -d '=' -f 2)
+Agent2Eth4MacAddress=$(cat $Agent2_file | grep "AgentEth4MacAddress" | cut -d '=' -f 2)
+Agent2Eth5MacAddress=$(cat $Agent2_file | grep "AgentEth5MacAddress" | cut -d '=' -f 2)
+Agent2Eth6MacAddress=$(cat $Agent2_file | grep "AgentEth6MacAddress" | cut -d '=' -f 2)
+Agent2Eth7MacAddress=$(cat $Agent2_file | grep "AgentEth7MacAddress" | cut -d '=' -f 2)
 
 # get IPs
-Agent1Eth0IpAddress=$(cat .agent1 | grep "AgentEth0IpAddress" | cut -d '=' -f 2)
-Agent1Eth1IpAddress=$(cat .agent1 | grep "AgentEth1IpAddress" | cut -d '=' -f 2)
-Agent1Eth2IpAddress=$(cat .agent1 | grep "AgentEth2IpAddress" | cut -d '=' -f 2)
-Agent1Eth3IpAddress=$(cat .agent1 | grep "AgentEth3IpAddress" | cut -d '=' -f 2)
-Agent1Eth4IpAddress=$(cat .agent1 | grep "AgentEth4IpAddress" | cut -d '=' -f 2)
-Agent1Eth5IpAddress=$(cat .agent1 | grep "AgentEth5IpAddress" | cut -d '=' -f 2)
-Agent1Eth6IpAddress=$(cat .agent1 | grep "AgentEth6IpAddress" | cut -d '=' -f 2)
-Agent1Eth7IpAddress=$(cat .agent1 | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
+Agent1Eth0IpAddress=$(cat $Agent1_file | grep "AgentEth0IpAddress" | cut -d '=' -f 2)
+Agent1Eth1IpAddress=$(cat $Agent1_file | grep "AgentEth1IpAddress" | cut -d '=' -f 2)
+Agent1Eth2IpAddress=$(cat $Agent1_file | grep "AgentEth2IpAddress" | cut -d '=' -f 2)
+Agent1Eth3IpAddress=$(cat $Agent1_file | grep "AgentEth3IpAddress" | cut -d '=' -f 2)
+Agent1Eth4IpAddress=$(cat $Agent1_file | grep "AgentEth4IpAddress" | cut -d '=' -f 2)
+Agent1Eth5IpAddress=$(cat $Agent1_file | grep "AgentEth5IpAddress" | cut -d '=' -f 2)
+Agent1Eth6IpAddress=$(cat $Agent1_file | grep "AgentEth6IpAddress" | cut -d '=' -f 2)
+Agent1Eth7IpAddress=$(cat $Agent1_file | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
 
-Agent2Eth0IpAddress=$(cat .agent2 | grep "AgentEth0IpAddress" | cut -d '=' -f 2)
-Agent2Eth1IpAddress=$(cat .agent2 | grep "AgentEth1IpAddress" | cut -d '=' -f 2)
-Agent2Eth2IpAddress=$(cat .agent2 | grep "AgentEth2IpAddress" | cut -d '=' -f 2)
-Agent2Eth3IpAddress=$(cat .agent2 | grep "AgentEth3IpAddress" | cut -d '=' -f 2)
-Agent2Eth4IpAddress=$(cat .agent2 | grep "AgentEth4IpAddress" | cut -d '=' -f 2)
-Agent2Eth5IpAddress=$(cat .agent2 | grep "AgentEth5IpAddress" | cut -d '=' -f 2)
-Agent2Eth6IpAddress=$(cat .agent2 | grep "AgentEth6IpAddress" | cut -d '=' -f 2)
-Agent2Eth7IpAddress=$(cat .agent2 | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
+Agent2Eth0IpAddress=$(cat $Agent2_file | grep "AgentEth0IpAddress" | cut -d '=' -f 2)
+Agent2Eth1IpAddress=$(cat $Agent2_file | grep "AgentEth1IpAddress" | cut -d '=' -f 2)
+Agent2Eth2IpAddress=$(cat $Agent2_file | grep "AgentEth2IpAddress" | cut -d '=' -f 2)
+Agent2Eth3IpAddress=$(cat $Agent2_file | grep "AgentEth3IpAddress" | cut -d '=' -f 2)
+Agent2Eth4IpAddress=$(cat $Agent2_file | grep "AgentEth4IpAddress" | cut -d '=' -f 2)
+Agent2Eth5IpAddress=$(cat $Agent2_file | grep "AgentEth5IpAddress" | cut -d '=' -f 2)
+Agent2Eth6IpAddress=$(cat $Agent2_file | grep "AgentEth6IpAddress" | cut -d '=' -f 2)
+Agent2Eth7IpAddress=$(cat $Agent2_file | grep "AgentEth7IpAddress" | cut -d '=' -f 2)
 
 
 # Replace placeholder values from config files
