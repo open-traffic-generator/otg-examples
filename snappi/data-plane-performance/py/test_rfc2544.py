@@ -66,7 +66,7 @@ def test_throughput_rfc2544_n_flows(api, direction, frame_sizes):
     if direction == "downstream":
         for flow in cfg.flows:
             # change direction
-            flow.tx_rx.port.rx_name, flow.tx_rx.port.tx_name = flow.tx_rx.port.tx_name, flow.tx_rx.port.rx_name
+            flow.tx_rx.port.rx_names[0], flow.tx_rx.port.tx_name = flow.tx_rx.port.tx_name, flow.tx_rx.port.rx_names[0]
             flow.packet[0].dst.value, flow.packet[0].src.value = flow.packet[0].src.value, flow.packet[0].dst.value 
         
 
