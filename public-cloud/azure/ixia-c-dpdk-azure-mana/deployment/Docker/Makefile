@@ -42,16 +42,6 @@ endif
 
 
 ###############################
-# set config files
-###############################
-.PHONY: config
-config:
-	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env $(GitRepoDPDK)/.agent2
-	cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env > $(GitRepoDPDK)/.agent1
-	chmod +x $(GitRepoDPDK)/set_config.sh
-	$(GitRepoDPDK)/set_config.sh
-
-###############################
 # Compose Docker
 ###############################
 
@@ -61,6 +51,17 @@ docker-compose:
 	sleep 2
 	sudo -H -u ubuntu bash -c 'docker-compose -f $(GitRepoDeployPath)/docker-compose.yaml ps'
 
+
+###############################
+# set config files and start container
+###############################
+.PHONY: config
+config: docker-compose
+	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env $(GitRepoDPDK)/.agent2
+	cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env > $(GitRepoDPDK)/.agent1
+	chmod +x $(GitRepoDPDK)/set_config.sh
+	$(GitRepoDPDK)/set_config.sh
+
 ###############################
 # Run tests
 ###############################
@@ -68,16 +69,16 @@ docker-compose:
 run: run-unidirectional 
 
 .PHONY: run-unidirectional
-run-unidirectional: config docker-compose 
+run-unidirectional: config  
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
 
 .PHONY: run-bidirectional
-run-bidirectional: config docker-compose 
+run-bidirectional: config 
 	chmod +x $(GitRepoExecPath)/bidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./bidirectional.sh -s 1500"
 
 .PHONY: run-rfc2544
-run-rfc2544: config docker-compose 
+run-rfc2544: config 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
