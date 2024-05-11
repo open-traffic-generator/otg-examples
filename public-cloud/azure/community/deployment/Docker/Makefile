@@ -8,7 +8,7 @@ GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 
 
-/home/ubuntu/otg-examples/snappi/data-plane-performance
+# /home/ubuntu/otg-examples/snappi/data-plane-performance
 
 
 ###############################
