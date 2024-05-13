@@ -1,6 +1,6 @@
 #!/bin/bash
 
-config_files_path=/home/ubuntu/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/
+config_files_path=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/
 
 Agent1_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent1
 Agent2_file=/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK/.agent2
