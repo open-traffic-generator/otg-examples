@@ -4,6 +4,7 @@ KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
 GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community/configs"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 
@@ -43,6 +44,13 @@ ifneq ($(shell sudo docker images -q ixia-c-traffic-engine:latest 2> /dev/null),
 	docker rmi `docker images -q ixia-c-traffic-engine:latest 2> /dev/null` --force
 endif
 
+
+###############################
+# DPDK
+###############################
+.PHONY: dpdk
+dpdk:
+	make dpdk -C ${GitRepoDPDKPath}
 
 ###############################
 # Compose Docker
