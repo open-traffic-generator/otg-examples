@@ -56,7 +56,7 @@ docker-compose:
 # set config files and start container
 ###############################
 .PHONY: config
-config: docker-compose
+config:
 	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env $(GitRepoDPDK)/.agent2
 	cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env > $(GitRepoDPDK)/.agent1
 	chmod +x $(GitRepoDPDK)/set_config.sh
