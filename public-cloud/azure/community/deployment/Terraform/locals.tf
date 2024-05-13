@@ -19,7 +19,7 @@ locals {
 	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
 	ResourceGroupLocation = var.ResourceGroupLocation
 	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-mana-${local.AppTag}-${local.AppVersion}"
-	SleepDelay = "4m"
+	SleepDelay = "5m"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
