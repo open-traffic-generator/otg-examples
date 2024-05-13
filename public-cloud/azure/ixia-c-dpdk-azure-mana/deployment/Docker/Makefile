@@ -5,6 +5,7 @@ IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
 # GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
 GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK"
 
