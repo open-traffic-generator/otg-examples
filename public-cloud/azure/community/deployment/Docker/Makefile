@@ -50,7 +50,7 @@ endif
 ###############################
 .PHONY: dpdk
 dpdk:
-	make dpdk -C ${GitRepoDPDKPath}
+	sudo make dpdk -C ${GitRepoDPDKPath}
 
 ###############################
 # Compose Docker
