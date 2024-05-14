@@ -5,7 +5,13 @@ This deployment creates a topology with a single virtual network having a single
 
 ## Prerequisites
 * This lab requires the commands below to be executed from within Azure CloudShell.
-* The created VMs needs to have at least ConnectX4 or ConnectX5. Mellanox ConnectX3 is not longer supported.
+* The created VMs needs to have at least ConnectX4 or ConnectX5. Mellanox ConnectX3 is not longer supported.    
+  Use the `lspci` command to check NIC type.   
+E.g.
+```
+ubuntu@terraform-v8KJ8A-azure-community-mellanox-agent1-instance:~$ lspci
+8ada:00:02.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx Virtual Function] (rev 80)
+```
 
 ## Authentication Variables
 ```
