@@ -66,6 +66,14 @@ cd otg-examples/public-cloud/azure/community-mana
     ubuntu@agent1$ make run-rfc2544
     ```
 
+## Results
+1. Unidirectional TCP flow
+![Diagram](./images/community_unidirectional_results.png)
+2. Bidirectional TCP flow
+![Diagram](./images/community_bidirectional_results.png)
+3. RFC-2544 for the following frame sizes: 256B, 512B, 1024B and 1500B   
+![Diagram](./images/community_rfc2544_256,512,1024,1500B_results.png)
+
 ## Destroy the lab
 
 1. Destroy the Terraform deployment
