@@ -7,8 +7,8 @@ Performance improvements are enabled through [DPDK](https://www.dpdk.org/) suppo
 Once the lab is up, a Python script is used to request Ixia-c to generate traffic and report statistics.
 
 ## Prerequisites
-
 * This lab requires the commands below to be executed from within Azure CloudShell.
+* The created VMs needs to have at least ConnectX4 or ConnectX5. Mellanox ConnectX3 is not longer supported.
 
 ## Clone the repository
 
