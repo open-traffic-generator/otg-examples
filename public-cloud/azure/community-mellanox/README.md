@@ -1,4 +1,4 @@
-# Ixia-c traffic engine deployment on Azure with MANA DPDK
+# Ixia-c traffic engine deployment on Azure with Mellanox DPDK
 
 ## Overview
 This is a public cloud lab where [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected within a single subnet of an Azure.
