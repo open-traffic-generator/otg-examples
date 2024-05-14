@@ -12,7 +12,7 @@ rm -f SshKey.pem
 terraform output -state ../Terraform/terraform.tfstate SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" | tee SshKey.pem > /dev/null
 chmod 400 SshKey.pem
 IP=$(terraform output -state ../Terraform/terraform.tfstate -json Agent1Eth0PublicIpAddress | jq -r .fqdn)
-ssh -i SshKey.pem ubuntu@$IP cp /home/ubuntu/otg-examples/public-cloud/azure/community/deployment/Docker/Makefile /home/ubuntu/.
+ssh -i SshKey.pem ubuntu@$IP cp /home/ubuntu/otg-examples/public-cloud/azure/community-mana/deployment/Docker/Makefile /home/ubuntu/.
 
 # Execute the tests
 ssh -i SshKey.pem ubuntu@$IP make run

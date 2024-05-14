@@ -1,13 +1,13 @@
 locals {
 	AgentUserName = "ubuntu"
-	AgentVmSize = "Experimental_Boost192"
+	AgentVmSize = "Standard_F8s_v2"
 	Agent1InstanceId = "agent1"
 	Agent1Eth1IpAddresses = [ "10.0.2.11" ]
 	Agent2Eth0IpAddress = "10.0.10.12"
 	Agent2Eth1IpAddresses = [ "10.0.2.21" ]
 	Agent2InstanceId = "agent2"
 	AppTag = "azure"
-	AppVersion = "community"
+	AppVersion = "community-mellanox"
 	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
 	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/configs"
 	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/deployment"

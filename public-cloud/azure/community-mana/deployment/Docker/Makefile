@@ -3,10 +3,10 @@ SHELL = /bin/bash
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community/configs"
-GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/configs"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
-GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
+GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment/DPDK"
 
 
 # /home/ubuntu/otg-examples/snappi/data-plane-performance
@@ -68,8 +68,8 @@ docker-compose:
 ###############################
 .PHONY: config
 config:
-	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/community/configs/.env $(GitRepoDPDK)/.agent2
-	cat /home/ubuntu/otg-examples/public-cloud/azure/community/configs/.env > $(GitRepoDPDK)/.agent1
+	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/community-mana/configs/.env $(GitRepoDPDK)/.agent2
+	cat /home/ubuntu/otg-examples/public-cloud/azure/community-mana/configs/.env > $(GitRepoDPDK)/.agent1
 	chmod +x $(GitRepoDPDK)/set_config.sh
 	$(GitRepoDPDK)/set_config.sh
 

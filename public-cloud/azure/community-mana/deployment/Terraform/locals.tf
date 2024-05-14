@@ -1,0 +1,29 @@
+locals {
+	AgentUserName = "ubuntu"
+	AgentVmSize = "Experimental_Boost192"
+	Agent1InstanceId = "agent1"
+	Agent1Eth1IpAddresses = [ "10.0.2.11" ]
+	Agent2Eth0IpAddress = "10.0.10.12"
+	Agent2Eth1IpAddresses = [ "10.0.2.21" ]
+	Agent2InstanceId = "agent2"
+	AppTag = "azure"
+	AppVersion = "community-mana"
+	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
+	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/configs"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/deployment"
+	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
+	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
+	GitRepoName = "otg-examples"
+	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
+	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
+	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
+	ResourceGroupLocation = var.ResourceGroupLocation
+	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-mana-${local.AppTag}-${local.AppVersion}"
+	SleepDelay = "5m"
+	SshKeyAlgorithm = "RSA"
+	SshKeyName = "${local.Preamble}-ssh-key"
+	SshKeyRsaBits = "4096"
+	UserEmailTag = "terraform@example.com"
+	UserLoginTag = "terraform"
+	UserProjectTag = random_id.RandomId.id
+}

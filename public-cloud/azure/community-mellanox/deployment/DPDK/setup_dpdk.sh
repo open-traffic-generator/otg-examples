@@ -3,7 +3,7 @@ UserName="ubuntu"
 GitRepoBasePath="/home/$UserName/otg-examples"
 GitRepoExecPath="$GitRepoBasePath/snappi/data-plane-performance"
 # GitRepoDeployPath="$GitRepoExecPath/deployment"
-GitRepoDeployPath="$GitRepoBasePath/public-cloud/azure/community/configs"
+GitRepoDeployPath="$GitRepoBasePath/public-cloud/azure/community-mellanox/configs"
 # Get the list of all network interfaces
 NetworkHardwareList=$(lshw -C network -json)
 
