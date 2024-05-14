@@ -1,4 +1,4 @@
 variable "ResourceGroupLocation" {
-	default = "South Central US"
+	default = "East US"
 	type = string
 }
