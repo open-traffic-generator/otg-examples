@@ -27,10 +27,7 @@ echo "AgentEth1MacAddress=$Eth1_mac" >> $GitRepoDeployPath/.env
 echo "AgentEth0IpAddress=$Eth0_ip" >> $GitRepoDeployPath/.env
 echo "AgentEth1IpAddress=$Eth1_ip" >> $GitRepoDeployPath/.env
 
-# Set vmbus addresses
-AgentEth1VmBus=$(readlink /sys/class/net/eth1/device | xargs basename)
-echo "AgentEth1VmBus=$AgentEth1VmBus" >> $GitRepoDeployPath/.env
-
-modprobe mana_ib
 chmod +x $GitRepoDeployPath/setup.sh
+
+# Run setup.sh (allocates hugepages)
 $GitRepoDeployPath/setup.sh

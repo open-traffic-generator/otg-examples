@@ -21,8 +21,6 @@ services:
     environment:
       - OPT_LISTEN_PORT=5551
       - ARG_IFACE_LIST=${AgentEth1BusInfo}
-      - MAC_LIST=${AgentEth1MacAddress}
-      - VMBUS_LIST=${AgentEth1VmBus}
       - ARG_CORE_LIST="0 1 2"
       #- OPT_DISABLE_L4_CHECKSUM=""
       #- DBG_PRINT_DPDK_STATS=""
