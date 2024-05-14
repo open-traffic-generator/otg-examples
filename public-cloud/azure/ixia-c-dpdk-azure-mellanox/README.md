@@ -3,6 +3,9 @@
 ## Description
 This deployment creates a topology with a single virtual network having a single public facing subnet and a single private subnet.
 
+## Prerequisites
+* This lab requires the commands below to be executed from within Azure CloudShell.
+
 ## Authentication Variables
 ```
 terraform.hcp.auto.tfvars
