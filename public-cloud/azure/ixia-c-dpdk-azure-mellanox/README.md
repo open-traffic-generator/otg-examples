@@ -5,6 +5,7 @@ This deployment creates a topology with a single virtual network having a single
 
 ## Prerequisites
 * This lab requires the commands below to be executed from within Azure CloudShell.
+* The created VMs needs to have at least ConnectX4 or ConnectX5. Mellanox ConnectX3 is not longer supported.
 
 ## Authentication Variables
 ```
