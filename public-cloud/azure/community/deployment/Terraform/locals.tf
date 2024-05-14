@@ -1,6 +1,6 @@
 locals {
 	AgentUserName = "ubuntu"
-	AgentVmSize = "Experimental_Boost192"
+	AgentVmSize = "Experimental_Boost32"
 	Agent1InstanceId = "agent1"
 	Agent1Eth1IpAddresses = [ "10.0.2.11" ]
 	Agent2Eth0IpAddress = "10.0.10.12"
