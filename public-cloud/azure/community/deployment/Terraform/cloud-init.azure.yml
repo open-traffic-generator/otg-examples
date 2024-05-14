@@ -11,6 +11,7 @@ runcmd:
   - az login --identity
   - make dpdk -C ${GitRepoDeployPath}/DPDK
   - make docker-compose -C ${GitRepoDeployPath}/Docker
+  - reboot
 merge_how:
  - name: list
    settings: [append]
