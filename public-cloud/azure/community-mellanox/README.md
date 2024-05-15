@@ -72,6 +72,14 @@ cd otg-examples/public-cloud/azure/community-mellanox
     ubuntu@agent1$ make run-rfc2544
     ```
 
+## Results
+1. Unidirectional TCP flow
+![Diagram](./images/unidirectional_community_mellanox.png)
+2. Bidirectional TCP flow
+![Diagram](./images/bidirectional_community_mellanox.png)
+1. RFC-2544 for the following frame sizes: 256B, 512B, 1024B and 1500B   
+![Diagram](./images/rfc2544_256-512-1024-1500B_community_mellanox.png)
+
 ## Destroy the lab
 
 1. Destroy the Terraform deployment
