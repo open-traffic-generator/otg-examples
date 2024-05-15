@@ -6,6 +6,8 @@ The environment is deployed using [Terraform](https://www.terraform.io/) and [Cl
 Performance improvements are enabled through [DPDK](https://www.dpdk.org/) support.
 Once the lab is up, a Python script is used to request Ixia-c to generate traffic and report statistics.
 
+![Diagram](./images/diagram.png)
+
 ## Prerequisites
 
 * This lab requires the commands below to be executed from within Azure CloudShell.
