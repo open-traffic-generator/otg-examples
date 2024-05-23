@@ -1,54 +1,88 @@
-# KENG-on-Azure-Boost-2-Agents-2-Eth-1-Vnet-1-Public-Subnet-1-Private-Subnet
+# Ixia-c traffic engine deployment on Azure with MANA DPDK
+
+## Overview
+This is a public cloud lab where [Ixia-c](https://github.com/open-traffic-generator/ixia-c) has two traffic ports connected within a single subnet of an Azure.
+The environment is deployed using [Terraform](https://www.terraform.io/) and [Cloud-Init](https://cloud-init.io/) is used to configure the application and traffic engines.
+Performance improvements are enabled through [DPDK](https://www.dpdk.org/) support.
+Once the lab is up, a Python script is used to request Ixia-c to generate traffic and report statistics.
+
+![Diagram](./images/diagram.png)
 
 ## Prerequisites
+
 * This lab requires the commands below to be executed from within Azure CloudShell.
 
-## Description
-This deployment creates a topology with a single virtual network having a single public facing subnet and a single private subnet.
+## Clone the repository
 
-## Authentication Variables
 ```
-terraform.hcp.auto.tfvars
-```
-You **MUST** uncomment all lines in this file and replace values to match your particular environment.  
-Otherwise, Terraform will prompt the user to supply input arguents via cli.
-
-## Required Variables
-```
-terraform.required.auto.tfvars
-```
-You **MUST** uncomment all lines in this file and replace values to match your particular environment.  
-Otherwise, Terraform will prompt the user to supply input arguents via cli.
-
-## Optional Variables
-```
-terraform.optional.auto.tfvars
-```
-You **MAY** uncomment one or more lines as needed in this file and replace values to match your particular environment.
-
-## Required Usage
-```
-terraform init
-terraform apply -auto-approve
-terraform destroy -auto-approve
-terraform output SshKey | tail -n +3 | head -n-3 | sed "s/^[ \t]*//" > SshKey.pem
-Agent1DnsName=$(terraform output | grep agent1 | sed -n 's/.*=.//p' | tr -d '"')
+git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
 ```
 
-## Optional Usage
+## Navigate to the lab subdirectory within the repository
+
 ```
-terraform validate
-terraform plan
-terraform state list
-terraform output
+cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana
 ```
 
-## KENG Sample Usage
-```
-chmod 400 SshKey.pem
-ssh -i SshKey.pem ubuntu@$Agent1DnsName
-$ source ./venv/bin/activate
-$ cd keng-python
-$ docker ps
-$ ./unidirectional.sh -s 4100
- ```
+## Deploy Ixia-c lab
+
+1. Create Terraform deployment.
+
+2. Wait approximately 6 minutes for infrastructure to be deployed.
+
+3. Execute Python test case to generate traffic between Azure instances.
+
+    ```
+    make azure
+    ```
+
+4. Connect to Agent1 Azure VM .
+
+    ```
+    make connect
+    ```
+
+5. Set config files.
+
+    ```
+    ubuntu@agent1$ make config
+    ```
+
+## Contact Keysight Sales for an evaluation license, otherwise try the community version!
+
+## Execute Traffic Test additional times as needed
+
+1. Execute unidirectional test case to generate traffic between Azure instances.
+
+    ```
+    ubuntu@agent1$ make run
+    ```
+
+2. Execute bidirectional test case to generate traffic between Azure instances.
+
+    ```
+    ubuntu@agent1$ make run-bidirectional
+    ```
+
+3. Execute rfc2544 test case to generate traffic between Azure instances.
+
+    ```
+    ubuntu@agent1$ make run-rfc2544
+    ```
+
+## Results
+1. Unidirectional TCP flow
+![Diagram](./images/community_unidirectional_results.png)
+2. Bidirectional TCP flow
+![Diagram](./images/community_bidirectional_results.png)
+3. RFC-2544 for the following frame sizes: 256B, 512B, 1024B and 1500B   
+![Diagram](./images/community_rfc2544_256,512,1024,1500B_results.png)
+
+## Destroy the lab
+
+1. Destroy the Terraform deployment
+
+    ```
+    ubuntu@agent1$ exit
+    make clean
+    ```
