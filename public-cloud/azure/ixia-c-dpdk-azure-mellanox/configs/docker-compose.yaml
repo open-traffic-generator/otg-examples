@@ -2,13 +2,13 @@ version: '3'
 services:
  
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:1.5.0-1
+    image: ghcr.io/open-traffic-generator/keng-controller:1.3.0-2
     command: --accept-eula --http-port 8443  --license-servers=localhost
     network_mode: "host"
     restart: always
 
   TE1-5551:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -24,7 +24,7 @@ services:
       - ARG_CORE_LIST="0 1 2"
 
   TE1-5552:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -40,7 +40,7 @@ services:
       - ARG_CORE_LIST="3 4 5"
 
   TE1-5553:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -56,7 +56,7 @@ services:
       - ARG_CORE_LIST="6 7 8"
 
   TE1-5554:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -72,7 +72,7 @@ services:
       - ARG_CORE_LIST="9 10 11"
 
   TE1-5555:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -88,7 +88,7 @@ services:
       - ARG_CORE_LIST="12 13 14"
 
   TE1-5556:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true
@@ -104,7 +104,7 @@ services:
       - ARG_CORE_LIST="15 16 17"
 
   TE1-5557:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7
+    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167
     # command: sleep infinity
     network_mode: "host"
     privileged: true

@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.5.0-1"
-IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.7"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
 GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/configs"
 GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment/DPDK"
