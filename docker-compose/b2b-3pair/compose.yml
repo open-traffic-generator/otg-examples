@@ -66,3 +66,5 @@ services:
     image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
   protocol_engine_2:
     image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
+  operator:
+    image: ghcr.io/open-traffic-generator/keng-hybrid-operator:0.0.4

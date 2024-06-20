@@ -72,3 +72,5 @@ services:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
   traffic_engine_6:
     image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
+  operator:
+    image: ghcr.io/open-traffic-generator/keng-hybrid-operator:0.0.4
