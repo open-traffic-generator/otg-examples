@@ -37,35 +37,3 @@ services:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
-  gnmi-server:
-    image: ghcr.io/open-traffic-generator/otg-gnmi-server:1.14.2
-  traffic_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  traffic_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  traffic_engine_3:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  traffic_engine_4:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  traffic_engine_5:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  traffic_engine_6:
-    image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-  protocol_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
-  protocol_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
-  operator:
-    image: ghcr.io/open-traffic-generator/keng-hybrid-operator:0.0.4
-topology:
-  nodes:
-    ixc:
-      image: ghcr.io/open-traffic-generator/keng-controller:1.5.1-12
-    te1:
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-    te2:
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
-    pe1:
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
-    pe2:
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
