@@ -57,3 +57,15 @@ services:
     image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
   operator:
     image: ghcr.io/open-traffic-generator/keng-hybrid-operator:0.0.4
+topology:
+  nodes:
+    ixc:
+      image: ghcr.io/open-traffic-generator/keng-controller:1.5.1-12
+    te1:
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
+    te2:
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12
+    pe1:
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
+    pe2:
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383
