@@ -1,18 +1,18 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:0.1.0-3"
-OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.13.0"
-IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85"
-IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.5.1-3"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.14.2"
+IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.12"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.383"
 
 cEOSLab = "ceos:latest"
 
-otgen_version = 0.6.2
+otgen_version = 0.6.3
 otgen_image = otgen:$(otgen_version)
 
-#kne_repo = "https://github.com/openconfig/kne.git"
-kne_repo = "https://github.com/open-traffic-generator/kne.git"
-kne_version = "dev-keng-operator"
+kne_repo = "https://github.com/openconfig/kne.git"
+#kne_repo = "https://github.com/open-traffic-generator/kne.git"
+kne_version = "v0.1.18"
 
 .PHONY: prereqs
 prereqs: install build pull
@@ -144,8 +144,11 @@ endif
 ###############################
 
 .PHONY: deploy
-deploy: deploy-cluster load-images
+deploy: update-manifests deploy-cluster load-images
 undeploy: remove-cluster
+
+update-manifests:
+	cp -r ./manifests/keysight/ixiatg-configmap.yaml ./kne/manifests/keysight
 
 deploy-cluster:
 	kne deploy kne/deploy/kne/kind-bridge.yaml
