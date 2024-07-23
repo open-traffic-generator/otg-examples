@@ -78,7 +78,7 @@ resource "azurerm_network_interface" "Eth0" {
 		private_ip_address_version = "IPv4"
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth0EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth0EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 	depends_on = [
 		azurerm_public_ip.Eth0PublicIpAddress
@@ -108,7 +108,7 @@ resource "azurerm_network_interface" "Eth1" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth1EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth1EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -135,7 +135,7 @@ resource "azurerm_network_interface" "Eth2" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth2EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth2EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -162,7 +162,7 @@ resource "azurerm_network_interface" "Eth3" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth3EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth3EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -189,7 +189,7 @@ resource "azurerm_network_interface" "Eth4" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth4EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth4EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -216,7 +216,7 @@ resource "azurerm_network_interface" "Eth5" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth2EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth2EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -243,7 +243,7 @@ resource "azurerm_network_interface" "Eth6" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth6EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth6EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
@@ -270,7 +270,7 @@ resource "azurerm_network_interface" "Eth7" {
 		}
 	}
 	dns_servers = []
-	enable_accelerated_networking = local.Eth7EnableAcceleratedNetworking
+	accelerated_networking_enabled = local.Eth7EnableAcceleratedNetworking
 	enable_ip_forwarding = local.EnableIpForwarding
 }
 
