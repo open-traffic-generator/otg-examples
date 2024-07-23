@@ -19,7 +19,7 @@ ubuntu@terraform-v8KJ8A-azure-community-mellanox-agent1-instance:~$ lspci
 ## Clone the repository
 
 ```
-git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
+git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
 ```
 
 ## Navigate to the lab subdirectory within the repository
