@@ -40,7 +40,7 @@ variable "Eth1EnableAcceleratedNetworking" {
 }
 
 variable "Eth1IpAddresses" {
-	default = ["10.0.1.12"]
+	default = ["10.0.2.12"]
 	description = "Private ip addresses associated with the second network interface"
 	type = list(string)
 }
@@ -92,7 +92,7 @@ variable "ResourceGroupName" {
 }
 
 variable "SleepDelay" {
-	default = "2m"
+	default = "3m"
 	description = "Time duration to delay to allow application to perform internal initialization required before use"
 	type = string
 }
@@ -141,17 +141,17 @@ variable "Version" {
 }
 
 variable "VmSize" {
-	default = "Standard_F32s_v2"
+	default = "Standard_F8s_v2"
 	description = "Category, series and instance specifications associated with the VM"
 	type = string
 	validation {
-		condition = contains([	"Standard_F32s_v2", "Standard_F8s_v2",
-								"Experimental_Boost32", "Experimental_Boost64", "Experimental_Boost192"
+		condition = contains([	"Standard_F4s_v2",	"Standard_F8s_v2",	"Standard_F16s_v2",
+								"Experimental_Boost4", "Experimental_Boost8", "Experimental_Boost32", "Experimental_Boost64", "Experimental_Boost192"
 							], var.VmSize)
 		error_message = <<EOF
 VmSize must be one of the following sizes:
-	Standard_F32s_v2, Standard_F8s_v2
-	Experimental_Boost32, Experimental_Boost64, Experimental_Boost192
+	Standard_F4s_v2, Standard_F8s_v2, Standard_F16s_v2,
+	Experimental_Boost4, Experimental_Boost8, Experimental_Boost32, Experimental_Boost64, Experimental_Boost192
 		EOF
 	}
 }
