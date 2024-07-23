@@ -3,14 +3,10 @@ SHELL = /bin/bash
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/configs"
-GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment/DPDK"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
-GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment/DPDK"
-
-
-# /home/ubuntu/otg-examples/snappi/data-plane-performance
-
+GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK"
 
 ###############################
 # Pull images
@@ -52,6 +48,7 @@ endif
 dpdk:
 	sudo make dpdk -C ${GitRepoDPDKPath}
 
+
 ###############################
 # Compose Docker
 ###############################
@@ -68,8 +65,8 @@ docker-compose:
 ###############################
 .PHONY: config
 config:
-	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/community-mana/configs/.env $(GitRepoDPDK)/.agent2
-	cat /home/ubuntu/otg-examples/public-cloud/azure/community-mana/configs/.env > $(GitRepoDPDK)/.agent1
+	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env $(GitRepoDPDK)/.agent2
+	cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana/configs/.env > $(GitRepoDPDK)/.agent1
 	chmod +x $(GitRepoDPDK)/set_config.sh
 	$(GitRepoDPDK)/set_config.sh
 
@@ -80,16 +77,16 @@ config:
 run: run-unidirectional 
 
 .PHONY: run-unidirectional
-run-unidirectional: docker-compose config  
+run-unidirectional: config  
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
 
 .PHONY: run-bidirectional
-run-bidirectional: docker-compose config 
+run-bidirectional: config 
 	chmod +x $(GitRepoExecPath)/bidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./bidirectional.sh -s 1500"
 
 .PHONY: run-rfc2544
-run-rfc2544: docker-compose config 
+run-rfc2544: config 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
