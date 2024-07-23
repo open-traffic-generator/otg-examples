@@ -9,13 +9,12 @@ Once the lab is up, a Python script is used to request Ixia-c to generate traffi
 ![Diagram](./images/diagram.png)
 
 ## Prerequisites
-
-* This lab requires the commands below to be executed from within Azure CloudShell.
+* This lab requires the commands below to be executed from within [Azure CloudShell](https://learn.microsoft.com/en-us/azure/cloud-shell/overview).
 
 ## Clone the repository
 
 ```
-git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
+git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
 ```
 
 ## Navigate to the lab subdirectory within the repository
