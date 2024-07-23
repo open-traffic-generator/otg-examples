@@ -1,8 +1,9 @@
+# AgentVmSize = "Experimental_Boost32"
 # ClientId = "00000000-0000-0000-0000-000000000000"
 # ClientSecret = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567"
 # PublicSecurityRuleSourceIpPrefixes = [ "1.1.1.1/32" ]
 # ResourceGroupLocation = "South Central US"
-# ResourceGroupName = "azure-ixia-c-dpdk-mana"
+# ResourceGroupName = "ixia-c-dpdk-azure-mana"
 # SkipProviderRegistration = false
 # SubscriptionId = "00000000-0000-0000-0000-000000000000"
 # TenantId = "00000000-0000-0000-0000-000000000000"
