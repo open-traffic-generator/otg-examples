@@ -57,4 +57,6 @@ echo "AgentEth4VmBus=$AgentEth4VmBus" >> $GitRepoDeployPath/.env
 
 modprobe mana_ib
 chmod +x $GitRepoDeployPath/setup.sh
+
+# Run setup.sh (allocates hugepages)
 $GitRepoDeployPath/setup.sh

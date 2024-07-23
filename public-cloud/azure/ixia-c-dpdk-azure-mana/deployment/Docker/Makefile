@@ -4,7 +4,7 @@ KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
 GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/configs"
-GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community/deployment/DPDK"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment/DPDK"
 
@@ -77,16 +77,16 @@ config:
 run: run-unidirectional 
 
 .PHONY: run-unidirectional
-run-unidirectional: config  
+run-unidirectional: docker-compose config  
 	chmod +x $(GitRepoExecPath)/unidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./unidirectional.sh -s 1500"
 
 .PHONY: run-bidirectional
-run-bidirectional: config 
+run-bidirectional: docker-compose config 
 	chmod +x $(GitRepoExecPath)/bidirectional.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./bidirectional.sh -s 1500"
 
 .PHONY: run-rfc2544
-run-rfc2544: config 
+run-rfc2544: docker-compose config 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
 	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
