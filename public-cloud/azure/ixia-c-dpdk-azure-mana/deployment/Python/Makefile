@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 GitRepoBasePath = "/home/ubuntu/otg-examples"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community-mana/deployment"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mana/deployment"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
 
 ###############################
