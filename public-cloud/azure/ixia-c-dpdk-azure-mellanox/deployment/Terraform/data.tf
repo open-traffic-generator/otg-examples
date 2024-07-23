@@ -18,14 +18,7 @@ data "cloudinit_config" "init_cli" {
 		filename = "script-001"
 		content_type = "text/cloud-config"
 		content = templatefile("cloud-init.azure.yml", {
-			Agent1Eth1PrivateIpAddresses: local.Agent1Eth1IpAddresses
-			Agent2Eth0IpAddress: local.Agent2Eth0IpAddress
-			Agent2Eth1PrivateIpAddresses: local.Agent2Eth1IpAddresses
-			GitRepoConfigPath: local.GitRepoConfigPath
 			GitRepoDeployPath: local.GitRepoDeployPath
-			GitRepoExecPath: local.GitRepoExecPath
-			GitRepoExecDeployPath: local.GitRepoExecDeployPath
-			ResourceGroupName: local.ResourceGroupName
 		})
 	}	
 }
