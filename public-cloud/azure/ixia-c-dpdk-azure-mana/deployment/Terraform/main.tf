@@ -1,8 +1,14 @@
 module "Agent1" {
-	source = "../../../modules/community"
+	source = "../../../modules/module-keng-agent"
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent1Eth1IpAddresses
 	Eth1SubnetId = module.Vnet.PrivateSubnet.id
+	Eth2IpAddresses = local.Agent1Eth2IpAddresses
+	Eth2SubnetId = module.Vnet.PrivateSubnet.id
+	Eth3IpAddresses = local.Agent1Eth3IpAddresses
+	Eth3SubnetId = module.Vnet.PrivateSubnet.id
+	Eth4IpAddresses = local.Agent1Eth4IpAddresses
+	Eth4SubnetId = module.Vnet.PrivateSubnet.id
 	InstanceId = local.Agent1InstanceId
 	ResourceGroupLocation = azurerm_resource_group.ResourceGroup.location
 	ResourceGroupName = azurerm_resource_group.ResourceGroup.name
@@ -22,12 +28,17 @@ module "Agent1" {
 }
 
 module "Agent2" {
-	source = "../../../modules/community"
+	source = "../../../modules/module-keng-agent"
 	Eth0IpAddress = local.Agent2Eth0IpAddress
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent2Eth1IpAddresses
 	Eth1SubnetId = module.Vnet.PrivateSubnet.id
-	
+	Eth2IpAddresses = local.Agent2Eth2IpAddresses
+	Eth2SubnetId = module.Vnet.PrivateSubnet.id
+	Eth3IpAddresses = local.Agent2Eth3IpAddresses
+	Eth3SubnetId = module.Vnet.PrivateSubnet.id
+	Eth4IpAddresses = local.Agent2Eth4IpAddresses
+	Eth4SubnetId = module.Vnet.PrivateSubnet.id
 	InstanceId = local.Agent2InstanceId
 	ResourceGroupLocation = azurerm_resource_group.ResourceGroup.location
 	ResourceGroupName = azurerm_resource_group.ResourceGroup.name
