@@ -25,7 +25,7 @@ git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
 ## Navigate to the lab subdirectory within the repository
 
 ```
-cd otg-examples/public-cloud/azure/community-mellanox
+cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox
 ```
 
 ## Deploy Ixia-c lab
