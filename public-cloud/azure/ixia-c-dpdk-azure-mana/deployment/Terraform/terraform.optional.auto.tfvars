@@ -1,1 +1,0 @@
-# ResourceGroupLocation = "South Central US"
