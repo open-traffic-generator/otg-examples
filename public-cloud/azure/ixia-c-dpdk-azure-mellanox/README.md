@@ -7,7 +7,7 @@ Performance improvements are enabled through [DPDK](https://www.dpdk.org/) suppo
 Once the lab is up, a Python script is used to request Ixia-c to generate traffic and report statistics.
 
 ## Prerequisites
-* This lab requires the commands below to be executed from within Azure CloudShell.
+* This lab requires the commands below to be executed from within [Azure CloudShell](https://learn.microsoft.com/en-us/azure/cloud-shell/overview).
 * The created VMs needs to have at least ConnectX4 or ConnectX5. Mellanox ConnectX3 is not longer supported.    
   Use the `lspci` command to check NIC type.   
 E.g.
@@ -19,13 +19,13 @@ ubuntu@terraform-v8KJ8A-azure-community-mellanox-agent1-instance:~$ lspci
 ## Clone the repository
 
 ```
-git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
+git clone --recursive https://github.com/open-traffic-generator/otg-examples.git
 ```
 
 ## Navigate to the lab subdirectory within the repository
 
 ```
-cd otg-examples/public-cloud/azure/community-mellanox
+cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox
 ```
 
 ## Deploy Ixia-c lab
