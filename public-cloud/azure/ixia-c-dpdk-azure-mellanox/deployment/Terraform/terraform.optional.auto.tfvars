@@ -2,7 +2,7 @@
 # ClientId = "00000000-0000-0000-0000-000000000000"
 # ClientSecret = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567"
 # PublicSecurityRuleSourceIpPrefixes = [ "1.1.1.1/32" ]
-# ResourceGroupLocation = "South Central US"
+# ResourceGroupLocation = "East US"
 # ResourceGroupName = "ixia-c-dpdk-azure-mellanox"
 # SkipProviderRegistration = false
 # SubscriptionId = "00000000-0000-0000-0000-000000000000"

@@ -33,7 +33,7 @@ variable "PublicSecurityRuleSourceIpPrefixes" {
 }
 
 variable "ResourceGroupLocation" {
-	default = "South Central US"
+	default = "East US"
 	description = "Location of container metadata and control plane operations"
 	type = string
 }
