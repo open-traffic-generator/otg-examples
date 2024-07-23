@@ -5,7 +5,31 @@
             "location": ""
         },
         {
+            "name": "VM1-TE2",
+            "location": ""
+        },
+        {
+            "name": "VM1-TE3",
+            "location": ""
+        },
+        {
+            "name": "VM1-TE4",
+            "location": ""
+        },
+        {
             "name": "VM2-TE1",
+            "location": ""
+        },
+        {
+            "name": "VM2-TE2",
+            "location": ""
+        },
+        {
+            "name": "VM2-TE3",
+            "location": ""
+        },
+        {
+            "name": "VM2-TE4",
             "location": ""
         }
     ],
@@ -14,7 +38,13 @@
             "name": "l1",
             "port_names": [
                 "VM1-TE1",
-                "VM2-TE1"
+                "VM1-TE2",
+                "VM1-TE3",
+                "VM1-TE4",
+                "VM2-TE1",
+                "VM2-TE2",
+                "VM2-TE3",
+                "VM2-TE4"
             ],
             "speed": "speed_10_gbps"
         }
@@ -78,11 +108,216 @@
                     "tcp": {
                         "src_port": {
                             "choice": "value",
+                            "value": 641
+                        },
+                        "dst_port": {
+                            "choice": "value",
+                            "value": 541
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "f2",
+            "tx_rx": {
+                "choice": "port",
+                "port": {
+                    "tx_name": "VM1-TE2",
+                    "rx_names": ["VM2-TE2"]
+                }
+            },
+            "metrics": {
+                "enable": true
+            },
+            "size": {
+                "choice": "fixed",
+                "fixed": 4100
+            },
+            "rate": {
+                "choice": "percentage",
+                "percentage": 10
+            },
+            "duration": {
+                "choice": "fixed_seconds",
+                "fixed_seconds": {
+                    "seconds": 30
+                }
+            },
+            "packet": [
+                {
+                    "choice": "ethernet",
+                    "ethernet": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth2MacAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth2MacAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "ipv4",
+                    "ipv4": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth2IpAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth2IpAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "tcp",
+                    "tcp": {
+                        "src_port": {
+                            "choice": "value",
+                            "value": 642
+                        },
+                        "dst_port": {
+                            "choice": "value",
+                            "value": 542
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "f3",
+            "tx_rx": {
+                "choice": "port",
+                "port": {
+                    "tx_name": "VM1-TE3",
+                    "rx_names": ["VM2-TE3"]
+                }
+            },
+            "metrics": {
+                "enable": true
+            },
+            "size": {
+                "choice": "fixed",
+                "fixed": 4100
+            },
+            "rate": {
+                "choice": "percentage",
+                "percentage": 10
+            },
+            "duration": {
+                "choice": "fixed_seconds",
+                "fixed_seconds": {
+                    "seconds": 30
+                }
+            },
+            "packet": [
+                {
+                    "choice": "ethernet",
+                    "ethernet": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth3MacAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth3MacAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "ipv4",
+                    "ipv4": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth3IpAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth3IpAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "tcp",
+                    "tcp": {
+                        "src_port": {
+                            "choice": "value",
                             "value": 643
                         },
                         "dst_port": {
                             "choice": "value",
                             "value": 543
+                        }
+                    }
+                }
+            ]
+        },
+
+        {
+            "name": "f4",
+            "tx_rx": {
+                "choice": "port",
+                "port": {
+                    "tx_name": "VM1-TE4",
+                    "rx_names": ["VM2-TE4"]
+                }
+            },
+            "metrics": {
+                "enable": true
+            },
+            "size": {
+                "choice": "fixed",
+                "fixed": 4100
+            },
+            "rate": {
+                "choice": "percentage",
+                "percentage": 10
+            },
+            "duration": {
+                "choice": "fixed_seconds",
+                "fixed_seconds": {
+                    "seconds": 30
+                }
+            },
+            "packet": [
+                {
+                    "choice": "ethernet",
+                    "ethernet": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth4MacAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth4MacAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "ipv4",
+                    "ipv4": {
+                        "dst": {
+                            "choice": "value",
+                            "value": "Agent2Eth4IpAddress"
+                        },
+                        "src": {
+                            "choice": "value",
+                            "value": "Agent1Eth4IpAddress"
+                        }
+                    }
+                },
+                {
+                    "choice": "tcp",
+                    "tcp": {
+                        "src_port": {
+                            "choice": "value",
+                            "value": 644
+                        },
+                        "dst_port": {
+                            "choice": "value",
+                            "value": 544
                         }
                     }
                 }

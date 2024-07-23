@@ -4,7 +4,13 @@
   "grpc_server": "localhost:40051",
   "ports": [
     "localhost:5551",
-    "Agent2Eth0IpAddress:5551"
+    "localhost:5552",
+    "localhost:5553",
+    "localhost:5554",
+    "Agent2Eth0IpAddress:5551",
+    "Agent2Eth0IpAddress:5552",
+    "Agent2Eth0IpAddress:5553",
+    "Agent2Eth0IpAddress:5554"
   ],
   "soft_dut": "localhost:22",
   "speed": "speed_10_gbps",
