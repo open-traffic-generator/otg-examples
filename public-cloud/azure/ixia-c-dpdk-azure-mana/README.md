@@ -21,7 +21,7 @@ git clone -b cloud https://github.com/open-traffic-generator/otg-examples.git
 ## Navigate to the lab subdirectory within the repository
 
 ```
-cd otg-examples/public-cloud/azure/community-mana
+cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mana
 ```
 
 ## Deploy Ixia-c lab
