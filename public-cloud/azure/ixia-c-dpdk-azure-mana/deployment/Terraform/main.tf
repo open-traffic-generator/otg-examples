@@ -1,6 +1,6 @@
 module "Agent1" {
 	source = "armdupre/module-keng-agent/azurerm"
-	version = "0.1.0"
+	version = "0.1.1"
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent1Eth1IpAddresses
 	Eth1SubnetId = module.Vnet.PrivateSubnet.id
@@ -30,7 +30,7 @@ module "Agent1" {
 
 module "Agent2" {
 	source = "armdupre/module-keng-agent/azurerm"
-	version = "0.1.0"
+	version = "0.1.1"
 	Eth0IpAddress = local.Agent2Eth0IpAddress
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent2Eth1IpAddresses

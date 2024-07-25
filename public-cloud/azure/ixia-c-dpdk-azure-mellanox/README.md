@@ -46,11 +46,6 @@ cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox
     make connect
     ```
 
-5. Set config files.
-
-    ```
-    ubuntu@agent1$ make config
-    ```
 
 ## Execute Traffic Test additional times as needed
 
