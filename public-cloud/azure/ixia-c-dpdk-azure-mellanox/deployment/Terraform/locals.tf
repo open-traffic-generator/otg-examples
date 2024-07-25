@@ -1,29 +1,27 @@
 locals {
 	AgentUserName = "ubuntu"
-	AgentVmSize = "Standard_F8s_v2"
+	AgentVmSize = var.AgentVmSize
 	Agent1InstanceId = "agent1"
 	Agent1Eth1IpAddresses = [ "10.0.2.11" ]
 	Agent2Eth0IpAddress = "10.0.10.12"
 	Agent2Eth1IpAddresses = [ "10.0.2.21" ]
 	Agent2InstanceId = "agent2"
 	AppTag = "azure"
-	AppVersion = "community-mellanox"
+	AppVersion = "mellanox"
 	GitRepoBasePath = "/home/${local.AgentUserName}/${local.GitRepoName}"
-	GitRepoConfigPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/configs"
-	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/${local.AppVersion}/deployment"
-	GitRepoExecDeployPath = "${local.GitRepoExecPath}/deployment"
-	GitRepoExecPath = "${local.GitRepoBasePath}/snappi/data-plane-performance"
+	GitRepoDeployPath = "${local.GitRepoBasePath}/public-cloud/${local.AppTag}/ixia-c-dpdk-${local.AppTag}-${local.AppVersion}/deployment"
 	GitRepoName = "otg-examples"
 	GitRepoUrl = "-b cloud https://github.com/open-traffic-generator/otg-examples.git"
-	Preamble = "${local.UserLoginTag}-${local.AppTag}-${local.AppVersion}"
-	PublicSecurityRuleSourceIpPrefixes = [ "${data.http.ip.response_body}/32" ]
+	Preamble = "${local.UserLoginTag}-${local.UserProjectTag}-${local.AppTag}"
+	PublicSecurityRuleSourceIpPrefixes = var.PublicSecurityRuleSourceIpPrefixes == null ? [ "${data.http.ip.response_body}/32" ] : var.PublicSecurityRuleSourceIpPrefixes
 	ResourceGroupLocation = var.ResourceGroupLocation
-	ResourceGroupName = "${local.UserLoginTag}-${local.UserProjectTag}-mana-${local.AppTag}-${local.AppVersion}"
+	ResourceGroupName = var.ResourceGroupName == null ? "${local.Preamble}-resource-group" : var.ResourceGroupName
 	SleepDelay = "5m"
 	SshKeyAlgorithm = "RSA"
 	SshKeyName = "${local.Preamble}-ssh-key"
 	SshKeyRsaBits = "4096"
-	UserEmailTag = "terraform@example.com"
-	UserLoginTag = "terraform"
-	UserProjectTag = random_id.RandomId.id
+	SubscriptionId = var.SubscriptionId
+	UserEmailTag = var.UserEmailTag == null ? data.azurerm_client_config.current.client_id : var.UserEmailTag
+	UserLoginTag = var.UserLoginTag == null ? "terraform" : var.UserLoginTag
+	UserProjectTag = var.UserProjectTag == null ? random_id.RandomId.id : var.UserProjectTag
 }

@@ -29,7 +29,6 @@ module "Agent2" {
 	Eth0SubnetId = module.Vnet.PublicSubnet.id
 	Eth1IpAddresses = local.Agent2Eth1IpAddresses
 	Eth1SubnetId = module.Vnet.PrivateSubnet.id
-	
 	InstanceId = local.Agent2InstanceId
 	ResourceGroupLocation = azurerm_resource_group.ResourceGroup.location
 	ResourceGroupName = azurerm_resource_group.ResourceGroup.name

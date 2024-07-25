@@ -3,10 +3,10 @@ SHELL = /bin/bash
 KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.3.0-2"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.167"
 GitRepoBasePath = "/home/ubuntu/otg-examples"
-GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/community-mellanox/configs"
-GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/community-mellanox/deployment/DPDK"
+GitRepoDeployPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs"
+GitRepoDPDKPath = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mellanox/deployment/DPDK"
 GitRepoExecPath = "$(GitRepoBasePath)/snappi/data-plane-performance"
-GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/community-mellanox/deployment/DPDK"
+GitRepoDPDK = "$(GitRepoBasePath)/public-cloud/azure/ixia-c-dpdk-azure-mellanox/deployment/DPDK"
 
 
 # /home/ubuntu/otg-examples/snappi/data-plane-performance
@@ -52,6 +52,7 @@ endif
 dpdk:
 	sudo make dpdk -C ${GitRepoDPDKPath}
 
+
 ###############################
 # Compose Docker
 ###############################
@@ -68,8 +69,8 @@ docker-compose:
 ###############################
 .PHONY: config
 config:
-	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/community-mellanox/configs/.env $(GitRepoDPDK)/.agent2
-	cat /home/ubuntu/otg-examples/public-cloud/azure/community-mellanox/configs/.env > $(GitRepoDPDK)/.agent1
+	scp -o StrictHostKeyChecking=no -i /home/ubuntu/.sshkey.pem ubuntu@10.0.10.12:/home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs/.env $(GitRepoDPDK)/.agent2
+	cat /home/ubuntu/otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox/configs/.env > $(GitRepoDPDK)/.agent1
 	chmod +x $(GitRepoDPDK)/set_config.sh
 	$(GitRepoDPDK)/set_config.sh
 
@@ -92,4 +93,4 @@ run-bidirectional: docker-compose config
 .PHONY: run-rfc2544
 run-rfc2544: docker-compose config 
 	chmod +x $(GitRepoExecPath)/rfc_2544.sh
-	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500"
+	docker run --rm -t --net host -v $(GitRepoExecPath):/snappi --name snappi snappi:local bash -c "./rfc_2544.sh -s 1500 -d downstream"
