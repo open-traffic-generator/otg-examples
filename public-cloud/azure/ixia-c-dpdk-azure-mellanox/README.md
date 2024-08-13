@@ -67,6 +67,12 @@ cd otg-examples/public-cloud/azure/ixia-c-dpdk-azure-mellanox
     ubuntu@agent1$ make run-rfc2544
     ```
 
+4. Optionally execute on Agent1 if instance is rebooted prior to running traffic
+
+    ```
+    ubuntu@agent1$ make dpdk
+    ```
+
 ## Results
 1. Unidirectional TCP flow
 ![Diagram](./images/unidirectional_community_mellanox.png)
