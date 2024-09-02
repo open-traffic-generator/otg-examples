@@ -3,12 +3,12 @@ module github.com/open-traffic-generator/otg-examples/cpdp-b2b/tests
 go 1.19
 
 require (
-	github.com/open-traffic-generator/snappi/gosnappi v1.8.0
+	github.com/open-traffic-generator/snappi/gosnappi v1.12.0
 	google.golang.org/protobuf v1.34.2
 )
 
 require (
-	github.com/Masterminds/semver/v3 v3.2.1 // indirect
+	github.com/Masterminds/semver/v3 v3.3.0 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
