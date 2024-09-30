@@ -35,7 +35,7 @@ services:
         max-file: "10"
         mode: "non-blocking"
   gnmi-server:
-    image: ghcr.io/open-traffic-generator/otg-gnmi-server:1.13.0
+    image: ghcr.io/open-traffic-generator/otg-gnmi-server:1.14.14
     restart: always
     depends_on:
       controller:
