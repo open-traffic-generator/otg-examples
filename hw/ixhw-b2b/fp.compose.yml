@@ -1,8 +1,7 @@
 version: "2"
-
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
+    image: ghcr.io/open-traffic-generator/keng-controller:1.13.0-1
     restart: always
     depends_on:
       layer23-hw-server:
@@ -21,7 +20,7 @@ services:
         max-file: "10"
         mode: "non-blocking"
   layer23-hw-server:
-    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:0.13.0-2
+    image: ghcr.io/open-traffic-generator/keng-layer23-hw-server:1.13.0-3
     restart: always
     command:
       - "dotnet"

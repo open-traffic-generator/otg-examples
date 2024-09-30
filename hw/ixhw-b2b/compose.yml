@@ -37,3 +37,5 @@ services:
         max-size: "100m"
         max-file: "10"
         mode: "non-blocking"
+  gnmi-server:
+    image: ghcr.io/open-traffic-generator/otg-gnmi-server:1.14.14
