@@ -3,13 +3,13 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
+      image: ghcr.io/open-traffic-generator/keng-controller:1.13.0-1
       cmd: --accept-eula --http-port 8443
       ports:
         - 8443:8443
     te1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.25
       exec:
         - ip address add 192.0.2.1/30 dev eth1
         - ip route add 192.0.2.4/30 via 192.0.2.2
@@ -23,12 +23,12 @@ topology:
       kind: linux
       image: frrouting/frr:v8.2.2
       binds:
-      - ./frr/daemons:/etc/frr/daemons
-      - ./frr/frr.conf:/etc/frr/frr.conf
-      - ./frr/vtysh.conf:/etc/frr/vtysh.conf
+        - ./frr/daemons:/etc/frr/daemons
+        - ./frr/frr.conf:/etc/frr/frr.conf
+        - ./frr/vtysh.conf:/etc/frr/vtysh.conf
     te2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.25
       exec:
         - ip address add 192.0.2.5/30 dev eth1
         - ip route add 192.0.2.0/30 via 192.0.2.6
@@ -38,7 +38,6 @@ topology:
         OPT_NO_HUGEPAGES: Yes
         OPT_NO_PINNING: Yes
         WAIT_FOR_IFACE: Yes
-
   links:
-    - endpoints: ["te1:eth1","dut:eth1"]
-    - endpoints: ["te2:eth1","dut:eth2"]
+    - endpoints: ["te1:eth1", "dut:eth1"]
+    - endpoints: ["te2:eth1", "dut:eth2"]
