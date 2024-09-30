@@ -3,14 +3,14 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/keng-controller:0.1.0-3
+      image: ghcr.io/open-traffic-generator/keng-controller:1.13.0-1
       network-mode: host
       cmd: --accept-eula --http-port 8443
       ports:
         - 8443:8443
     te1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.25
       ports:
         - 5555:5555
         - 50071:50071
@@ -22,7 +22,7 @@ topology:
         WAIT_FOR_IFACE: Yes
     pe1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.399
       network-mode: container:te1
       startup-delay: 5
       env:
@@ -31,12 +31,12 @@ topology:
       kind: linux
       image: quay.io/frrouting/frr:8.4.2
       binds:
-      - ./frr/daemons:/etc/frr/daemons
-      - ./frr/frr.conf:/etc/frr/frr.conf
-      - ./frr/vtysh.conf:/etc/frr/vtysh.conf
+        - ./frr/daemons:/etc/frr/daemons
+        - ./frr/frr.conf:/etc/frr/frr.conf
+        - ./frr/vtysh.conf:/etc/frr/vtysh.conf
     te2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.6.0.85
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.25
       ports:
         - 5556:5556
         - 50072:50071
@@ -48,12 +48,11 @@ topology:
         WAIT_FOR_IFACE: Yes
     pe2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.337
+      image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.399
       network-mode: container:te2
       startup-delay: 5
       env:
         INTF_LIST: veth2
-
   links:
-    - endpoints: ["te1:veth0","dut:veth1"]
-    - endpoints: ["te2:veth2","dut:veth3"]
+    - endpoints: ["te1:veth0", "dut:veth1"]
+    - endpoints: ["te2:veth2", "dut:veth3"]
