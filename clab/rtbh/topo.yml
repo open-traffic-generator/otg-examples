@@ -88,8 +88,6 @@ topology:
         - sh -c 'graphite_motd.sh 8080'
       labels:
         graph-hide: yes
-    ixc:
-      image: ghcr.io/open-traffic-generator/ixia-c-one:1.13.0-1
   links:
     - endpoints: ["pe-router:eth1", "ce-router:eth1"]
     - endpoints: ["pe-router:eth2", "ixia:eth1"]
