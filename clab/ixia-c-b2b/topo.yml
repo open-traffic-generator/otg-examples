@@ -3,11 +3,11 @@ topology:
   nodes:
     ixia-c:
       kind: keysight_ixia-c-one
-      image: ghcr.io/open-traffic-generator/ixia-c-one:0.1.0-3
+      image: ghcr.io/open-traffic-generator/ixia-c-one:1.13.0-1
     snappi:
       kind: linux
       image: snappi:local
       binds:
         - .:/otg
   links:
-    - endpoints: ["ixia-c:eth1","ixia-c:eth2"]
+    - endpoints: ["ixia-c:eth1", "ixia-c:eth2"]
