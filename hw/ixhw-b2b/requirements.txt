@@ -1,2 +1,2 @@
 argparse==1.4.0
-snappi==1.13.0
+snappi==1.14.0
