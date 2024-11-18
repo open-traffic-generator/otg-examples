@@ -3,7 +3,7 @@ module rtbh
 go 1.23
 
 require (
-	github.com/open-traffic-generator/snappi/gosnappi v1.14.0
+	github.com/open-traffic-generator/snappi/gosnappi v1.16.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/vbauerster/mpb/v7 v7.5.3
 )
