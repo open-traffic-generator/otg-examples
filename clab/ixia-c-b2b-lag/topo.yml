@@ -3,13 +3,13 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/keng-controller:1.17.0-9
+      image: ghcr.io/open-traffic-generator/keng-controller:1.19.0-5
       cmd: --accept-eula --http-port 8443
       ports:
         - 8443:8443
     te1:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.193
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.241
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth1 virtual@af_packet,eth3
@@ -18,7 +18,7 @@ topology:
         WAIT_FOR_IFACE: Yes
     te2:
       kind: linux
-      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.193
+      image: ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.241
       env:
         OPT_LISTEN_PORT: 5555
         ARG_IFACE_LIST: virtual@af_packet,eth2 virtual@af_packet,eth4
