@@ -1,6 +1,6 @@
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:1.19.0-18
+    image: ghcr.io/open-traffic-generator/keng-controller:1.20.0-6
     command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
@@ -31,14 +31,14 @@ services:
       - OPT_NO_PINNING=Yes
       - WAIT_FOR_IFACE=Yes
   protocol_engine_1:
-    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.426
+    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.431
     restart: always
     privileged: true
     network_mode: service:traffic_engine_1
     environment:
       - INTF_LIST=veth0
   protocol_engine_2:
-    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.426
+    image: ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.431
     restart: always
     privileged: true
     network_mode: service:traffic_engine_2
