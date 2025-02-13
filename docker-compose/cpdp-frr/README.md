@@ -224,7 +224,7 @@ To request Ixia-c to use ARP to determine destination MAC address for a flow `f1
         -d '{ \"choice\": \"bgpv4\" }'"
     ```
 
-5. Fetch BGP prefix announcements - TODO this doesn't show the actual announcements
+5. Fetch BGP prefixes
 
     ```Shell
     curl -sk "${OTG_HOST}/monitor/states" \

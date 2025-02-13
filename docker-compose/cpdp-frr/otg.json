@@ -57,7 +57,11 @@
                     "name":  "otg1.bgp4.peer[0].rr4"
                   }
                 ],
-                "name":  "otg1.bgp4.peer[0]"
+                "name":  "otg1.bgp4.peer[0]",
+                "learned_information_filter": {
+                  "unicast_ipv4_prefix": true,
+                  "unicast_ipv6_prefix": true
+                }
               }
             ]
           }
@@ -112,7 +116,11 @@
                     "name":  "otg2.bgp4.peer[0].rr4"
                   }
                 ],
-                "name":  "otg2.bgp4.peer[0]"
+                "name":  "otg2.bgp4.peer[0]",
+                "learned_information_filter": {
+                  "unicast_ipv4_prefix": true,
+                  "unicast_ipv6_prefix": true
+                }
               }
             ]
           }

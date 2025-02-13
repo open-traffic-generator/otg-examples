@@ -64,6 +64,7 @@ deploy-lab:
 deploy-net:
 	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
 	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
+	sleep 10 
 
 deploy-clab:
 	sudo -E containerlab deploy --reconfigure
