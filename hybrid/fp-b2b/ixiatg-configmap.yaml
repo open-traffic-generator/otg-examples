@@ -6,12 +6,12 @@ metadata:
 data:
     versions: |
         {
-          "release": "1.20.0-6",
+          "release": "1.20.0-8",
           "images": [
                 {
                     "name": "controller",
                     "path": "ghcr.io/open-traffic-generator/keng-controller",
-                    "tag": "1.20.0-6"
+                    "tag": "1.20.0-8"
                 },
                 {
                     "name": "gnmi-server",
@@ -31,7 +31,7 @@ data:
                 {
                     "name": "ixhw-server",
                     "path": "ghcr.io/open-traffic-generator/keng-layer23-hw-server",
-                    "tag": "1.20.0-1"
+                    "tag": "1.20.0-2"
                 }
             ]
         }

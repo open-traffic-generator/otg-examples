@@ -34,7 +34,7 @@ topology:
         graph-level: 1
     ixia:
       kind: keysight_ixia-c-one
-      image: ghcr.io/open-traffic-generator/ixia-c-one:1.20.0-6
+      image: ghcr.io/open-traffic-generator/ixia-c-one:1.20.0-8
       mgmt-ipv4: 172.100.100.10
       mgmt-ipv6: 2001:172:100:100::10
       exec:
