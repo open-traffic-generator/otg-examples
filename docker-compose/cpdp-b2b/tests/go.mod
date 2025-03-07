@@ -3,8 +3,8 @@ module github.com/open-traffic-generator/otg-examples/cpdp-b2b/tests
 go 1.23
 
 require (
-	github.com/open-traffic-generator/snappi/gosnappi v1.20.0
-	google.golang.org/protobuf v1.36.4
+	github.com/open-traffic-generator/snappi/gosnappi v1.24.0
+	google.golang.org/protobuf v1.36.5
 )
 
 require (
