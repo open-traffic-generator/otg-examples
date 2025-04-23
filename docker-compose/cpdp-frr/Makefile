@@ -64,7 +64,6 @@ deploy-lab:
 deploy-net:
 	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_1_1 cpdp-frr_frr_1 veth0 veth1
 	sudo /bin/bash ../../utils/connect_containers_veth.sh cpdp-frr_traffic_engine_2_1 cpdp-frr_frr_1 veth2 veth3
-	sleep 10 
 
 deploy-clab:
 	sudo -E containerlab deploy --reconfigure
@@ -88,7 +87,7 @@ otg-set-config:
 	@echo "############################################"
 	@echo "# Apply OTG configuration"
 	@echo
-	sleep 5 # pause for keng-controller to detect newly created interfaces
+	sleep 10 # pause for containers to get ready
 	curl -sk "$(OTG_HOST)/config" \
 		-H "Content-Type: application/json" \
 		-d @otg.json | tee curl.out
@@ -121,7 +120,7 @@ otg-fetch-bgp:
 	@echo "############################################"
 	@echo "# Fetch BGP metrics"
 	@echo
-	sleep 5 # pause for BGP to converge
+	sleep 10 # pause for BGP to converge
 	curl -sk "$(OTG_HOST)/monitor/metrics" \
 		-X POST \
 		-H  'Content-Type: application/json' \
@@ -129,10 +128,21 @@ otg-fetch-bgp:
 	@echo
 	cat curl.out | jq -e "if (.bgpv4_metrics | length) == 2 and \
 		.bgpv4_metrics[0].session_state == \"up\" and \
-		.bgpv4_metrics[0].routes_received == \"2\" and \
+		.bgpv4_metrics[0].routes_received == \"1\" and \
 		.bgpv4_metrics[1].session_state == \"up\" and \
-		.bgpv4_metrics[1].routes_received == \"2\" \
+		.bgpv4_metrics[1].routes_received == \"1\" \
 		then true else false end"
+
+	sleep 4 #Next fetch the routes learned.
+	#Note: By default FRR seems to be sending back same prefix which it learned
+	#which it should not. Added solo mode in FRR config to work around this.
+	@echo "# Fetch BGP prefixes"
+	@echo
+	curl -sk "${OTG_HOST}/monitor/states" \
+		-X POST \
+		-H  'Content-Type: application/json' \
+		-d '{ "choice": "bgp_prefixes" }'
+
 
 otg-trasmit:
 	@echo "############################################"
