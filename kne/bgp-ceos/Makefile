@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.28.0-33"
-OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.28.3"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.28.0-45"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.28.4"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.245"
-IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.448"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.450"
 
 cEOSLab = "ceos:latest"
 
