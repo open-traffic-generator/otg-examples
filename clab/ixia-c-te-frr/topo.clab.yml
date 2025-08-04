@@ -3,7 +3,7 @@ topology:
   nodes:
     ixc:
       kind: linux
-      image: ghcr.io/open-traffic-generator/keng-controller:1.33.0-1
+      image: ghcr.io/open-traffic-generator/keng-controller:1.33.0-20
       cmd: --accept-eula --http-port 8443
       ports:
         - 8443:8443
