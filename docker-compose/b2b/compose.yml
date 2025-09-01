@@ -1,6 +1,6 @@
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:1.33.0-34
+    image: ghcr.io/open-traffic-generator/keng-controller:1.34.0-1
     command: --accept-eula --http-port 8443
     network_mode: "host"
     restart: always
