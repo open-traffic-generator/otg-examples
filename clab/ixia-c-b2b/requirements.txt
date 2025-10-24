@@ -1,2 +1,2 @@
-snappi==1.40.0
+snappi==1.40.3
 scapy==2.5.0

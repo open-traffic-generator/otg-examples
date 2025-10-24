@@ -1,9 +1,9 @@
 module rtbh
 
-go 1.23.0
+go 1.24.0
 
 require (
-	github.com/open-traffic-generator/snappi/gosnappi v1.40.0
+	github.com/open-traffic-generator/snappi/gosnappi v1.40.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/vbauerster/mpb/v7 v7.5.3
 )
@@ -37,8 +37,8 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250825161204-c5933d9347a5 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250825161204-c5933d9347a5 // indirect
-	google.golang.org/grpc v1.75.1 // indirect
-	google.golang.org/protobuf v1.36.9 // indirect
+	google.golang.org/grpc v1.76.0 // indirect
+	google.golang.org/protobuf v1.36.10 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
