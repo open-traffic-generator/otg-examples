@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.42.1-4"
-OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.42.5"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.43.0-7"
+OTG_gNMI = "ghcr.io/open-traffic-generator/otg-gnmi-server:1.43.0"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.245"
-IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.491"
+IxiaC_PE = "ghcr.io/open-traffic-generator/ixia-c-protocol-engine:1.00.0.494"
 
 export OTG_PORT1 = veth0
 export OTG_PORT2 = veth1
