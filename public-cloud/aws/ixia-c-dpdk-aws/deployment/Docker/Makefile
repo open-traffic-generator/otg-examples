@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.58.0-12"
+KENG_Controller = "ghcr.io/open-traffic-generator/keng-controller:1.58.0-16"
 IxiaC_TE = "ghcr.io/open-traffic-generator/ixia-c-traffic-engine:1.8.0.544"
 GitRepoBasePath = "/home/ubuntu/keng-python"
 GitRepoDeployPath = "$(GitRepoExecPath)/deployment"
