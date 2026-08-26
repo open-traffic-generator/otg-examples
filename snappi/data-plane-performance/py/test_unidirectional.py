@@ -1,5 +1,6 @@
 import utils
 import time
+import datetime
 
 custom_round = lambda value: value if value < 0.001 else round(value, 3)
 
@@ -16,6 +17,7 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
         for flow in cfg.flows:
             flow.tx_rx.port.rx_names[0], flow.tx_rx.port.tx_name = flow.tx_rx.port.tx_name, flow.tx_rx.port.rx_names[0]
             flow.packet[0].dst.value, flow.packet[0].src.value = flow.packet[0].src.value, flow.packet[0].dst.value 
+            flow.packet[1].dst.value, flow.packet[1].src.value = flow.packet[1].src.value, flow.packet[1].dst.value 
 
     TIMEOUT = 5
 
@@ -61,6 +63,9 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
     sizes = []
     size = cfg.flows[0].size.fixed
 
+    inner_header = cfg.flows[0].packet[-1]
+    start_timestamp = datetime.datetime.utcnow()
+
     utils.start_traffic(api, cfg)
     utils.wait_for(
         lambda: results_ok(api, size),
@@ -72,10 +77,11 @@ def test_unidirectional(api, duration, frame_size, line_rate_per_flow, direction
     _, flow_results = utils.get_all_stats(api)
     flows_total_tx = sum([flow_res.frames_tx for flow_res in flow_results])
     flows_total_rx = sum([flow_res.frames_rx for flow_res in flow_results])
-    print("\n\nDirection {}".format(direction))
-    print("Frame size: {}B".format(frame_size))
-    print("Line rate per flow: {}%".format(line_rate_per_flow))
-    print("Average total TX L2 rate {} Gbps".format(round(flows_total_tx * size * 8 / duration / 1000000000, 3)))
+    print("\n\nTest start time: {}. Duration: {} seconds.".format(start_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC'), duration))
+    print("Flows: {}. Line rate per flow: {}%. Direction: {}.".format(len(cfg.flows),  line_rate_per_flow, direction))
+    print("Frame size {}B. Packet inner header {}".format(frame_size, type(inner_header).__name__))
+
+    print("\nAverage total TX L2 rate {} Gbps".format(round(flows_total_tx * size * 8 / duration / 1000000000, 3)))
     print("Average total RX L2 rate {} Gbps".format(round(flows_total_rx * size * 8 / duration / 1000000000, 3)))
     print("Average total TX packet rate: {} Mpps".format(round(flows_total_tx / duration / 1000000, 3)))
     print("Average total RX packet rate: {} Mpps".format(round(flows_total_rx / duration / 1000000, 3)))
