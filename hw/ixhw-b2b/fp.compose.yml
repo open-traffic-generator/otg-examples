@@ -1,7 +1,7 @@
 version: "2"
 services:
   controller:
-    image: ghcr.io/open-traffic-generator/keng-controller:1.61.0-14
+    image: ghcr.io/open-traffic-generator/keng-controller:1.61.0-15
     restart: always
     depends_on:
       layer23-hw-server:
